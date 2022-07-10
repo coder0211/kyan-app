@@ -1,8 +1,9 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/screen/splash/store/splash_store.dart';
+import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
+import 'package:kyan/theme/images.dart';
 
 class SplashScreen extends BaseScreen {
   const SplashScreen({Key? key}) : super(key: key);
@@ -11,17 +12,21 @@ class SplashScreen extends BaseScreen {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends BaseScreenState<SplashScreen, SplashStore> {
+class _SplashScreenState
+    extends BaseScreenState<SplashScreen, SplashScreenStore> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.white,
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              S.current.app_name.d1(color: AppColors.white),
+              Image.asset(Images.iconLogoAppWhite,
+                  height: BaseUtils.getScreenWidth(context) * 0.4,
+                  width: BaseUtils.getScreenWidth(context) * 0.4),
+              S.current.appName.h1R(color: AppColors.primary)
             ],
           ),
         ));

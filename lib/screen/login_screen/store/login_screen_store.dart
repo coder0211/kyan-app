@@ -1,11 +1,12 @@
 import 'package:coder0211/coder0211.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-part 'splash_store.g.dart';
+part 'login_screen_store.g.dart';
 
-class SplashStore = _SplashStore with _$SplashStore;
+class LoginScreenStore = _LoginScreenStore with _$LoginScreenStore;
 
-abstract class _SplashStore with Store, BaseStoreMixin {
+abstract class _LoginScreenStore with Store, BaseStoreMixin {
   @override
   void onInit() {}
 
@@ -13,14 +14,13 @@ abstract class _SplashStore with Store, BaseStoreMixin {
   void onDispose() {}
 
   @override
-  Future<void> onWidgetBuildDone() async {
-    await _splashScreenDelay();
-  }
+  Future<void> onWidgetBuildDone(BuildContext context) async {}
 
   @override
   void resetValue() {}
 
-  Future<void> _splashScreenDelay() async {}
+  @action
+  Future<void> onPressLogin() async {}
 }
 
 /// We are using auto code generation to generate code for MobX store.

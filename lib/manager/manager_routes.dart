@@ -14,11 +14,12 @@ class ManagerRoutes {
   ManagerRoutes._();
 
   static String splashScreen = '/';
-  static String homeScreen = '/homeScreen';
+  static String loginScreen = '/LoginScreen';
 
   /// ## Manager contain all action routes of the app
   /// * [splashScreen] is the splash screen of the app and it is the first screen of the app
   static Map<String, Widget Function(BuildContext context)> manager = {
-    splashScreen: (context) => const SplashScreen()
+    splashScreen: (context) => const SplashScreen(),
+    loginScreen: (context) => const LoginScreen()
   };
 }

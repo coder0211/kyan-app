@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,10 +21,12 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "app_name" : MessageLookupByLibrary.simpleMessage("Trygo"),
-    "app_slogan" : MessageLookupByLibrary.simpleMessage("Trygo is a platform for developers to try new things and share their ideas."),
-    "first_screen" : MessageLookupByLibrary.simpleMessage("First screen"),
-    "splash_screen_title" : MessageLookupByLibrary.simpleMessage("Splash Screen")
-  };
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "appName": MessageLookupByLibrary.simpleMessage("Kyan"),
+        "descriptionWelcome": MessageLookupByLibrary.simpleMessage(
+            "We help you with everything at work"),
+        "loginWithGoogle":
+            MessageLookupByLibrary.simpleMessage("LOGIN WITH GOOGLE"),
+        "welcome": MessageLookupByLibrary.simpleMessage("Welcome to Kyan")
+      };
 }

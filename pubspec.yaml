@@ -65,7 +65,11 @@ dependencies:
   intl_utils: ^2.6.1
 
   #MY PACKGAE
-  coder0211: ^0.0.57
+  # coder0211: ^0.0.58
+  coder0211:
+    git:
+      url: git@github.com:coder0211/coder0211.git
+      ref: main
 
 dev_dependencies:
   flutter_test:
