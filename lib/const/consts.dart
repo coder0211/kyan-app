@@ -8,8 +8,7 @@ const DEFAULT_LINE_TEXT = 1;
 const MAX_LINE_TEXT_FIELD = 10;
 const OTP_LENGTH = 4;
 const DELAY_SPLASH_SCREEN = 1;
-const DEFAULT_AVATAR =
-    'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png';
 const MAX_POINTS_TEST = 100;
 const ARGS = 'args';
-const IS_FIRST = 'isFirst';
+const DEFAULT_AVATAR =
+    'https://cdn.dribbble.com/users/1771481/screenshots/15427066/media/ef898efac447ee102ecb6e1b9afef4a5.gif';

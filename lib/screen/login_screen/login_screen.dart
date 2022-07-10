@@ -31,7 +31,9 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginScreenStore> {
               S.current.descriptionWelcome.b2R(color: AppColors.black),
               const SizedBox(height: 35),
               BaseButton(
-                onPressed: () => store.onPressLogin,
+                onPressed: () async {
+                  await store.onPressLogin.call(context);
+                },
                 child: Stack(
                   children: [
                     Image.asset(Images.iconGoogle, width: 32),

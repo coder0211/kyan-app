@@ -1,3 +1,12 @@
 {
-    "app_name": "Kyan"
+    "appName": "Kyan",
+    "welcome": "Chào mừng đến với Kyan",
+    "descriptionWelcome": "Chúng tôi giúp bạn mọi thứ trong công việc",
+    "loginWithGoogle": "ĐĂNG NHẬP VỚI GOOGLE",
+    "loginFailed": "Đăng nhập không thành công",
+    "task": "Task",
+    "chat": "Chat",
+    "bot": "Bot",
+    "profile": "Profile",
+    "createTask": "Create Task"
 }

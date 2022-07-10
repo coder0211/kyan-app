@@ -21,5 +21,20 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'vi';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "appName": MessageLookupByLibrary.simpleMessage("Kyan"),
+        "bot": MessageLookupByLibrary.simpleMessage("Bot"),
+        "chat": MessageLookupByLibrary.simpleMessage("Chat"),
+        "createTask": MessageLookupByLibrary.simpleMessage("Create Task"),
+        "descriptionWelcome": MessageLookupByLibrary.simpleMessage(
+            "Chúng tôi giúp bạn mọi thứ trong công việc"),
+        "loginFailed":
+            MessageLookupByLibrary.simpleMessage("Đăng nhập không thành công"),
+        "loginWithGoogle":
+            MessageLookupByLibrary.simpleMessage("ĐĂNG NHẬP VỚI GOOGLE"),
+        "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "task": MessageLookupByLibrary.simpleMessage("Task"),
+        "welcome":
+            MessageLookupByLibrary.simpleMessage("Chào mừng đến với Kyan")
+      };
 }

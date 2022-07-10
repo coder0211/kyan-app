@@ -2,5 +2,11 @@
     "appName": "Kyan",
     "welcome": "Welcome to Kyan",
     "descriptionWelcome": "We help you with everything at work",
-    "loginWithGoogle": "LOGIN WITH GOOGLE"
+    "loginWithGoogle": "LOGIN WITH GOOGLE",
+    "loginFailed": "Login Failed",
+    "task": "Task",
+    "chat": "Chat",
+    "bot": "Bot",
+    "profile": "Profile",
+    "createTask": "Create Task"
 }
