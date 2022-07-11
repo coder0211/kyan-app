@@ -149,6 +149,116 @@ class S {
       args: [],
     );
   }
+
+  /// `Internet unavaiable`
+  String get internetUnavaiable {
+    return Intl.message(
+      'Internet unavaiable',
+      name: 'internetUnavaiable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Big community`
+  String get bigCommunity {
+    return Intl.message(
+      'Big community',
+      name: 'bigCommunity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instead of loughing around, go head and chat with your friends.`
+  String get bodyCommunity {
+    return Intl.message(
+      'Instead of loughing around, go head and chat with your friends.',
+      name: 'bodyCommunity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remote control`
+  String get remoteControl {
+    return Intl.message(
+      'Remote control',
+      name: 'remoteControl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Professional helper easily make statistics of your tasks and make sure everything goes as plan.`
+  String get bodyRemoteControl {
+    return Intl.message(
+      'Professional helper easily make statistics of your tasks and make sure everything goes as plan.',
+      name: 'bodyRemoteControl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friendly layout`
+  String get friendlyLayout {
+    return Intl.message(
+      'Friendly layout',
+      name: 'friendlyLayout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Beautiful figures will give you comfortable environment and turn your work into an uplifting journey.`
+  String get bodyFriendlyLayout {
+    return Intl.message(
+      'Beautiful figures will give you comfortable environment and turn your work into an uplifting journey.',
+      name: 'bodyFriendlyLayout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Task manager`
+  String get taskManager {
+    return Intl.message(
+      'Task manager',
+      name: 'taskManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage your tasks quickly and accurately to help everyone on time every single occasion.`
+  String get bodyTaskManager {
+    return Intl.message(
+      'Manage your tasks quickly and accurately to help everyone on time every single occasion.',
+      name: 'bodyTaskManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message(
+      'Skip',
+      name: 'skip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get done {
+    return Intl.message(
+      'Done',
+      name: 'done',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

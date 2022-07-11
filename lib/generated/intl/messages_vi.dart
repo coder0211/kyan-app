@@ -28,6 +28,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "createTask": MessageLookupByLibrary.simpleMessage("Create Task"),
         "descriptionWelcome": MessageLookupByLibrary.simpleMessage(
             "Chúng tôi giúp bạn mọi thứ trong công việc"),
+        "internetUnavaiable":
+            MessageLookupByLibrary.simpleMessage("Internet unavaiable"),
         "loginFailed":
             MessageLookupByLibrary.simpleMessage("Đăng nhập không thành công"),
         "loginWithGoogle":

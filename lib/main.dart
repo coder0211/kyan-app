@@ -55,7 +55,6 @@ class _AppState extends State<App> {
         routes: {
           ...ManagerRoutes.manager,
         },
-        debugShowCheckedModeBanner: false,
       ),
     );
   }

@@ -9,6 +9,7 @@ class Account {
   String? accountUrlPhoto;
   final String? accountDisplayName;
   String? accountToken;
+  String? accountAccessToken;
   bool isSelected;
 
   Account(
@@ -17,6 +18,7 @@ class Account {
       this.accountUrlPhoto,
       this.accountDisplayName,
       this.accountToken,
+      this.accountAccessToken,
       this.isSelected = false});
 
   factory Account.fromJson(Map<String, dynamic> json) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
@@ -23,10 +24,19 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
   @observable
   GoogleSignInAccount? googleSignInAccount;
 
+  @observable
+  bool _isShowLoading = false;
+
+  bool get isShowLoading => _isShowLoading;
+
+  set isShowLoading(bool isShowLoading) {
+    _isShowLoading = isShowLoading;
+  }
+
   BaseAPI _baseAPI = BaseAPI();
 
   @override
-  void onInit() {}
+  void onInit(BuildContext context) {}
 
   @override
   void onDispose() {}
@@ -47,15 +57,50 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
       if (currentAccount.accountUrlPhoto == null ||
           currentAccount.accountUrlPhoto == '')
         currentAccount.accountUrlPhoto = DEFAULT_AVATAR;
-
       //? Call api
-      // await _baseAPI.postData(ManagerAddress.createUpdateAccount,
-      //     body: currentAccount.toJson());
-
-      BaseNavigation.push(context,
-          routeName: ManagerRoutes.mainScreen, clearStack: true);
-    } else
+      isShowLoading = true;
+      await _baseAPI
+          .fetchData(ManagerAddress.createUpdateAccount,
+              body: currentAccount.toJson(), method: ApiMethod.POST)
+          .then((value) async {
+        switch (value.apiStatus) {
+          case ApiStatus.SUCCEEDED:
+            {
+              currentAccount = Account.fromJson(value.object);
+              await BaseSharedPreferences.saveStringValue(
+                  ManagerKeyStorage.accessToken,
+                  currentAccount.accountAccessToken ?? '');
+              BaseNavigation.push(context,
+                  routeName: ManagerRoutes.mainScreen, clearStack: true);
+              break;
+            }
+          case ApiStatus.INTERNET_UNAVAILABLE:
+            {
+              printLogYellow('INTERNET_UNAVAILABLE');
+              BaseUtils.showToast(S.current.internetUnavaiable,
+                  bgColor: Colors.red);
+              break;
+            }
+          default:
+            {
+              printLogError('FAILED');
+              BaseUtils.showToast(S.current.loginFailed,
+                  bgColor: AppColors.redPink);
+              if (await BaseSharedPreferences.containKey(
+                  ManagerKeyStorage.accessToken)) {
+                await BaseSharedPreferences.remove(
+                    ManagerKeyStorage.accessToken);
+              }
+              googleSignIn.disconnect();
+              resetValue();
+              break;
+            }
+        }
+      });
+    } else {
       BaseUtils.showToast(S.current.loginFailed, bgColor: AppColors.redPink);
+    }
+    isShowLoading = false;
   }
 
   Future<void> handleSignIn() async {
@@ -77,6 +122,11 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
         accountDisplayName: account?.displayName,
         accountUrlPhoto: account?.photoUrl,
         accountToken: accessToken);
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      currentAccount.accountAccessToken =
+          await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.accessToken);
+    }
   }
 
   @action
@@ -87,6 +137,9 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
     if (await BaseSharedPreferences.containKey(
         ManagerKeyStorage.currentWorkspace))
       BaseSharedPreferences.remove(ManagerKeyStorage.currentWorkspace);
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      await BaseSharedPreferences.remove(ManagerKeyStorage.accessToken);
+    }
   }
 
   @action

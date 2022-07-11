@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kyan/screen/intro_screen/intro_screen.dart';
+import 'package:kyan/screen/intro_screen/store/intro_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
@@ -17,7 +19,8 @@ class ManagerProvider {
   static List<SingleChildWidget> provider = [
     Provider<SplashScreenStore>(create: (_) => SplashScreenStore()),
     Provider<LoginScreenStore>(create: (_) => LoginScreenStore()),
-    Provider<MainScreenStore>(create: (_) => MainScreenStore())
+    Provider<MainScreenStore>(create: (_) => MainScreenStore()),
+    Provider<IntroScreenStore>(create: (_) => IntroScreenStore())
   ];
 
   /// ## Dispose
@@ -32,5 +35,6 @@ class ManagerProvider {
     context.read<SplashScreenStore>().resetValue();
     context.read<LoginScreenStore>().resetValue();
     context.read<MainScreenStore>().resetValue();
+    context.read<IntroScreenStore>().resetValue();
   }
 }

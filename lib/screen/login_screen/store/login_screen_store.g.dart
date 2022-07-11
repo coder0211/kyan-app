@@ -57,6 +57,22 @@ mixin _$LoginScreenStore on _LoginScreenStore, Store {
     });
   }
 
+  late final _$_isShowLoadingAtom =
+      Atom(name: '_LoginScreenStore._isShowLoading', context: context);
+
+  @override
+  bool get _isShowLoading {
+    _$_isShowLoadingAtom.reportRead();
+    return super._isShowLoading;
+  }
+
+  @override
+  set _isShowLoading(bool value) {
+    _$_isShowLoadingAtom.reportWrite(value, super._isShowLoading, () {
+      super._isShowLoading = value;
+    });
+  }
+
   late final _$onPressLoginAsyncAction =
       AsyncAction('_LoginScreenStore.onPressLogin', context: context);
 

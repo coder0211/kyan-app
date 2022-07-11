@@ -8,5 +8,16 @@
     "chat": "Chat",
     "bot": "Bot",
     "profile": "Profile",
-    "createTask": "Create Task"
+    "createTask": "Create Task",
+    "internetUnavaiable": "Internet unavaiable",
+    "bigCommunity": "Big community",
+    "bodyCommunity": "Instead of loughing around, go head and chat with your friends.",
+    "remoteControl": "Remote control",
+    "bodyRemoteControl": "Professional helper easily make statistics of your tasks and make sure everything goes as plan.",
+    "friendlyLayout": "Friendly layout",
+    "bodyFriendlyLayout": "Beautiful figures will give you comfortable environment and turn your work into an uplifting journey.",
+    "taskManager": "Task manager",
+    "bodyTaskManager": "Manage your tasks quickly and accurately to help everyone on time every single occasion.",
+    "skip": "Skip",
+    "done": "Done"
 }

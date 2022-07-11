@@ -8,5 +8,6 @@
     "chat": "Chat",
     "bot": "Bot",
     "profile": "Profile",
-    "createTask": "Create Task"
+    "createTask": "Create Task",
+    "internetUnavaiable": "Internet unavaiable"
 }

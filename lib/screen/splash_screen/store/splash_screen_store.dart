@@ -1,16 +1,27 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kyan/const/consts.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
+import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 part 'splash_screen_store.g.dart';
 
 class SplashScreenStore = _SplashScreenStore with _$SplashScreenStore;
 
 abstract class _SplashScreenStore with Store, BaseStoreMixin {
+  @observable
+  GoogleSignIn googleSignIn = GoogleSignIn();
+
+  late LoginScreenStore _loginScreenStore;
+
   @override
-  void onInit() {}
+  void onInit(BuildContext context) {
+    _loginScreenStore = context.read<LoginScreenStore>();
+  }
 
   @override
   void onDispose() {}
@@ -24,8 +35,20 @@ abstract class _SplashScreenStore with Store, BaseStoreMixin {
   void resetValue() {}
 
   Future<void> _splashScreenDelay(BuildContext context) async {
+    await _loginScreenStore.handleSignInSlient();
+    await _loginScreenStore.handleGetData();
     await Future.delayed(const Duration(seconds: DELAY_SPLASH_SCREEN));
-    BaseNavigation.push(context, routeName: ManagerRoutes.loginScreen);
+    if (!(await BaseSharedPreferences.containKey(ManagerKeyStorage.isFirst))) {
+      BaseNavigation.push(context,
+          routeName: ManagerRoutes.introScreen, clearStack: true);
+    } else if (_loginScreenStore.currentAccount.accountAccessToken != null &&
+        _loginScreenStore.currentAccount.accountAccessToken != '') {
+      BaseNavigation.push(context,
+          routeName: ManagerRoutes.mainScreen, clearStack: true);
+    } else {
+      BaseNavigation.push(context,
+          routeName: ManagerRoutes.loginScreen, clearStack: true);
+    }
   }
 }
 

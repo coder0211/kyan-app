@@ -1,20 +1,17 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
-import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
 
-part 'main_screen_store.g.dart';
+part 'intro_screen_store.g.dart';
 
-class MainScreenStore = _MainScreenStore with _$MainScreenStore;
+class IntroScreenStore = _IntroScreenStore with _$IntroScreenStore;
 
-abstract class _MainScreenStore with Store, BaseStoreMixin {
-  late LoginScreenStore _loginScreenStore;
-
+abstract class _IntroScreenStore with Store, BaseStoreMixin {
   @override
-  void onInit(BuildContext context) {
-    _loginScreenStore = context.read<LoginScreenStore>();
-  }
+  void onInit(BuildContext context) {}
 
   @override
   void onDispose() {}
@@ -23,21 +20,16 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
   Future<void> onWidgetBuildDone(BuildContext context) async {}
 
   @override
-  void resetValue() {
-    indexTabBar = 0;
-  }
+  void resetValue() {}
 
-  @observable
-  int indexTabBar = 0;
+  final introKey = GlobalKey<IntroductionScreenState>();
 
   @action
-  void setIndexTabBar({required int value}) {
-    indexTabBar = value;
-  }
-
-  @action
-  void onPressedAddTask(BuildContext context) {
-    _loginScreenStore.handleSignOut(context);
+  void onIntroEnd(context) {
+    BaseSharedPreferences.saveStringValue(
+        ManagerKeyStorage.isFirst, ManagerKeyStorage.isFirst);
+    BaseNavigation.push(context,
+        routeName: ManagerRoutes.loginScreen, clearStack: true);
   }
 }
 

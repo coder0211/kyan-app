@@ -12,6 +12,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       accountUrlPhoto: json['accountUrlPhoto'] as String?,
       accountDisplayName: json['accountDisplayName'] as String?,
       accountToken: json['accountToken'] as String?,
+      accountAccessToken: json['accountAccessToken'] as String?,
       isSelected: json['isSelected'] as bool? ?? false,
     );
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'accountUrlPhoto': instance.accountUrlPhoto,
       'accountDisplayName': instance.accountDisplayName,
       'accountToken': instance.accountToken,
+      'accountAccessToken': instance.accountAccessToken,
       'isSelected': instance.isSelected,
     };

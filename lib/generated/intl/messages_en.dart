@@ -23,16 +23,33 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "appName": MessageLookupByLibrary.simpleMessage("Kyan"),
+        "bigCommunity": MessageLookupByLibrary.simpleMessage("Big community"),
+        "bodyCommunity": MessageLookupByLibrary.simpleMessage(
+            "Instead of loughing around, go head and chat with your friends."),
+        "bodyFriendlyLayout": MessageLookupByLibrary.simpleMessage(
+            "Beautiful figures will give you comfortable environment and turn your work into an uplifting journey."),
+        "bodyRemoteControl": MessageLookupByLibrary.simpleMessage(
+            "Professional helper easily make statistics of your tasks and make sure everything goes as plan."),
+        "bodyTaskManager": MessageLookupByLibrary.simpleMessage(
+            "Manage your tasks quickly and accurately to help everyone on time every single occasion."),
         "bot": MessageLookupByLibrary.simpleMessage("Bot"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "createTask": MessageLookupByLibrary.simpleMessage("Create Task"),
         "descriptionWelcome": MessageLookupByLibrary.simpleMessage(
             "We help you with everything at work"),
+        "done": MessageLookupByLibrary.simpleMessage("Done"),
+        "friendlyLayout":
+            MessageLookupByLibrary.simpleMessage("Friendly layout"),
+        "internetUnavaiable":
+            MessageLookupByLibrary.simpleMessage("Internet unavaiable"),
         "loginFailed": MessageLookupByLibrary.simpleMessage("Login Failed"),
         "loginWithGoogle":
             MessageLookupByLibrary.simpleMessage("LOGIN WITH GOOGLE"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "remoteControl": MessageLookupByLibrary.simpleMessage("Remote control"),
+        "skip": MessageLookupByLibrary.simpleMessage("Skip"),
         "task": MessageLookupByLibrary.simpleMessage("Task"),
+        "taskManager": MessageLookupByLibrary.simpleMessage("Task manager"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome to Kyan")
       };
 }
