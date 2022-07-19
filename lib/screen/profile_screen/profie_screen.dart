@@ -49,7 +49,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
                 height: Dimens.PADDING_10,
               ),
               BaseText(
-                'Thanh',
+                'UserName',
                 style: AppTextStyle.titleScreen
                     .copyWith(fontSize: Dimens.TEXT_SIZE_14),
               ),
@@ -57,7 +57,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
                 height: Dimens.PADDING_5,
               ),
               // email address
-              BaseText('truongthanh97o1@gmail.com'),
+              BaseText('User email address'),
               SizedBox(
                 height: Dimens.PADDING_20,
               ),
@@ -84,7 +84,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
               GestureDetector(
                   onTap: () {
                     showDialogAboutUs(context,
-                        mail: ManagerRoutes.splashScreen);
+                        mail: ManagerRoutes.splashScreen); // statical screen
                   },
                   child: _buildRowTextIcon(
                       title: S.current.aboutUs,
