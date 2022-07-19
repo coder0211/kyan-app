@@ -50,7 +50,7 @@ class _AppState extends State<App> {
         ],
         supportedLocales: S.delegate.supportedLocales,
         color: AppColors.primary,
-        initialRoute: ManagerRoutes.splashScreen,
+        initialRoute: ManagerRoutes.profileScreen,
         //MANAGERS ROUTES ALL APP
         routes: {
           ...ManagerRoutes.manager,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kyan/screen/profile_screen/profie_screen.dart';
 import 'package:kyan/screen/splash/store/splash_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';

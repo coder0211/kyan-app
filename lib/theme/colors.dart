@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// ## AppColors contains all colors used in app
-/// * Example:
-/// ```dart
-/// import 'package:trygo/theme/colors.dart';
-/// Container(
-///  color: AppColors.primary,
-/// );
-/// ```
 class AppColors {
   AppColors._();
   static const transparent = Colors.transparent;
