@@ -27,7 +27,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
 
   @override
   Widget build(BuildContext context) {
-    //super.build(context);
+    super.build(context);
     return Scaffold(
         backgroundColor: AppColors.white,
         body: SingleChildScrollView(
