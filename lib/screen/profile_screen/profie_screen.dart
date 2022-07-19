@@ -2,6 +2,7 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
+import 'package:kyan/screen/profile_screen/profile_screen_store/profile_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
@@ -18,7 +19,7 @@ class ProfileScreen extends BaseScreen {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
   @override
   void initState() {
     super.initState();
