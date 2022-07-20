@@ -52,7 +52,7 @@ class _ProfileScreenState
                 height: 5,
               ),
               // email address
-              const BaseText('User email address'),
+              'User email address'.b2R(),
               const SizedBox(
                 height: 20,
               ),
