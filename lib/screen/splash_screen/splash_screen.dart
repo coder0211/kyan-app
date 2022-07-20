@@ -15,8 +15,21 @@ class SplashScreen extends BaseScreen {
 class _SplashScreenState
     extends BaseScreenState<SplashScreen, SplashScreenStore> {
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  Widget buildLarge(BuildContext context) {
+    return 'Large'.t1M();
+  }
+
+  @override
+  Widget buildMedium(BuildContext context) {
+    return 'Medium'.t1M();
+  }
+
+  @override
+  Widget buildSmall(BuildContext context) {
+    return _buildBody();
+  }
+
+  Widget _buildBody() {
     return Scaffold(
         backgroundColor: AppColors.white,
         body: Center(
