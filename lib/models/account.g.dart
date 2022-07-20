@@ -7,15 +7,21 @@ part of 'account.dart';
 // **************************************************************************
 
 Account _$AccountFromJson(Map<String, dynamic> json) => Account(
-      mail: json['mail'] as String?,
-      urlPhoto: json['urlPhoto'] as String?,
-      displayName: json['displayName'] as String?,
+      accountId: json['accountId'] as String?,
+      accountMail: json['accountMail'] as String?,
+      accountUrlPhoto: json['accountUrlPhoto'] as String?,
+      accountDisplayName: json['accountDisplayName'] as String?,
+      accountToken: json['accountToken'] as String?,
+      accountAccessToken: json['accountAccessToken'] as String?,
       isSelected: json['isSelected'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
-      'mail': instance.mail,
-      'urlPhoto': instance.urlPhoto,
-      'displayName': instance.displayName,
+      'accountId': instance.accountId,
+      'accountMail': instance.accountMail,
+      'accountUrlPhoto': instance.accountUrlPhoto,
+      'accountDisplayName': instance.accountDisplayName,
+      'accountToken': instance.accountToken,
+      'accountAccessToken': instance.accountAccessToken,
       'isSelected': instance.isSelected,
     };

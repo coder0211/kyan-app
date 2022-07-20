@@ -10,6 +10,8 @@
     "descriptionTask": "Description task ...",
     "dueTime": "Due time",
     "create": "CREATE",
+    "appName": "Kyan",
+    "loginFailed": "Login Failed",
     "task": "Task",
     "chat": "Chat",
     "bot": "Bot",
@@ -61,7 +63,6 @@
     "createSuccessfully": "Create Successfully",
     "removeSuccessfully": "Remove Successfully",
     "leftSuccessfully": "Left successfully",
-    "loginFailed": "Login Failed",
     "createConversationSuccessfully": "Create conversation successfully",
     "teamTasks": "Team tasks",
     "titileKyanTime": "Kyan time",
@@ -83,6 +84,7 @@
     "managerTasks": "Manager Tasks",
     "productNameKyan": "Product name: Kyan\n\n",
     "creator": "Creator: Nguyen Duc Hoa, Truong Ngoc Thanh",
+    "internetUnavaiable": "Internet unavaiable",
     "bigCommunity": "Big community",
     "bodyCommunity": "Instead of loughing around, go head and chat with your friends.",
     "remoteControl": "Remote control",
@@ -93,5 +95,6 @@
     "bodyTaskManager": "Manage your tasks quickly and accurately to help everyone on time every single occasion.",
     "textSpanMission": " Mission:",
     "textSpanLine1": "In order to help people to interact with the social community in speed of light, moreover, make a great difference by giving and creating task for daily purposes.",
-    "textSpanLine2": "In terms of solution, Kyan is going to help guide people to have discipline and secure plan so as to achieve their goals on time. Plus, by using this app, everyone will get easily close-knit with each other in the current digital era."
+    "textSpanLine2": "In terms of solution, Kyan is going to help guide people to have discipline and secure plan so as to achieve their goals on time. Plus, by using this app, everyone will get easily close-knit with each other in the current digital era.",
+    "skip": "Skip"
 }

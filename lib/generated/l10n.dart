@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -18,28 +18,31 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null, 'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(_current != null,
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name); 
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = S();
       S._current = instance;
- 
+
       return instance;
     });
-  } 
+  }
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null, 'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(instance != null,
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -152,6 +155,26 @@ class S {
     return Intl.message(
       'CREATE',
       name: 'create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kyan`
+  String get appName {
+    return Intl.message(
+      'Kyan',
+      name: 'appName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login Failed`
+  String get loginFailed {
+    return Intl.message(
+      'Login Failed',
+      name: 'loginFailed',
       desc: '',
       args: [],
     );
@@ -667,16 +690,6 @@ class S {
     );
   }
 
-  /// `Login Failed`
-  String get loginFailed {
-    return Intl.message(
-      'Login Failed',
-      name: 'loginFailed',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Create conversation successfully`
   String get createConversationSuccessfully {
     return Intl.message(
@@ -887,6 +900,16 @@ class S {
     );
   }
 
+  /// `Internet unavaiable`
+  String get internetUnavaiable {
+    return Intl.message(
+      'Internet unavaiable',
+      name: 'internetUnavaiable',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Big community`
   String get bigCommunity {
     return Intl.message(
@@ -992,6 +1015,16 @@ class S {
     return Intl.message(
       'In terms of solution, Kyan is going to help guide people to have discipline and secure plan so as to achieve their goals on time. Plus, by using this app, everyone will get easily close-knit with each other in the current digital era.',
       name: 'textSpanLine2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message(
+      'Skip',
+      name: 'skip',
       desc: '',
       args: [],
     );

@@ -4,13 +4,22 @@ part 'account.g.dart';
 
 @JsonSerializable()
 class Account {
-  final String? mail;
-  String? urlPhoto;
-  final String? displayName;
+  final String? accountId;
+  final String? accountMail;
+  String? accountUrlPhoto;
+  final String? accountDisplayName;
+  String? accountToken;
+  String? accountAccessToken;
   bool isSelected;
 
   Account(
-      {this.mail, this.urlPhoto, this.displayName, this.isSelected = false});
+      {this.accountId,
+      this.accountMail,
+      this.accountUrlPhoto,
+      this.accountDisplayName,
+      this.accountToken,
+      this.accountAccessToken,
+      this.isSelected = false});
 
   factory Account.fromJson(Map<String, dynamic> json) {
     return _$AccountFromJson(json);

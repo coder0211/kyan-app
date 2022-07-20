@@ -8,4 +8,6 @@
 /// ```
 class ManagerKeyStorage {
   static const String isFirst = 'IS_FIRST';
+  static const String currentWorkspace = 'CURRENT_WORKSPACE';
+  static const String accessToken = 'ACCESS_TOKEN';
 }
