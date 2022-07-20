@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kyan/theme/colors.dart';
-import 'package:kyan/theme/text_styles.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomDatePicker extends StatelessWidget {
   final DateRangePickerView dateRangePickerView;
@@ -25,29 +25,30 @@ class CustomDatePicker extends StatelessWidget {
         endRangeSelectionColor: AppColors.primary,
         rangeSelectionColor: AppColors.primary.withOpacity(0.2),
         view: dateRangePickerView,
-        selectionTextStyle: const TextStyle(color: Colors.white),
+        selectionTextStyle: GoogleFonts.notoSans(color: Colors.white),
         monthViewSettings: DateRangePickerMonthViewSettings(
             firstDayOfWeek: 1,
             blackoutDates: blackoutDates,
             dayFormat: 'EEE',
-            weekNumberStyle: const DateRangePickerWeekNumberStyle(
-                textStyle: TextStyle(
+            weekNumberStyle: DateRangePickerWeekNumberStyle(
+                textStyle: GoogleFonts.notoSans(
               color: AppColors.primary,
             ))),
         onSelectionChanged: (a) {},
         selectionMode: DateRangePickerSelectionMode.range,
-        headerStyle: const DateRangePickerHeaderStyle(
-          //TODO
-          textStyle: const TextStyle(),
+        headerStyle: DateRangePickerHeaderStyle(
+          textStyle: GoogleFonts.notoSans(
+              fontWeight: FontWeight.w300,
+              fontSize: 16,
+              color: AppColors.black),
         ),
         monthFormat: "EEE dd' ${''}' MM",
-        monthCellStyle: const DateRangePickerMonthCellStyle(
-            todayTextStyle: TextStyle(color: AppColors.primary),
-            blackoutDateTextStyle: TextStyle(
+        monthCellStyle: DateRangePickerMonthCellStyle(
+            todayTextStyle: GoogleFonts.notoSans(color: AppColors.primary),
+            blackoutDateTextStyle: GoogleFonts.notoSans(
                 color: AppColors.primary,
                 decoration: TextDecoration.lineThrough)),
-        //TODO
-        rangeTextStyle: TextStyle(color: AppColors.primary),
+        rangeTextStyle: GoogleFonts.notoSans(color: AppColors.primary),
         controller: dateRangePickerController,
         onViewChanged: (dateRangePickerViewChangedArgs) {},
       ),

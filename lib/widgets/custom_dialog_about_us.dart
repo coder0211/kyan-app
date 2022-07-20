@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
-import 'package:kyan/theme/text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void showDialogAboutUs(BuildContext context, {required String mail}) {
   showDialog(
@@ -26,13 +26,19 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
                       text: S.current.productNameKyan + '\n\n',
                       children: <TextSpan>[
                         TextSpan(
-                          text: S.current.creator,
-                        ),
+                            text: S.current.creator,
+                            style: GoogleFonts.notoSans(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 12,
+                                color: AppColors.black)),
                         TextSpan(
-                          text: S.current.textSpanMission +
-                              S.current.textSpanLine1 +
-                              S.current.textSpanLine2,
-                        )
+                            text: S.current.textSpanMission +
+                                S.current.textSpanLine1 +
+                                S.current.textSpanLine2,
+                            style: GoogleFonts.notoSans(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 12,
+                                color: AppColors.black))
                       ],
                     ),
                   ),
@@ -42,7 +48,8 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
                         launch(Uri(scheme: 'mailto', path: 'team@tdsof.dev')
                             .toString());
                       },
-                      child: BaseText(S.current.contactUsTeamtdosf))
+                      child: S.current.contactUsTeamtdosf
+                          .d1(color: AppColors.black))
                 ]),
           ),
         );

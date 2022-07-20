@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
-import 'package:kyan/theme/text_styles.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void showDialogConfirm(BuildContext context,
     {String? img,
@@ -38,7 +38,10 @@ void showDialogConfirm(BuildContext context,
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: title,
-                    //TODO
+                    style: GoogleFonts.notoSans(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 16,
+                        color: AppColors.black),
                     // style: AppTextStyle.titleConfirmDialog,
                     children: <TextSpan>[
                       TextSpan(
@@ -55,21 +58,15 @@ void showDialogConfirm(BuildContext context,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: () => BaseNavigation.pop(context),
-                      child: BaseText(S.current.cancel,
-                          //TODO
-                          // style: AppTextStyle.textButtonConfirmDialog,
-                          textAlign: TextAlign.center),
-                    ),
+                        onTap: () => BaseNavigation.pop(context),
+                        child: S.current.cancel.b1(
+                            color: Colors.black, textAlign: TextAlign.center)),
                     GestureDetector(
                       onTap: () async {
                         await onConfirm.call();
                       },
-                      child: BaseText(S.current.confirm,
-                          //TODO
-                          // style: AppTextStyle.textButtonConfirmDialog
-                          //     .copyWith(color: AppColors.redPink
-                          // ),
+                      child: S.current.confirm.b1(
+                          color: AppColors.redPink,
                           textAlign: TextAlign.center),
                     ),
                   ],
