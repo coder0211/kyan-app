@@ -25,19 +25,20 @@ class CustomDatePicker extends StatelessWidget {
         endRangeSelectionColor: AppColors.primary,
         rangeSelectionColor: AppColors.primary.withOpacity(0.2),
         view: dateRangePickerView,
-        selectionTextStyle: TextStyle(color: Colors.white),
+        selectionTextStyle: const TextStyle(color: Colors.white),
         monthViewSettings: DateRangePickerMonthViewSettings(
             firstDayOfWeek: 1,
             blackoutDates: blackoutDates,
             dayFormat: 'EEE',
-            weekNumberStyle: DateRangePickerWeekNumberStyle(
+            weekNumberStyle: const DateRangePickerWeekNumberStyle(
                 textStyle: TextStyle(
               color: AppColors.primary,
             ))),
         onSelectionChanged: (a) {},
         selectionMode: DateRangePickerSelectionMode.range,
-        headerStyle: DateRangePickerHeaderStyle(
-          textStyle: AppTextStyle.descriptionWelcome,
+        headerStyle: const DateRangePickerHeaderStyle(
+          //TODO
+          textStyle: const TextStyle(),
         ),
         monthFormat: "EEE dd' ${''}' MM",
         monthCellStyle: const DateRangePickerMonthCellStyle(
@@ -45,6 +46,7 @@ class CustomDatePicker extends StatelessWidget {
             blackoutDateTextStyle: TextStyle(
                 color: AppColors.primary,
                 decoration: TextDecoration.lineThrough)),
+        //TODO
         rangeTextStyle: TextStyle(color: AppColors.primary),
         controller: dateRangePickerController,
         onViewChanged: (dateRangePickerViewChangedArgs) {},

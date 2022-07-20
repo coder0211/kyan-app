@@ -17,29 +17,29 @@ void showDialogConfirm(BuildContext context,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(Dimens.RADIUS_10)), //this right here
+              borderRadius: BorderRadius.circular(10)), //this right here
           child: Container(
-            padding: EdgeInsets.all(Dimens.PADDING_10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
-                  height: Dimens.PADDING_10,
+                const SizedBox(
+                  height: 10,
                 ),
                 if (img != null)
                   Image.asset(img)
                 else
-                  Icon(icon, size: Dimens.HEIGHT_96, color: AppColors.redPink),
-                SizedBox(
-                  height: Dimens.PADDING_10,
+                  Icon(icon, size: 96, color: AppColors.redPink),
+                const SizedBox(
+                  height: 96,
                 ),
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: title,
-                    style: AppTextStyle.titleConfirmDialog,
+                    //TODO
+                    // style: AppTextStyle.titleConfirmDialog,
                     children: <TextSpan>[
                       TextSpan(
                           text: hightLight,
@@ -49,15 +49,16 @@ void showDialogConfirm(BuildContext context,
                     ],
                   ),
                 ),
-                SizedBox(height: Dimens.PADDING_20),
-                Divider(),
+                const SizedBox(height: 20),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
                       onTap: () => BaseNavigation.pop(context),
                       child: BaseText(S.current.cancel,
-                          style: AppTextStyle.textButtonConfirmDialog,
+                          //TODO
+                          // style: AppTextStyle.textButtonConfirmDialog,
                           textAlign: TextAlign.center),
                     ),
                     GestureDetector(
@@ -65,8 +66,10 @@ void showDialogConfirm(BuildContext context,
                         await onConfirm.call();
                       },
                       child: BaseText(S.current.confirm,
-                          style: AppTextStyle.textButtonConfirmDialog
-                              .copyWith(color: AppColors.redPink),
+                          //TODO
+                          // style: AppTextStyle.textButtonConfirmDialog
+                          //     .copyWith(color: AppColors.redPink
+                          // ),
                           textAlign: TextAlign.center),
                     ),
                   ],

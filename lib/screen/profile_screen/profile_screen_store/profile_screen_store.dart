@@ -1,19 +1,20 @@
 import 'package:coder0211/coder0211.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-part 'profile_store.g.dart';
+part 'profile_screen_store.g.dart';
 
-class ProfileStore = _ProfileStore with _$ProfileStore;
+class ProfileScreenStore = _ProfileScreenStore with _$ProfileScreenStore;
 
-abstract class _ProfileStore with Store, BaseStoreMixin {
+abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   @override
-  void onInit() {}
-
-  @override
-  void onDispose() {}
+  void onInit(BuildContext context) {}
 
   @override
-  Future<void> onWidgetBuildDone() async {
+  void onDispose(BuildContext context) {}
+
+  @override
+  Future<void> onWidgetBuildDone(BuildContext context) async {
     await _profileScreenDelay();
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kyan/screen/intro_screen/store/intro_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
+import 'package:kyan/screen/profile_screen/profile_screen_store/profile_screen_store.dart';
 import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -19,7 +20,8 @@ class ManagerProvider {
     Provider<SplashScreenStore>(create: (_) => SplashScreenStore()),
     Provider<LoginScreenStore>(create: (_) => LoginScreenStore()),
     Provider<MainScreenStore>(create: (_) => MainScreenStore()),
-    Provider<IntroScreenStore>(create: (_) => IntroScreenStore())
+    Provider<IntroScreenStore>(create: (_) => IntroScreenStore()),
+    Provider<ProfileScreenStore>(create: (_) => ProfileScreenStore()),
   ];
 
   /// ## Dispose
@@ -35,5 +37,6 @@ class ManagerProvider {
     context.read<LoginScreenStore>().resetValue();
     context.read<MainScreenStore>().resetValue();
     context.read<IntroScreenStore>().resetValue();
+    context.read<ProfileScreenStore>().resetValue();
   }
 }

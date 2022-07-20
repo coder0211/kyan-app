@@ -49,11 +49,10 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height ?? Dimens.HEIGHT_52,
+      height: height ?? 51,
       decoration: BoxDecoration(
           color: bgColor,
-          borderRadius:
-              const BorderRadius.all(Radius.circular(Dimens.RADIUS_10))),
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: TextFormField(
         cursorColor: AppColors.black,
         keyboardType: keyboardType,
@@ -83,14 +82,12 @@ class CustomTextFormField extends StatelessWidget {
               borderSide: BorderSide(
                 color: isModeBorder ? AppColors.primary : Colors.transparent,
               ),
-              borderRadius:
-                  const BorderRadius.all(Radius.circular(Dimens.RADIUS_10))),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: isModeBorder ? AppColors.primary : Colors.transparent,
               ),
-              borderRadius:
-                  const BorderRadius.all(Radius.circular(Dimens.RADIUS_10))),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
           hintText: hintText,
           hintStyle: hintStyle ?? AppTextStyle.textNV,
         ),

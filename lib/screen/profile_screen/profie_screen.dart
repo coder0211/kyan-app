@@ -2,11 +2,10 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
-import 'package:kyan/screen/profile_screen/profile_screen_store/profile_store.dart';
+import 'package:kyan/screen/profile_screen/profile_screen_store/profile_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
-import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_about_us.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
@@ -19,15 +18,14 @@ class ProfileScreen extends BaseScreen {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
+class _ProfileScreenState
+    extends BaseScreenState<ProfileScreen, ProfileScreenStore> {
   @override
-  void initState() {
-    super.initState();
+  Widget buildSmallScreen(BuildContext context) {
+    return _buildBody();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  Widget _buildBody() {
     return Scaffold(
         backgroundColor: AppColors.white,
         body: SingleChildScrollView(
@@ -40,28 +38,25 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
               Padding(
                   padding: EdgeInsets.only(
                       top: BaseUtils.getScreenWidth(context) * 0.3)),
-              SizedBox(
-                height: Dimens.PADDING_10,
+              const SizedBox(
+                height: 10,
               ),
-              CustomCircleAvatar(imageUrl: Images.iconProfile, width: 100),
+              const CustomCircleAvatar(
+                  imageUrl: Images.iconProfile, width: 100),
 
-              SizedBox(
-                height: Dimens.PADDING_10,
+              const SizedBox(
+                height: 10,
               ),
-              BaseText(
-                'UserName',
-                style: AppTextStyle.titleScreen
-                    .copyWith(fontSize: Dimens.TEXT_SIZE_14),
-              ),
-              SizedBox(
-                height: Dimens.PADDING_5,
+              'Username'.h1R(),
+              const SizedBox(
+                height: 5,
               ),
               // email address
-              BaseText('User email address'),
-              SizedBox(
-                height: Dimens.PADDING_20,
+              const BaseText('User email address'),
+              const SizedBox(
+                height: 20,
               ),
-              Divider(),
+              const Divider(),
               GestureDetector(
                 onTap: () {
                   launch(
@@ -71,7 +66,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
                     title: S.current.feedBack, iconData: Icons.feedback),
               ),
 
-              Divider(),
+              const Divider(),
               GestureDetector(
                 onTap: () {
                   BaseNavigation.push(context,
@@ -80,7 +75,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
                 child: _buildRowTextIcon(
                     title: S.current.statistical, iconData: Icons.bar_chart),
               ),
-              Divider(),
+              const Divider(),
               GestureDetector(
                   onTap: () {
                     showDialogAboutUs(context,
@@ -89,7 +84,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
                   child: _buildRowTextIcon(
                       title: S.current.aboutUs,
                       iconData: Icons.info_outline_rounded)),
-              Divider(),
+              const Divider(),
               GestureDetector(
                   onTap: () async {
                     showDialogConfirm(context,
@@ -109,7 +104,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
         ));
   }
 
-  _buildRowTextIcon(
+  Widget _buildRowTextIcon(
       {required String title,
       required IconData iconData,
       Color colorIcon = AppColors.black,
@@ -119,8 +114,7 @@ class _ProfileScreenState extends BaseScreenState<ProfileScreen, ProfileStore> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          BaseText(title,
-              style: AppTextStyle.titleItemChannel.copyWith(color: colorText)),
+          title.h1R(),
           Icon(
             iconData,
             color: colorIcon,
