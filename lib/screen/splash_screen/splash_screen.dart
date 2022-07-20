@@ -15,17 +15,7 @@ class SplashScreen extends BaseScreen {
 class _SplashScreenState
     extends BaseScreenState<SplashScreen, SplashScreenStore> {
   @override
-  Widget buildLarge(BuildContext context) {
-    return 'Large'.t1M();
-  }
-
-  @override
-  Widget buildMedium(BuildContext context) {
-    return 'Medium'.t1M();
-  }
-
-  @override
-  Widget buildSmall(BuildContext context) {
+  Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
   }
 

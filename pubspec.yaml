@@ -65,7 +65,7 @@ dependencies:
   intl_utils: ^2.6.1
 
   #MY PACKGAE
-  coder0211: ^0.0.61
+  coder0211: ^0.0.67
 
 dev_dependencies:
   flutter_test:

@@ -20,17 +20,7 @@ class _IntroScreenState extends BaseScreenState<IntroScreen, IntroScreenStore> {
   }
 
   @override
-  Widget buildLarge(BuildContext context) {
-    return 'Large'.t1M();
-  }
-
-  @override
-  Widget buildMedium(BuildContext context) {
-    return 'Medium'.t1M();
-  }
-
-  @override
-  Widget buildSmall(BuildContext context) {
+  Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
   }
 

@@ -16,17 +16,7 @@ class LoginScreen extends BaseScreen {
 
 class _LoginScreenState extends BaseScreenState<LoginScreen, LoginScreenStore> {
   @override
-  Widget buildLarge(BuildContext context) {
-    return 'Large'.t1M();
-  }
-
-  @override
-  Widget buildMedium(BuildContext context) {
-    return 'Medium'.t1M();
-  }
-
-  @override
-  Widget buildSmall(BuildContext context) {
+  Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
   }
 
