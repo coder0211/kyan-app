@@ -1,5 +1,4 @@
 import 'package:coder0211/coder0211.dart';
-import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
@@ -70,13 +69,11 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
         physics: const ScrollPhysics(),
         children: store.screens,
       ),
-      floatingActionButton: DraggableFab(
-        child: FloatingActionButton(
-          onPressed: () => store.onPressedAddTask(context),
-          tooltip: S.current.createTask,
-          child: const Icon(Icons.add),
-          backgroundColor: AppColors.primary,
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => store.onPressedAddTask(context),
+        tooltip: S.current.createTask,
+        child: const Icon(Icons.add),
+        backgroundColor: AppColors.primary,
       ),
     );
   }
