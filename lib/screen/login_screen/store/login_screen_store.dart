@@ -54,7 +54,7 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose() {}
+  void onDispose(BuildContext context) {}
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}

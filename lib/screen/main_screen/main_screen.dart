@@ -5,7 +5,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/images.dart';
-import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 
 class MainScreen extends BaseScreen {
@@ -16,21 +15,6 @@ class MainScreen extends BaseScreen {
 }
 
 class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
-  final PageController _pageController = PageController();
-
-  static List<Widget> _screens = <Widget>[
-    'A'.d1(),
-    'B'.d1(),
-    'C'.d1(),
-    'D'.d1()
-  ];
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
   Widget _bottomNavigationBar() {
     return BaseNavigationBar(
       items: <BaseNavigationBarItem>[
@@ -60,7 +44,7 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
       color: AppColors.gray,
       onItemSelected: (int index) {
         store.setIndexTabBar(value: index);
-        _pageController.jumpToPage(index);
+        store.pageController.jumpToPage(index);
       },
     );
   }
@@ -79,12 +63,12 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
       }),
       body: PageView(
         scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
-        controller: _pageController,
+        controller: store.pageController,
         onPageChanged: (int indexPage) {
           store.indexTabBar = indexPage;
         },
         physics: const ScrollPhysics(),
-        children: _screens,
+        children: store.screens,
       ),
       floatingActionButton: DraggableFab(
         child: FloatingActionButton(
