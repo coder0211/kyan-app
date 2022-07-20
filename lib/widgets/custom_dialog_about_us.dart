@@ -20,7 +20,6 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   RichText(
-                    //TODO
                     textAlign: TextAlign.start,
                     text: TextSpan(
                       text: S.current.productNameKyan + '\n\n',
