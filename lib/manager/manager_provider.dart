@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kyan/screen/intro_screen/intro_screen.dart';
 import 'package:kyan/screen/intro_screen/store/intro_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';

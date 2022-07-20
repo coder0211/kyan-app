@@ -20,8 +20,11 @@ class _IntroScreenState extends BaseScreenState<IntroScreen, IntroScreenStore> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  Widget buildSmallScreen(BuildContext context) {
+    return _buildBody();
+  }
+
+  Widget _buildBody() {
     TextStyle bodyStyle = GoogleFonts.notoSans(fontSize: 19.0);
 
     PageDecoration pageDecoration = PageDecoration(

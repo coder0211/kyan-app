@@ -46,9 +46,6 @@ dependencies:
   #CALENDAR TIME LINE
   calendar_timeline: ^1.0.4
 
-  #DRAGGABLE
-  draggable_fab: ^0.1.4
-
   #SOCKET IO
   socket_io_client: ^2.0.0-beta.4-nullsafety.0
 
@@ -65,11 +62,7 @@ dependencies:
   intl_utils: ^2.6.1
 
   #MY PACKGAE
-  # coder0211: ^0.0.58
-  coder0211:
-    git:
-      url: git@github.com:coder0211/coder0211.git
-      ref: main
+  coder0211: ^0.0.68
 
 dev_dependencies:
   flutter_test:

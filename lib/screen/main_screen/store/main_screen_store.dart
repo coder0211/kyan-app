@@ -9,15 +9,22 @@ part 'main_screen_store.g.dart';
 class MainScreenStore = _MainScreenStore with _$MainScreenStore;
 
 abstract class _MainScreenStore with Store, BaseStoreMixin {
+  final PageController pageController = PageController();
+
+  late List<Widget> screens;
+
   late LoginScreenStore _loginScreenStore;
 
   @override
   void onInit(BuildContext context) {
+    screens = <Widget>['A'.d1(), 'B'.d1(), 'C'.d1(), 'D'.d1()];
     _loginScreenStore = context.read<LoginScreenStore>();
   }
 
   @override
-  void onDispose() {}
+  void onDispose(BuildContext context) {
+    pageController.dispose();
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}

@@ -1,4 +1,5 @@
 import 'package:coder0211/coder0211.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kyan/const/consts.dart';
@@ -9,14 +10,13 @@ import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:mobx/mobx.dart';
-
 part 'login_screen_store.g.dart';
 
 class LoginScreenStore = _LoginScreenStore with _$LoginScreenStore;
 
 abstract class _LoginScreenStore with Store, BaseStoreMixin {
   @observable
-  GoogleSignIn googleSignIn = GoogleSignIn();
+  late GoogleSignIn googleSignIn = GoogleSignIn();
 
   @observable
   Account currentAccount = Account();
@@ -36,10 +36,25 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
   BaseAPI _baseAPI = BaseAPI();
 
   @override
-  void onInit(BuildContext context) {}
+  void onInit(BuildContext context) {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      googleSignIn = GoogleSignIn();
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+      googleSignIn = GoogleSignIn();
+    } else {
+      googleSignIn = GoogleSignIn(
+        clientId:
+            '445878881342-s7rnna3d4urps00ov0u7ve44qo403hef.apps.googleusercontent.com',
+        scopes: <String>[
+          'email',
+          'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+      );
+    }
+  }
 
   @override
-  void onDispose() {}
+  void onDispose(BuildContext context) {}
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
@@ -135,8 +150,9 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
     BaseNavigation.push(context,
         routeName: ManagerRoutes.loginScreen, clearStack: true);
     if (await BaseSharedPreferences.containKey(
-        ManagerKeyStorage.currentWorkspace))
+        ManagerKeyStorage.currentWorkspace)) {
       BaseSharedPreferences.remove(ManagerKeyStorage.currentWorkspace);
+    }
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
       await BaseSharedPreferences.remove(ManagerKeyStorage.accessToken);
     }

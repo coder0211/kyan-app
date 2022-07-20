@@ -16,8 +16,11 @@ class LoginScreen extends BaseScreen {
 
 class _LoginScreenState extends BaseScreenState<LoginScreen, LoginScreenStore> {
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  Widget buildSmallScreen(BuildContext context) {
+    return _buildBody();
+  }
+
+  Widget _buildBody() {
     return Scaffold(
         backgroundColor: AppColors.white,
         body: Stack(

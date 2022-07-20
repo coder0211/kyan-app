@@ -14,7 +14,7 @@ abstract class _IntroScreenStore with Store, BaseStoreMixin {
   void onInit(BuildContext context) {}
 
   @override
-  void onDispose() {}
+  void onDispose(BuildContext context) {}
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
