@@ -1,6 +1,7 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/screen/profile_screen/profie_screen.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
 
   @override
   void onInit(BuildContext context) {
-    screens = <Widget>['A'.d1(), 'B'.d1(), 'C'.d1(), 'D'.d1()];
+    screens = <Widget>['A'.d1(), 'B'.d1(), 'C'.d1(), const ProfileScreen()];
     _loginScreenStore = context.read<LoginScreenStore>();
   }
 

@@ -51,10 +51,10 @@ class S {
   }
 
   /// `Kyan`
-  String get appName {
+  String get app_name {
     return Intl.message(
       'Kyan',
-      name: 'appName',
+      name: 'app_name',
       desc: '',
       args: [],
     );
@@ -85,6 +85,86 @@ class S {
     return Intl.message(
       'LOGIN WITH GOOGLE',
       name: 'loginWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summary *`
+  String get summary {
+    return Intl.message(
+      'Summary *',
+      name: 'summary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summary...`
+  String get hintSummary {
+    return Intl.message(
+      'Summary...',
+      name: 'hintSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Task`
+  String get createTask {
+    return Intl.message(
+      'Create Task',
+      name: 'createTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description`
+  String get description {
+    return Intl.message(
+      'Description',
+      name: 'description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description task ...`
+  String get descriptionTask {
+    return Intl.message(
+      'Description task ...',
+      name: 'descriptionTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Due time`
+  String get dueTime {
+    return Intl.message(
+      'Due time',
+      name: 'dueTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CREATE`
+  String get create {
+    return Intl.message(
+      'CREATE',
+      name: 'create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kyan`
+  String get appName {
+    return Intl.message(
+      'Kyan',
+      name: 'appName',
       desc: '',
       args: [],
     );
@@ -140,11 +220,681 @@ class S {
     );
   }
 
-  /// `Create Task`
-  String get createTask {
+  /// `Add `
+  String get add {
     return Intl.message(
-      'Create Task',
-      name: 'createTask',
+      'Add ',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hi,`
+  String get hi {
+    return Intl.message(
+      'Hi,',
+      name: 'hi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Todo`
+  String get todo {
+    return Intl.message(
+      'Todo',
+      name: 'todo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get done {
+    return Intl.message(
+      'Done',
+      name: 'done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DONE`
+  String get doneUpper {
+    return Intl.message(
+      'DONE',
+      name: 'doneUpper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UPDATE`
+  String get updateUpper {
+    return Intl.message(
+      'UPDATE',
+      name: 'updateUpper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Task`
+  String get editTask {
+    return Intl.message(
+      'Edit Task',
+      name: 'editTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `People`
+  String get people {
+    return Intl.message(
+      'People',
+      name: 'people',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Channel`
+  String get channel {
+    return Intl.message(
+      'Channel',
+      name: 'channel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversation`
+  String get conversation {
+    return Intl.message(
+      'Conversation',
+      name: 'conversation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure?\nYou want to delete this task?`
+  String get confirmDeleteTask {
+    return Intl.message(
+      'Are you sure?\nYou want to delete this task?',
+      name: 'confirmDeleteTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Task`
+  String get deleteTask {
+    return Intl.message(
+      'Delete Task',
+      name: 'deleteTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bot name`
+  String get botName {
+    return Intl.message(
+      'Bot name',
+      name: 'botName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bot description`
+  String get botDescription {
+    return Intl.message(
+      'Bot description',
+      name: 'botDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kyan reminder manager`
+  String get botKyanReminder {
+    return Intl.message(
+      'Kyan reminder manager',
+      name: 'botKyanReminder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `titile`
+  String get titile {
+    return Intl.message(
+      'titile',
+      name: 'titile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search here...`
+  String get searchHere {
+    return Intl.message(
+      'Search here...',
+      name: 'searchHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add channel`
+  String get addChannel {
+    return Intl.message(
+      'Add channel',
+      name: 'addChannel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Channel name`
+  String get channelName {
+    return Intl.message(
+      'Channel name',
+      name: 'channelName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Is private`
+  String get isPrivate {
+    return Intl.message(
+      'Is private',
+      name: 'isPrivate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ADD`
+  String get ADD {
+    return Intl.message(
+      'ADD',
+      name: 'ADD',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create channel successfully`
+  String get createChannelSuccess {
+    return Intl.message(
+      'Create channel successfully',
+      name: 'createChannelSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `With workspace`
+  String get withWorkspace {
+    return Intl.message(
+      'With workspace',
+      name: 'withWorkspace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assign to`
+  String get assignTo {
+    return Intl.message(
+      'Assign to',
+      name: 'assignTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name workspace`
+  String get nameWorkspace {
+    return Intl.message(
+      'Name workspace',
+      name: 'nameWorkspace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create`
+  String get createNormal {
+    return Intl.message(
+      'Create',
+      name: 'createNormal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove`
+  String get remove {
+    return Intl.message(
+      'Remove',
+      name: 'remove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time Picker`
+  String get timePicker {
+    return Intl.message(
+      'Time Picker',
+      name: 'timePicker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Workspace`
+  String get workspace {
+    return Intl.message(
+      'Workspace',
+      name: 'workspace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room`
+  String get room {
+    return Intl.message(
+      'Room',
+      name: 'room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete bot`
+  String get deleteBot {
+    return Intl.message(
+      'Delete bot',
+      name: 'deleteBot',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today`
+  String get today {
+    return Intl.message(
+      'Today',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create workspace`
+  String get createWorkspace {
+    return Intl.message(
+      'Create workspace',
+      name: 'createWorkspace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join workspace`
+  String get joinWorkspace {
+    return Intl.message(
+      'Join workspace',
+      name: 'joinWorkspace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code`
+  String get code {
+    return Intl.message(
+      'Code',
+      name: 'code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `JOIN`
+  String get joinUpper {
+    return Intl.message(
+      'JOIN',
+      name: 'joinUpper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact us: team@tdsof.dev`
+  String get contactUsTeamtdosf {
+    return Intl.message(
+      'Contact us: team@tdsof.dev',
+      name: 'contactUsTeamtdosf',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleted successfully`
+  String get deleteSuccessfully {
+    return Intl.message(
+      'Deleted successfully',
+      name: 'deleteSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get failed {
+    return Intl.message(
+      'Failed',
+      name: 'failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create channel successfully`
+  String get createChannelSuccessfully {
+    return Intl.message(
+      'Create channel successfully',
+      name: 'createChannelSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create channel failed`
+  String get createChannelFailed {
+    return Intl.message(
+      'Create channel failed',
+      name: 'createChannelFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Successfully`
+  String get createSuccessfully {
+    return Intl.message(
+      'Create Successfully',
+      name: 'createSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove Successfully`
+  String get removeSuccessfully {
+    return Intl.message(
+      'Remove Successfully',
+      name: 'removeSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Left successfully`
+  String get leftSuccessfully {
+    return Intl.message(
+      'Left successfully',
+      name: 'leftSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create conversation successfully`
+  String get createConversationSuccessfully {
+    return Intl.message(
+      'Create conversation successfully',
+      name: 'createConversationSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Team tasks`
+  String get teamTasks {
+    return Intl.message(
+      'Team tasks',
+      name: 'teamTasks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kyan time`
+  String get titileKyanTime {
+    return Intl.message(
+      'Kyan time',
+      name: 'titileKyanTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Congratulations on your completion!`
+  String get congraOnyourCompletion {
+    return Intl.message(
+      'Congratulations on your completion!',
+      name: 'congraOnyourCompletion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Info chat`
+  String get infoChat {
+    return Intl.message(
+      'Info chat',
+      name: 'infoChat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Members`
+  String get members {
+    return Intl.message(
+      'Members',
+      name: 'members',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure, you want to remove?`
+  String get confirmLeaveWorkspace {
+    return Intl.message(
+      'Are you sure, you want to remove?',
+      name: 'confirmLeaveWorkspace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure, you want to leave this channel?`
+  String get confirmLeaveChannel {
+    return Intl.message(
+      'Are you sure, you want to leave this channel?',
+      name: 'confirmLeaveChannel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave your channel`
+  String get leaveChannel {
+    return Intl.message(
+      'Leave your channel',
+      name: 'leaveChannel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure, you want to delete this?`
+  String get confirmDeleteThis {
+    return Intl.message(
+      'Are you sure, you want to delete this?',
+      name: 'confirmDeleteThis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member workspace`
+  String get memberWorkspace {
+    return Intl.message(
+      'Member workspace',
+      name: 'memberWorkspace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedback`
+  String get feedBack {
+    return Intl.message(
+      'Feedback',
+      name: 'feedBack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Statistical`
+  String get statistical {
+    return Intl.message(
+      'Statistical',
+      name: 'statistical',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About us`
+  String get aboutUs {
+    return Intl.message(
+      'About us',
+      name: 'aboutUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to logout?`
+  String get confirmLogout {
+    return Intl.message(
+      'Are you sure you want to logout?',
+      name: 'confirmLogout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `idChannel`
+  String get idChannel {
+    return Intl.message(
+      'idChannel',
+      name: 'idChannel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Statistic`
+  String get statistic {
+    return Intl.message(
+      'Statistic',
+      name: 'statistic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manager Tasks`
+  String get managerTasks {
+    return Intl.message(
+      'Manager Tasks',
+      name: 'managerTasks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product name: Kyan\n\n`
+  String get productNameKyan {
+    return Intl.message(
+      'Product name: Kyan\n\n',
+      name: 'productNameKyan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Creator: Nguyen Duc Hoa, Truong Ngoc Thanh`
+  String get creator {
+    return Intl.message(
+      'Creator: Nguyen Duc Hoa, Truong Ngoc Thanh',
+      name: 'creator',
       desc: '',
       args: [],
     );
@@ -240,21 +990,41 @@ class S {
     );
   }
 
-  /// `Skip`
-  String get skip {
+  /// ` Mission:`
+  String get textSpanMission {
     return Intl.message(
-      'Skip',
-      name: 'skip',
+      ' Mission:',
+      name: 'textSpanMission',
       desc: '',
       args: [],
     );
   }
 
-  /// `Done`
-  String get done {
+  /// `In order to help people to interact with the social community in speed of light, moreover, make a great difference by giving and creating task for daily purposes.`
+  String get textSpanLine1 {
     return Intl.message(
-      'Done',
-      name: 'done',
+      'In order to help people to interact with the social community in speed of light, moreover, make a great difference by giving and creating task for daily purposes.',
+      name: 'textSpanLine1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In terms of solution, Kyan is going to help guide people to have discipline and secure plan so as to achieve their goals on time. Plus, by using this app, everyone will get easily close-knit with each other in the current digital era.`
+  String get textSpanLine2 {
+    return Intl.message(
+      'In terms of solution, Kyan is going to help guide people to have discipline and secure plan so as to achieve their goals on time. Plus, by using this app, everyone will get easily close-knit with each other in the current digital era.',
+      name: 'textSpanLine2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message(
+      'Skip',
+      name: 'skip',
       desc: '',
       args: [],
     );

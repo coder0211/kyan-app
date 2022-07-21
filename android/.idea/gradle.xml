@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../gradle-7.4.2" />
+        <option name="gradleJvm" value="18" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/connectivity-3.0.6/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.7.0/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.7/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.9/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/google_sign_in_android-6.0.1/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/image_picker_android-0.8.5+1/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.16/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.12/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.3/android" />
+            <option value="$PROJECT_DIR$/../../../flutter_windows_2.10.5-stable/.pub-cache/hosted/pub.dartlang.org/url_launcher_android-6.0.17/android" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
