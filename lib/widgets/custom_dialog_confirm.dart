@@ -2,7 +2,6 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/theme/colors.dart';
-import 'package:kyan/theme/dimens.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void showDialogConfirm(BuildContext context,
@@ -31,9 +30,6 @@ void showDialogConfirm(BuildContext context,
                   Image.asset(img)
                 else
                   Icon(icon, size: 96, color: AppColors.redPink),
-                const SizedBox(
-                  height: 96,
-                ),
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(

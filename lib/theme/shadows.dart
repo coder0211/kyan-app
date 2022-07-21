@@ -22,12 +22,12 @@ class Shadows {
         blurRadius: 12,
         spreadRadius: 6,
         offset: const Offset(0, 8),
-        color: const Color(0xff776F60).withOpacity(0.15)),
+        color: AppColors.primary.withOpacity(0.15)),
     BoxShadow(
         blurRadius: 4,
         spreadRadius: 0,
         offset: const Offset(0, 4),
-        color: const Color(0xff655E70).withOpacity(0.3)),
+        color: AppColors.primary.withOpacity(0.3)),
   ];
 
   static List<BoxShadow> shadow4 = [
@@ -35,12 +35,12 @@ class Shadows {
         blurRadius: 10,
         spreadRadius: 4,
         offset: const Offset(0, 6),
-        color: const Color(0xff776F60).withOpacity(0.15)),
+        color: AppColors.primary.withOpacity(0.15)),
     BoxShadow(
         blurRadius: 4,
         spreadRadius: 0,
         offset: const Offset(0, 4),
-        color: const Color(0xff655E70).withOpacity(0.3)),
+        color: AppColors.primary.withOpacity(0.3)),
   ];
 
   static List<BoxShadow> shadow3 = [
@@ -48,12 +48,12 @@ class Shadows {
         blurRadius: 8,
         spreadRadius: 3,
         offset: const Offset(0, 4),
-        color: const Color(0xff776F60).withOpacity(0.15)),
+        color: AppColors.primary.withOpacity(0.15)),
     BoxShadow(
         blurRadius: 3,
         spreadRadius: 0,
         offset: const Offset(0, 1),
-        color: const Color(0xff655E70).withOpacity(0.3))
+        color: AppColors.primary.withOpacity(0.3))
   ];
 
   static List<BoxShadow> shadow2 = [
@@ -61,12 +61,12 @@ class Shadows {
         blurRadius: 2,
         spreadRadius: 0,
         offset: const Offset(0, 1),
-        color: const Color(0xff776F60).withOpacity(0.3)),
+        color: AppColors.primary.withOpacity(0.3)),
     BoxShadow(
         blurRadius: 6,
         spreadRadius: 2,
         offset: const Offset(0, 2),
-        color: const Color(0xff655E70).withOpacity(0.15))
+        color: AppColors.primary.withOpacity(0.15))
   ];
 
   static List<BoxShadow> shadow1 = [
@@ -74,11 +74,11 @@ class Shadows {
         blurRadius: 2,
         spreadRadius: 0,
         offset: const Offset(0, 1),
-        color: const Color(0xff776F60).withOpacity(0.3)),
+        color: AppColors.primary.withOpacity(0.3)),
     BoxShadow(
         blurRadius: 3,
         spreadRadius: 1,
         offset: const Offset(0, 1),
-        color: const Color(0xff655E70).withOpacity(0.15))
+        color: AppColors.primary.withOpacity(0.15))
   ];
 }

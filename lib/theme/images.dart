@@ -34,6 +34,10 @@ class Images {
   static const String iconSetting = '$iconPath/icon_setting.svg';
   static const String iconMember = '$iconPath/icon_member.svg';
   static const String iconTime = '$iconPath/icon_time.svg';
+  static const String iconFeedback = '$iconPath/icon_feedback.png';
+  static const String iconStatistics = '$iconPath/icon_statistics.png';
+  static const String iconAbout = '$iconPath/icon_about.png';
+  static const String iconLogout = '$iconPath/icon_logout.png';
 
   //IMAGES
   static const String imageIntro1 = '$imagePath/image_intro_1.png';
