@@ -11,8 +11,8 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)), //this right here
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Container(
             padding: const EdgeInsets.all(Dimens.SCREEN_PADDING),
             child: Column(
@@ -22,7 +22,7 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
                   RichText(
                     textAlign: TextAlign.start,
                     text: TextSpan(
-                      text: S.current.productNameKyan + '\n\n',
+                      text: S.current.productNameKyan,
                       children: <TextSpan>[
                         TextSpan(
                             text: S.current.creator,
@@ -48,7 +48,7 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
                             .toString());
                       },
                       child: S.current.contactUsTeamtdosf
-                          .d1(color: AppColors.black))
+                          .t1M(color: AppColors.black))
                 ]),
           ),
         );
