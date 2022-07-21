@@ -47,7 +47,7 @@ class _ProfileScreenState
               const SizedBox(
                 height: 10,
               ),
-              'Username'.h1R(),
+              'Username'.b1R(),
               const SizedBox(
                 height: 5,
               ),
@@ -114,7 +114,7 @@ class _ProfileScreenState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          title.h1R(),
+          title.b1R(),
           Icon(
             iconData,
             color: colorIcon,

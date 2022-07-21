@@ -14,10 +14,10 @@ class ManagerRoutes {
   ManagerRoutes._();
 
   static String splashScreen = '/';
-  static String profileScreen = '/profileScreen';
-  static String loginScreen = '/LoginScreen';
-  static String mainScreen = '/MainScreen';
-  static String introScreen = '/introScreen';
+  static String profileScreen = '/profile-screen';
+  static String loginScreen = '/login-screen';
+  static String mainScreen = '/main-screen';
+  static String introScreen = '/intro-screen';
 
   /// ## Manager contain all action routes of the app
   /// * [splashScreen] is the splash screen of the app and it is the first screen of the app
