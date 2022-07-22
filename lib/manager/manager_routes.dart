@@ -14,7 +14,6 @@ class ManagerRoutes {
   ManagerRoutes._();
 
   static String splashScreen = '/';
-  static String profileScreen = '/profile-screen';
   static String loginScreen = '/login-screen';
   static String mainScreen = '/main-screen';
   static String introScreen = '/intro-screen';
@@ -23,7 +22,6 @@ class ManagerRoutes {
   /// * [splashScreen] is the splash screen of the app and it is the first screen of the app
   static Map<String, Widget Function(BuildContext context)> manager = {
     splashScreen: (context) => const SplashScreen(),
-    profileScreen: (context) => const ProfileScreen(),
     loginScreen: (context) => const LoginScreen(),
     mainScreen: (context) => const MainScreen(),
     introScreen: (context) => IntroScreen()

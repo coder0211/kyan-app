@@ -10,5 +10,9 @@
 class ManagerAddress {
   static const String domain = 'https://kyan-api.tdsof.dev';
   // static const String domain = 'http://192.168.1.107:3001';
-  static const String createUpdateAccount = '/account';
+  //!--        BASE URL       -->
+  //?-- ACCOUNT -->
+  static const String baseAccount = '/account';
+
+  static const String createUpdateAccount = '$baseAccount/create-or-update';
 }
