@@ -32,7 +32,7 @@ void showDialogConfirm(BuildContext context,
                 else
                   Icon(icon, size: 96, color: AppColors.redPink),
                 const SizedBox(
-                  height: 96,
+                  height: 10,
                 ),
                 RichText(
                   textAlign: TextAlign.center,
