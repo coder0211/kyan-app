@@ -30,6 +30,9 @@ void showDialogConfirm(BuildContext context,
                   Image.asset(img)
                 else
                   Icon(icon, size: 96, color: AppColors.redPink),
+                const SizedBox(
+                  height: 10,
+                ),
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
