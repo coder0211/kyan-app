@@ -1,9 +1,11 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
-import 'package:kyan/screen/profile_screen/profile_screen_store/profile_screen_store.dart';
+import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
+import 'package:kyan/screen/profile_screen/widgets/swipe_languages.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
@@ -134,6 +136,26 @@ class _ProfileScreenState
   Widget _buildActions() {
     return Column(
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Observer(
+                builder: (_) =>
+                    (S.current.language + ' : ${store.localeLanguage}').b2R()),
+            Observer(
+              builder: (_) => SwipeLanguages(
+                onTapVi: () async {
+                  await store.setLanguages(context, language: 'vi');
+                },
+                onTapEn: () async {
+                  await store.setLanguages(context, language: 'en');
+                },
+                isEn: store.localeLanguage == 'en',
+              ),
+            )
+          ],
+        ),
+        _buildDivider(),
         GestureDetector(
           onTap: () {
             launch(Uri(scheme: 'mailto', path: 'team@tdof.dev').toString());
@@ -170,7 +192,7 @@ class _ProfileScreenState
             child: _buildRowIconText(
                 title: S.current.logout,
                 iconData: Images.iconLogout,
-                colorText: AppColors.redPink))
+                colorText: AppColors.redPink)),
       ],
     );
   }

@@ -11,14 +11,16 @@ class CustomCircleAvatar extends StatelessWidget {
   final File? file;
   final double? width;
   final bool isShowBordered;
+  final Color? borderColor;
 
-  const CustomCircleAvatar({
-    Key? key,
-    this.imageUrl,
-    this.file,
-    this.width,
-    this.isShowBordered = false,
-  }) : super(key: key);
+  const CustomCircleAvatar(
+      {Key? key,
+      this.imageUrl,
+      this.file,
+      this.width,
+      this.isShowBordered = false,
+      this.borderColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class CustomCircleAvatar extends StatelessWidget {
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
             border: isShowBordered
-                ? Border.all(color: AppColors.white, width: 3)
+                ? Border.all(color: borderColor ?? AppColors.white, width: 3)
                 : null,
             shape: BoxShape.circle,
             image: DecorationImage(image: imageProvider, fit: BoxFit.cover)),

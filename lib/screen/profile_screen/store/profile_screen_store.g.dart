@@ -25,6 +25,22 @@ mixin _$ProfileScreenStore on _ProfileScreenStore, Store {
     });
   }
 
+  late final _$_localeLanguageAtom =
+      Atom(name: '_ProfileScreenStore._localeLanguage', context: context);
+
+  @override
+  String get _localeLanguage {
+    _$_localeLanguageAtom.reportRead();
+    return super._localeLanguage;
+  }
+
+  @override
+  set _localeLanguage(String value) {
+    _$_localeLanguageAtom.reportWrite(value, super._localeLanguage, () {
+      super._localeLanguage = value;
+    });
+  }
+
   late final _$_accountMailAtom =
       Atom(name: '_ProfileScreenStore._accountMail', context: context);
 
@@ -55,6 +71,23 @@ mixin _$ProfileScreenStore on _ProfileScreenStore, Store {
     _$_accountDisplayNameAtom.reportWrite(value, super._accountDisplayName, () {
       super._accountDisplayName = value;
     });
+  }
+
+  late final _$setLanguagesAsyncAction =
+      AsyncAction('_ProfileScreenStore.setLanguages', context: context);
+
+  @override
+  Future<void> setLanguages(BuildContext context, {required String language}) {
+    return _$setLanguagesAsyncAction
+        .run(() => super.setLanguages(context, language: language));
+  }
+
+  late final _$logoutAsyncAction =
+      AsyncAction('_ProfileScreenStore.logout', context: context);
+
+  @override
+  Future<void> logout(BuildContext context) {
+    return _$logoutAsyncAction.run(() => super.logout(context));
   }
 
   @override

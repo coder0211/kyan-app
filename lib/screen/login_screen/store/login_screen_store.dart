@@ -38,9 +38,23 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
   @override
   void onInit(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      googleSignIn = GoogleSignIn();
+      googleSignIn = GoogleSignIn(
+        clientId:
+            '445878881342-6e14cbukmh25kbmd1ps7aq171tutnhis.apps.googleusercontent.com',
+        scopes: <String>[
+          'email',
+          'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+      );
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-      googleSignIn = GoogleSignIn();
+      googleSignIn = GoogleSignIn(
+        clientId:
+            '445878881342-tkbejpdcngip722inib2rhsslfeav4jj.apps.googleusercontent.com',
+        scopes: <String>[
+          'email',
+          'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+      );
     } else {
       googleSignIn = GoogleSignIn(
         clientId:
@@ -75,7 +89,7 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
       //? Call api
       isShowLoading = true;
       await _baseAPI
-          .fetchData(ManagerAddress.createUpdateAccount,
+          .fetchData(ManagerAddress.accountCreateOrUpdate,
               body: currentAccount.toJson(), method: ApiMethod.POST)
           .then((value) async {
         switch (value.apiStatus) {

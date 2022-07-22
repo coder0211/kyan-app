@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
-import 'package:kyan/screen/tasks_screen/widget/item_task.dart';
+import 'package:kyan/screen/tasks_screen/widgets/item_task.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
@@ -150,9 +150,16 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                 right: Dimens.SCREEN_PADDING),
             child: Row(
               children: [
-                CustomCircleAvatar(
-                  imageUrl: store.accountUrlPhoto,
-                  width: 40,
+                GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: CustomCircleAvatar(
+                    imageUrl: store.accountUrlPhoto,
+                    width: 50,
+                    isShowBordered: true,
+                    borderColor: AppColors.lightPrimary,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(

@@ -5,6 +5,7 @@ import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/screen/profile_screen/profie_screen.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/images.dart';
+import 'package:kyan/theme/shadows.dart';
 import '../../generated/l10n.dart';
 
 class MainScreen extends BaseScreen {
@@ -20,22 +21,18 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
       items: <BaseNavigationBarItem>[
         BaseNavigationBarItem(
           icon: Images.iconTask,
-          iconSelected: Images.iconTaskSelected,
           title: S.current.task,
         ),
         BaseNavigationBarItem(
           icon: Images.iconChat,
-          iconSelected: Images.iconChatSelected,
           title: S.current.chat,
         ),
         BaseNavigationBarItem(
           icon: Images.iconBot,
-          iconSelected: Images.iconBotSelected,
           title: S.current.bot,
         ),
         BaseNavigationBarItem(
-          icon: Images.iconProfile,
-          iconSelected: Images.iconProfileSelected,
+          icon: Images.iconWorkspace,
           title: S.current.profile,
         ),
       ],
@@ -46,6 +43,9 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
         store.setIndexTabBar(value: index);
         store.pageController.jumpToPage(index);
       },
+      radius: 20,
+      isShowText: false,
+      boxShadow: Shadows.shadow3,
     );
   }
 

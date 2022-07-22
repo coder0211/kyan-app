@@ -15,12 +15,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
 
   @override
   void onInit(BuildContext context) {
-    screens = <Widget>[
-      const TasksScreen(),
-      'B'.d1(),
-      'C'.d1(),
-      const ProfileScreen()
-    ];
+    screens = <Widget>[const TasksScreen(), 'B'.d1(), 'C'.d1(), 'D'.d1()];
   }
 
   @override
@@ -34,6 +29,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
   @override
   void resetValue() {
     indexTabBar = 0;
+    pageController.dispose();
   }
 
   @observable
