@@ -2,6 +2,7 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
+import 'package:kyan/screen/profile_screen/profie_screen.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/images.dart';
 import '../../generated/l10n.dart';
@@ -57,6 +58,9 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
     return Scaffold(
       backgroundColor: AppColors.white,
       extendBody: true,
+      drawerEdgeDragWidth: MediaQuery.of(context).size.width,
+      drawer: const ProfileScreen(),
+      drawerScrimColor: AppColors.transparent,
       bottomNavigationBar: Observer(builder: (_) {
         return _bottomNavigationBar();
       }),

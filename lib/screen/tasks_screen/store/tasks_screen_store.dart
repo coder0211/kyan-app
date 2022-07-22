@@ -4,11 +4,13 @@ import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
-part 'profile_screen_store.g.dart';
+part 'tasks_screen_store.g.dart';
 
-class ProfileScreenStore = _ProfileScreenStore with _$ProfileScreenStore;
+class TasksScreenStore = _TasksScreenStore with _$TasksScreenStore;
 
-abstract class _ProfileScreenStore with Store, BaseStoreMixin {
+abstract class _TasksScreenStore with Store, BaseStoreMixin {
+  @observable
+  bool isShowLoading = false;
   late LoginScreenStore _loginScreenStore;
   @observable
   String _accountUrlPhoto = '';
@@ -17,15 +19,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
 
   set accountUrlPhoto(String accountUrlPhoto) {
     _accountUrlPhoto = accountUrlPhoto;
-  }
-
-  @observable
-  String _accountMail = '';
-
-  String get accountMail => _accountMail;
-
-  set accountMail(String accountMail) {
-    _accountMail = accountMail;
   }
 
   @observable
@@ -41,7 +34,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   void onInit(BuildContext context) {
     _loginScreenStore = context.read<LoginScreenStore>();
     accountUrlPhoto = _loginScreenStore.currentAccount.accountUrlPhoto ?? '';
-    accountMail = _loginScreenStore.currentAccount.accountMail ?? '';
     accountDisplayName =
         _loginScreenStore.currentAccount.accountDisplayName ?? '';
   }
@@ -54,10 +46,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
 
   @override
   void resetValue() {}
-
-  Future<void> logout(BuildContext context) async {
-    await _loginScreenStore.handleSignOut(context);
-  }
 }
 
 /// We are using auto code generation to generate code for MobX store.
