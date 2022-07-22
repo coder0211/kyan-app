@@ -7,6 +7,7 @@ import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/widgets/item_task.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
+import 'package:kyan/widgets/custom_circle_avatar.dart';
 
 class TasksScreen extends BaseScreen {
   const TasksScreen({Key? key}) : super(key: key);
