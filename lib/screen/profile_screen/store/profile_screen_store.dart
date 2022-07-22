@@ -1,6 +1,11 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/const/consts.dart';
+import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/main.dart';
+import 'package:kyan/manager/locale_provider.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/theme/colors.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +22,15 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
 
   set accountUrlPhoto(String accountUrlPhoto) {
     _accountUrlPhoto = accountUrlPhoto;
+  }
+
+  @observable
+  String _localeLanguage = 'en';
+
+  String get localeLanguage => _localeLanguage;
+
+  set localeLanguage(String localeLanguage) {
+    _localeLanguage = localeLanguage;
   }
 
   @observable
@@ -55,6 +69,17 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   @override
   void resetValue() {}
 
+  @action
+  Future<void> setLanguages(BuildContext context,
+      {required String language}) async {
+    BaseUtils.showToast(S.current.notiRestartApp, bgColor: AppColors.primary);
+    await Future.delayed(const Duration(milliseconds: TIME_ANIMATION));
+    localeLanguage = language;
+    context.read<LocaleProvider>().setLocale(Locale(language));
+    App.restartApp(context);
+  }
+
+  @action
   Future<void> logout(BuildContext context) async {
     await _loginScreenStore.handleSignOut(context);
   }

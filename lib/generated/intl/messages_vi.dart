@@ -109,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "isPrivate": MessageLookupByLibrary.simpleMessage("Is private"),
         "joinUpper": MessageLookupByLibrary.simpleMessage("JOIN"),
         "joinWorkspace": MessageLookupByLibrary.simpleMessage("Join workspace"),
+        "language": MessageLookupByLibrary.simpleMessage("Language"),
         "leaveChannel":
             MessageLookupByLibrary.simpleMessage("Leave your channel"),
         "leftSuccessfully":
@@ -122,6 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Member workspace"),
         "members": MessageLookupByLibrary.simpleMessage("Members"),
         "nameWorkspace": MessageLookupByLibrary.simpleMessage("Name workspace"),
+        "notiRestartApp": MessageLookupByLibrary.simpleMessage(
+            "Swich language now! Please wait a minute"),
         "people": MessageLookupByLibrary.simpleMessage("People"),
         "productNameKyan":
             MessageLookupByLibrary.simpleMessage("Product name: Kyan\n\n"),

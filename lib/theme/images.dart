@@ -15,14 +15,10 @@ class Images {
   static const String iconLogoApp = '$iconPath/icon_logo_app.png';
   static const String iconLogoAppWhite = '$iconPath/icon_logo_app_white.png';
   static const String iconTask = '$iconPath/icon_task.svg';
-  static const String iconTaskSelected = '$iconPath/icon_task_selected.svg';
   static const String iconChat = '$iconPath/icon_chat.svg';
-  static const String iconChatSelected = '$iconPath/icon_chat_selected.svg';
   static const String iconProfile = '$iconPath/icon_profile.svg';
-  static const String iconProfileSelected =
-      '$iconPath/icon_profile_selected.svg';
   static const String iconBot = '$iconPath/icon_bot.svg';
-  static const String iconBotSelected = '$iconPath/icon_bot_selected.svg';
+  static const String iconWorkspace = '$iconPath/icon_workspace.svg';
   static const String iconGoogle = '$iconPath/icon_google.png';
   static const String iconCheck = '$iconPath/icon_check.png';
   static const String iconChecked = '$iconPath/icon_checked.png';
@@ -38,6 +34,8 @@ class Images {
   static const String iconStatistics = '$iconPath/icon_statistics.png';
   static const String iconAbout = '$iconPath/icon_about.png';
   static const String iconLogout = '$iconPath/icon_logout.png';
+  static const String iconLanguageEn = '$iconPath/icon_language_en.png';
+  static const String iconLanguageVi = '$iconPath/icon_language_vi.png';
 
   //IMAGES
   static const String imageIntro1 = '$imagePath/image_intro_1.png';
