@@ -1,6 +1,7 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/screen/profile_screen/profie_screen.dart';
+import 'package:kyan/screen/tasks_screen/tasks_screen.dart';
 import 'package:mobx/mobx.dart';
 
 part 'main_screen_store.g.dart';
@@ -14,7 +15,12 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
 
   @override
   void onInit(BuildContext context) {
-    screens = <Widget>['A'.d1(), 'B'.d1(), 'C'.d1(), const ProfileScreen()];
+    screens = <Widget>[
+      const TasksScreen(),
+      'B'.d1(),
+      'C'.d1(),
+      const ProfileScreen()
+    ];
   }
 
   @override

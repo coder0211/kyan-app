@@ -48,12 +48,12 @@ class Shadows {
         blurRadius: 8,
         spreadRadius: 3,
         offset: const Offset(0, 4),
-        color: AppColors.primary.withOpacity(0.15)),
+        color: AppColors.primary.withOpacity(0.1)),
     BoxShadow(
         blurRadius: 3,
         spreadRadius: 0,
         offset: const Offset(0, 1),
-        color: AppColors.primary.withOpacity(0.3))
+        color: AppColors.primary.withOpacity(0.2))
   ];
 
   static List<BoxShadow> shadow2 = [
@@ -61,12 +61,12 @@ class Shadows {
         blurRadius: 2,
         spreadRadius: 0,
         offset: const Offset(0, 1),
-        color: AppColors.primary.withOpacity(0.3)),
+        color: AppColors.primary.withOpacity(0.2)),
     BoxShadow(
         blurRadius: 6,
         spreadRadius: 2,
         offset: const Offset(0, 2),
-        color: AppColors.primary.withOpacity(0.15))
+        color: AppColors.primary.withOpacity(0.1))
   ];
 
   static List<BoxShadow> shadow1 = [
@@ -74,11 +74,11 @@ class Shadows {
         blurRadius: 2,
         spreadRadius: 0,
         offset: const Offset(0, 1),
-        color: AppColors.primary.withOpacity(0.3)),
+        color: AppColors.lightPrimary.withOpacity(0.1)),
     BoxShadow(
         blurRadius: 3,
         spreadRadius: 1,
         offset: const Offset(0, 1),
-        color: AppColors.primary.withOpacity(0.15))
+        color: AppColors.lightPrimary.withOpacity(0.15))
   ];
 }
