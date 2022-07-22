@@ -13,10 +13,14 @@ part 'splash_screen_store.g.dart';
 class SplashScreenStore = _SplashScreenStore with _$SplashScreenStore;
 
 abstract class _SplashScreenStore with Store, BaseStoreMixin {
+  //? --      Variables      -->
+
   @observable
   GoogleSignIn googleSignIn = GoogleSignIn();
 
   late LoginScreenStore _loginScreenStore;
+
+  //? --      Funtions      -->
 
   @override
   void onInit(BuildContext context) {

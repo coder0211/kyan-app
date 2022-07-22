@@ -1,6 +1,5 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
-import 'package:kyan/screen/profile_screen/profie_screen.dart';
 import 'package:kyan/screen/tasks_screen/tasks_screen.dart';
 import 'package:mobx/mobx.dart';
 
@@ -9,9 +8,21 @@ part 'main_screen_store.g.dart';
 class MainScreenStore = _MainScreenStore with _$MainScreenStore;
 
 abstract class _MainScreenStore with Store, BaseStoreMixin {
+  //? --      Variables      -->
   final PageController pageController = PageController();
 
   late List<Widget> screens;
+
+  @observable
+  int _indexTabBar = 0;
+
+  int get indexTabBar => _indexTabBar;
+
+  set indexTabBar(int indexTabBar) {
+    _indexTabBar = indexTabBar;
+  }
+
+  //? --      Funtions      -->
 
   @override
   void onInit(BuildContext context) {
@@ -31,9 +42,6 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
     indexTabBar = 0;
     pageController.dispose();
   }
-
-  @observable
-  int indexTabBar = 0;
 
   @action
   void setIndexTabBar({required int value}) {

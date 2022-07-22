@@ -45,6 +45,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                   slivers: [
                     SliverAppBar(
                       automaticallyImplyLeading: false,
+                      centerTitle: false,
                       actions: [Container()],
                       shadowColor: AppColors.transparent,
                       backgroundColor: AppColors.white,
@@ -96,6 +97,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                     }),
                     SliverAppBar(
                       automaticallyImplyLeading: false,
+                      centerTitle: false,
                       actions: [Container()],
                       shadowColor: AppColors.transparent,
                       backgroundColor: AppColors.white,

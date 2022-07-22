@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "445878881342",
+    "project_id": "kyan-app-355903",
+    "storage_bucket": "kyan-app-355903.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445878881342:android:531e95570ae4868c5e556f",
+        "android_client_info": {
+          "package_name": "dev.tdsof.kyan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445878881342-6e14cbukmh25kbmd1ps7aq171tutnhis.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.tdsof.kyan",
+            "certificate_hash": "d5656c16c02530e07dd28996a7be2706bb1804de"
+          }
+        },
+        {
+          "client_id": "445878881342-4hlqdbruk6gt19s6i80pg0q0vftbni7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Qa7iku50gKz2tYOkruoA_ZCf3IAxD4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445878881342-4hlqdbruk6gt19s6i80pg0q0vftbni7b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "445878881342-tkbejpdcngip722inib2rhsslfeav4jj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.tdsof.kyan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
