@@ -6,6 +6,7 @@ import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/l10n/support_locale.dart';
 import 'package:kyan/manager/locale_provider.dart';
 import 'package:kyan/manager/manager_address.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
 import 'package:kyan/theme/colors.dart';
@@ -39,6 +40,7 @@ class _AppState extends State<App> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
+    BaseUtils.onWidgetBuildDone(function, context);
     super.initState();
   }
 
@@ -85,5 +87,17 @@ class _AppState extends State<App> {
     setState(() {
       key = UniqueKey();
     });
+  }
+
+  Future<void> function() async {
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.language)) {
+      context.read<LocaleProvider>().setLocale(Locale(
+          await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.language)));
+    } else {
+      context
+          .read<LocaleProvider>()
+          .setLocale(Locale(await BaseSharedPreferences.getStringValue('en')));
+    }
   }
 }

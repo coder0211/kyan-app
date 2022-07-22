@@ -15,6 +15,7 @@ part 'login_screen_store.g.dart';
 class LoginScreenStore = _LoginScreenStore with _$LoginScreenStore;
 
 abstract class _LoginScreenStore with Store, BaseStoreMixin {
+  //? --      Variables      -->
   @observable
   late GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -35,21 +36,13 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
 
   BaseAPI _baseAPI = BaseAPI();
 
+  //? --      Funtions      -->
+
   @override
   void onInit(BuildContext context) {
-    if (defaultTargetPlatform == TargetPlatform.android) {
+    if (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS) {
       googleSignIn = GoogleSignIn(
-        clientId:
-            '445878881342-6e14cbukmh25kbmd1ps7aq171tutnhis.apps.googleusercontent.com',
-        scopes: <String>[
-          'email',
-          'https://www.googleapis.com/auth/contacts.readonly',
-        ],
-      );
-    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-      googleSignIn = GoogleSignIn(
-        clientId:
-            '445878881342-tkbejpdcngip722inib2rhsslfeav4jj.apps.googleusercontent.com',
         scopes: <String>[
           'email',
           'https://www.googleapis.com/auth/contacts.readonly',
