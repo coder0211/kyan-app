@@ -9,6 +9,7 @@ part 'tasks_screen_store.g.dart';
 class TasksScreenStore = _TasksScreenStore with _$TasksScreenStore;
 
 abstract class _TasksScreenStore with Store, BaseStoreMixin {
+  //? --      Variables      -->
   @observable
   bool isShowLoading = false;
   late LoginScreenStore _loginScreenStore;
@@ -29,6 +30,8 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
   set accountDisplayName(String accountDisplayName) {
     _accountDisplayName = accountDisplayName;
   }
+
+  //? --      Funtions      -->
 
   @override
   void onInit(BuildContext context) {

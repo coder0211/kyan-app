@@ -1029,6 +1029,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swich language now! Please wait a minute`
+  String get notiRestartApp {
+    return Intl.message(
+      'Swich language now! Please wait a minute',
+      name: 'notiRestartApp',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

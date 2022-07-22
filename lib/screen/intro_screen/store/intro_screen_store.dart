@@ -10,6 +10,9 @@ part 'intro_screen_store.g.dart';
 class IntroScreenStore = _IntroScreenStore with _$IntroScreenStore;
 
 abstract class _IntroScreenStore with Store, BaseStoreMixin {
+  //? --      Variables      -->
+
+  //? --      Funtions      -->
   @override
   void onInit(BuildContext context) {}
 

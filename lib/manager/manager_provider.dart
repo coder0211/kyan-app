@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kyan/screen/intro_screen/store/intro_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
-import 'package:kyan/screen/profile_screen/profile_screen_store/profile_screen_store.dart';
+import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:provider/provider.dart';

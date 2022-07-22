@@ -13,6 +13,8 @@ class ManagerAddress {
   //!--        BASE URL       -->
   //?-- ACCOUNT -->
   static const String baseAccount = '/account';
-
-  static const String createUpdateAccount = '$baseAccount/create-or-update';
+  static const String account = '$baseAccount';
+  static const String accountCreateOrUpdate = '$baseAccount/create-or-update';
+  static const String accountLogin = '$baseAccount/login';
+  static const String accountDelete = '$baseAccount/delete';
 }
