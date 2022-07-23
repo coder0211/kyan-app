@@ -9,7 +9,7 @@ class MainScreenStore = _MainScreenStore with _$MainScreenStore;
 
 abstract class _MainScreenStore with Store, BaseStoreMixin {
   //? --      Variables      -->
-  final PageController pageController = PageController();
+  late PageController pageController;
 
   late List<Widget> screens;
 
@@ -26,6 +26,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
 
   @override
   void onInit(BuildContext context) {
+    pageController = PageController();
     screens = <Widget>[const TasksScreen(), 'B'.d1(), 'C'.d1(), 'D'.d1()];
   }
 
@@ -40,7 +41,6 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
   @override
   void resetValue() {
     indexTabBar = 0;
-    pageController.dispose();
   }
 
   @action

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/main.dart';
-import 'package:kyan/manager/locale_provider.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
@@ -54,6 +53,9 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
     _accountDisplayName = accountDisplayName;
   }
 
+  @computed
+  bool get isEn => localeLanguage == 'en';
+
   //? --      Funtions      -->
 
   @override
@@ -78,13 +80,16 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> setLanguages(BuildContext context,
-      {required String language}) async {
-    BaseUtils.showToast(S.current.notiRestartApp, bgColor: AppColors.primary);
-    await Future.delayed(const Duration(milliseconds: TIME_ANIMATION));
-    localeLanguage = language;
-    context.read<LocaleProvider>().setLocale(Locale(language));
-    BaseSharedPreferences.saveStringValue(ManagerKeyStorage.language, language);
-    App.restartApp(context);
+      {required String languageCode}) async {
+    if (localeLanguage != languageCode) {
+      localeLanguage = languageCode;
+      App.setLocale(context, Locale(languageCode));
+      BaseUtils.showToast(S.current.notiRestartApp, bgColor: AppColors.primary);
+      await Future.delayed(const Duration(milliseconds: TIME_ANIMATION));
+      BaseSharedPreferences.saveStringValue(
+          ManagerKeyStorage.language, languageCode);
+      App.restartApp(context);
+    }
   }
 
   @action
@@ -96,11 +101,8 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.language)) {
       localeLanguage = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.language);
-      context.read<LocaleProvider>().setLocale(Locale(localeLanguage));
     } else {
       localeLanguage = 'en';
-      context.read<LocaleProvider>().setLocale(
-          Locale(await BaseSharedPreferences.getStringValue(localeLanguage)));
     }
   }
 }

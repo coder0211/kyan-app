@@ -145,12 +145,12 @@ class _ProfileScreenState
             Observer(
               builder: (_) => SwipeLanguages(
                 onTapVi: () async {
-                  await store.setLanguages(context, language: 'vi');
+                  await store.setLanguages(context, languageCode: 'vi');
                 },
                 onTapEn: () async {
-                  await store.setLanguages(context, language: 'en');
+                  await store.setLanguages(context, languageCode: 'en');
                 },
-                isEn: store.localeLanguage == 'en',
+                isEn: store.isEn,
               ),
             )
           ],
