@@ -17,6 +17,7 @@ class ManagerRoutes {
   static String loginScreen = '/login-screen';
   static String mainScreen = '/main-screen';
   static String introScreen = '/intro-screen';
+  static String taskScreen = '/task-screen';
 
   /// ## Manager contain all action routes of the app
   /// * [splashScreen] is the splash screen of the app and it is the first screen of the app
@@ -24,6 +25,6 @@ class ManagerRoutes {
     splashScreen: (context) => const SplashScreen(),
     loginScreen: (context) => const LoginScreen(),
     mainScreen: (context) => const MainScreen(),
-    introScreen: (context) => IntroScreen()
+    introScreen: (context) => IntroScreen(),
   };
 }
