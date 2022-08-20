@@ -74,11 +74,11 @@ class Shadows {
         blurRadius: 2,
         spreadRadius: 0,
         offset: const Offset(0, 1),
-        color: AppColors.lightPrimary.withOpacity(0.1)),
+        color: AppColors.lightPrimary.withOpacity(0.03)),
     BoxShadow(
-        blurRadius: 3,
+        blurRadius: 5,
         spreadRadius: 1,
         offset: const Offset(0, 1),
-        color: AppColors.lightPrimary.withOpacity(0.15))
+        color: AppColors.lightPrimary.withOpacity(0.05))
   ];
 }

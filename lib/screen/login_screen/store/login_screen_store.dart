@@ -43,11 +43,11 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
     if (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS) {
       googleSignIn = GoogleSignIn(
-        scopes: <String>[
-          'email',
-          'https://www.googleapis.com/auth/contacts.readonly',
-        ],
-      );
+          // scopes: <String>[
+          //   'email',
+          //   'https://www.googleapis.com/auth/contacts.readonly',
+          // ],
+          );
     } else {
       googleSignIn = GoogleSignIn(
         clientId:
