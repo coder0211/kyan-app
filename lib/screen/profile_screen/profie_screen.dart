@@ -6,6 +6,7 @@ import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
+import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:kyan/screen/profile_screen/widgets/swipe_languages.dart';
 import 'package:kyan/theme/colors.dart';
@@ -238,12 +239,13 @@ class _ProfileScreenState
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 3,
-        itemBuilder: (context, index) =>
-            _buildItemWorkspace(isSelected: index == 0));
+        itemCount: store.workspaces.length,
+        itemBuilder: (context, index) => _buildItemWorkspace(
+            item: store.workspaces[index], isSelected: index == 0));
   }
 
-  Widget _buildItemWorkspace({required bool isSelected}) {
+  Widget _buildItemWorkspace(
+      {required Workspace item, required bool isSelected}) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: TIME_ANIMATION),
       margin: const EdgeInsets.symmetric(vertical: 2),
@@ -256,10 +258,10 @@ class _ProfileScreenState
         children: [
           _buildWorkspacePhoto(
             isSelected: isSelected,
-            imageUrl: DEFAULT_PHOTO_WORKSPACE,
+            imageUrl: item.workspaceUrlPhoto ?? DEFAULT_PHOTO_WORKSPACE,
           ),
           const SizedBox(width: 5),
-          Expanded(child: 'TDsof'.b2R())
+          Expanded(child: (item.workspaceName ?? '').b2R())
         ],
       ),
     );
