@@ -23,10 +23,4 @@ class Utils {
   static Locale _locale(String languageCode) {
     return languageCode.isNotEmpty ? Locale(languageCode) : const Locale('en');
   }
-
-  static void changeLanguage(
-      BuildContext context, String selectedLanguageCode) async {
-    var _locale = await setLocale(selectedLanguageCode);
-    // App.setLocale(context, _locale);
-  }
 }

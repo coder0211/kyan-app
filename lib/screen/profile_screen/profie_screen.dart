@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
+import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:kyan/screen/profile_screen/widgets/swipe_languages.dart';
 import 'package:kyan/theme/colors.dart';
@@ -37,17 +40,31 @@ class _ProfileScreenState
         boxShadow: Shadows.shadow5,
         color: AppColors.white,
         borderRadius: const BorderRadius.horizontal(right: Radius.circular(20)),
+        borderRadius: const BorderRadius.horizontal(right: Radius.circular(26)),
       ),
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.horizontal(right: Radius.circular(26)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildInfo(),
-            Padding(
-              padding: const EdgeInsets.all(Dimens.SCREEN_PADDING),
-              child: Column(
-                children: [_buildRowData(), _buildActions()],
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimens.SCREEN_PADDING),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: S.current.workspace.b2()),
+                      _buildDivider(),
+                      _buildListWorkspace(),
+                      _buildActions()
+                    ],
+                  ),
+                ),
               ),
             )
           ],
@@ -91,7 +108,7 @@ class _ProfileScreenState
         children: [
           Image.asset(
             iconData,
-            height: 26,
+            height: 16,
           ),
           const SizedBox(width: 10),
           title.b2R(color: colorText)
@@ -103,13 +120,12 @@ class _ProfileScreenState
   Widget _buildInfo() {
     return Container(
       width: 0.8.w(context),
-      decoration: BoxDecoration(
-          boxShadow: Shadows.shadow4,
+      decoration: const BoxDecoration(
           color: AppColors.primary,
-          borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(20),
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20))),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(26),
+              bottomLeft: Radius.circular(26),
+              bottomRight: Radius.circular(26))),
       child: SafeArea(
         child: Column(
           children: [
@@ -134,66 +150,59 @@ class _ProfileScreenState
   }
 
   Widget _buildActions() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Observer(
-                builder: (_) =>
-                    (S.current.language + ' : ${store.localeLanguage}').b2R()),
-            Observer(
-              builder: (_) => SwipeLanguages(
-                onTapVi: () async {
-                  await store.setLanguages(context, languageCode: 'vi');
-                },
-                onTapEn: () async {
-                  await store.setLanguages(context, languageCode: 'en');
-                },
-                isEn: store.isEn,
-              ),
-            )
-          ],
-        ),
-        _buildDivider(),
-        GestureDetector(
-          onTap: () {
-            launch(Uri(scheme: 'mailto', path: 'team@tdof.dev').toString());
-          },
-          child: _buildRowIconText(
-              title: S.current.feedBack, iconData: Images.iconFeedback),
-        ),
-        _buildDivider(),
-        GestureDetector(
-          onTap: () {
-            BaseNavigation.push(context, routeName: ManagerRoutes.splashScreen);
-          },
-          child: _buildRowIconText(
-              title: S.current.statistical, iconData: Images.iconStatistics),
-        ),
-        _buildDivider(),
-        GestureDetector(
+    return SafeArea(
+      top: false,
+      left: false,
+      right: false,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildDivider(),
+          Align(
+              alignment: Alignment.centerLeft, child: S.current.settings.b2()),
+          _buildDivider(),
+          GestureDetector(
             onTap: () {
-              showDialogAboutUs(context,
-                  mail: ManagerRoutes.splashScreen); // statical screen
+              launch(Uri(scheme: MAIL_TO, path: MAIL_US).toString());
             },
             child: _buildRowIconText(
-                title: S.current.aboutUs, iconData: Images.iconAbout)),
-        _buildDivider(),
-        GestureDetector(
-            onTap: () async {
-              showDialogConfirm(context,
-                  icon: Icons.logout,
-                  title: S.current.confirmLogout, onConfirm: () async {
-                await ManagerProvider.dispose(context);
-                await store.logout(context);
-              });
+                title: S.current.feedBack, iconData: Images.iconFeedback),
+          ),
+          _buildDivider(),
+          GestureDetector(
+            onTap: () {
+              BaseNavigation.push(context,
+                  routeName: ManagerRoutes.splashScreen);
             },
             child: _buildRowIconText(
-                title: S.current.logout,
-                iconData: Images.iconLogout,
-                colorText: AppColors.redPink)),
-      ],
+                title: S.current.statistical, iconData: Images.iconStatistics),
+          ),
+          _buildDivider(),
+          GestureDetector(
+              onTap: () {
+                showDialogAboutUs(context,
+                    mail: ManagerRoutes.splashScreen); // statical screen
+              },
+              child: _buildRowIconText(
+                  title: S.current.aboutUs, iconData: Images.iconAbout)),
+          _buildDivider(),
+          _buildActionChangeLanguages(),
+          _buildDivider(),
+          GestureDetector(
+              onTap: () async {
+                showDialogConfirm(context,
+                    icon: Icons.logout,
+                    title: S.current.confirmLogout, onConfirm: () async {
+                  await ManagerProvider.dispose(context);
+                  await store.logout(context);
+                });
+              },
+              child: _buildRowIconText(
+                  title: S.current.logout,
+                  iconData: Images.iconLogout,
+                  colorText: AppColors.redPink)),
+        ],
+      ),
     );
   }
 
@@ -201,5 +210,106 @@ class _ProfileScreenState
     return const Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: const Divider(color: AppColors.gray));
+  }
+
+  Widget _buildActionChangeLanguages() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Observer(
+            builder: (_) => _buildRowIconText(
+                title: (S.current.language + ' : ${store.localeLanguage}'),
+                iconData: Images.iconLanguage)),
+        Observer(
+          builder: (_) => SwipeLanguages(
+            onTapVi: () async {
+              await store.setLanguages(context, languageCode: 'vi');
+            },
+            onTapEn: () async {
+              await store.setLanguages(context, languageCode: 'en');
+            },
+            isEn: store.isEn,
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildListWorkspace() {
+    return ListView.builder(
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: store.workspaces.length,
+        itemBuilder: (context, index) => _buildItemWorkspace(
+            item: store.workspaces[index], isSelected: index == 0));
+  }
+
+  Widget _buildItemWorkspace(
+      {required Workspace item, required bool isSelected}) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: TIME_ANIMATION),
+      margin: const EdgeInsets.symmetric(vertical: 2),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        boxShadow: isSelected ? Shadows.shadow1 : null,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          _buildWorkspacePhoto(
+            isSelected: isSelected,
+            imageUrl: item.workspaceUrlPhoto ?? DEFAULT_PHOTO_WORKSPACE,
+          ),
+          const SizedBox(width: 5),
+          Expanded(child: (item.workspaceName ?? '').b2R())
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWorkspacePhoto({
+    String? imageUrl,
+    double? width,
+    bool isSelected = true,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+            color: isSelected ? AppColors.primary : AppColors.transparent,
+            width: 2),
+      ),
+      child: (imageUrl != null)
+          ? CachedNetworkImage(
+              width: width ?? 52,
+              height: width ?? 52,
+              imageUrl: imageUrl,
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: isSelected ? AppColors.gray : AppColors.gray,
+                        width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover)),
+              ),
+              placeholder: (context, url) => const BaseIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            )
+          : Container(
+              width: width ?? 52,
+              height: width ?? 52,
+              decoration: BoxDecoration(
+                color: AppColors.redPink,
+                border: Border.all(
+                    color: isSelected ? AppColors.transparent : AppColors.gray,
+                    width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(child: 'W'.b1(color: AppColors.white)),
+            ),
+    );
   }
 }

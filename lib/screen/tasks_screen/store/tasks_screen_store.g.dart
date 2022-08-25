@@ -9,19 +9,35 @@ part of 'tasks_screen_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TasksScreenStore on _TasksScreenStore, Store {
-  late final _$isShowLoadingAtom =
-      Atom(name: '_TasksScreenStore.isShowLoading', context: context);
+  late final _$_localeKeyAtom =
+      Atom(name: '_TasksScreenStore._localeKey', context: context);
 
   @override
-  bool get isShowLoading {
-    _$isShowLoadingAtom.reportRead();
-    return super.isShowLoading;
+  String get _localeKey {
+    _$_localeKeyAtom.reportRead();
+    return super._localeKey;
   }
 
   @override
-  set isShowLoading(bool value) {
-    _$isShowLoadingAtom.reportWrite(value, super.isShowLoading, () {
-      super.isShowLoading = value;
+  set _localeKey(String value) {
+    _$_localeKeyAtom.reportWrite(value, super._localeKey, () {
+      super._localeKey = value;
+    });
+  }
+
+  late final _$_isShowLoadingAtom =
+      Atom(name: '_TasksScreenStore._isShowLoading', context: context);
+
+  @override
+  bool get _isShowLoading {
+    _$_isShowLoadingAtom.reportRead();
+    return super._isShowLoading;
+  }
+
+  @override
+  set _isShowLoading(bool value) {
+    _$_isShowLoadingAtom.reportWrite(value, super._isShowLoading, () {
+      super._isShowLoading = value;
     });
   }
 
@@ -60,7 +76,7 @@ mixin _$TasksScreenStore on _TasksScreenStore, Store {
   @override
   String toString() {
     return '''
-isShowLoading: ${isShowLoading}
+
     ''';
   }
 }

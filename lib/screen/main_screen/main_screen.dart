@@ -43,7 +43,7 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
         store.setIndexTabBar(value: index);
         store.pageController.jumpToPage(index);
       },
-      radius: 20,
+      radius: 26,
       isShowText: false,
       boxShadow: Shadows.shadow3,
     );
