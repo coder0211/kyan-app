@@ -39,7 +39,6 @@ class _ProfileScreenState
       decoration: BoxDecoration(
         boxShadow: Shadows.shadow5,
         color: AppColors.white,
-        borderRadius: const BorderRadius.horizontal(right: Radius.circular(20)),
         borderRadius: const BorderRadius.horizontal(right: Radius.circular(26)),
       ),
       child: ClipRRect(
