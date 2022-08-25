@@ -55,9 +55,21 @@ class _ProfileScreenState
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: S.current.workspace.b2()),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          S.current.workspace.b2(),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.add,
+                                size: 27,
+                              ),
+                              const Icon(Icons.search),
+                            ],
+                          ),
+                        ],
+                      ),
                       _buildDivider(),
                       _buildListWorkspace(),
                       _buildActions()
