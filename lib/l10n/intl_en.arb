@@ -47,7 +47,7 @@
     "createNormal": "Create",
     "remove": "Remove",
     "timePicker": "Time Picker",
-    "workspace": "Workspace",
+    "workspace": "Workspaces",
     "room": "Room",
     "deleteBot": "Delete bot",
     "today": "Today",
@@ -98,5 +98,6 @@
     "textSpanLine2": "In terms of solution, Kyan is going to help guide people to have discipline and secure plan so as to achieve their goals on time. Plus, by using this app, everyone will get easily close-knit with each other in the current digital era.",
     "skip": "Skip",
     "language": "Language",
-    "notiRestartApp": "Swich language now! Please wait a minute"
+    "notiRestartApp": "Swich language now! Please wait a minute",
+    "settings": "Settings"
 }

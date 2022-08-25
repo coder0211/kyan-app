@@ -193,7 +193,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
               selectableDayPredicate: (date) {
                 return true;
               },
-              locale: 'en_US',
+              locale: store.localeKey,
             );
           })
         ],

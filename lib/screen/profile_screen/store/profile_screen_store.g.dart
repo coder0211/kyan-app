@@ -80,6 +80,22 @@ mixin _$ProfileScreenStore on _ProfileScreenStore, Store {
     });
   }
 
+  late final _$_workspacesAtom =
+      Atom(name: '_ProfileScreenStore._workspaces', context: context);
+
+  @override
+  ObservableList<Workspace> get _workspaces {
+    _$_workspacesAtom.reportRead();
+    return super._workspaces;
+  }
+
+  @override
+  set _workspaces(ObservableList<Workspace> value) {
+    _$_workspacesAtom.reportWrite(value, super._workspaces, () {
+      super._workspaces = value;
+    });
+  }
+
   late final _$setLanguagesAsyncAction =
       AsyncAction('_ProfileScreenStore.setLanguages', context: context);
 

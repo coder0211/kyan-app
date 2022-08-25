@@ -1,5 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
@@ -44,8 +45,7 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
                   const SizedBox(height: 20),
                   GestureDetector(
                       onTap: () {
-                        launch(Uri(scheme: 'mailto', path: 'team@tdsof.dev')
-                            .toString());
+                        launch(Uri(scheme: MAIL_TO, path: MAIL_US).toString());
                       },
                       child: S.current.contactUsTeamtdosf
                           .t1M(color: AppColors.black))
