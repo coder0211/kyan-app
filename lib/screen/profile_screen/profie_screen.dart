@@ -8,7 +8,6 @@ import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
-import 'package:kyan/screen/profile_screen/widgets/mdbts_search_code_join.dart';
 import 'package:kyan/screen/profile_screen/widgets/swipe_languages.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
@@ -19,6 +18,8 @@ import 'package:kyan/widgets/custom_dialog_about_us.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
+
+import '../../widgets/custom_dialog_custom_option.dart';
 
 class ProfileScreen extends BaseScreen {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -65,9 +66,10 @@ class _ProfileScreenState
                           Row(
                             children: [
                               GestureDetector(
-                                onTap: () {
-                                  BaseNavigation.pop(context);
-                                  mdbtsSearchCodeJoin(context);
+                                onTap: () => {
+                                  // BaseNavigation.pop(context);
+                                  //print("i was tapped");
+                                  showDialogCustomOption(context)
                                 },
                                 child: const Icon(
                                   Icons.add,
@@ -87,16 +89,17 @@ class _ProfileScreenState
                                   size: 22,
                                 ),
                                 color: Colors.white,
-                                //autoFocus: false,
+                                autoFocus: false,
                                 closeSearchOnSuffixTap: true,
                                 animationDurationInMilli: 2000,
                                 rtl: true,
+                                helpText: "",
                               )
                             ],
                           ),
                         ],
                       ),
-                      _buildDivider(),
+                      //_buildDivider(),
                       _buildListWorkspace(),
                       _buildActions()
                     ],
