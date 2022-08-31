@@ -31,6 +31,7 @@ class ProfileScreen extends BaseScreen {
 class _ProfileScreenState
     extends BaseScreenState<ProfileScreen, ProfileScreenStore> {
   late TextEditingController textController = TextEditingController();
+
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
@@ -69,7 +70,8 @@ class _ProfileScreenState
                                 onTap: () => {
                                   // BaseNavigation.pop(context);
                                   //print("i was tapped");
-                                  showDialogCustomOption(context)
+                                  showDialogCustomTwoOption(context,
+                                      option1: 'Join', option2: 'Create')
                                 },
                                 child: const Icon(
                                   Icons.add,
