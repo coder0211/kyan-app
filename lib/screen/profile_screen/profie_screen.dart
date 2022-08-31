@@ -8,6 +8,7 @@ import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
+import 'package:kyan/screen/profile_screen/widgets/mdbts_search_code_join.dart';
 import 'package:kyan/screen/profile_screen/widgets/swipe_languages.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
@@ -17,6 +18,7 @@ import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_about_us.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:anim_search_bar/anim_search_bar.dart';
 
 class ProfileScreen extends BaseScreen {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -27,6 +29,7 @@ class ProfileScreen extends BaseScreen {
 
 class _ProfileScreenState
     extends BaseScreenState<ProfileScreen, ProfileScreenStore> {
+  late TextEditingController textController = TextEditingController();
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
@@ -61,11 +64,34 @@ class _ProfileScreenState
                           S.current.workspace.b2(),
                           Row(
                             children: [
-                              const Icon(
-                                Icons.add,
-                                size: 27,
+                              GestureDetector(
+                                onTap: () {
+                                  BaseNavigation.pop(context);
+                                  mdbtsSearchCodeJoin(context);
+                                },
+                                child: const Icon(
+                                  Icons.add,
+                                  size: 27,
+                                ),
                               ),
-                              const Icon(Icons.search),
+                              AnimSearchBar(
+                                width: 140,
+                                textController: textController,
+                                onSuffixTap: () {
+                                  setState(() {
+                                    textController.clear();
+                                  });
+                                },
+                                suffixIcon: const Icon(
+                                  Icons.search,
+                                  size: 22,
+                                ),
+                                color: Colors.white,
+                                //autoFocus: false,
+                                closeSearchOnSuffixTap: true,
+                                animationDurationInMilli: 2000,
+                                rtl: true,
+                              )
                             ],
                           ),
                         ],

@@ -64,6 +64,9 @@ dependencies:
   #MY PACKGAE
   coder0211: ^0.0.72
 
+  #ANIMATED SEARCH BOX
+  anim_search_bar: ^2.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
