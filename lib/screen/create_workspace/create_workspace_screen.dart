@@ -2,6 +2,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/screen/create_workspace/store/create_workspace_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 
@@ -17,17 +18,22 @@ Future<void> mdbtsCreateWorkspaceScreen(BuildContext context) async {
       builder: (context) => const CreateWorkspaceScreen());
 }
 
-class CreateWorkspaceScreen extends StatefulWidget {
+class CreateWorkspaceScreen extends BaseScreen {
   const CreateWorkspaceScreen({Key? key}) : super(key: key);
 
   @override
   State<CreateWorkspaceScreen> createState() => _CreateWorkspaceScreenState();
 }
 
-class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
+class _CreateWorkspaceScreenState
+    extends BaseScreenState<CreateWorkspaceScreen, CreateWorkspaceScreenStore> {
   late TextEditingController _nameController;
 
   @override
+  Widget buildSmallScreen(BuildContext context) {
+    return build(context);
+  }
+
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -43,7 +49,7 @@ class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
           const SizedBox(
             height: 10,
           ),
-          const BaseText('Tên phòng làm việc'),
+          const BaseText('Tên'),
           const SizedBox(height: 10),
           CustomTextFormField(
             hintText: S.current.createWorkspace,

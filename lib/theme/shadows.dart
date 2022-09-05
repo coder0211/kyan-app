@@ -81,4 +81,10 @@ class Shadows {
         offset: const Offset(0, 1),
         color: AppColors.lightPrimary.withOpacity(0.05))
   ];
+  static List<BoxShadow> itemTask = [
+    BoxShadow(
+        blurRadius: 4,
+        offset: const Offset(0, 4),
+        color: AppColors.primary.withOpacity(0.1))
+  ];
 }

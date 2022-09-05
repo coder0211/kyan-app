@@ -32,6 +32,6 @@ class ManagerRoutes {
     introScreen: (context) => IntroScreen(),
     searchCodeJoinScreen: (context) => const SearchCodeJoinScreen(),
     createWorkspaceScreen: (context) => const CreateWorkspaceScreen(),
-    //staticScreen: (context) => const staticScreen(),
+    staticScreen: (context) => const StatisticScreen(),
   };
 }

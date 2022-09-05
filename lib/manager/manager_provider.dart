@@ -31,10 +31,9 @@ class ManagerProvider {
     Provider<TasksScreenStore>(create: (_) => TasksScreenStore()),
     Provider<SearchCodeJoinScreenStore>(
         create: (_) => SearchCodeJoinScreenStore()),
-
     Provider<CreateWorkspaceScreenStore>(
         create: (_) => CreateWorkspaceScreenStore()),
-    //Provider<StatisticScreen>(create: (_) => StatisticScreenStore()),
+    Provider<StatisticScreenStore>(create: (_) => StatisticScreenStore()),
   ];
 
   /// ## Dispose
@@ -53,6 +52,7 @@ class ManagerProvider {
     context.read<ProfileScreenStore>().resetValue();
     context.read<TasksScreenStore>().resetValue();
     context.read<SearchCodeJoinScreenStore>().resetValue();
-    //context.read<StatisticScreenStore>().resetValue();
+    context.read<CreateWorkspaceScreenStore>().resetValue();
+    context.read<StatisticScreenStore>().resetValue();
   }
 }

@@ -218,7 +218,7 @@ class _ProfileScreenState
           GestureDetector(
             onTap: () {
               BaseNavigation.push(context,
-                  routeName: ManagerRoutes.splashScreen);
+                  routeName: ManagerRoutes.staticScreen);
             },
             child: _buildRowIconText(
                 title: S.current.statistical, iconData: Images.iconStatistics),
