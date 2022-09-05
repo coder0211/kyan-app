@@ -1,11 +1,11 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-Future<void> mdbtsSearchCodeJoin(BuildContext context) async {
+Future<void> mdbtsCreateWorkspaceScreen(BuildContext context) async {
   showModalBottomSheet(
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
@@ -14,18 +14,18 @@ Future<void> mdbtsSearchCodeJoin(BuildContext context) async {
       ),
       context: context,
       isScrollControlled: true,
-      builder: (context) => const SearchCodeJoin());
+      builder: (context) => const CreateWorkspaceScreen());
 }
 
-class SearchCodeJoin extends StatefulWidget {
-  const SearchCodeJoin({Key? key}) : super(key: key);
+class CreateWorkspaceScreen extends StatefulWidget {
+  const CreateWorkspaceScreen({Key? key}) : super(key: key);
 
   @override
-  State<SearchCodeJoin> createState() => _SearchCodeJoinState();
+  State<CreateWorkspaceScreen> createState() => _CreateWorkspaceScreenState();
 }
 
-class _SearchCodeJoinState extends State<SearchCodeJoin> {
-  late TextEditingController _codeController;
+class _CreateWorkspaceScreenState extends State<CreateWorkspaceScreen> {
+  late TextEditingController _nameController;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _SearchCodeJoinState extends State<SearchCodeJoin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          BaseText(S.current.joinWorkspace,
+          BaseText(S.current.createWorkspace,
               style: GoogleFonts.notoSans(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -43,10 +43,10 @@ class _SearchCodeJoinState extends State<SearchCodeJoin> {
           const SizedBox(
             height: 10,
           ),
-          BaseText(S.current.code),
+          const BaseText('Tên phòng làm việc'),
           const SizedBox(height: 10),
           CustomTextFormField(
-            hintText: S.current.code,
+            hintText: S.current.createWorkspace,
             hintStyle: GoogleFonts.notoSans(
                 fontWeight: FontWeight.w300,
                 fontSize: 12,
@@ -67,7 +67,7 @@ class _SearchCodeJoinState extends State<SearchCodeJoin> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseText(S.current.joinUpper,
+                  BaseText(S.current.createWorkspace,
                       style: GoogleFonts.notoSans(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
