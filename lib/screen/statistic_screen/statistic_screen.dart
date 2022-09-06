@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/statistic_screen/store/statistic_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/widgets/item_task.dart';
 import 'package:kyan/theme/colors.dart';
@@ -26,12 +25,9 @@ class _StatisticScreenState
     extends BaseScreenState<StatisticScreen, StatisticScreenStore> {
   @override
   Widget buildSmallScreen(BuildContext context) {
-    return build(context);
     return _build(context);
   }
 
-  Widget build(BuildContext context) {
-    GlobalKey _key = GlobalKey();
   Widget _build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.white,
