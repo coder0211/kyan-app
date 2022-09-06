@@ -27,6 +27,7 @@ class _StatisticScreenState
   @override
   Widget buildSmallScreen(BuildContext context) {
     return build(context);
+    return _build(context);
   }
 
   Widget build(BuildContext context) {
