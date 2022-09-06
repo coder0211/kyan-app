@@ -23,11 +23,7 @@ class StatisticScreen extends BaseScreen {
 }
 
 class _StatisticScreenState
-    extends BaseScreenState<StatisticScreen, StatisticScreenStore>
-    with SingleTickerProviderStateMixin {
-  late Animation<double> _animation;
-  late AnimationController _animationController;
-
+    extends BaseScreenState<StatisticScreen, StatisticScreenStore> {
   @override
   Widget buildSmallScreen(BuildContext context) {
     return build(context);
@@ -35,7 +31,7 @@ class _StatisticScreenState
 
   Widget build(BuildContext context) {
     GlobalKey _key = GlobalKey();
-    super.build(context);
+  Widget _build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.white,
         appBar: customAppBarBack(context, title: S.current.statistic),
@@ -205,7 +201,4 @@ class _StatisticScreenState
   }
 
   // _getData() {
-  //   _statisticScreenStore.getData(
-  //       mailAccount: _loginScreenStore.currentAccount.mail ?? '');
-  // }
 }
