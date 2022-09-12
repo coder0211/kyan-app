@@ -43,7 +43,7 @@ class _CreateTaskScreenState
               },
               child: Observer(
                 builder: (_) => BaseViewLoading(
-                  isLoading: true,
+                  isLoading: false,
                   child: SafeArea(
                     top: false,
                     child: Padding(
@@ -172,14 +172,14 @@ class _CreateTaskScreenState
                                           showDialogConfirm(context,
                                               onConfirm: () async {
                                             BaseNavigation.pop(context);
-                                            store.isShowLoading = true;
+                                            store.isShowLoading = false;
                                             // _createTaskScreenStore.deleteTask(
                                             //     id: agrs!.id ?? 0);
                                             // await _taskScreenStore.getData(
                                             //     mailAccount: _loginScreenStore
                                             //             .currentAccount.mail ??
                                             //         '');
-                                            store.isShowLoading = false;
+                                            //store.isShowLoading = false;
                                             //_regetDateTeamTask();
                                             BaseNavigation.pop(context);
                                           },
@@ -235,42 +235,41 @@ class _CreateTaskScreenState
                                       children: [
                                         BaseText(S.current.assignTo),
                                         const SizedBox(height: 10),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10),
-                                          child: Observer(builder: (_) {
-                                            return DropdownButton(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10)),
-                                              underline: const SizedBox(),
-                                              value: store.selectedAccount,
-                                              icon: const Icon(
-                                                  Icons.keyboard_arrow_down),
-                                              items: store.workspace.listMember
-                                                  ?.map((Account items) {
-                                                return DropdownMenuItem(
-                                                  value: items,
-                                                  child: Row(
-                                                    children: [
-                                                      const CustomCircleAvatar(
-                                                        //imageUrl: 'urlPhoto',
-                                                        width: 40,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      const BaseText('')
-                                                    ],
-                                                  ),
-                                                );
-                                              }).toList(),
-                                              onChanged: (Account? account) {
-                                                // store.selectedAccount =
-                                                //     account ?? Account();
-                                              },
-                                            );
-                                          }),
+                                        const Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          // child: Observer(builder: (_) {
+                                          //   return DropdownButton(
+                                          //     borderRadius:
+                                          //         const BorderRadius.all(
+                                          //             Radius.circular(10)),
+                                          //     underline: const SizedBox(),
+                                          //     value: store.selectedAccount,
+                                          //     icon: const Icon(
+                                          //         Icons.keyboard_arrow_down),
+                                          //     items: store.workspace.listMember
+                                          //         ?.map((Account items) {
+                                          //       return DropdownMenuItem(
+                                          //         value: items,
+                                          //         child: Row(
+                                          //           children: [
+                                          //             const CustomCircleAvatar(
+                                          //               //imageUrl: 'urlPhoto',
+                                          //               width: 40,
+                                          //             ),
+                                          //             const SizedBox(
+                                          //               width: 5,
+                                          //             ),
+                                          //             const BaseText('')
+                                          //           ],
+                                          //         ),
+                                          //       );
+                                          //     }).toList(),
+                                          //     onChanged: (Account? account) {
+                                          //       // store.selectedAccount =
+                                          //       //     account ?? Account();
+                                          //     },
+                                          //   );
+                                          // }),
                                         ),
                                       ],
                                     );
