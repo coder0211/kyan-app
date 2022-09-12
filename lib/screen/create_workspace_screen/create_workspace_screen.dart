@@ -2,7 +2,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/screen/create_workspace/store/create_workspace_screen_store.dart';
+import 'package:kyan/screen/create_workspace_screen/store/create_workspace_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 
@@ -31,10 +31,10 @@ class _CreateWorkspaceScreenState
 
   @override
   Widget buildSmallScreen(BuildContext context) {
-    return build(context);
+    return _build(context);
   }
 
-  Widget build(BuildContext context) {
+  Widget _build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(

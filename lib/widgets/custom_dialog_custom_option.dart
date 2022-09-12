@@ -12,6 +12,7 @@ void showDialogCustomTwoOption(BuildContext context,
         return SimpleDialog(
           title: 'Select your option'.t1M(),
           children: <Widget>[
+            const Divider(),
             SimpleDialogOption(
               onPressed: () {
                 BaseNavigation.pop(context);

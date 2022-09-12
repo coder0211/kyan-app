@@ -20,8 +20,12 @@ class ManagerRoutes {
   static String taskScreen = '/task-screen';
   static String createWorkspaceScreen = '/createWorkspace-screen';
   static String searchCodeJoinScreen = '/searchCodeJoin-screen';
-
   static String staticScreen = '/static-screen';
+  static String botScreen = '/bot-screen';
+  static String pomodoroBotScreen = '/bot-screen';
+  static String workspacesScreen = '/worksapces-screen';
+  static String memberWorkspaceScreen = '/member-worksapce-screen';
+  static String createTaskScreen = '/member-task-screen';
 
   /// ## Manager contain all action routes of the app
   /// * [splashScreen] is the splash screen of the app and it is the first screen of the app
@@ -31,7 +35,13 @@ class ManagerRoutes {
     mainScreen: (context) => const MainScreen(),
     introScreen: (context) => IntroScreen(),
     searchCodeJoinScreen: (context) => const SearchCodeJoinScreen(),
-    createWorkspaceScreen: (context) => const CreateWorkspaceScreen(),
     staticScreen: (context) => const StatisticScreen(),
+    botScreen: (context) => const BotScreen(),
+    pomodoroBotScreen: (context) => const PomodoroBotScreen(),
+    workspacesScreen: (context) => const WorkspaceScreen(),
+    createWorkspaceScreen: (context) => const CreateWorkspaceScreen(),
+    memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),
+    memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),
+    createTaskScreen: (context) => const CreateTaskScreen(),
   };
 }
