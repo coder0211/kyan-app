@@ -26,6 +26,8 @@ class ManagerRoutes {
   static String workspacesScreen = '/worksapces-screen';
   static String memberWorkspaceScreen = '/member-worksapce-screen';
   static String createTaskScreen = '/member-task-screen';
+  static String teamTasksScreen = '/team-tasks-screen';
+  static String infoChannelScreen = '/info-channel-screen';
 
   /// ## Manager contain all action routes of the app
   /// * [splashScreen] is the splash screen of the app and it is the first screen of the app
@@ -43,5 +45,7 @@ class ManagerRoutes {
     memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),
     memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),
     createTaskScreen: (context) => const CreateTaskScreen(),
+    teamTasksScreen: (context) => const TeamTasksScreen(),
+    infoChannelScreen: (context) => const InfoChannelScreen(),
   };
 }

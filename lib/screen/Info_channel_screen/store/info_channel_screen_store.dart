@@ -1,12 +1,12 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-part 'create_workspace_screen_store.g.dart';
+part 'info_channel_screen_store.g.dart';
 
-class CreateWorkspaceScreenStore = _CreateWorkspaceScreenStore
-    with _$CreateWorkspaceScreenStore;
+class InfoChannelScreenStore = _InfoChannelScreenStore
+    with _$InfoChannelScreenStore;
 
-abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
+abstract class _InfoChannelScreenStore with Store, BaseStoreMixin {
   @override
   void onInit(BuildContext context) {}
 

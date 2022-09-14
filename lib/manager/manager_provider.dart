@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kyan/screen/Info_channel_screen/info_channel_screen.dart';
+import 'package:kyan/screen/Info_channel_screen/store/info_channel_screen_store.dart';
 import 'package:kyan/screen/bot_screen/store/bot_screen_store.dart';
 import 'package:kyan/screen/create_task_screen/create_task_screen.dart';
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
@@ -14,6 +16,8 @@ import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
 import 'package:kyan/screen/statistic_screen/store/statistic_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
+import 'package:kyan/screen/team_tasks_screen/store/team_tasks_screen_store.dart';
+//import 'package:kyan/screen/team_tasks_screen/store/team_tasks_screen_store.dart';
 import 'package:kyan/screen/workspaces_screen/store/workspaces_screen_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -47,6 +51,8 @@ class ManagerProvider {
     Provider<MemberWorkspaceScreenStore>(
         create: (_) => MemberWorkspaceScreenStore()),
     Provider<CreateTaskScreenStore>(create: (_) => CreateTaskScreenStore()),
+    Provider<TeamTasksScreenStore>(create: (_) => TeamTasksScreenStore()),
+    Provider<InfoChannelScreenStore>(create: (_) => InfoChannelScreenStore()),
   ];
 
   /// ## Dispose
@@ -72,5 +78,8 @@ class ManagerProvider {
     context.read<WorkspacesScreenStore>().resetValue();
     context.read<CreateWorkspaceScreenStore>().resetValue();
     context.read<MemberWorkspaceScreenStore>().resetValue();
+    context.read<TeamTasksScreenStore>().resetValue();
+    context.read<CreateTaskScreenStore>().resetValue();
+    context.read<InfoChannelScreenStore>().resetValue();
   }
 }
