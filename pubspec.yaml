@@ -64,6 +64,11 @@ dependencies:
   #MY PACKGAE
   coder0211: ^0.0.72
 
+  #ANIMATED SEARCH BOX
+  anim_search_bar: ^2.0.2
+  month_picker_dialog: ^0.4.0
+  flutter_ringtone_player: ^3.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

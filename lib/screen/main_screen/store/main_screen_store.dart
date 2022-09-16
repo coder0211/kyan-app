@@ -1,6 +1,10 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
+import 'package:kyan/models/workspace.dart';
+import 'package:kyan/screen/bot_screen/bot_screen.dart';
 import 'package:kyan/screen/tasks_screen/tasks_screen.dart';
+import 'package:kyan/screen/workspaces_screen/workspaces_screen.dart';
 import 'package:mobx/mobx.dart';
 
 part 'main_screen_store.g.dart';
@@ -27,7 +31,12 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
   @override
   void onInit(BuildContext context) {
     pageController = PageController();
-    screens = <Widget>[const TasksScreen(), 'B'.d1(), 'C'.d1(), 'D'.d1()];
+    screens = <Widget>[
+      const TasksScreen(),
+      const WorkspaceScreen(),
+      const BotScreen(),
+      'D'.d1()
+    ];
   }
 
   @override
@@ -49,7 +58,10 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  void onPressedAddTask(BuildContext context) {}
+  void onPressedAddTask(BuildContext context) {
+    BaseNavigation.push(context,
+        routeName: ManagerRoutes.createTaskScreen, clearStack: true);
+  }
 }
 
 /// We are using auto code generation to generate code for MobX store.

@@ -7,6 +7,7 @@ import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
 import 'package:kyan/models/workspace.dart';
+import 'package:kyan/screen/mdbts_search_code_join_screen.dart/mdbts_search_code_join.dart';
 import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:kyan/screen/profile_screen/widgets/swipe_languages.dart';
 import 'package:kyan/theme/colors.dart';
@@ -16,7 +17,10 @@ import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_about_us.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
+import 'package:kyan/widgets/custom_dialog_custom_option.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:kyan/screen/create_workspace_screen/create_workspace_screen.dart';
 
 class ProfileScreen extends BaseScreen {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -27,6 +31,8 @@ class ProfileScreen extends BaseScreen {
 
 class _ProfileScreenState
     extends BaseScreenState<ProfileScreen, ProfileScreenStore> {
+  late TextEditingController textController = TextEditingController();
+
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
@@ -55,10 +61,51 @@ class _ProfileScreenState
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: S.current.workspace.b2()),
-                      _buildDivider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          S.current.workspace.b2(),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () => {
+                                  showDialogCustomTwoOption(context,
+                                      option1: 'Join',
+                                      option2: 'Create', func1: () {
+                                    mdbtsSearchCodeJoinScreen(context);
+                                  }, func2: () {
+                                    mdbtsCreateWorkspaceScreen(context);
+                                  })
+                                },
+                                child: const Icon(
+                                  Icons.add,
+                                  size: 27,
+                                ),
+                              ),
+                              AnimSearchBar(
+                                width: 140,
+                                textController: textController,
+                                onSuffixTap: () {
+                                  setState(() {
+                                    textController.clear();
+                                  });
+                                },
+                                suffixIcon: const Icon(
+                                  Icons.search,
+                                  size: 22,
+                                ),
+                                color: Colors.white,
+                                autoFocus: false,
+                                closeSearchOnSuffixTap: true,
+                                animationDurationInMilli: 2000,
+                                rtl: true,
+                                helpText: "",
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      //_buildDivider(),
                       _buildListWorkspace(),
                       _buildActions()
                     ],
@@ -171,7 +218,7 @@ class _ProfileScreenState
           GestureDetector(
             onTap: () {
               BaseNavigation.push(context,
-                  routeName: ManagerRoutes.splashScreen);
+                  routeName: ManagerRoutes.staticScreen);
             },
             child: _buildRowIconText(
                 title: S.current.statistical, iconData: Images.iconStatistics),
@@ -261,7 +308,20 @@ class _ProfileScreenState
             imageUrl: item.workspaceUrlPhoto ?? DEFAULT_PHOTO_WORKSPACE,
           ),
           const SizedBox(width: 5),
-          Expanded(child: (item.workspaceName ?? '').b2R())
+          Expanded(child: (item.workspaceName ?? '').b2R()),
+          Row(
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    BaseNavigation.push(context,
+                        routeName: ManagerRoutes.memberWorkspaceScreen);
+                  },
+                  child: const Icon(
+                    Icons.people,
+                    size: 27,
+                  )),
+            ],
+          )
         ],
       ),
     );
