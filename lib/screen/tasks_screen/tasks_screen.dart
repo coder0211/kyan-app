@@ -9,7 +9,6 @@ import 'package:kyan/screen/tasks_screen/widgets/item_task.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TasksScreen extends BaseScreen {
   const TasksScreen({Key? key}) : super(key: key);
@@ -42,9 +41,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
           builder: (_) => (store.isShowLoading)
               ? const BaseIndicator()
               : RefreshIndicator(
-                  onRefresh: () async {
-                    // TODO:
-                  },
+                  onRefresh: () async {},
                   child: CustomScrollView(
                     physics: const BouncingScrollPhysics(),
                     slivers: [
@@ -65,9 +62,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                     .b1(color: AppColors.redPink),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  // TODO:
-                                },
+                                onTap: () {},
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 5),
@@ -148,19 +143,14 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 108),
                 child: BaseButton(
-                    bgColor: AppColors.orange,
-                    height: 36,
-                    onPressed: () {
-                      BaseNavigation.push(context,
-                          routeName: ManagerRoutes.teamTasksScreen);
-                    },
-                    child: BaseText(
-                      S.current.teamTasks,
-                      style: GoogleFonts.notoSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: AppColors.white),
-                    )),
+                  bgColor: AppColors.orange,
+                  height: 36,
+                  onPressed: () {
+                    BaseNavigation.push(context,
+                        routeName: ManagerRoutes.teamTasksScreen);
+                  },
+                  child: S.current.teamTasks.b1(color: AppColors.white),
+                ),
               ));
         })
       ],

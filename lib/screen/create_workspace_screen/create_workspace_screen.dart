@@ -39,15 +39,11 @@ class _CreateWorkspaceScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          BaseText(S.current.createWorkspace,
-              style: GoogleFonts.notoSans(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: AppColors.primary)),
+          S.current.createWorkspace.b1(color: AppColors.primary),
           const SizedBox(
             height: 10,
           ),
-          const BaseText('Tên'),
+          'Tên'.b2R(),
           const SizedBox(height: 10),
           CustomTextFormField(
             hintText: S.current.createWorkspace,
@@ -64,11 +60,7 @@ class _CreateWorkspaceScreenState
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseText(S.current.createWorkspace,
-                      style: GoogleFonts.notoSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: AppColors.white))
+                  S.current.createWorkspace.b1(color: AppColors.white),
                 ],
               ),
               bgColor: AppColors.primary,

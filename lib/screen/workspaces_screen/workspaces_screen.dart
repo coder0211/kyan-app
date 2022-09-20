@@ -40,11 +40,8 @@ class _WorkspaceScreenState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                        child: BaseText(S.current.workspace,
-                            style: GoogleFonts.notoSans(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: AppColors.primary))),
+                      child: S.current.workspace.t1M(color: AppColors.primary),
+                    ),
                     GestureDetector(
                       onTap: () {
                         mdbtsSearchCodeJoinScreen(context);
@@ -87,14 +84,8 @@ class _WorkspaceScreenState
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            BaseText(
-                              S.current.createWorkspace,
-                              style: GoogleFonts.notoSans(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: AppColors.white),
-                              textOverflow: TextOverflow.ellipsis,
-                            ),
+                            S.current.createWorkspace
+                                .t1M(color: AppColors.white),
                           ],
                         )),
                   ),
@@ -132,15 +123,8 @@ class _WorkspaceScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BaseText(
-                  workspace.workspaceName,
-                  textOverflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                  style: GoogleFonts.notoSans(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 16,
-                      color: AppColors.black),
-                ),
+                (workspace.workspaceName ?? '')
+                    .b1R(textAlign: TextAlign.start, color: AppColors.black),
                 GestureDetector(
                   onTap: () {
                     BaseUtils.copy(context,
@@ -187,13 +171,7 @@ class _WorkspaceScreenState
             },
             child: Row(
               children: [
-                BaseText(
-                  '',
-                  style: GoogleFonts.notoSans(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 14,
-                      color: AppColors.black),
-                ),
+                ''.b2R(color: AppColors.black),
                 const BaseSVG(
                   path: Images.iconMember,
                   width: 20,

@@ -57,10 +57,10 @@ class _CreateTaskScreenState
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      BaseText(S.current.summary),
+                                      S.current.summary.t1M(),
                                       Row(
                                         children: [
-                                          BaseText(S.current.done),
+                                          S.current.done.t1M(),
                                           Observer(builder: (_) {
                                             return Checkbox(
                                               activeColor: AppColors.primary,
@@ -86,7 +86,7 @@ class _CreateTaskScreenState
                                         color: AppColors.gray),
                                   ),
                                   const SizedBox(height: 10),
-                                  BaseText(S.current.description),
+                                  S.current.description.t1M(),
                                   const SizedBox(height: 0),
                                   CustomTextFormField(
                                     height: 108,
@@ -98,7 +98,7 @@ class _CreateTaskScreenState
                                         color: AppColors.gray),
                                   ),
                                   const SizedBox(height: 10),
-                                  BaseText(S.current.dueTime),
+                                  S.current.dueTime.t1M(),
                                   const SizedBox(height: 10),
                                   GestureDetector(
                                     onTap: () {
@@ -123,19 +123,8 @@ class _CreateTaskScreenState
                                         child: Observer(
                                             builder: (_) => Row(
                                                   children: [
-                                                    BaseText(
-                                                      'startDay - dueDay',
-                                                      textOverflow:
-                                                          TextOverflow.ellipsis,
-                                                      style:
-                                                          GoogleFonts.notoSans(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300,
-                                                              fontSize: 12,
-                                                              color: AppColors
-                                                                  .gray),
-                                                    ),
+                                                    'startDay - dueDay'.b1R(
+                                                        color: AppColors.gray),
                                                   ],
                                                 ))),
                                   ),
@@ -166,15 +155,8 @@ class _CreateTaskScreenState
                                               Icons.close,
                                               color: AppColors.redPink,
                                             ),
-                                            BaseText(S.current.deleteTask,
-                                                style: GoogleFonts.notoSans(
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        fontSize: 12,
-                                                        color: AppColors.gray)
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors.redPink)),
+                                            S.current.deleteTask
+                                                .b1R(color: AppColors.redPink),
                                           ],
                                         ),
                                       ),
@@ -183,14 +165,11 @@ class _CreateTaskScreenState
                                   Observer(builder: (_) {
                                     return Row(
                                       children: [
-                                        BaseText(S.current.withWorkspace),
+                                        S.current.withWorkspace.t1M(),
                                         Checkbox(
                                           activeColor: AppColors.primary,
                                           value: store.isWithWorkspace,
-                                          onChanged: (_value) {
-                                            // store.isWithWorkspace =
-                                            //     _value ?? false;
-                                          },
+                                          onChanged: (_value) {},
                                           shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5)),
@@ -204,7 +183,7 @@ class _CreateTaskScreenState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        BaseText(S.current.assignTo),
+                                        S.current.assignTo.t1M(),
                                         const SizedBox(height: 10),
                                         const Padding(
                                           padding: EdgeInsets.only(left: 10),
@@ -233,11 +212,7 @@ class _CreateTaskScreenState
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseText('Edit or Create',
-                      style: GoogleFonts.notoSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: AppColors.white)),
+                  'Edit or Create'.b1(color: AppColors.white),
                 ],
               ),
               bgColor:
@@ -254,16 +229,13 @@ class _CreateTaskScreenState
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Center(
               child: Text('title',
-                  //BaseNavigation.getArgs<String>(context, key: 'title'),
                   style: GoogleFonts.notoSans(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                       color: AppColors.primary))),
         ),
         InkWell(
-          onTap: () {
-            //BaseNavigation.pop(context);
-          },
+          onTap: () {},
           child: Container(
             padding: const EdgeInsets.only(top: Dimens.SCREEN_PADDING),
             child: Align(

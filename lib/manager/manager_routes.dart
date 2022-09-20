@@ -46,6 +46,5 @@ class ManagerRoutes {
     memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),
     createTaskScreen: (context) => const CreateTaskScreen(),
     teamTasksScreen: (context) => const TeamTasksScreen(),
-    infoChannelScreen: (context) => const InfoChannelScreen(),
   };
 }

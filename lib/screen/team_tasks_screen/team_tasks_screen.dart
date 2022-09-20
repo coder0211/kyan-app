@@ -9,10 +9,8 @@ import 'package:kyan/screen/team_tasks_screen/widgets/item_team_task.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
-import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TeamTasksScreen extends BaseScreen {
   const TeamTasksScreen({Key? key}) : super(key: key);
@@ -57,7 +55,7 @@ class _TeamTasksScreenState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              BaseText(S.current.assignTo),
+              S.current.assignTo.b1(),
               const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
@@ -89,7 +87,7 @@ class _TeamTasksScreenState
                             const SizedBox(
                               width: 10,
                             ),
-                            BaseText(items.accountDisplayName ?? 'All')
+                            (items.accountDisplayName ?? 'All').t2R()
                           ],
                         ),
                       );
@@ -123,12 +121,7 @@ class _TeamTasksScreenState
                 shadowColor: AppColors.transparent,
                 backgroundColor: AppColors.white,
                 title: Observer(builder: (_) {
-                  return Text(S.current.todo + ': 2',
-                      style: GoogleFonts.notoSans(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: AppColors.gray)
-                          .copyWith(color: AppColors.orange));
+                  return (S.current.todo + ': 2').t2R(color: AppColors.orange);
                 }),
                 floating: true,
               ),
@@ -155,12 +148,7 @@ class _TeamTasksScreenState
                 shadowColor: AppColors.transparent,
                 backgroundColor: AppColors.white,
                 title: Observer(builder: (_) {
-                  return Text(S.current.done + ': 2',
-                      style: GoogleFonts.notoSans(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: AppColors.gray)
-                          .copyWith(color: AppColors.primary));
+                  return (S.current.done + ': 2').t2R(color: AppColors.primary);
                 }),
                 pinned: true,
                 toolbarHeight: 30,
@@ -214,19 +202,15 @@ class _TeamTasksScreenState
               const SizedBox(height: 10),
               Observer(builder: (_) {
                 return Align(
-                    alignment: Alignment.centerLeft,
-                    child: BaseText(
-                      'Done : 2', //${_teamTaskScreenStore.tasksDone.length}',
-                      style: AppTextStyle.defaultStyle,
-                    ));
+                  alignment: Alignment.centerLeft,
+                  child: 'Done : 2'.t2R(),
+                );
               }),
               Observer(builder: (_) {
                 return Align(
-                    alignment: Alignment.centerLeft,
-                    child: BaseText(
-                        'Doing : 2', //${_teamTaskScreenStore.tasksDoing.length}',
-                        style: AppTextStyle.defaultStyle
-                            .copyWith(color: AppColors.redPink)));
+                  alignment: Alignment.centerLeft,
+                  child: 'Doing : 2'.t2R(color: AppColors.redPink),
+                );
               })
             ],
           ),
@@ -237,7 +221,7 @@ class _TeamTasksScreenState
                 duration: TIME_ANIMATION,
                 key: UniqueKey(),
                 maxProgress: value * 100,
-                title: BaseText((value * 100).ceil().toString() + "%"),
+                title: ((value * 100).ceil().toString() + '%').t1M(),
               );
             }),
           ),

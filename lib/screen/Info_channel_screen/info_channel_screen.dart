@@ -6,7 +6,6 @@ import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class InfoChannelScreen extends BaseScreen {
   final String title;
@@ -82,12 +81,7 @@ class _InfoChannelScreenState
                 Align(
                   alignment:
                       widget.isChannel ? Alignment.topLeft : Alignment.center,
-                  child: BaseText(widget.title,
-                      style: GoogleFonts.notoSans(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: AppColors.primary)
-                          .copyWith(color: AppColors.black)),
+                  child: widget.title.b1(color: AppColors.black),
                 ),
                 const SizedBox(
                   height: 35,
@@ -108,12 +102,7 @@ class _InfoChannelScreenState
                       alignment: widget.isChannel
                           ? Alignment.topLeft
                           : Alignment.center,
-                      child: BaseText(widget.title,
-                          style: GoogleFonts.notoSans(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: AppColors.primary)
-                              .copyWith(color: AppColors.black)),
+                      child: widget.title.b1(color: AppColors.black),
                     ),
                     const SizedBox(
                       height: 35,
@@ -128,7 +117,7 @@ class _InfoChannelScreenState
     );
   }
 
-  _buildRowTextIcon(
+  Container _buildRowTextIcon(
       {required String title,
       required IconData iconData,
       Color colorIcon = AppColors.black,
@@ -140,12 +129,7 @@ class _InfoChannelScreenState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          BaseText(title,
-              style: GoogleFonts.notoSans(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 14,
-                      color: AppColors.black)
-                  .copyWith(color: colorText)),
+          title.b1R(color: colorText),
           isShowIcon
               ? GestureDetector(
                   onTap: () {
