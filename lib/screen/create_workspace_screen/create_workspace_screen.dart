@@ -27,8 +27,6 @@ class CreateWorkspaceScreen extends BaseScreen {
 
 class _CreateWorkspaceScreenState
     extends BaseScreenState<CreateWorkspaceScreen, CreateWorkspaceScreenStore> {
-  late TextEditingController _nameController;
-
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _build(context);
@@ -57,19 +55,12 @@ class _CreateWorkspaceScreenState
                 fontWeight: FontWeight.w300,
                 fontSize: 12,
                 color: AppColors.gray),
-            //textEditingController: _codeController,
           ),
           Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: BaseButton(
-              onPressed: () async {
-                //await _workspacesScreenStore.joinWorkSpace(
-                // codeJoin: int.parse(_codeController.text),
-                // mailAccount: _loginScreenStore.currentAccount.mail ?? ''
-                //);
-                //BaseNavigation.pop(context);
-              },
+              onPressed: () async {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

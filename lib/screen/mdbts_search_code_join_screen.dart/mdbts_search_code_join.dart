@@ -27,7 +27,6 @@ class SearchCodeJoinScreen extends BaseScreen {
 
 class _SearchCodeJoinScreenState
     extends BaseScreenState<SearchCodeJoinScreen, SearchCodeJoinScreenStore> {
-  late TextEditingController _codeController;
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
@@ -62,13 +61,7 @@ class _SearchCodeJoinScreenState
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: BaseButton(
-              onPressed: () async {
-                //await _workspacesScreenStore.joinWorkSpace(
-                // codeJoin: int.parse(_codeController.text),
-                // mailAccount: _loginScreenStore.currentAccount.mail ?? ''
-                //);
-                //BaseNavigation.pop(context);
-              },
+              onPressed: () async {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

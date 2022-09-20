@@ -1,6 +1,5 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/create_workspace_screen/create_workspace_screen.dart';
@@ -70,7 +69,6 @@ class _WorkspaceScreenState
                     itemBuilder: ((context, index) => GestureDetector(
                         onTap: () {
                           BaseNavigation.pop(context);
-                          //await _onPressedItem(index);
                         },
                         child: _itemWorkSpace(
                             store.currentWorkspaceId ==
@@ -190,7 +188,6 @@ class _WorkspaceScreenState
             child: Row(
               children: [
                 BaseText(
-                  //'(${workspace.listMember?.length})',
                   '',
                   style: GoogleFonts.notoSans(
                       fontWeight: FontWeight.w300,

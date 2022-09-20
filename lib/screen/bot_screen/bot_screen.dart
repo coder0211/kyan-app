@@ -7,8 +7,6 @@ import 'package:kyan/screen/bot_screen/store/bot_screen_store.dart';
 import 'package:kyan/screen/bot_screen/widget/item_bot.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
-import 'package:kyan/theme/text_styles.dart';
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BotScreen extends BaseScreen {
@@ -41,14 +39,6 @@ class _BotScreenState extends BaseScreenState<BotScreen, BotScreenStore> {
         padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
         child: Column(
           children: [
-            // CustomTextFormField(
-            //   hintText: 'Search bot..',
-            //   bgColor: AppColors.white,
-            //   onChanged: (value) {
-            //     print(value);
-            //   },
-            //   isModeBorder: true,
-            // ),
             Expanded(
               child: ListView.builder(
                   physics: const BouncingScrollPhysics(),

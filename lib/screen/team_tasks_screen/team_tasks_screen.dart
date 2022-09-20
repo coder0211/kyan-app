@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,7 +10,6 @@ import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/theme/text_styles.dart';
-import 'package:kyan/utils/utils.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,10 +42,9 @@ class _TeamTasksScreenState
     );
   }
 
-  _buildAssignTo() {
+  Padding _buildAssignTo() {
     List<Account> accounts = [];
     accounts.add(Account());
-    //accounts.addAll(_taskScreenStore.workspace.listMember!);
     store.selectedAccount = accounts[0];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
@@ -100,10 +96,6 @@ class _TeamTasksScreenState
                     }).toList(),
                     onChanged: (Account? account) async {
                       store.selectedAccount = account ?? accounts[0];
-                      // await store.getData(
-                      //     assignTo:
-                      //         _teamTaskScreenStore.selectedAccount.mail ?? null,
-                      //     idWorkspace: _taskScreenStore.workspace.id);
                     },
                   );
                 }),
@@ -115,147 +107,95 @@ class _TeamTasksScreenState
     );
   }
 
-  _buildContentTasks() {
+  Expanded _buildContentTasks() {
     return Expanded(
       child: Observer(
-        builder: (_) => (false) //store.isShowLoading)
-            ? const BaseIndicator()
-            : RefreshIndicator(
-                onRefresh: () async {
-                  //await _getData();
-                },
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-                    SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      actions: [Container()],
-                      shadowColor: AppColors.transparent,
-                      backgroundColor: AppColors.white,
-                      title: Observer(builder: (_) {
-                        return Text(S.current.todo + ': 2',
-                            //"(${_teamTaskScreenStore.tasksDoing.length})",
-                            style: GoogleFonts.notoSans(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: AppColors.gray)
-                                .copyWith(color: AppColors.orange));
-                      }),
-                      floating: true,
-                    ),
-                    Observer(builder: (_) {
-                      return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            return ItemTeamTask(
-                              onPressed: () => {},
-                              // store.onPressedTask(context,
-                              //     task: store.tasksDoing[index]),
-                              onPressedComplete: () async {
-                                // await store.updateTask(
-                                //     assignTo: store.selectedAccount.mail ?? '',
-                                //     idWorkspace: _taskScreenStore.workspace.id,
-                                //     task: store.tasksDoing[index]);
-                              },
-                              time: 'TimeRange',
-                              // store
-                              //     .convertTimeTask(store.tasksDoing[index]),
-                              title:
-                                  'summary', //store.tasksDoing[index].summary.toString(),
-                              isCompleted: false,
-                              avatarUrl: 'avatarURL',
-                              // _getAvatarUrl(
-                              //     store.tasksDoing[index].assignTo ?? ''),
-                            );
-                          },
-                          childCount: 2,
-                          //store.tasksDoing.length,
-                        ),
-                      );
-                    }),
-                    SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      actions: [Container()],
-                      shadowColor: AppColors.transparent,
-                      backgroundColor: AppColors.white,
-                      title: Observer(builder: (_) {
-                        return Text(S.current.done + ': 2',
-                            //"(${_teamTaskScreenStore.tasksDone.length})",
-                            style: GoogleFonts.notoSans(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: AppColors.gray)
-                                .copyWith(color: AppColors.primary));
-                      }),
-                      pinned: true,
-                      toolbarHeight: 30,
-                    ),
-                    Observer(builder: (_) {
-                      return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            return ItemTeamTask(
-                              onPressed: () {
-                                // store.onPressedTask(context,
-                                //     task: store.tasksDone[index]);
-                                // _getData();
-                              },
-                              onPressedComplete: () async {
-                                // await store.updateTask(
-                                //     idWorkspace: _taskScreenStore.workspace.id,
-                                //     assignTo:
-                                //         store.selectedAccount.mail ?? null,
-                                //     task: store.tasksDone[index]);
-                              },
-                              time: 'time',
-                              //store.convertTimeTask(store.tasksDone[index]),
-                              title:
-                                  'sumary', //store.tasksDone[index].summary.toString(),
-                              isCompleted: true,
-                              avatarUrl: 'urlAvatar',
-                              // _getAvatarUrl(
-                              //     store.tasksDone[index].assignTo ?? ''),
-                            );
-                          },
-                          childCount: 2, //store.tasksDone.length,
-                        ),
-                      );
-                    }),
-                    const SliverAppBar(
-                      shadowColor: AppColors.transparent,
-                      backgroundColor: AppColors.white,
-                      title: SizedBox(),
-                      toolbarHeight: 96,
-                    ),
-                  ],
-                ),
+        builder: (_) => RefreshIndicator(
+          onRefresh: () async {
+            //await _getData();
+          },
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                actions: [Container()],
+                shadowColor: AppColors.transparent,
+                backgroundColor: AppColors.white,
+                title: Observer(builder: (_) {
+                  return Text(S.current.todo + ': 2',
+                      style: GoogleFonts.notoSans(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: AppColors.gray)
+                          .copyWith(color: AppColors.orange));
+                }),
+                floating: true,
               ),
+              Observer(builder: (_) {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return ItemTeamTask(
+                        onPressed: () => {},
+                        onPressedComplete: () async {},
+                        time: 'TimeRange',
+                        title: 'summary',
+                        isCompleted: false,
+                        avatarUrl: 'avatarURL',
+                      );
+                    },
+                    childCount: 2,
+                  ),
+                );
+              }),
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                actions: [Container()],
+                shadowColor: AppColors.transparent,
+                backgroundColor: AppColors.white,
+                title: Observer(builder: (_) {
+                  return Text(S.current.done + ': 2',
+                      style: GoogleFonts.notoSans(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: AppColors.gray)
+                          .copyWith(color: AppColors.primary));
+                }),
+                pinned: true,
+                toolbarHeight: 30,
+              ),
+              Observer(builder: (_) {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return ItemTeamTask(
+                        onPressed: () {},
+                        onPressedComplete: () async {},
+                        time: 'time',
+                        title: 'sumary',
+                        isCompleted: true,
+                        avatarUrl: 'urlAvatar',
+                      );
+                    },
+                    childCount: 2, //store.tasksDone.length,
+                  ),
+                );
+              }),
+              const SliverAppBar(
+                shadowColor: AppColors.transparent,
+                backgroundColor: AppColors.white,
+                title: SizedBox(),
+                toolbarHeight: 96,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  // String _getAvatarUrl(String mail) {
-  //   String url = '';
-  //   _taskScreenStore.workspace.listMember!.forEach((e) {
-  //     if (e.mail == mail) {
-  //       url = e.urlPhoto ?? '';
-  //     }
-  //   });
-  //   return url;
-  // }
-
-  // Future<void> _getData() async {
-  //   var temp = await BaseUtils.getCurrentWorkSpace();
-  //   if (temp != null) {
-  //     var value = json.decode(temp);
-  //     _taskScreenStore.workspace = Workspace.fromJson(value);
-  //   }
-  //   await store.getData(
-  //       assignTo: store.selectedAccount.mail ?? null,
-  //       idWorkspace: store.workspace.id);
-  // }
-
-  _buildStatisic() {
+  Container _buildStatisic() {
     return Container(
       margin: const EdgeInsets.all(Dimens.SCREEN_PADDING),
       padding: const EdgeInsets.only(
@@ -293,13 +233,6 @@ class _TeamTasksScreenState
           Center(
             child: Observer(builder: (_) {
               double value = 20;
-              // (_teamTaskScreenStore.tasksDone.length /
-              //     ((_teamTaskScreenStore.tasksDoing.length +
-              //                 _teamTaskScreenStore.tasksDone.length) ==
-              //             0
-              //         ? 1
-              //         : (_teamTaskScreenStore.tasksDoing.length +
-              //             _teamTaskScreenStore.tasksDone.length)));
               return BaseCircleChart(
                 duration: TIME_ANIMATION,
                 key: UniqueKey(),

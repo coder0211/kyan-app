@@ -3,19 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
 import 'package:kyan/screen/create_task_screen/widgets/modal_bottom_sheet_due_time.dart';
-import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
-import 'package:kyan/theme/text_styles.dart';
-import 'package:kyan/utils/utils.dart';
-import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreateTaskScreen extends BaseScreen {
@@ -90,13 +84,6 @@ class _CreateTaskScreenState
                                         fontWeight: FontWeight.w300,
                                         fontSize: 12,
                                         color: AppColors.gray),
-                                    // textEditingController:
-                                    //     _createTaskScreenStore
-                                    //         .summaryEditController,
-                                    // onChanged: (value) {
-                                    //   _createTaskScreenStore.isActiveButton =
-                                    //       value.text.isNotEmpty;
-                                    // },
                                   ),
                                   const SizedBox(height: 10),
                                   BaseText(S.current.description),
@@ -109,9 +96,6 @@ class _CreateTaskScreenState
                                         fontWeight: FontWeight.w300,
                                         fontSize: 12,
                                         color: AppColors.gray),
-                                    // textEditingController:
-                                    //     _createTaskScreenStore
-                                    //         .descriptionEditController,
                                   ),
                                   const SizedBox(height: 10),
                                   BaseText(S.current.dueTime),
@@ -159,10 +143,6 @@ class _CreateTaskScreenState
                                     height: 10,
                                   ),
                                   Visibility(
-                                    // visible: BaseNavigation.getArgs<String>(
-                                    //         context,
-                                    //         key: 'title') ==
-                                    //     S.current.editTask,
                                     visible: true,
                                     child: Padding(
                                       padding: const EdgeInsets.only(
@@ -173,14 +153,6 @@ class _CreateTaskScreenState
                                               onConfirm: () async {
                                             BaseNavigation.pop(context);
                                             store.isShowLoading = false;
-                                            // _createTaskScreenStore.deleteTask(
-                                            //     id: agrs!.id ?? 0);
-                                            // await _taskScreenStore.getData(
-                                            //     mailAccount: _loginScreenStore
-                                            //             .currentAccount.mail ??
-                                            //         '');
-                                            //store.isShowLoading = false;
-                                            //_regetDateTeamTask();
                                             BaseNavigation.pop(context);
                                           },
                                               title:
@@ -226,7 +198,6 @@ class _CreateTaskScreenState
                                         )
                                       ],
                                     );
-                                    //: Container();
                                   }),
                                   Observer(builder: (_) {
                                     return Column(
@@ -237,39 +208,6 @@ class _CreateTaskScreenState
                                         const SizedBox(height: 10),
                                         const Padding(
                                           padding: EdgeInsets.only(left: 10),
-                                          // child: Observer(builder: (_) {
-                                          //   return DropdownButton(
-                                          //     borderRadius:
-                                          //         const BorderRadius.all(
-                                          //             Radius.circular(10)),
-                                          //     underline: const SizedBox(),
-                                          //     value: store.selectedAccount,
-                                          //     icon: const Icon(
-                                          //         Icons.keyboard_arrow_down),
-                                          //     items: store.workspace.listMember
-                                          //         ?.map((Account items) {
-                                          //       return DropdownMenuItem(
-                                          //         value: items,
-                                          //         child: Row(
-                                          //           children: [
-                                          //             const CustomCircleAvatar(
-                                          //               //imageUrl: 'urlPhoto',
-                                          //               width: 40,
-                                          //             ),
-                                          //             const SizedBox(
-                                          //               width: 5,
-                                          //             ),
-                                          //             const BaseText('')
-                                          //           ],
-                                          //         ),
-                                          //       );
-                                          //     }).toList(),
-                                          //     onChanged: (Account? account) {
-                                          //       // store.selectedAccount =
-                                          //       //     account ?? Account();
-                                          //     },
-                                          //   );
-                                          // }),
                                         ),
                                       ],
                                     );
@@ -295,12 +233,7 @@ class _CreateTaskScreenState
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseText(
-                      // BaseNavigation.getArgs<String>(context, key: 'title') ==
-                      //         S.current.createTask
-                      //     ? S.current.create
-                      //     : S.current.updateUpper,
-                      'Edit or Create',
+                  BaseText('Edit or Create',
                       style: GoogleFonts.notoSans(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -313,12 +246,6 @@ class _CreateTaskScreenState
           }),
         ));
   }
-
-  // void _regetDateTeamTask() {
-  //   _teamTaskScreenStore.getData(
-  //       assignTo: _teamTaskScreenStore.selectedAccount.mail ?? null,
-  //       idWorkspace: _taskScreenStore.workspace.id);
-  // }
 
   Widget _buildHeader() {
     return Stack(
