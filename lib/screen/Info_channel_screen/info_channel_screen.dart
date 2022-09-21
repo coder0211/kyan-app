@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/Info_channel_screen/store/info_channel_screen_store.dart';
-import 'package:kyan/screen/info_channel_screen/store/infor_channel_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
