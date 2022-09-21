@@ -9,7 +9,7 @@ class TeamTasksScreenStore = _TeamTasksScreenStore with _$TeamTasksScreenStore;
 abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   @observable
   bool isShowLoading = true;
-
+  
   @observable
   Account _selectedAccount = Account();
 
