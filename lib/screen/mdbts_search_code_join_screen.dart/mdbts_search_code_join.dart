@@ -27,7 +27,6 @@ class SearchCodeJoinScreen extends BaseScreen {
 
 class _SearchCodeJoinScreenState
     extends BaseScreenState<SearchCodeJoinScreen, SearchCodeJoinScreenStore> {
-  late TextEditingController _codeController;
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
@@ -40,15 +39,11 @@ class _SearchCodeJoinScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          BaseText(S.current.joinWorkspace,
-              style: GoogleFonts.notoSans(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: AppColors.primary)),
+          S.current.joinWorkspace.b1(color: AppColors.primary),
           const SizedBox(
             height: 10,
           ),
-          BaseText(S.current.code),
+          S.current.code.b1R(),
           const SizedBox(height: 10),
           CustomTextFormField(
             hintText: S.current.code,
@@ -62,21 +57,11 @@ class _SearchCodeJoinScreenState
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: BaseButton(
-              onPressed: () async {
-                //await _workspacesScreenStore.joinWorkSpace(
-                // codeJoin: int.parse(_codeController.text),
-                // mailAccount: _loginScreenStore.currentAccount.mail ?? ''
-                //);
-                //BaseNavigation.pop(context);
-              },
+              onPressed: () async {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseText(S.current.joinUpper,
-                      style: GoogleFonts.notoSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: AppColors.white))
+                  S.current.joinUpper.b1(color: AppColors.white),
                 ],
               ),
               bgColor: AppColors.primary,

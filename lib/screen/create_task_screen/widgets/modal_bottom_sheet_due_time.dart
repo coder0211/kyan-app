@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
-import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_date_picker.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 Future<void> showModalBottomSheetDueTime(BuildContext context,
     {required DateRangePickerController dateRangePickerController,
@@ -29,13 +27,7 @@ Future<void> showModalBottomSheetDueTime(BuildContext context,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            BaseText(
-              S.current.dueTime,
-              style: GoogleFonts.notoSans(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: AppColors.primary),
-            ),
+            S.current.dueTime.b1(color: AppColors.primary),
             CustomDatePicker(
               blackoutDates: blackoutDates,
               dateRangePickerController: dateRangePickerController,
@@ -49,13 +41,7 @@ Future<void> showModalBottomSheetDueTime(BuildContext context,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseText(
-                    S.current.doneUpper,
-                    style: GoogleFonts.notoSans(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: AppColors.white),
-                  )
+                  S.current.doneUpper.b1(color: AppColors.white),
                 ],
               ),
               bgColor: AppColors.primary,
