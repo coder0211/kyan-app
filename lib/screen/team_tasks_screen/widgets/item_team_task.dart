@@ -48,7 +48,7 @@ class ItemTeamTask extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     title.b1R(color: AppColors.black),
-                    time.b1R(color: AppColors.black)
+                    time.b2R(color: AppColors.black)
                   ],
                 ),
               ),
