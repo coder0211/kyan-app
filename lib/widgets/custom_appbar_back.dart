@@ -4,7 +4,7 @@ import 'package:kyan/theme/colors.dart';
 
 AppBar customAppBarBack(BuildContext context, {required String title}) {
   return AppBar(
-    title: title.t1M(),
+    title: title.t1M(color: AppColors.primary),
     foregroundColor: AppColors.primary,
     backgroundColor: AppColors.white,
     shadowColor: AppColors.transparent,

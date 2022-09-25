@@ -2,7 +2,6 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
-import 'package:kyan/screen/create_workspace_screen/create_workspace_screen.dart';
 import 'package:kyan/screen/mdbts_search_code_join_screen.dart/mdbts_search_code_join.dart';
 import 'package:kyan/screen/workspaces_screen/store/workspaces_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
@@ -73,22 +72,6 @@ class _WorkspaceScreenState
                             workspace: store.workspaces[index]))),
                     itemCount: store.workspaces.length,
                   )),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: Dimens.SCREEN_PADDING),
-                    child: BaseButton(
-                        bgColor: AppColors.primary,
-                        onPressed: () {
-                          mdbtsCreateWorkspaceScreen(context);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            S.current.createWorkspace
-                                .t1M(color: AppColors.white),
-                          ],
-                        )),
-                  ),
                 ],
               ))
             ],
@@ -123,7 +106,7 @@ class _WorkspaceScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                (workspace.workspaceName ?? '')
+                (workspace.workspaceName ?? 'workspace 1')
                     .b1R(textAlign: TextAlign.start, color: AppColors.black),
                 GestureDetector(
                   onTap: () {
@@ -171,7 +154,7 @@ class _WorkspaceScreenState
             },
             child: Row(
               children: [
-                ''.b2R(color: AppColors.black),
+                'Member'.b2R(color: AppColors.black),
                 const BaseSVG(
                   path: Images.iconMember,
                   width: 20,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kyan/screen/Info_channel_screen/store/info_channel_screen_store.dart';
 import 'package:kyan/screen/bot_screen/store/bot_screen_store.dart';
+import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
 import 'package:kyan/screen/create_workspace_screen/store/create_workspace_screen_store.dart';
 import 'package:kyan/screen/intro_screen/store/intro_screen_store.dart';
@@ -49,6 +50,7 @@ class ManagerProvider {
     Provider<CreateTaskScreenStore>(create: (_) => CreateTaskScreenStore()),
     Provider<TeamTasksScreenStore>(create: (_) => TeamTasksScreenStore()),
     Provider<InfoChannelScreenStore>(create: (_) => InfoChannelScreenStore()),
+    Provider<ConversationScreenStore>(create: (_) => ConversationScreenStore()),
   ];
 
   /// ## Dispose

@@ -99,7 +99,7 @@ class _ProfileScreenState
                                 closeSearchOnSuffixTap: true,
                                 animationDurationInMilli: 2000,
                                 rtl: true,
-                                helpText: "",
+                                helpText: '',
                               )
                             ],
                           ),
