@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kyan/screen/bot_screen/bot_screen.dart';
+import 'package:kyan/screen/chat_sceen/chat_screen.dart';
 import 'package:kyan/screen/conversation_screen/conversation_screen.dart';
 import 'package:kyan/screen/create_task_screen/create_task_screen.dart';
 import 'package:kyan/screen/create_workspace_screen/create_workspace_screen.dart';
@@ -9,6 +10,7 @@ import 'package:kyan/screen/main_screen/main_screen.dart';
 import 'package:kyan/screen/mdbts_search_code_join_screen.dart/mdbts_search_code_join.dart';
 import 'package:kyan/screen/member_workspace_screen/memer_workspace_screen.dart';
 import 'package:kyan/screen/pomodoro_bot_screen/pomodoro_bot_screen.dart';
+import 'package:kyan/screen/profile_screen/profie_screen.dart';
 import 'package:kyan/screen/splash_screen/splash_screen.dart';
 import 'package:kyan/screen/statistic_screen/statistic_screen.dart';
 import 'package:kyan/screen/team_tasks_screen/team_tasks_screen.dart';

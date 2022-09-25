@@ -2,7 +2,7 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/manager/manager_socket.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/conversation_screen/widgets/item_channel_chat.dart';
 import 'package:kyan/screen/conversation_screen/widgets/item_people_chat.dart';
@@ -62,10 +62,20 @@ class _ConversationScreenState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                GestureDetector(
+                    onTap: () {
+                      BaseNavigation.push(context,
+                          routeName: ManagerRoutes.mainScreen,
+                          clearStack: true);
+                    },
+                    child: const Icon(
+                      Icons.navigate_before,
+                      color: AppColors.primary,
+                    )),
                 S.current.conversation.b1(color: AppColors.primary),
-                _buildWorkSpace()
+                _buildWorkSpace(),
               ],
-            )
+            ),
           ],
         ),
       );
@@ -156,13 +166,17 @@ class _ConversationScreenState
                             expand: true,
                             child: ItemChannelChat(
                               onPressed: () {
-                                ManagerSocket.initSocket();
+                                BaseNavigation.push(
+                                  context,
+                                  routeName: ManagerRoutes.chatScreen,
+                                  clearStack: true,
+                                );
                               },
                               titleChannel: '',
                             ));
                       });
                     },
-                    childCount: 10,
+                    childCount: 2,
                   ),
                 ),
                 SliverAppBar(
