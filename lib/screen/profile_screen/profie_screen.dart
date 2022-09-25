@@ -283,12 +283,13 @@ class _ProfileScreenState
 
   Widget _buildListWorkspace() {
     return ListView.builder(
-        padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: store.workspaces.length,
-        itemBuilder: (context, index) => _buildItemWorkspace(
-            item: store.workspaces[index], isSelected: index == 0));
+      padding: EdgeInsets.zero,
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: store.workspaces.length,
+      itemBuilder: (context, index) => _buildItemWorkspace(
+          item: store.workspaces[index], isSelected: index == 0),
+    );
   }
 
   Widget _buildItemWorkspace(
@@ -308,7 +309,13 @@ class _ProfileScreenState
             imageUrl: item.workspaceUrlPhoto ?? DEFAULT_PHOTO_WORKSPACE,
           ),
           const SizedBox(width: 5),
-          Expanded(child: (item.workspaceName ?? '').b2R()),
+          Expanded(
+              child: GestureDetector(
+                  onTap: () {
+                    BaseNavigation.push(context,
+                        routeName: ManagerRoutes.conversationScreen);
+                  },
+                  child: (item.workspaceName ?? '').b2R())),
           Row(
             children: [
               GestureDetector(
