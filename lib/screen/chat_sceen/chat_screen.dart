@@ -89,7 +89,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
       leading: GestureDetector(
           onTap: () {
             BaseNavigation.push(context,
-                routeName: ManagerRoutes.conversationScreen, clearStack: true);
+                routeName: ManagerRoutes.conversationScreen);
           },
           child: const Icon(Icons.navigate_before)),
       actions: [
