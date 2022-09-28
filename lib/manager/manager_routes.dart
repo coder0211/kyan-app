@@ -31,6 +31,10 @@ class ManagerRoutes {
   static String conversationScreen = '/conversation-screen';
   static String chatScreen = '/chat-screen';
   static String profileScreen = '/profile-screen';
+  static String listMessageScreen = '/list-message-screen';
+  static String selectPeopleScreen = '/select-people-screen';
+  static String selectPeopleConversationScreen =
+      '/select-people-conversation-screen';
 
   /// ## Manager contain all action routes of the app
   /// * [splashScreen] is the splash screen of the app and it is the first screen of the app
@@ -52,5 +56,11 @@ class ManagerRoutes {
     conversationScreen: (context) => const ConversationScreen(),
     chatScreen: (context) => const ChatScreen(),
     profileScreen: (context) => const ProfileScreen(),
+    listMessageScreen: (context) => const ListMessageScreen(
+          agrs: null,
+        ),
+    selectPeopleScreen: (context) => const SelectPeopleScreen(),
+    selectPeopleConversationScreen: (context) =>
+        const SelectPeopleConversationScreen(),
   };
 }

@@ -12,6 +12,9 @@ import 'package:kyan/screen/mdbts_search_code_join_screen.dart/store/mdbts_searc
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:kyan/screen/pomodoro_bot_screen/store/pomodoro_bot_screen_store.dart';
 import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
+import 'package:kyan/screen/select_people/store/select_people_screen_store.dart';
+import 'package:kyan/screen/select_people_conversation_screen/select_people_conversation_screen.dart';
+import 'package:kyan/screen/select_people_conversation_screen/store/select_people_conversation_screen_store.dart';
 import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
 import 'package:kyan/screen/statistic_screen/store/statistic_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
@@ -54,6 +57,9 @@ class ManagerProvider {
     Provider<ConversationScreenStore>(create: (_) => ConversationScreenStore()),
     Provider<ChatScreenStore>(create: (_) => ChatScreenStore()),
     Provider<ProfileScreenStore>(create: (_) => ProfileScreenStore()),
+    Provider<SelectPeopleScreenStore>(create: (_) => SelectPeopleScreenStore()),
+    Provider<SelectPeopleConversationScreenStore>(
+        create: (_) => SelectPeopleConversationScreenStore()),
   ];
 
   /// ## Dispose
@@ -85,5 +91,7 @@ class ManagerProvider {
     context.read<ConversationScreenStore>().resetValue();
     context.read<ChatScreenStore>().resetValue();
     context.read<ProfileScreenStore>().resetValue();
+    context.read<SelectPeopleScreenStore>().resetValue();
+    context.read<SelectPeopleConversationScreenStore>().resetValue();
   }
 }
