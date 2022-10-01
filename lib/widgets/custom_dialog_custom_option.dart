@@ -1,5 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/theme/colors.dart';
 
 void showDialogCustomTwoOption(BuildContext context,
     {required String option1,
@@ -10,7 +11,10 @@ void showDialogCustomTwoOption(BuildContext context,
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: 'Select your option'.t1M(),
+          title: 'Select your option'
+              .b1R(color: AppColors.black, textAlign: TextAlign.center),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           children: <Widget>[
             const Divider(),
             SimpleDialogOption(
@@ -18,14 +22,16 @@ void showDialogCustomTwoOption(BuildContext context,
                 BaseNavigation.pop(context);
                 func1.call();
               },
-              child: option1.t2R(),
+              child:
+                  option1.b1(color: Colors.black, textAlign: TextAlign.center),
             ),
             SimpleDialogOption(
               onPressed: () {
                 BaseNavigation.pop(context);
                 func2.call();
               },
-              child: option2.t2R(),
+              child:
+                  option2.b1(color: Colors.black, textAlign: TextAlign.center),
             ),
           ],
         );
