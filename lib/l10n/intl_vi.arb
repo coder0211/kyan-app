@@ -99,5 +99,7 @@
     "skip": "Bỏ qua",
     "language": "Ngôn ngữ",
     "notiRestartApp": "Thay đổi ngôn ngữ! Dợi chút nha",
-    "settings": "Cài đặt"
+    "settings": "Cài đặt",
+    "name": "Tên"
+
 }

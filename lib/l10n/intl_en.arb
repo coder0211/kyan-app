@@ -99,5 +99,6 @@
     "skip": "Skip",
     "language": "Language",
     "notiRestartApp": "Swich language now! Please wait a minute",
-    "settings": "Settings"
+    "settings": "Settings",
+    "name": "Name"
 }

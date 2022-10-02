@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
 import 'package:kyan/screen/create_task_screen/widgets/modal_bottom_sheet_due_time.dart';
+import 'package:kyan/screen/main_screen/main_screen.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
@@ -57,10 +59,10 @@ class _CreateTaskScreenState
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      S.current.summary.t1M(),
+                                      S.current.summary.b1(),
                                       Row(
                                         children: [
-                                          S.current.done.t1M(),
+                                          S.current.done.b1(),
                                           Observer(builder: (_) {
                                             return Checkbox(
                                               activeColor: AppColors.primary,
@@ -86,7 +88,7 @@ class _CreateTaskScreenState
                                         color: AppColors.gray),
                                   ),
                                   const SizedBox(height: 10),
-                                  S.current.description.t1M(),
+                                  S.current.description.b1(),
                                   const SizedBox(height: 0),
                                   CustomTextFormField(
                                     height: 108,
@@ -98,7 +100,7 @@ class _CreateTaskScreenState
                                         color: AppColors.gray),
                                   ),
                                   const SizedBox(height: 10),
-                                  S.current.dueTime.t1M(),
+                                  S.current.dueTime.b1(),
                                   const SizedBox(height: 10),
                                   GestureDetector(
                                     onTap: () {
@@ -165,7 +167,7 @@ class _CreateTaskScreenState
                                   Observer(builder: (_) {
                                     return Row(
                                       children: [
-                                        S.current.withWorkspace.t1M(),
+                                        S.current.withWorkspace.b1(),
                                         Checkbox(
                                           activeColor: AppColors.primary,
                                           value: store.isWithWorkspace,
@@ -183,7 +185,7 @@ class _CreateTaskScreenState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        S.current.assignTo.t1M(),
+                                        S.current.assignTo.b1(),
                                         const SizedBox(height: 10),
                                         const Padding(
                                           padding: EdgeInsets.only(left: 10),
@@ -225,17 +227,30 @@ class _CreateTaskScreenState
   Widget _buildHeader() {
     return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Center(
-              child: Text('title',
-                  style: GoogleFonts.notoSans(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                      color: AppColors.primary))),
-        ),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          GestureDetector(
+              onTap: () {
+                BaseNavigation.push(context,
+                    routeName: ManagerRoutes.mainScreen);
+              },
+              child: const Icon(
+                Icons.navigate_before,
+                color: AppColors.primary,
+              )),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+                child: Text('title',
+                    style: GoogleFonts.notoSans(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                        color: AppColors.primary))),
+          ),
+        ]),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            BaseNavigation.push(context, routeName: ManagerRoutes.mainScreen);
+          },
           child: Container(
             padding: const EdgeInsets.only(top: Dimens.SCREEN_PADDING),
             child: Align(

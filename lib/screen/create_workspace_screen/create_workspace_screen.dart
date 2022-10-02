@@ -43,7 +43,7 @@ class _CreateWorkspaceScreenState
           const SizedBox(
             height: 10,
           ),
-          'Tên'.b2R(),
+          S.current.name.b2R(),
           const SizedBox(height: 10),
           CustomTextFormField(
             hintText: S.current.createWorkspace,
