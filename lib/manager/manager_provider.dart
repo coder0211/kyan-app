@@ -13,7 +13,6 @@ import 'package:kyan/screen/member_workspace_screen/store/member_workspace_scree
 import 'package:kyan/screen/pomodoro_bot_screen/store/pomodoro_bot_screen_store.dart';
 import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:kyan/screen/select_people/store/select_people_screen_store.dart';
-import 'package:kyan/screen/select_people_conversation_screen/select_people_conversation_screen.dart';
 import 'package:kyan/screen/select_people_conversation_screen/store/select_people_conversation_screen_store.dart';
 import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
 import 'package:kyan/screen/statistic_screen/store/statistic_screen_store.dart';
