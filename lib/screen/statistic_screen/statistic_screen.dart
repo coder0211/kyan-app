@@ -112,17 +112,13 @@ class _StatisticScreenState
                   children: [
                     _buildItemTapBar(
                       'Done',
-                      () {
-                        //_statisticScreenStore.isDone = true;
-                      },
+                      () {},
                       isDone: true,
                       isSelected: true,
                     ),
                     _buildItemTapBar(
                       'Pending',
-                      () {
-                        //_statisticScreenStore.isDone = false;
-                      },
+                      () {},
                       isDone: false,
                       isSelected: true, //_statisticScreenStore.isDone,
                     )
