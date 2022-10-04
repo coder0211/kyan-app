@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
-import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ItemTeamTask extends StatelessWidget {
   final bool isCompleted;
@@ -49,19 +47,8 @@ class ItemTeamTask extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BaseText(
-                      title,
-                      style: GoogleFonts.notoSans(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: AppColors.black),
-                      textOverflow: TextOverflow.ellipsis,
-                    ),
-                    BaseText(time,
-                        style: GoogleFonts.notoSans(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: AppColors.black))
+                    title.b1R(color: AppColors.black),
+                    time.b1R(color: AppColors.black)
                   ],
                 ),
               ),

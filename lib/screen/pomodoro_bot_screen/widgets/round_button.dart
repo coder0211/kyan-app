@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kyan/theme/colors.dart';
-import 'package:kyan/theme/dimens.dart';
 
 class RoundButton extends StatelessWidget {
   const RoundButton({

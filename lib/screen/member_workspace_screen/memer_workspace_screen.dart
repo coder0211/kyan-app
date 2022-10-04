@@ -2,8 +2,6 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/models/account.dart';
-import 'package:kyan/models/workspace.dart';
-import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
@@ -12,7 +10,6 @@ import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
-import 'package:provider/provider.dart';
 
 class MemberWorkspaceSceen extends BaseScreen {
   const MemberWorkspaceSceen({Key? key}) : super(key: key);
@@ -72,24 +69,12 @@ class _MemberWorkspaceSceenState
               ],
             ),
           ),
-          // if (loginScreenStore.currentAccount.mail ==
-          //         BaseNavigation.getArgs<Workspace>(context, key: 'workspace')
-          //             .mailOwner &&
-          //     loginScreenStore.currentAccount.mail != account.mail)
           GestureDetector(
               onTap: () {
-                showDialogConfirm(context, icon: Icons.delete_forever,
-                    onConfirm: () async {
-                  // store.deleteMemberWorkspace(
-                  //     idWorkSpace: BaseNavigation.getArgs<Workspace>(context,
-                  //                 key: 'workspace')
-                  //             .id ??
-                  //         0,
-                  //     mailAccount: account.mail ?? '');
-                  // BaseNavigation.pop(context);
-                  // BaseNavigation.pop(context);
-                  // BaseNavigation.pop(context);
-                }, title: S.current.confirmDeleteThis);
+                showDialogConfirm(context,
+                    icon: Icons.delete_forever,
+                    onConfirm: () async {},
+                    title: S.current.confirmDeleteThis);
               },
               child: const Icon(Icons.delete_forever, color: AppColors.redPink))
         ],

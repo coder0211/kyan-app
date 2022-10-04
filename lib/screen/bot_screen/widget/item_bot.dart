@@ -1,9 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/theme/colors.dart';
-import 'package:kyan/theme/dimens.dart';
-import 'package:kyan/theme/text_styles.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ItemBot extends StatelessWidget {
   final String title;
@@ -35,16 +32,8 @@ class ItemBot extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      BaseText(title,
-                          style: GoogleFonts.notoSans(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: AppColors.black)),
-                      BaseText(description,
-                          style: GoogleFonts.notoSans(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 14,
-                              color: AppColors.gray)),
+                      title.b1R(color: AppColors.black),
+                      description.b2R(color: AppColors.gray),
                     ],
                   ),
                 ),

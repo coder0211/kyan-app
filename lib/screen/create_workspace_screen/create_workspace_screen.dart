@@ -27,8 +27,6 @@ class CreateWorkspaceScreen extends BaseScreen {
 
 class _CreateWorkspaceScreenState
     extends BaseScreenState<CreateWorkspaceScreen, CreateWorkspaceScreenStore> {
-  late TextEditingController _nameController;
-
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _build(context);
@@ -41,15 +39,11 @@ class _CreateWorkspaceScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          BaseText(S.current.createWorkspace,
-              style: GoogleFonts.notoSans(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: AppColors.primary)),
+          S.current.createWorkspace.b1(color: AppColors.primary),
           const SizedBox(
             height: 10,
           ),
-          const BaseText('Tên'),
+          'Tên'.b2R(),
           const SizedBox(height: 10),
           CustomTextFormField(
             hintText: S.current.createWorkspace,
@@ -57,27 +51,16 @@ class _CreateWorkspaceScreenState
                 fontWeight: FontWeight.w300,
                 fontSize: 12,
                 color: AppColors.gray),
-            //textEditingController: _codeController,
           ),
           Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: BaseButton(
-              onPressed: () async {
-                //await _workspacesScreenStore.joinWorkSpace(
-                // codeJoin: int.parse(_codeController.text),
-                // mailAccount: _loginScreenStore.currentAccount.mail ?? ''
-                //);
-                //BaseNavigation.pop(context);
-              },
+              onPressed: () async {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseText(S.current.createWorkspace,
-                      style: GoogleFonts.notoSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: AppColors.white))
+                  S.current.createWorkspace.b1(color: AppColors.white),
                 ],
               ),
               bgColor: AppColors.primary,

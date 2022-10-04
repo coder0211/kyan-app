@@ -10,9 +10,7 @@ import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
-// import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
 
 class StatisticScreen extends BaseScreen {
   const StatisticScreen({Key? key}) : super(key: key);
@@ -72,14 +70,7 @@ class _StatisticScreenState
                                 borderRadius: BorderRadius.circular(5),
                                 boxShadow: Shadows.defaultShadow),
                             child: Observer(builder: (_) {
-                              return BaseText(
-                                'Month - Year',
-                                style: GoogleFonts.notoSans(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                        color: AppColors.black)
-                                    .copyWith(color: AppColors.white),
-                              );
+                              return 'Month - Year'.b1R(color: AppColors.white);
                             }),
                           ),
                         ),
@@ -87,18 +78,12 @@ class _StatisticScreenState
                         Observer(builder: (_) {
                           return const Align(
                               alignment: Alignment.centerLeft,
-                              child: BaseText(
-                                // 'Done : ${_statisticScreenStore.taskDone.length}',
-                                'Done: 123',
-                                //style: AppTextStyle.defaultStyle,
-                              ));
+                              child: BaseText('Done: 123'));
                         }),
                         Observer(builder: (_) {
                           return Align(
                               alignment: Alignment.centerLeft,
-                              child: BaseText(
-                                  // 'Pending : ${_statisticScreenStore.taskPending.length}',
-                                  'Pending: 123',
+                              child: BaseText('Pending: 123',
                                   style: AppTextStyle.defaultStyle
                                       .copyWith(color: AppColors.redPink)));
                         })
@@ -111,8 +96,7 @@ class _StatisticScreenState
                           duration: TIME_ANIMATION,
                           key: UniqueKey(),
                           maxProgress: value * 100,
-                          title:
-                              BaseText((value * 100).ceil().toString() + "%"),
+                          title: ((value * 100).ceil().toString() + '%').t1M(),
                         );
                       }),
                     ),
@@ -148,7 +132,7 @@ class _StatisticScreenState
               Expanded(
                 child: Observer(builder: (_) {
                   return ListView.builder(
-                      itemCount: true ? 20 : 15,
+                      itemCount: 2,
                       itemBuilder: (BuildContext context, int index) {
                         return ItemTask(
                           title: 'Tong ket',
