@@ -17,8 +17,23 @@ class ManagerAddress {
   static const String accountCreateOrUpdate = '$baseAccount/create-or-update';
   static const String accountLogin = '$baseAccount/login';
   static const String accountDelete = '$baseAccount/delete';
+  static const String accountGetOne = '$baseAccount/get-one';
+  static const String accountGetAll = '$baseAccount/get-all';
 
   //?-- WORKSPACE -->
   static const String baseWorkspace = '/work-space';
   static const String workspacesGetAll = '$baseWorkspace/get-all';
+  static const String workspacesGetOne = '$baseWorkspace/get-one';
+  static const String workspacesDelete = '$baseWorkspace/delete';
+  static const String worksapceCreateOrUpdate =
+      '$baseWorkspace/create-or-update';
+
+  //?-- TASK -->
+  static const String baseTask = '/task';
+  static const String taskCreateOrUpdate = '$baseTask/create-or-update';
+  static const String taskGetOne = '$baseTask/get-one';
+  static const String taskGetAll = '$baseTask/get-all';
+  static const String taskDelete = '$baseTask/delete';
 }
+
+

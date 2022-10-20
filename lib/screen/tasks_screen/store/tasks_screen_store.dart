@@ -1,6 +1,8 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +13,15 @@ class TasksScreenStore = _TasksScreenStore with _$TasksScreenStore;
 
 abstract class _TasksScreenStore with Store, BaseStoreMixin {
   //? --      Variables      -->
+  BaseAPI _api = BaseAPI();
+
+  @observable
+  ObservableList<Task> _tasks = ObservableList<Task>();
+  ObservableList<Task> get tasks => _tasks;
+
+  set tasks(ObservableList<Task> tasks) {
+    _tasks = tasks;
+  }
 
   late LoginScreenStore _loginScreenStore;
 
@@ -61,10 +72,42 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
 
   @override
   void onDispose(BuildContext context) {}
+  @action
+  Future<void> getListTask() async {
+    Map<String, dynamic> headers = {
+      'Authorization':
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
+    };
+    await _api
+        .fetchData(ManagerAddress.taskGetAll,
+            method: ApiMethod.GET, headers: headers)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            tasks.clear();
+            printLogSusscess('SUCCEEDED');
+            value.object.forEach((it) => tasks.add(Task.fromJson(it)));
+            print(tasks[0].toJson());
+            // Handle success response here
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
     await _getLanguage(context);
+    await getListTask();
   }
 
   @override

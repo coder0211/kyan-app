@@ -46,10 +46,7 @@ class ItemTeamTask extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    title.b1R(color: AppColors.black),
-                    time.b1R(color: AppColors.black)
-                  ],
+                  children: [title.b1R(), time.b2R(color: AppColors.gray)],
                 ),
               ),
               CustomCircleAvatar(

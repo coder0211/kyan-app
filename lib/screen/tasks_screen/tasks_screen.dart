@@ -119,11 +119,12 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                 onPressed: () {},
                                 onPressedComplete: () {},
                                 time: '10/05/2022',
-                                title: 'Working on the ',
-                                isCompleted: true,
+                                title:
+                                    store.tasks[index].taskSummary.toString(),
+                                isCompleted: false,
                               );
                             },
-                            childCount: 10,
+                            childCount: store.tasks.length,
                           ),
                         );
                       }),

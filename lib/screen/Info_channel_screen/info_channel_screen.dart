@@ -46,7 +46,7 @@ class _InfoChannelScreenState
                 const SizedBox(
                   height: 10,
                 ),
-                if (!widget.isChannel) _buildImage(),
+                _buildImage(),
                 _buildBody(context),
               ],
             ),

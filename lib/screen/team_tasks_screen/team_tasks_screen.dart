@@ -55,7 +55,7 @@ class _TeamTasksScreenState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              S.current.assignTo.b1(),
+              S.current.assignTo.b1R(),
               const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
@@ -87,7 +87,7 @@ class _TeamTasksScreenState
                             const SizedBox(
                               width: 10,
                             ),
-                            (items.accountDisplayName ?? 'All').t2R()
+                            (items.accountDisplayName ?? 'All').b1R()
                           ],
                         ),
                       );
@@ -121,7 +121,7 @@ class _TeamTasksScreenState
                 shadowColor: AppColors.transparent,
                 backgroundColor: AppColors.white,
                 title: Observer(builder: (_) {
-                  return (S.current.todo + ': 2').t2R(color: AppColors.orange);
+                  return (S.current.todo + ': 2').b1(color: AppColors.redPink);
                 }),
                 floating: true,
               ),
@@ -148,7 +148,7 @@ class _TeamTasksScreenState
                 shadowColor: AppColors.transparent,
                 backgroundColor: AppColors.white,
                 title: Observer(builder: (_) {
-                  return (S.current.done + ': 2').t2R(color: AppColors.primary);
+                  return (S.current.done + ': 2').b1(color: AppColors.primary);
                 }),
                 pinned: true,
                 toolbarHeight: 30,
@@ -203,13 +203,13 @@ class _TeamTasksScreenState
               Observer(builder: (_) {
                 return Align(
                   alignment: Alignment.centerLeft,
-                  child: 'Done : 2'.t2R(),
+                  child: 'Done : 2'.b1(),
                 );
               }),
               Observer(builder: (_) {
                 return Align(
                   alignment: Alignment.centerLeft,
-                  child: 'Doing : 2'.t2R(color: AppColors.redPink),
+                  child: 'Doing : 2'.b1(color: AppColors.redPink),
                 );
               })
             ],
@@ -221,7 +221,7 @@ class _TeamTasksScreenState
                 duration: TIME_ANIMATION,
                 key: UniqueKey(),
                 maxProgress: value * 100,
-                title: ((value * 100).ceil().toString() + '%').t1M(),
+                title: ((value).ceil().toString() + '%').t1M(),
               );
             }),
           ),

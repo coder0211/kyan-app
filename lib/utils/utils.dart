@@ -23,4 +23,8 @@ class Utils {
   static Locale _locale(String languageCode) {
     return languageCode.isNotEmpty ? Locale(languageCode) : const Locale('en');
   }
+
+  static Future<void> saveCurrentWorkSpace(String workspace) async {
+    await BaseSharedPreferences.saveStringValue('currentorkspace', workspace);
+  }
 }

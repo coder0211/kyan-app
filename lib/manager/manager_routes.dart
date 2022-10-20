@@ -23,11 +23,17 @@ class ManagerRoutes {
   static String staticScreen = '/static-screen';
   static String botScreen = '/bot-screen';
   static String pomodoroBotScreen = '/bot-screen';
-  static String workspacesScreen = '/worksapces-screen';
   static String memberWorkspaceScreen = '/member-worksapce-screen';
   static String createTaskScreen = '/member-task-screen';
   static String teamTasksScreen = '/team-tasks-screen';
   static String infoChannelScreen = '/info-channel-screen';
+  static String conversationScreen = '/conversation-screen';
+  static String chatScreen = '/chat-screen';
+  static String profileScreen = '/profile-screen';
+  static String listMessageScreen = '/list-message-screen';
+  static String selectPeopleScreen = '/select-people-screen';
+  static String selectPeopleConversationScreen =
+      '/select-people-conversation-screen';
 
   /// ## Manager contain all action routes of the app
   /// * [splashScreen] is the splash screen of the app and it is the first screen of the app
@@ -40,11 +46,26 @@ class ManagerRoutes {
     staticScreen: (context) => const StatisticScreen(),
     botScreen: (context) => const BotScreen(),
     pomodoroBotScreen: (context) => const PomodoroBotScreen(),
-    workspacesScreen: (context) => const WorkspaceScreen(),
     createWorkspaceScreen: (context) => const CreateWorkspaceScreen(),
     memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),
     memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),
     createTaskScreen: (context) => const CreateTaskScreen(),
     teamTasksScreen: (context) => const TeamTasksScreen(),
+    conversationScreen: (context) => const ConversationScreen(),
+    chatScreen: (context) => const ChatScreen(),
+    profileScreen: (context) => const ProfileScreen(),
+    infoChannelScreen: (context) => const InfoChannelScreen(
+          agrs: null,
+          isChannel: true,
+          isPrivate: false,
+          title: '',
+          urlAvatar: '',
+        ),
+    listMessageScreen: (context) => const ListMessageScreen(
+          agrs: null,
+        ),
+    selectPeopleScreen: (context) => const SelectPeopleScreen(),
+    selectPeopleConversationScreen: (context) =>
+        const SelectPeopleConversationScreen(),
   };
 }
