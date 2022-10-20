@@ -4,15 +4,15 @@ part 'task.g.dart';
 
 @JsonSerializable()
 class Task {
-  final String? taskId;
+  final int? taskId;
   final String? taskCreateBy;
   String? taskSummary;
   String? taskDescription;
   DateTime? taskDueTimeLTE;
   DateTime? taskDueTimeGTE;
-  bool? taskIsDone;
+  int? taskIsDone;
   String? taskCreateAt;
-  String? taskWorkspaceId;
+  int? taskWorkspaceId;
   String? staskAssignTo;
 
   Task(

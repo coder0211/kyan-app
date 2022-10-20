@@ -72,12 +72,14 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
 
   @override
   void onDispose(BuildContext context) {}
+
   @action
   Future<void> getListTask() async {
     Map<String, dynamic> headers = {
       'Authorization':
           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
     };
+
     await _api
         .fetchData(ManagerAddress.taskGetAll,
             method: ApiMethod.GET, headers: headers)
@@ -85,10 +87,9 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
-            tasks.clear();
             printLogSusscess('SUCCEEDED');
+            tasks.clear();
             value.object.forEach((it) => tasks.add(Task.fromJson(it)));
-            print(tasks[0].toJson());
             // Handle success response here
             break;
           }

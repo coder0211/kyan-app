@@ -84,15 +84,29 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                         return SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
-                              return ItemTask(
-                                onPressed: () {},
-                                onPressedComplete: () {},
-                                time: '10/05/2022',
-                                title: 'Working with a Sliver',
-                                isCompleted: false,
-                              );
+                              return ((store.tasks
+                                          .elementAt(index)
+                                          .taskIsDone ==
+                                      1)
+                                  ? ItemTask(
+                                      onPressed: () {},
+                                      onPressedComplete: () {},
+                                      time: '10/05/2022',
+                                      title: store.tasks
+                                              .elementAt(index)
+                                              .taskSummary ??
+                                          '',
+                                      isCompleted: ((store.tasks
+                                                      .elementAt(index)
+                                                      .taskIsDone ==
+                                                  1)
+                                              ? true
+                                              : false) ==
+                                          false,
+                                    )
+                                  : const SizedBox.shrink());
                             },
-                            childCount: 5,
+                            childCount: store.tasks.length,
                           ),
                         );
                       }),
@@ -115,14 +129,25 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                         return SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
-                              return ItemTask(
-                                onPressed: () {},
-                                onPressedComplete: () {},
-                                time: '10/05/2022',
-                                title:
-                                    store.tasks[index].taskSummary.toString(),
-                                isCompleted: false,
-                              );
+                              return ((store.tasks
+                                          .elementAt(index)
+                                          .taskIsDone ==
+                                      0)
+                                  ? ItemTask(
+                                      onPressed: () {},
+                                      onPressedComplete: () {},
+                                      time: '10/05/2022',
+                                      title: store.tasks[index].taskSummary
+                                          .toString(),
+                                      isCompleted: ((store.tasks
+                                                      .elementAt(index)
+                                                      .taskIsDone ==
+                                                  1)
+                                              ? true
+                                              : false) ==
+                                          true,
+                                    )
+                                  : const SizedBox.shrink());
                             },
                             childCount: store.tasks.length,
                           ),

@@ -7,7 +7,7 @@ part of 'task.dart';
 // **************************************************************************
 
 Task _$TaskFromJson(Map<String, dynamic> json) => Task(
-      taskId: json['taskId'] as String?,
+      taskId: json['taskId'] as int?,
       taskCreateBy: json['taskCreateBy'] as String?,
       taskSummary: json['taskSummary'] as String?,
       taskDescription: json['taskDescription'] as String?,
@@ -17,9 +17,9 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task(
       taskDueTimeGTE: json['taskDueTimeGTE'] == null
           ? null
           : DateTime.parse(json['taskDueTimeGTE'] as String),
-      taskIsDone: json['taskIsDone'] as bool?,
+      taskIsDone: json['taskIsDone'] as int?,
       taskCreateAt: json['taskCreateAt'] as String?,
-      taskWorkspaceId: json['taskWorkspaceId'] as String?,
+      taskWorkspaceId: json['taskWorkspaceId'] as int?,
       staskAssignTo: json['staskAssignTo'] as String?,
     );
 
