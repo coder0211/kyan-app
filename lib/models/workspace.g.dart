@@ -7,7 +7,7 @@ part of 'workspace.dart';
 // **************************************************************************
 
 Workspace _$WorkspaceFromJson(Map<String, dynamic> json) => Workspace(
-      workspaceId: json['workspaceId'] as int,
+      workspaceId: json['workspaceId'] as int?,
       workspaceName: json['workspaceName'] as String?,
       workspaceUrlPhoto: json['workspaceUrlPhoto'] as String?,
       listMember: (json['listMember'] as List<dynamic>?)

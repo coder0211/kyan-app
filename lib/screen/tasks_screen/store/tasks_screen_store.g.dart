@@ -9,6 +9,22 @@ part of 'tasks_screen_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TasksScreenStore on _TasksScreenStore, Store {
+  late final _$_tasksAtom =
+      Atom(name: '_TasksScreenStore._tasks', context: context);
+
+  @override
+  ObservableList<Task> get _tasks {
+    _$_tasksAtom.reportRead();
+    return super._tasks;
+  }
+
+  @override
+  set _tasks(ObservableList<Task> value) {
+    _$_tasksAtom.reportWrite(value, super._tasks, () {
+      super._tasks = value;
+    });
+  }
+
   late final _$_localeKeyAtom =
       Atom(name: '_TasksScreenStore._localeKey', context: context);
 
@@ -71,6 +87,14 @@ mixin _$TasksScreenStore on _TasksScreenStore, Store {
     _$_accountDisplayNameAtom.reportWrite(value, super._accountDisplayName, () {
       super._accountDisplayName = value;
     });
+  }
+
+  late final _$getListTaskAsyncAction =
+      AsyncAction('_TasksScreenStore.getListTask', context: context);
+
+  @override
+  Future<void> getListTask() {
+    return _$getListTaskAsyncAction.run(() => super.getListTask());
   }
 
   @override

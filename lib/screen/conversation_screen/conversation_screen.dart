@@ -7,7 +7,6 @@ import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.
 import 'package:kyan/screen/conversation_screen/widgets/item_channel_chat.dart';
 import 'package:kyan/screen/conversation_screen/widgets/item_people_chat.dart';
 import 'package:kyan/screen/conversation_screen/widgets/modal_bottom_sheet_add_channel.dart';
-import 'package:kyan/screen/workspaces_screen/workspaces_screen.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
@@ -43,7 +42,6 @@ class _ConversationScreenState
         leadingWidth: 0,
         actions: [Container()],
       ),
-      endDrawer: _buildDrawer(),
       body: GestureDetector(
         onTap: () {
           BaseUtils.hideKeyboard(context);
@@ -233,9 +231,5 @@ class _ConversationScreenState
                 ),
               ],
             )));
-  }
-
-  Drawer _buildDrawer() {
-    return const Drawer(child: WorkspaceScreen());
   }
 }

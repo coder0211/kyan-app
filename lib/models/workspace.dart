@@ -5,14 +5,14 @@ part 'workspace.g.dart';
 
 @JsonSerializable()
 class Workspace {
-  final int workspaceId;
+  final int? workspaceId;
   final String? workspaceName;
   final String? workspaceUrlPhoto;
   final String? workspaceCodeJoin;
   final List<Account>? listMember;
 
   Workspace(
-      {required this.workspaceId,
+      {this.workspaceId,
       this.workspaceName,
       this.workspaceUrlPhoto,
       this.listMember,

@@ -1,5 +1,11 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/manager/manager_address.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
+import 'package:kyan/models/account.dart';
+import 'package:kyan/models/workspace.dart';
+import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/utils/utils.dart';
 import 'package:mobx/mobx.dart';
 part 'create_workspace_screen_store.g.dart';
 
@@ -7,6 +13,11 @@ class CreateWorkspaceScreenStore = _CreateWorkspaceScreenStore
     with _$CreateWorkspaceScreenStore;
 
 abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
+  BaseAPI _baseAPI = BaseAPI();
+  @observable
+  Account currentAccount = Account();
+  @observable
+  Workspace workspace = Workspace();
   @override
   void onInit(BuildContext context) {}
 
@@ -15,6 +26,44 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
+
+  @action
+  Future<void> onPressCreateWorkspace(BuildContext context,
+      {required String workspaceName}) async {
+    Map<String, dynamic>? body = {
+      'workspaceName': workspaceName,
+      'workspaceUrlPhoto':
+          'https://cdn.dribbble.com/users/808936/screenshots/3395283/dribbble.gif',
+      //'mailOwner': currentAccount.accountMail,
+      'workspaceCodeJoin': 0,
+    };
+    await _baseAPI
+        .fetchData(ManagerAddress.worksapceCreateOrUpdate,
+            body: body, method: ApiMethod.POST)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            BaseNavigation.push(context,
+                routeName: ManagerRoutes.mainScreen, clearStack: true);
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  @action
+  Future<void> saveCurrentWorkSpace({required int? workspaceId}) async {
+    await Utils.saveCurrentWorkSpace(workspaceId.toString());
+  }
 
   @override
   void resetValue() {}

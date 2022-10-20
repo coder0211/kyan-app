@@ -18,6 +18,5 @@ import 'package:kyan/screen/select_people_conversation_screen/select_people_conv
 import 'package:kyan/screen/splash_screen/splash_screen.dart';
 import 'package:kyan/screen/statistic_screen/statistic_screen.dart';
 import 'package:kyan/screen/team_tasks_screen/team_tasks_screen.dart';
-import 'package:kyan/screen/workspaces_screen/workspaces_screen.dart';
 
 part 'manager_routes.dart';

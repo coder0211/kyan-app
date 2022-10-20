@@ -23,7 +23,6 @@ class ManagerRoutes {
   static String staticScreen = '/static-screen';
   static String botScreen = '/bot-screen';
   static String pomodoroBotScreen = '/bot-screen';
-  static String workspacesScreen = '/worksapces-screen';
   static String memberWorkspaceScreen = '/member-worksapce-screen';
   static String createTaskScreen = '/member-task-screen';
   static String teamTasksScreen = '/team-tasks-screen';
@@ -47,7 +46,6 @@ class ManagerRoutes {
     staticScreen: (context) => const StatisticScreen(),
     botScreen: (context) => const BotScreen(),
     pomodoroBotScreen: (context) => const PomodoroBotScreen(),
-    workspacesScreen: (context) => const WorkspaceScreen(),
     createWorkspaceScreen: (context) => const CreateWorkspaceScreen(),
     memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),
     memberWorkspaceScreen: (context) => const MemberWorkspaceSceen(),

@@ -18,7 +18,6 @@ import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
 import 'package:kyan/screen/statistic_screen/store/statistic_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:kyan/screen/team_tasks_screen/store/team_tasks_screen_store.dart';
-import 'package:kyan/screen/workspaces_screen/store/workspaces_screen_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -45,7 +44,6 @@ class ManagerProvider {
     Provider<StatisticScreenStore>(create: (_) => StatisticScreenStore()),
     Provider<BotScreenStore>(create: (_) => BotScreenStore()),
     Provider<PomodoroBotScreenStore>(create: (_) => PomodoroBotScreenStore()),
-    Provider<WorkspacesScreenStore>(create: (_) => WorkspacesScreenStore()),
     Provider<CreateWorkspaceScreenStore>(
         create: (_) => CreateWorkspaceScreenStore()),
     Provider<MemberWorkspaceScreenStore>(
@@ -81,7 +79,6 @@ class ManagerProvider {
     context.read<StatisticScreenStore>().resetValue();
     context.read<BotScreenStore>().resetValue();
     context.read<PomodoroBotScreenStore>().resetValue();
-    context.read<WorkspacesScreenStore>().resetValue();
     context.read<CreateWorkspaceScreenStore>().resetValue();
     context.read<MemberWorkspaceScreenStore>().resetValue();
     context.read<TeamTasksScreenStore>().resetValue();
