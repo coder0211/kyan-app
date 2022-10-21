@@ -85,8 +85,13 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
       'Authorization':
           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
     };
+    Map<String, dynamic> params = {'id_user': '112200700068757511834'};
     await _baseAPI
-        .fetchData(ManagerAddress.workspacesGetAll, headers: headers)
+        .fetchData(
+      ManagerAddress.workspacesGetAllByIdUser,
+      headers: headers,
+      params: params,
+    )
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
@@ -95,7 +100,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
             printLogSusscess('SUCCEEDED');
             value.object
                 .forEach((it) => workspaces.add(Workspace.fromJson(it)));
-            print(workspaces[0].toJson());
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:

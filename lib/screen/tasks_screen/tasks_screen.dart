@@ -99,10 +99,11 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                       isCompleted: ((store.tasks
                                                       .elementAt(index)
                                                       .taskIsDone ==
-                                                  1)
+                                                  0)
                                               ? true
                                               : false) ==
-                                          false,
+                                          true,
+                                      // false,
                                     )
                                   : const SizedBox.shrink());
                             },
@@ -145,7 +146,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                                   1)
                                               ? true
                                               : false) ==
-                                          true,
+                                          false,
                                     )
                                   : const SizedBox.shrink());
                             },

@@ -90,7 +90,7 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
             printLogSusscess('SUCCEEDED');
             tasks.clear();
             value.object.forEach((it) => tasks.add(Task.fromJson(it)));
-            // Handle success response here
+
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
