@@ -42,12 +42,7 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
   void onInit(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS) {
-      googleSignIn = GoogleSignIn(
-          // scopes: <String>[
-          //   'email',
-          //   'https://www.googleapis.com/auth/contacts.readonly',
-          // ],
-          );
+      googleSignIn = GoogleSignIn();
     } else {
       googleSignIn = GoogleSignIn(
         clientId:
@@ -88,12 +83,43 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
         switch (value.apiStatus) {
           case ApiStatus.SUCCEEDED:
             {
-              currentAccount = Account.fromJson(value.object);
-              await BaseSharedPreferences.saveStringValue(
-                  ManagerKeyStorage.accessToken,
-                  currentAccount.accountAccessToken ?? '');
-              BaseNavigation.push(context,
-                  routeName: ManagerRoutes.mainScreen, clearStack: true);
+              await _baseAPI
+                  .fetchData(ManagerAddress.accountLogin,
+                      body: {'mail': currentAccount.accountMail},
+                      method: ApiMethod.POST)
+                  .then((value) async {
+                switch (value.apiStatus) {
+                  case ApiStatus.SUCCEEDED:
+                    {
+                      print("--------------------------------");
+                      print(value.object);
+                      print("--------------------------------");
+
+                      currentAccount = Account.fromJson(value.object);
+                      await BaseSharedPreferences.saveStringValue(
+                          ManagerKeyStorage.accessToken,
+                          currentAccount.accountAccessToken ?? '');
+                      BaseNavigation.push(context,
+                          routeName: ManagerRoutes.mainScreen,
+                          clearStack: true);
+                      break;
+                    }
+                  default:
+                    {
+                      printLogError('FAILED');
+                      BaseUtils.showToast(S.current.loginFailed,
+                          bgColor: AppColors.redPink);
+                      if (await BaseSharedPreferences.containKey(
+                          ManagerKeyStorage.accessToken)) {
+                        await BaseSharedPreferences.remove(
+                            ManagerKeyStorage.accessToken);
+                      }
+                      googleSignIn.disconnect();
+                      resetValue();
+                      break;
+                    }
+                }
+              });
               break;
             }
           case ApiStatus.INTERNET_UNAVAILABLE:

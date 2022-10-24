@@ -8,7 +8,9 @@ class Account {
   final String? accountMail;
   String? accountUrlPhoto;
   final String? accountDisplayName;
+  @JsonKey(name: 'accountToken')
   String? accountToken;
+  @JsonKey(name: 'token')
   String? accountAccessToken;
   bool isSelected;
 
