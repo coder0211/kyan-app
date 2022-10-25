@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
@@ -5,38 +7,38 @@ import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
-import 'package:kyan/utils/utils.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 part 'create_workspace_screen_store.g.dart';
 
 class CreateWorkspaceScreenStore = _CreateWorkspaceScreenStore
     with _$CreateWorkspaceScreenStore;
 
 abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
+  late LoginScreenStore _loginScreenStore;
   BaseAPI _baseAPI = BaseAPI();
   @observable
   Account currentAccount = Account();
   @observable
   Workspace workspace = Workspace();
   @override
-  void onInit(BuildContext context) {}
+  void onInit(BuildContext context) {
+    _loginScreenStore = context.read<LoginScreenStore>();
+  }
 
   @override
   void onDispose(BuildContext context) {}
 
-  @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {}
-
-  @action
   Future<void> onPressCreateWorkspace(BuildContext context,
       {required String workspaceName}) async {
     Map<String, dynamic>? body = {
       'workspaceName': workspaceName,
       'workspaceUrlPhoto':
           'https://cdn.dribbble.com/users/808936/screenshots/3395283/dribbble.gif',
-      //'mailOwner': currentAccount.accountMail,
       'workspaceCodeJoin': 0,
     };
+    // ResultPost resultPost = ResultPost();
+
     await _baseAPI
         .fetchData(ManagerAddress.worksapceCreateOrUpdate,
             body: body, method: ApiMethod.POST)
@@ -44,8 +46,7 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
-            BaseNavigation.push(context,
-                routeName: ManagerRoutes.mainScreen, clearStack: true);
+            BaseNavigation.push(context, routeName: ManagerRoutes.mainScreen);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -60,9 +61,12 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
     });
   }
 
-  @action
-  Future<void> saveCurrentWorkSpace({required int? workspaceId}) async {
-    await Utils.saveCurrentWorkSpace(workspaceId.toString());
+  @override
+  Future<void> onWidgetBuildDone(BuildContext context) async {}
+  @override
+  Future<void> saveCurrentWorkSpace(BuildContext context,
+      {required String workspaceName}) async {
+    await onPressCreateWorkspace(context, workspaceName: workspaceName);
   }
 
   @override
