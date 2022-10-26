@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
 import 'package:kyan/screen/create_task_screen/widgets/modal_bottom_sheet_due_time.dart';
@@ -108,6 +107,8 @@ class _CreateTaskScreenState
                                         fontWeight: FontWeight.w300,
                                         fontSize: 12,
                                         color: AppColors.gray),
+                                    textEditingController:
+                                        store.summaryEditController,
                                   ),
                                   const SizedBox(height: 10),
                                   S.current.dueTime.b1(),
@@ -241,7 +242,6 @@ class _CreateTaskScreenState
                 if (store.isActiveButton) {
                   store.isShowLoading = true;
                   await store.onPressCreateUpdateTask(context, id: null);
-
                   store.isShowLoading = false;
                   await store.getListTaskInCreateUpdateTask();
                   BaseNavigation.pop(context);

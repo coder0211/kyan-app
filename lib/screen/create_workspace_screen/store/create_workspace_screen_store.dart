@@ -6,10 +6,7 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
-<<<<<<< HEAD
-=======
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
->>>>>>> dev
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 part 'create_workspace_screen_store.g.dart';
@@ -66,12 +63,9 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
     });
   }
 
-<<<<<<< HEAD
-=======
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
 
->>>>>>> dev
   @override
   void resetValue() {}
 
