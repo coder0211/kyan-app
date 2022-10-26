@@ -51,32 +51,33 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                         actions: [Container()],
                         shadowColor: AppColors.transparent,
                         backgroundColor: AppColors.white,
-                        title: Observer(builder: (_) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Observer(builder: (_) {
+                              return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 5),
-                                child: '${S.current.todo} (${10})'
-                                    .b1(color: AppColors.redPink),
-                              ),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: AppColors.lightPrimary,
-                                  ),
-                                  child: S.current.today
-                                      .b1(color: AppColors.orange),
+                                child:
+                                    '${S.current.todo} (${store.tasks.length - store.countTaskDone})'
+                                        .b1(color: AppColors.redPink),
+                              );
+                            }),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: AppColors.lightPrimary,
                                 ),
+                                child:
+                                    S.current.today.b1(color: AppColors.orange),
                               ),
-                            ],
-                          );
-                        }),
+                            ),
+                          ],
+                        ),
                         floating: true,
                         toolbarHeight: 30,
                       ),
@@ -97,13 +98,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                               .elementAt(index)
                                               .taskSummary ??
                                           '',
-                                      isCompleted: ((store.tasks
-                                                      .elementAt(index)
-                                                      .taskIsDone ==
-                                                  0)
-                                              ? true
-                                              : false) ==
-                                          true,
+                                      isCompleted: false,
                                       // false,
                                     )
                                   : const SizedBox.shrink());
@@ -118,12 +113,12 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                         actions: [Container()],
                         shadowColor: AppColors.transparent,
                         backgroundColor: AppColors.white,
-                        title: Observer(builder: (_) {
-                          return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: '${S.current.done} (${10})'
-                                  .b1(color: AppColors.primary));
-                        }),
+                        title: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Observer(
+                                builder: (_) =>
+                                    '${S.current.done} (${store.countTaskDone})'
+                                        .b1(color: AppColors.primary))),
                         pinned: true,
                         toolbarHeight: 30,
                       ),
@@ -142,14 +137,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                           store.tasks.elementAt(index)),
                                       title: store.tasks[index].taskSummary
                                           .toString(),
-                                      isCompleted: ((store.tasks
-                                                      .elementAt(index)
-                                                      .taskIsDone ==
-                                                  1)
-                                              ? true
-                                              : false) ==
-                                          false,
-                                    )
+                                      isCompleted: true)
                                   : const SizedBox.shrink());
                             },
                             childCount: store.tasks.length,
@@ -166,22 +154,20 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                   ),
                 ),
         ),
-        Observer(builder: (_) {
-          return Visibility(
-              visible: true, //store.workspace.id != null,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 108),
-                child: BaseButton(
-                  bgColor: AppColors.orange,
-                  height: 36,
-                  onPressed: () {
-                    BaseNavigation.push(context,
-                        routeName: ManagerRoutes.teamTasksScreen);
-                  },
-                  child: S.current.teamTasks.b1(color: AppColors.white),
-                ),
-              ));
-        })
+        Visibility(
+            visible: true, //store.workspace.id != null,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 108),
+              child: BaseButton(
+                bgColor: AppColors.orange,
+                height: 36,
+                onPressed: () {
+                  BaseNavigation.push(context,
+                      routeName: ManagerRoutes.teamTasksScreen);
+                },
+                child: S.current.teamTasks.b1(color: AppColors.white),
+              ),
+            ))
       ],
     ));
   }

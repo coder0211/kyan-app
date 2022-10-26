@@ -74,7 +74,6 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
       if (currentAccount.accountUrlPhoto == null ||
           currentAccount.accountUrlPhoto == '')
         currentAccount.accountUrlPhoto = DEFAULT_AVATAR;
-      //? Call api
       isShowLoading = true;
       await _baseAPI
           .fetchData(ManagerAddress.accountCreateOrUpdate,
@@ -91,10 +90,6 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
                 switch (value.apiStatus) {
                   case ApiStatus.SUCCEEDED:
                     {
-                      print("--------------------------------");
-                      print(value.object);
-                      print("--------------------------------");
-
                       currentAccount = Account.fromJson(value.object);
                       await BaseSharedPreferences.saveStringValue(
                           ManagerKeyStorage.accessToken,
