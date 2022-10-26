@@ -77,6 +77,8 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
         builder: (_) {
           if (store.workspaceId != null)
             return FloatingActionButton(
+      floatingActionButton: store.workspaceId != null
+          ? FloatingActionButton(
               onPressed: () => store.onPressedAddTask(context),
               tooltip: S.current.createTask,
               child: const Icon(Icons.add),
@@ -86,6 +88,8 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
             return const SizedBox.shrink();
         },
       ),
+            )
+          : null,
     );
   }
 }
