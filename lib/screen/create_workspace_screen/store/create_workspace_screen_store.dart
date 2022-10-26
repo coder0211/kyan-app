@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
@@ -62,6 +60,7 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
       }
     });
   }
+
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
   @override
