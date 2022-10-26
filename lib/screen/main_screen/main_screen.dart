@@ -73,14 +73,19 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
         physics: const ScrollPhysics(),
         children: store.screens,
       ),
-      floatingActionButton: store.workspaceId != null
-          ? FloatingActionButton(
+      floatingActionButton: Observer(
+        builder: (_) {
+          if (store.workspaceId != null)
+            return FloatingActionButton(
               onPressed: () => store.onPressedAddTask(context),
               tooltip: S.current.createTask,
               child: const Icon(Icons.add),
               backgroundColor: AppColors.primary,
-            )
-          : null,
+            );
+          else
+            return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }
