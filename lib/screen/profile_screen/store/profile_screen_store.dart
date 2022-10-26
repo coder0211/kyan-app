@@ -95,7 +95,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
             printLogSusscess('SUCCEEDED');
             value.object
                 .forEach((it) => workspaces.add(Workspace.fromJson(it)));
-            print(workspaces[0].toJson());
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
