@@ -103,7 +103,8 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                                   0)
                                               ? true
                                               : false) ==
-                                          false,
+                                          true,
+                                      // false,
                                     )
                                   : const SizedBox.shrink());
                             },
@@ -147,7 +148,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                                   1)
                                               ? true
                                               : false) ==
-                                          true,
+                                          false,
                                     )
                                   : const SizedBox.shrink());
                             },

@@ -68,8 +68,11 @@ class _CreateTaskScreenState
                                           Observer(builder: (_) {
                                             return Checkbox(
                                               activeColor: AppColors.primary,
-                                              value: true,
-                                              onChanged: (_value) {},
+                                              value: store.isDone == 1,
+                                              onChanged: (_value) {
+                                                store.isDone =
+                                                    (_value ?? false) ? 1 : 0;
+                                              },
                                               shape:
                                                   const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
@@ -132,8 +135,10 @@ class _CreateTaskScreenState
                                         child: Observer(
                                             builder: (_) => Row(
                                                   children: [
-                                                    'startDay - dueDay'.b1R(
-                                                        color: AppColors.gray),
+                                                    '${store.dueTime ?? store.convertYMDTime(store.startDate)}'
+                                                        .b1R(
+                                                            color:
+                                                                AppColors.gray),
                                                   ],
                                                 ))),
                                   ),
@@ -153,6 +158,11 @@ class _CreateTaskScreenState
                                           showDialogConfirm(context,
                                               onConfirm: () async {
                                             BaseNavigation.pop(context);
+                                            store.isShowLoading = true;
+                                            // store.deleteTask(
+                                            //     id: agrs!.taskId ?? 0);
+                                            await store
+                                                .getListTaskInCreateUpdateTask();
                                             store.isShowLoading = false;
                                             BaseNavigation.pop(context);
                                           },
@@ -175,20 +185,27 @@ class _CreateTaskScreenState
                                     ),
                                   ),
                                   Observer(builder: (_) {
-                                    return Row(
-                                      children: [
-                                        S.current.withWorkspace.b1(),
-                                        Checkbox(
-                                          activeColor: AppColors.primary,
-                                          value: store.isWithWorkspace,
-                                          onChanged: (_value) {},
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                          ),
-                                        )
-                                      ],
-                                    );
+                                    return (store.indexYourAccount != -1)
+                                        ? Row(
+                                            children: [
+                                              S.current.withWorkspace.b1(),
+                                              Checkbox(
+                                                activeColor: AppColors.primary,
+                                                value: store.isWithWorkspace,
+                                                onChanged: (_value) {
+                                                  store.isWithWorkspace =
+                                                      _value ?? false;
+                                                },
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(5)),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        : Container();
                                   }),
                                   Observer(builder: (_) {
                                     return Column(
@@ -223,16 +240,16 @@ class _CreateTaskScreenState
               onPressed: () async {
                 if (store.isActiveButton) {
                   store.isShowLoading = true;
-                  await store.onPressCreateUpdateTask(context,
-                      id: agrs!.taskId);
+                  await store.onPressCreateUpdateTask(context, id: null);
+
                   store.isShowLoading = false;
                   await store.getListTaskInCreateUpdateTask();
                   BaseNavigation.pop(context);
                   Utils.showToast(
                       BaseNavigation.getArgs<String>(context, key: 'title') ==
                               S.current.createTask
-                          ? 'Created susscess'
-                          : 'Updated susscess');
+                          ? 'Created susscessfully'
+                          : 'Updated susscessfully');
                 }
               },
               child: Row(

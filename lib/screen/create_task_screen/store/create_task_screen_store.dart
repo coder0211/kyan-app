@@ -172,7 +172,7 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
     );
     await _baseAPI
         .fetchData(ManagerAddress.taskCreateOrUpdate,
-            headers: headers, body: tasks, method: ApiMethod.POST)
+            headers: headers, body: task.toJson(), method: ApiMethod.POST)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:

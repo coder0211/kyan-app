@@ -41,6 +41,7 @@ mixin _$CreateWorkspaceScreenStore on _CreateWorkspaceScreenStore, Store {
     });
   }
 
+<<<<<<< HEAD
   late final _$onPressCreateWorkspaceAsyncAction = AsyncAction(
       '_CreateWorkspaceScreenStore.onPressCreateWorkspace',
       context: context);
@@ -52,6 +53,8 @@ mixin _$CreateWorkspaceScreenStore on _CreateWorkspaceScreenStore, Store {
         super.onPressCreateWorkspace(context, workspaceName: workspaceName));
   }
 
+=======
+>>>>>>> dev
   @override
   String toString() {
     return '''

@@ -85,8 +85,19 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
       'Authorization':
           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
     };
+    Map<String, dynamic> params = {
+      'id_user': _loginScreenStore.currentAccount.accountId.toString()
+    };
     await _baseAPI
+<<<<<<< HEAD
         .fetchData(ManagerAddress.workspacesGetAllById, headers: headers)
+=======
+        .fetchData(
+      ManagerAddress.workspacesGetAllByIdUser,
+      headers: headers,
+      params: params,
+    )
+>>>>>>> dev
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
