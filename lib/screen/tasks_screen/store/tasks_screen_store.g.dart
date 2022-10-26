@@ -97,6 +97,20 @@ mixin _$TasksScreenStore on _TasksScreenStore, Store {
     return _$getListTaskAsyncAction.run(() => super.getListTask());
   }
 
+  late final _$_TasksScreenStoreActionController =
+      ActionController(name: '_TasksScreenStore', context: context);
+
+  @override
+  String convertTimeTask(Task task) {
+    final _$actionInfo = _$_TasksScreenStoreActionController.startAction(
+        name: '_TasksScreenStore.convertTimeTask');
+    try {
+      return super.convertTimeTask(task);
+    } finally {
+      _$_TasksScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
