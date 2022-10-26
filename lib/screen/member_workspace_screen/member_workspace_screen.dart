@@ -11,15 +11,15 @@ import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 
-class MemberWorkspaceSceen extends BaseScreen {
-  const MemberWorkspaceSceen({Key? key}) : super(key: key);
+class MemberWorkspaceScreen extends BaseScreen {
+  const MemberWorkspaceScreen({Key? key}) : super(key: key);
 
   @override
-  State<MemberWorkspaceSceen> createState() => _MemberWorkspaceSceenState();
+  State<MemberWorkspaceScreen> createState() => _MemberWorkspaceScreenState();
 }
 
-class _MemberWorkspaceSceenState
-    extends BaseScreenState<MemberWorkspaceSceen, MemberWorkspaceScreenStore> {
+class _MemberWorkspaceScreenState
+    extends BaseScreenState<MemberWorkspaceScreen, MemberWorkspaceScreenStore> {
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _build(context);

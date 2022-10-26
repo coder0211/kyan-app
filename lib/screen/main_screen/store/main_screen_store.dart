@@ -1,5 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/bot_screen/bot_screen.dart';
 import 'package:kyan/screen/conversation_screen/conversation_screen.dart';
@@ -25,6 +26,8 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
     _indexTabBar = indexTabBar;
   }
 
+  String accessToken = '';
+
   //? --      Funtions      -->
 
   @override
@@ -44,7 +47,12 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {}
+  Future<void> onWidgetBuildDone(BuildContext context) async {
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
+  }
 
   @override
   void resetValue() {

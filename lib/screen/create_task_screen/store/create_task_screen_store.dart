@@ -84,6 +84,7 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
+
   @action
   String convertDateRMTime(DateTime date) {
     return DateFormat('dd/MM/yyyy').format(date);

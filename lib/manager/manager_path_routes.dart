@@ -10,7 +10,7 @@ import 'package:kyan/screen/list_message_screen/list_message_screen.dart';
 import 'package:kyan/screen/login_screen/login_screen.dart';
 import 'package:kyan/screen/main_screen/main_screen.dart';
 import 'package:kyan/screen/mdbts_search_code_join_screen.dart/mdbts_search_code_join.dart';
-import 'package:kyan/screen/member_workspace_screen/memer_workspace_screen.dart';
+import 'package:kyan/screen/member_workspace_screen/member_workspace_screen.dart';
 import 'package:kyan/screen/pomodoro_bot_screen/pomodoro_bot_screen.dart';
 import 'package:kyan/screen/profile_screen/profie_screen.dart';
 import 'package:kyan/screen/select_people/select_people_screen.dart';
