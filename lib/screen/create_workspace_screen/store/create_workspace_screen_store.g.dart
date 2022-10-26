@@ -41,27 +41,6 @@ mixin _$CreateWorkspaceScreenStore on _CreateWorkspaceScreenStore, Store {
     });
   }
 
-  late final _$onPressCreateWorkspaceAsyncAction = AsyncAction(
-      '_CreateWorkspaceScreenStore.onPressCreateWorkspace',
-      context: context);
-
-  @override
-  Future<void> onPressCreateWorkspace(BuildContext context,
-      {required String workspaceName}) {
-    return _$onPressCreateWorkspaceAsyncAction.run(() =>
-        super.onPressCreateWorkspace(context, workspaceName: workspaceName));
-  }
-
-  late final _$saveCurrentWorkSpaceAsyncAction = AsyncAction(
-      '_CreateWorkspaceScreenStore.saveCurrentWorkSpace',
-      context: context);
-
-  @override
-  Future<void> saveCurrentWorkSpace({required int? workspaceId}) {
-    return _$saveCurrentWorkSpaceAsyncAction
-        .run(() => super.saveCurrentWorkSpace(workspaceId: workspaceId));
-  }
-
   @override
   String toString() {
     return '''

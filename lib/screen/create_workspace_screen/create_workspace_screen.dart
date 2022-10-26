@@ -27,7 +27,7 @@ class CreateWorkspaceScreen extends BaseScreen {
 
 class _CreateWorkspaceScreenState
     extends BaseScreenState<CreateWorkspaceScreen, CreateWorkspaceScreenStore> {
-  late TextEditingController _codeController = TextEditingController();
+  late TextEditingController _nameController = TextEditingController();
 
   @override
   Widget buildSmallScreen(BuildContext context) {
@@ -53,7 +53,7 @@ class _CreateWorkspaceScreenState
                 fontWeight: FontWeight.w300,
                 fontSize: 12,
                 color: AppColors.gray),
-            textEditingController: _codeController,
+            textEditingController: _nameController,
             onChanged: (value) {
               setState(() {});
             },
@@ -64,7 +64,7 @@ class _CreateWorkspaceScreenState
             child: BaseButton(
               onPressed: () async {
                 await store.onPressCreateWorkspace(context,
-                    workspaceName: _codeController.toString());
+                    workspaceName: _nameController.toString());
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

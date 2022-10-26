@@ -106,7 +106,11 @@ class _ProfileScreenState
                         ],
                       ),
                       //_buildDivider(),
-                      _buildListWorkspace(),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 1),
+                          child: Observer(
+                            builder: (_) => _buildListWorkspace(),
+                          )),
                       _buildActions()
                     ],
                   ),
