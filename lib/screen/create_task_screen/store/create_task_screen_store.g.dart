@@ -107,6 +107,73 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
     });
   }
 
+  late final _$summaryEditControllerAtom = Atom(
+      name: '_CreateTaskScreenStore.summaryEditController', context: context);
+
+  @override
+  TextEditingController get summaryEditController {
+    _$summaryEditControllerAtom.reportRead();
+    return super.summaryEditController;
+  }
+
+  @override
+  set summaryEditController(TextEditingController value) {
+    _$summaryEditControllerAtom.reportWrite(value, super.summaryEditController,
+        () {
+      super.summaryEditController = value;
+    });
+  }
+
+  late final _$descriptionEditControllerAtom = Atom(
+      name: '_CreateTaskScreenStore.descriptionEditController',
+      context: context);
+
+  @override
+  TextEditingController get descriptionEditController {
+    _$descriptionEditControllerAtom.reportRead();
+    return super.descriptionEditController;
+  }
+
+  @override
+  set descriptionEditController(TextEditingController value) {
+    _$descriptionEditControllerAtom
+        .reportWrite(value, super.descriptionEditController, () {
+      super.descriptionEditController = value;
+    });
+  }
+
+  late final _$workspaceAtom =
+      Atom(name: '_CreateTaskScreenStore.workspace', context: context);
+
+  @override
+  Workspace get workspace {
+    _$workspaceAtom.reportRead();
+    return super.workspace;
+  }
+
+  @override
+  set workspace(Workspace value) {
+    _$workspaceAtom.reportWrite(value, super.workspace, () {
+      super.workspace = value;
+    });
+  }
+
+  late final _$accountAtom =
+      Atom(name: '_CreateTaskScreenStore.account', context: context);
+
+  @override
+  Account get account {
+    _$accountAtom.reportRead();
+    return super.account;
+  }
+
+  @override
+  set account(Account value) {
+    _$accountAtom.reportWrite(value, super.account, () {
+      super.account = value;
+    });
+  }
+
   late final _$_isShowLoadingAtom =
       Atom(name: '_CreateTaskScreenStore._isShowLoading', context: context);
 
@@ -120,6 +187,22 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
   set _isShowLoading(bool value) {
     _$_isShowLoadingAtom.reportWrite(value, super._isShowLoading, () {
       super._isShowLoading = value;
+    });
+  }
+
+  late final _$_isDoneAtom =
+      Atom(name: '_CreateTaskScreenStore._isDone', context: context);
+
+  @override
+  int get _isDone {
+    _$_isDoneAtom.reportRead();
+    return super._isDone;
+  }
+
+  @override
+  set _isDone(int value) {
+    _$_isDoneAtom.reportWrite(value, super._isDone, () {
+      super._isDone = value;
     });
   }
 
@@ -187,20 +270,46 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
     });
   }
 
-  late final _$_workspaceAtom =
-      Atom(name: '_CreateTaskScreenStore._workspace', context: context);
+  late final _$_tasksAtom =
+      Atom(name: '_CreateTaskScreenStore._tasks', context: context);
 
   @override
-  Workspace get _workspace {
-    _$_workspaceAtom.reportRead();
-    return super._workspace;
+  ObservableList<Task> get _tasks {
+    _$_tasksAtom.reportRead();
+    return super._tasks;
   }
 
   @override
-  set _workspace(Workspace value) {
-    _$_workspaceAtom.reportWrite(value, super._workspace, () {
-      super._workspace = value;
+  set _tasks(ObservableList<Task> value) {
+    _$_tasksAtom.reportWrite(value, super._tasks, () {
+      super._tasks = value;
     });
+  }
+
+  late final _$idWorkspaceAtom =
+      Atom(name: '_CreateTaskScreenStore.idWorkspace', context: context);
+
+  @override
+  int get idWorkspace {
+    _$idWorkspaceAtom.reportRead();
+    return super.idWorkspace;
+  }
+
+  @override
+  set idWorkspace(int value) {
+    _$idWorkspaceAtom.reportWrite(value, super.idWorkspace, () {
+      super.idWorkspace = value;
+    });
+  }
+
+  late final _$onPressCreateUpdateTaskAsyncAction = AsyncAction(
+      '_CreateTaskScreenStore.onPressCreateUpdateTask',
+      context: context);
+
+  @override
+  Future<void> onPressCreateUpdateTask(BuildContext context, {int? id}) {
+    return _$onPressCreateUpdateTaskAsyncAction
+        .run(() => super.onPressCreateUpdateTask(context, id: id));
   }
 
   late final _$_CreateTaskScreenStoreActionController =
@@ -240,6 +349,17 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
   }
 
   @override
+  void setDataTask({required Task task}) {
+    final _$actionInfo = _$_CreateTaskScreenStoreActionController.startAction(
+        name: '_CreateTaskScreenStore.setDataTask');
+    try {
+      return super.setDataTask(task: task);
+    } finally {
+      _$_CreateTaskScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 blackoutDates: ${blackoutDates},
@@ -247,7 +367,12 @@ dateRangePickerController: ${dateRangePickerController},
 dateRangePickerView: ${dateRangePickerView},
 startDate: ${startDate},
 endDate: ${endDate},
-dueTime: ${dueTime}
+dueTime: ${dueTime},
+summaryEditController: ${summaryEditController},
+descriptionEditController: ${descriptionEditController},
+workspace: ${workspace},
+account: ${account},
+idWorkspace: ${idWorkspace}
     ''';
   }
 }

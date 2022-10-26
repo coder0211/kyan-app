@@ -1,8 +1,13 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/models/account.dart';
+import 'package:kyan/models/task.dart';
 import 'package:kyan/models/workspace.dart';
+import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
@@ -26,12 +31,29 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   @observable
   String? dueTime;
   @observable
+  TextEditingController summaryEditController = TextEditingController();
+  @observable
+  TextEditingController descriptionEditController = TextEditingController();
+  @observable
+  late Workspace workspace = Workspace();
+  @observable
+  late Account account = Account();
+
+  @observable
   bool _isShowLoading = false;
 
   bool get isShowLoading => _isShowLoading;
 
   set isShowLoading(bool isShowLoading) {
     _isShowLoading = isShowLoading;
+  }
+
+  @observable
+  int _isDone = 0;
+  int get isDone => _isDone;
+
+  set isDone(int isDone) {
+    _isDone = isDone;
   }
 
   @observable
@@ -68,16 +90,26 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
     _isActiveButton = isActiveButton;
   }
 
+  BaseAPI _baseAPI = BaseAPI();
   @observable
-  Workspace _workspace = Workspace(workspaceId: 1);
-  Workspace get workspace => _workspace;
+  ObservableList<Task> _tasks = ObservableList<Task>();
 
-  set workspace(Workspace workspace) {
-    _workspace = workspace;
+  ObservableList<Task> get tasks => _tasks;
+
+  set tasks(ObservableList<Task> tasks) {
+    _tasks = tasks;
   }
 
+  @observable
+  int idWorkspace = 0;
+
+  late LoginScreenStore _loginScreenStore;
+  late TasksScreenStore _tasksScreenStore;
   @override
-  void onInit(BuildContext context) {}
+  void onInit(BuildContext context) {
+    _loginScreenStore = context.read<LoginScreenStore>();
+    _tasksScreenStore = context.read<TasksScreenStore>();
+  }
 
   @override
   void onDispose(BuildContext context) {}
@@ -104,11 +136,81 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
     BaseNavigation.pop(context);
   }
 
+  @action
+  void setDataTask({required Task task}) {
+    summaryEditController.text = task.taskSummary ?? '';
+    isActiveButton = summaryEditController.text != '';
+    descriptionEditController.text = task.taskDescription ?? '';
+    startDate = DateFormat('yyyy-MM-dd')
+        .parse(task.taskDueTimeGTE.toString().split('T')[0]);
+    endDate = DateFormat('yyyy-MM-dd')
+        .parse(task.taskDueTimeLTE.toString().split('T')[0]);
+    String _startDate = convertDateRMTime(startDate);
+    String _endDate = convertDateRMTime(endDate);
+    dueTime = _startDate +
+        (_endDate != _startDate ? (' - ' + _endDate.toString()) : '');
+    isDone = task.taskIsDone ?? 0;
+    isWithWorkspace = task.taskWorkspaceId == 0 ? false : true;
+  }
+
+  @action
+  Future<void> onPressCreateUpdateTask(BuildContext context, {int? id}) async {
+    Map<String, dynamic> headers = {
+      'Authorization':
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
+    };
+    Task task = Task(
+      taskId: id,
+      taskCreateBy: _loginScreenStore.currentAccount.accountId,
+      taskSummary: summaryEditController.text,
+      taskDescription: descriptionEditController.text,
+      taskDueTimeGTE: endDate,
+      taskDueTimeLTE: startDate,
+      taskIsDone: isDone,
+      taskCreateAt: DateTime.now().toIso8601String(),
+      taskWorkspaceId: isWithWorkspace ? workspace.workspaceId : 0,
+      taskAssignTo: account.accountId,
+    );
+    await _baseAPI
+        .fetchData(ManagerAddress.taskCreateOrUpdate,
+            headers: headers, body: task.toJson(), method: ApiMethod.POST)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            tasks.clear();
+            printLogSusscess('SUCCEEDED');
+            value.object.forEach((it) => tasks.add(Task.fromJson(it)));
+            print(tasks[0].toJson());
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  Future<void> getListTaskInCreateUpdateTask() async {
+    isShowLoading = true;
+    _tasksScreenStore.getListTask();
+  }
+
   @override
   void resetValue() {
     blackoutDates = [];
     dateRangePickerView = DateRangePickerView.month;
+    startDate = DateTime.now();
+    endDate = DateTime.now();
+    dueTime;
+    isDone = 0;
     isShowLoading = false;
+    isActiveButton = false;
   }
 
   //... Some values and actions

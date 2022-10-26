@@ -13,7 +13,7 @@ class Task {
   int? taskIsDone;
   String? taskCreateAt;
   int? taskWorkspaceId;
-  String? staskAssignTo;
+  String? taskAssignTo;
 
   Task(
       {this.taskId,
@@ -25,7 +25,7 @@ class Task {
       this.taskIsDone,
       this.taskCreateAt,
       this.taskWorkspaceId,
-      this.staskAssignTo});
+      this.taskAssignTo});
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return _$TaskFromJson(json);

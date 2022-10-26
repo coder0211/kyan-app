@@ -22,8 +22,12 @@ class ManagerAddress {
 
   //?-- WORKSPACE -->
   static const String baseWorkspace = '/work-space';
+<<<<<<< HEAD
+  static const String workspacesGetAllById = '$baseWorkspace/get-all';
+=======
   static const String workspacesGetAllByIdUser =
       '$baseWorkspace/get-all-by-id-user';
+>>>>>>> dev
   static const String workspacesGetOne = '$baseWorkspace/get-one';
   static const String workspacesDelete = '$baseWorkspace/delete';
   static const String worksapceCreateOrUpdate =

@@ -4,11 +4,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
+import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
 import 'package:kyan/screen/create_task_screen/widgets/modal_bottom_sheet_due_time.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
+import 'package:kyan/utils/utils.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +24,7 @@ class CreateTaskScreen extends BaseScreen {
 
 class _CreateTaskScreenState
     extends BaseScreenState<CreateTaskScreen, CreateTaskScreenStore> {
+  late Task? agrs;
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _build(context);
@@ -65,8 +68,11 @@ class _CreateTaskScreenState
                                           Observer(builder: (_) {
                                             return Checkbox(
                                               activeColor: AppColors.primary,
-                                              value: true,
-                                              onChanged: (_value) {},
+                                              value: store.isDone == 1,
+                                              onChanged: (_value) {
+                                                store.isDone =
+                                                    (_value ?? false) ? 1 : 0;
+                                              },
                                               shape:
                                                   const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
@@ -80,12 +86,17 @@ class _CreateTaskScreenState
                                   ),
                                   const SizedBox(height: 10),
                                   CustomTextFormField(
-                                    hintText: S.current.hintSummary,
-                                    hintStyle: GoogleFonts.notoSans(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 12,
-                                        color: AppColors.gray),
-                                  ),
+                                      hintText: S.current.hintSummary,
+                                      hintStyle: GoogleFonts.notoSans(
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 12,
+                                          color: AppColors.gray),
+                                      textEditingController:
+                                          store.summaryEditController,
+                                      onChanged: (value) {
+                                        store.isActiveButton =
+                                            value.text.isNotEmpty;
+                                      }),
                                   const SizedBox(height: 10),
                                   S.current.description.b1(),
                                   const SizedBox(height: 0),
@@ -124,8 +135,10 @@ class _CreateTaskScreenState
                                         child: Observer(
                                             builder: (_) => Row(
                                                   children: [
-                                                    'startDay - dueDay'.b1R(
-                                                        color: AppColors.gray),
+                                                    '${store.dueTime ?? store.convertYMDTime(store.startDate)}'
+                                                        .b1R(
+                                                            color:
+                                                                AppColors.gray),
                                                   ],
                                                 ))),
                                   ),
@@ -133,7 +146,10 @@ class _CreateTaskScreenState
                                     height: 10,
                                   ),
                                   Visibility(
-                                    visible: true,
+                                    visible: BaseNavigation.getArgs<String>(
+                                            context,
+                                            key: 'title') ==
+                                        S.current.editTask,
                                     child: Padding(
                                       padding: const EdgeInsets.only(
                                           right: Dimens.SCREEN_PADDING),
@@ -142,6 +158,11 @@ class _CreateTaskScreenState
                                           showDialogConfirm(context,
                                               onConfirm: () async {
                                             BaseNavigation.pop(context);
+                                            store.isShowLoading = true;
+                                            // store.deleteTask(
+                                            //     id: agrs!.taskId ?? 0);
+                                            await store
+                                                .getListTaskInCreateUpdateTask();
                                             store.isShowLoading = false;
                                             BaseNavigation.pop(context);
                                           },
@@ -164,20 +185,27 @@ class _CreateTaskScreenState
                                     ),
                                   ),
                                   Observer(builder: (_) {
-                                    return Row(
-                                      children: [
-                                        S.current.withWorkspace.b1(),
-                                        Checkbox(
-                                          activeColor: AppColors.primary,
-                                          value: store.isWithWorkspace,
-                                          onChanged: (_value) {},
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                          ),
-                                        )
-                                      ],
-                                    );
+                                    return (store.indexYourAccount != -1)
+                                        ? Row(
+                                            children: [
+                                              S.current.withWorkspace.b1(),
+                                              Checkbox(
+                                                activeColor: AppColors.primary,
+                                                value: store.isWithWorkspace,
+                                                onChanged: (_value) {
+                                                  store.isWithWorkspace =
+                                                      _value ?? false;
+                                                },
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(5)),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        : Container();
                                   }),
                                   Observer(builder: (_) {
                                     return Column(
@@ -209,11 +237,28 @@ class _CreateTaskScreenState
               vertical: Dimens.SCREEN_PADDING),
           child: Observer(builder: (_) {
             return BaseButton(
-              onPressed: () async {},
+              onPressed: () async {
+                if (store.isActiveButton) {
+                  store.isShowLoading = true;
+                  await store.onPressCreateUpdateTask(context, id: null);
+
+                  store.isShowLoading = false;
+                  await store.getListTaskInCreateUpdateTask();
+                  BaseNavigation.pop(context);
+                  Utils.showToast(
+                      BaseNavigation.getArgs<String>(context, key: 'title') ==
+                              S.current.createTask
+                          ? 'Created susscessfully'
+                          : 'Updated susscessfully');
+                }
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  'Edit or Create'.b1(color: AppColors.white),
+                  BaseNavigation.getArgs<String>(context, key: 'title') ==
+                          S.current.createTask
+                      ? S.current.create.b1(color: AppColors.white)
+                      : S.current.updateUpper.b1(color: AppColors.white),
                 ],
               ),
               bgColor:
@@ -226,11 +271,10 @@ class _CreateTaskScreenState
   Widget _buildHeader() {
     return Stack(
       children: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           GestureDetector(
               onTap: () {
-                BaseNavigation.push(context,
-                    routeName: ManagerRoutes.mainScreen);
+                BaseNavigation.pop(context);
               },
               child: const Icon(
                 Icons.navigate_before,
@@ -239,7 +283,8 @@ class _CreateTaskScreenState
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Center(
-                child: Text('title',
+                child: Text(
+                    BaseNavigation.getArgs<String>(context, key: 'title'),
                     style: GoogleFonts.notoSans(
                         fontWeight: FontWeight.bold,
                         fontSize: 22,
@@ -248,7 +293,7 @@ class _CreateTaskScreenState
         ]),
         InkWell(
           onTap: () {
-            BaseNavigation.push(context, routeName: ManagerRoutes.mainScreen);
+            BaseNavigation.pop(context);
           },
           child: Container(
             padding: const EdgeInsets.only(top: Dimens.SCREEN_PADDING),
