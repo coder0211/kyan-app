@@ -4,8 +4,6 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
-import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
-import 'package:kyan/utils/utils.dart';
 import 'package:mobx/mobx.dart';
 part 'create_workspace_screen_store.g.dart';
 
@@ -58,11 +56,6 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
-  }
-
-  @action
-  Future<void> saveCurrentWorkSpace({required int? workspaceId}) async {
-    await Utils.saveCurrentWorkSpace(workspaceId.toString());
   }
 
   @override
