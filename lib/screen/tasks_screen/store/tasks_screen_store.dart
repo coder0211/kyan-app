@@ -6,6 +6,7 @@ import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 part 'tasks_screen_store.g.dart';
 
@@ -72,6 +73,16 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
 
   @override
   void onDispose(BuildContext context) {}
+
+  @action
+  String convertTimeTask(Task task) {
+    DateTime g = new DateFormat('yyyy-MM-dd')
+        .parse(task.taskDueTimeGTE.toString().split('T')[0]);
+    DateTime l = DateFormat('yyyy-MM-dd')
+        .parse(task.taskDueTimeLTE.toString().split('T')[0]);
+    return DateFormat('dd/MM/yyyy').format(g) +
+        (g != l ? (' - ' + DateFormat('dd/MM/yyyy').format(l)) : '');
+  }
 
   @action
   Future<void> getListTask() async {

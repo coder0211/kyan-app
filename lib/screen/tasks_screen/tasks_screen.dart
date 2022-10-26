@@ -87,11 +87,12 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                               return ((store.tasks
                                           .elementAt(index)
                                           .taskIsDone ==
-                                      1)
+                                      0)
                                   ? ItemTask(
                                       onPressed: () {},
                                       onPressedComplete: () {},
-                                      time: '10/05/2022',
+                                      time: store.convertTimeTask(
+                                          store.tasks.elementAt(index)),
                                       title: store.tasks
                                               .elementAt(index)
                                               .taskSummary ??
@@ -133,11 +134,12 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                               return ((store.tasks
                                           .elementAt(index)
                                           .taskIsDone ==
-                                      0)
+                                      1)
                                   ? ItemTask(
                                       onPressed: () {},
                                       onPressedComplete: () {},
-                                      time: '10/05/2022',
+                                      time: store.convertTimeTask(
+                                          store.tasks.elementAt(index)),
                                       title: store.tasks[index].taskSummary
                                           .toString(),
                                       isCompleted: ((store.tasks
