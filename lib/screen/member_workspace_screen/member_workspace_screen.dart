@@ -1,5 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
@@ -29,10 +30,13 @@ class _MemberWorkspaceScreenState
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: customAppBarBack(context, title: S.current.memberWorkspace),
-      body: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) => _itemMemberWorkSpace(Account()),
-          itemCount: 5),
+      body: Observer(builder: (_) {
+        return ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) =>
+                _itemMemberWorkSpace(store.members.elementAt(index)),
+            itemCount: store.members.length);
+      }),
     );
   }
 

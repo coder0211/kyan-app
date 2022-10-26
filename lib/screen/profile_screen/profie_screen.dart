@@ -280,7 +280,8 @@ class _ProfileScreenState
           GestureDetector(
               onTap: () {
                 BaseNavigation.push(context,
-                    routeName: ManagerRoutes.memberWorkspaceScreen);
+                    routeName: ManagerRoutes.memberWorkspaceScreen,
+                    arguments: {'workspaceId': item.workspaceId});
               },
               child: const Icon(
                 Icons.people_alt_outlined,
