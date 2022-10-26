@@ -29,6 +29,8 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
 
   String accessToken = '';
 
+  int? workspaceId = null;
+
   //? --      Funtions      -->
 
   @override
@@ -53,6 +55,12 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
       accessToken = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.accessToken);
     }
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.currentWorkspace)) ??
+          null;
+    }
   }
 
   @override
@@ -69,8 +77,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
   void onPressedAddTask(BuildContext context) {
     BaseNavigation.push(context,
         routeName: ManagerRoutes.createTaskScreen,
-        clearStack: true,
-        arguments: {'task': Task(taskId: null)});
+        arguments: {'task': Task(taskId: null), 'title': 'Create task'});
   }
 }
 

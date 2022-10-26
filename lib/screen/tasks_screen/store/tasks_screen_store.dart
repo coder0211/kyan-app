@@ -106,8 +106,7 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {'Authorization': accessToken};
 
     await _api
-        .fetchData(ManagerAddress.taskGetAll,
-            method: ApiMethod.GET, headers: headers)
+        .fetchData(ManagerAddress.taskGetAll, headers: headers)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:

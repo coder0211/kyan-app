@@ -142,22 +142,6 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
     });
   }
 
-  late final _$workspaceAtom =
-      Atom(name: '_CreateTaskScreenStore.workspace', context: context);
-
-  @override
-  Workspace get workspace {
-    _$workspaceAtom.reportRead();
-    return super.workspace;
-  }
-
-  @override
-  set workspace(Workspace value) {
-    _$workspaceAtom.reportWrite(value, super.workspace, () {
-      super.workspace = value;
-    });
-  }
-
   late final _$accountAtom =
       Atom(name: '_CreateTaskScreenStore.account', context: context);
 
@@ -203,6 +187,22 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
   set _isDone(int value) {
     _$_isDoneAtom.reportWrite(value, super._isDone, () {
       super._isDone = value;
+    });
+  }
+
+  late final _$workspaceIdAtom =
+      Atom(name: '_CreateTaskScreenStore.workspaceId', context: context);
+
+  @override
+  int get workspaceId {
+    _$workspaceIdAtom.reportRead();
+    return super.workspaceId;
+  }
+
+  @override
+  set workspaceId(int value) {
+    _$workspaceIdAtom.reportWrite(value, super.workspaceId, () {
+      super.workspaceId = value;
     });
   }
 
@@ -370,8 +370,8 @@ endDate: ${endDate},
 dueTime: ${dueTime},
 summaryEditController: ${summaryEditController},
 descriptionEditController: ${descriptionEditController},
-workspace: ${workspace},
 account: ${account},
+workspaceId: ${workspaceId},
 idWorkspace: ${idWorkspace}
     ''';
   }

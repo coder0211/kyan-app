@@ -1,10 +1,13 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
+import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -35,8 +38,6 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   @observable
   TextEditingController descriptionEditController = TextEditingController();
   @observable
-  late Workspace workspace = Workspace();
-  @observable
   late Account account = Account();
 
   @observable
@@ -55,6 +56,9 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   set isDone(int isDone) {
     _isDone = isDone;
   }
+
+  @observable
+  int workspaceId = 0;
 
   @observable
   bool _isWithWorkspace = false;
@@ -155,33 +159,37 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> onPressCreateUpdateTask(BuildContext context, {int? id}) async {
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.currentWorkspace)) ??
+          0;
+    }
     Map<String, dynamic> headers = {
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
+      'Authorization': _tasksScreenStore.accessToken
     };
-    Task task = Task(
-      taskId: id,
-      taskCreateBy: _loginScreenStore.currentAccount.accountId,
-      taskSummary: summaryEditController.text,
-      taskDescription: descriptionEditController.text,
-      taskDueTimeGTE: endDate,
-      taskDueTimeLTE: startDate,
-      taskIsDone: isDone,
-      taskCreateAt: DateTime.now().toIso8601String(),
-      taskWorkspaceId: isWithWorkspace ? workspace.workspaceId : 0,
-      taskAssignTo: account.accountId,
-    );
+    Map<String, dynamic> body = {
+      'taskCreateBy': _loginScreenStore.currentAccount.accountId,
+      'taskSummary': summaryEditController.text,
+      'taskDescription': descriptionEditController.text,
+      'taskDueTimeGTE': endDate.toString(),
+      'taskDueTimeLTE': startDate.toString(),
+      'taskIsDone': isDone,
+      'taskCreateAt': DateTime.now().toString(),
+      'taskWorkspaceId': workspaceId,
+      'taskAssignTo': _loginScreenStore.currentAccount.accountId,
+    };
+
+    if (id != null) {
+      body['taskId'] = id;
+    }
     await _baseAPI
         .fetchData(ManagerAddress.taskCreateOrUpdate,
-            headers: headers, body: task.toJson(), method: ApiMethod.POST)
+            headers: headers, body: body, method: ApiMethod.POST)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
-            tasks.clear();
-            printLogSusscess('SUCCEEDED');
-            value.object.forEach((it) => tasks.add(Task.fromJson(it)));
-            print(tasks[0].toJson());
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
