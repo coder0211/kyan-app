@@ -4,6 +4,7 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -61,6 +62,17 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
     _accountDisplayName = accountDisplayName;
   }
 
+  late String accessToken;
+
+  @observable
+  int _countTaskDone = 0;
+
+  int get countTaskDone => _countTaskDone;
+
+  set countTaskDone(int countTaskDone) {
+    _countTaskDone = countTaskDone;
+  }
+
   //? --      Funtions      -->
 
   @override
@@ -86,21 +98,27 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> getListTask() async {
-    Map<String, dynamic> headers = {
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
-    };
+    countTaskDone == 0;
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
+    Map<String, dynamic> headers = {'Authorization': accessToken};
 
     await _api
-        .fetchData(ManagerAddress.taskGetAll,
-            method: ApiMethod.GET, headers: headers)
+        .fetchData(ManagerAddress.taskGetAll, headers: headers)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
             tasks.clear();
-            value.object.forEach((it) => tasks.add(Task.fromJson(it)));
+            value.object.forEach((it) {
+              tasks.add(Task.fromJson(it));
+              if (tasks.elementAt(tasks.length - 1).taskIsDone == 1) {
+                countTaskDone++;
+              }
+            });
 
             break;
           }

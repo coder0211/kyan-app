@@ -62,50 +62,24 @@ class _ProfileScreenState
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          S.current.workspace.b2(),
-                          Row(
-                            children: [
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            S.current.workspace.b2(),
+                            Row(children: [
                               GestureDetector(
-                                onTap: () => {
-                                  showDialogCustomTwoOption(context,
-                                      option1: 'Join',
-                                      option2: 'Create', func1: () {
-                                    mdbtsSearchCodeJoinScreen(context);
-                                  }, func2: () {
-                                    mdbtsCreateWorkspaceScreen(context);
-                                  })
-                                },
-                                child: const Icon(
-                                  Icons.add,
-                                  size: 27,
-                                ),
-                              ),
-                              AnimSearchBar(
-                                width: 140,
-                                textController: textController,
-                                onSuffixTap: () {
-                                  setState(() {
-                                    textController.clear();
-                                  });
-                                },
-                                suffixIcon: const Icon(
-                                  Icons.search,
-                                  size: 22,
-                                ),
-                                color: Colors.white,
-                                autoFocus: false,
-                                closeSearchOnSuffixTap: true,
-                                animationDurationInMilli: 2000,
-                                rtl: true,
-                                helpText: '',
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      //_buildDivider(),
+                                  onTap: () => {
+                                        showDialogCustomTwoOption(context,
+                                            option1: 'Join',
+                                            option2: 'Create', func1: () {
+                                          mdbtsSearchCodeJoinScreen(context);
+                                        }, func2: () {
+                                          mdbtsCreateWorkspaceScreen(context);
+                                        })
+                                      },
+                                  child: const Icon(Icons.add, size: 27))
+                            ])
+                          ]),
+                      _buildDivider(),
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 1),
                           child: Observer(
@@ -120,30 +94,6 @@ class _ProfileScreenState
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildRowData() {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: ['20'.b1R(), 'Tasks'.b1()],
-            ),
-            Column(
-              children: ['3'.b1R(), 'Workspace'.b1()],
-            ),
-            Column(
-              children: ['20'.b1R(), 'Threads'.b1()],
-            )
-          ],
-        ),
-        const SizedBox(height: 20),
-        _buildDivider()
-      ],
     );
   }
 
@@ -292,12 +242,20 @@ class _ProfileScreenState
       shrinkWrap: true,
       itemCount: store.workspaces.length,
       itemBuilder: (context, index) => _buildItemWorkspace(
-          item: store.workspaces[index], isSelected: index == 0),
+          item: store.workspaces[index],
+          isSelected:
+              store.currentWorkspaceId == store.workspaces[index].workspaceId,
+          onPressedWorkspace: () async {
+            await store.onPressedWorkspace(store.workspaces[index]);
+            BaseNavigation.pop(context);
+          }),
     );
   }
 
   Widget _buildItemWorkspace(
-      {required Workspace item, required bool isSelected}) {
+      {required Workspace item,
+      required bool isSelected,
+      required VoidCallback onPressedWorkspace}) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: TIME_ANIMATION),
       margin: const EdgeInsets.symmetric(vertical: 2),
@@ -316,23 +274,19 @@ class _ProfileScreenState
           Expanded(
               child: GestureDetector(
                   onTap: () {
-                    BaseNavigation.push(context,
-                        routeName: ManagerRoutes.conversationScreen);
+                    onPressedWorkspace.call();
                   },
                   child: (item.workspaceName ?? '').b2R())),
-          Row(
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    BaseNavigation.push(context,
-                        routeName: ManagerRoutes.memberWorkspaceScreen);
-                  },
-                  child: const Icon(
-                    Icons.people,
-                    size: 27,
-                  )),
-            ],
-          )
+          GestureDetector(
+              onTap: () {
+                BaseNavigation.push(context,
+                    routeName: ManagerRoutes.memberWorkspaceScreen,
+                    arguments: {'workspaceId': item.workspaceId});
+              },
+              child: const Icon(
+                Icons.people_alt_outlined,
+                size: 27,
+              ))
         ],
       ),
     );

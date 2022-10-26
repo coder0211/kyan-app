@@ -1,5 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
@@ -11,15 +12,15 @@ import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 
-class MemberWorkspaceSceen extends BaseScreen {
-  const MemberWorkspaceSceen({Key? key}) : super(key: key);
+class MemberWorkspaceScreen extends BaseScreen {
+  const MemberWorkspaceScreen({Key? key}) : super(key: key);
 
   @override
-  State<MemberWorkspaceSceen> createState() => _MemberWorkspaceSceenState();
+  State<MemberWorkspaceScreen> createState() => _MemberWorkspaceScreenState();
 }
 
-class _MemberWorkspaceSceenState
-    extends BaseScreenState<MemberWorkspaceSceen, MemberWorkspaceScreenStore> {
+class _MemberWorkspaceScreenState
+    extends BaseScreenState<MemberWorkspaceScreen, MemberWorkspaceScreenStore> {
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _build(context);
@@ -29,10 +30,13 @@ class _MemberWorkspaceSceenState
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: customAppBarBack(context, title: S.current.memberWorkspace),
-      body: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) => _itemMemberWorkSpace(Account()),
-          itemCount: 5),
+      body: Observer(builder: (_) {
+        return ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) =>
+                _itemMemberWorkSpace(store.members.elementAt(index)),
+            itemCount: store.members.length);
+      }),
     );
   }
 

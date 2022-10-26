@@ -12,7 +12,7 @@ void showDialogCustomTwoOption(BuildContext context,
       builder: (BuildContext context) {
         return SimpleDialog(
           title: 'Select your option'
-              .b1R(color: AppColors.black, textAlign: TextAlign.center),
+              .b1(color: AppColors.black, textAlign: TextAlign.center),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           children: <Widget>[
@@ -22,16 +22,16 @@ void showDialogCustomTwoOption(BuildContext context,
                 BaseNavigation.pop(context);
                 func1.call();
               },
-              child:
-                  option1.b1(color: Colors.black, textAlign: TextAlign.center),
+              child: option1.b1(
+                  color: AppColors.primary, textAlign: TextAlign.center),
             ),
             SimpleDialogOption(
               onPressed: () {
                 BaseNavigation.pop(context);
                 func2.call();
               },
-              child:
-                  option2.b1(color: Colors.black, textAlign: TextAlign.center),
+              child: option2.b1(
+                  color: AppColors.black, textAlign: TextAlign.center),
             ),
           ],
         );
