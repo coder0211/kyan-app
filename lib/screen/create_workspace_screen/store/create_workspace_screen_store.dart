@@ -37,11 +37,13 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
           'https://cdn.dribbble.com/users/808936/screenshots/3395283/dribbble.gif',
       'workspaceCodeJoin': 0,
     };
-    // ResultPost resultPost = ResultPost();
-
+    Map<String, dynamic>? headers = {
+      'Authorization':
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
+    };
     await _baseAPI
         .fetchData(ManagerAddress.worksapceCreateOrUpdate,
-            body: body, method: ApiMethod.POST)
+            body: body, headers: headers, method: ApiMethod.POST)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
@@ -63,11 +65,6 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
-  @override
-  Future<void> saveCurrentWorkSpace(BuildContext context,
-      {required String workspaceName}) async {
-    await onPressCreateWorkspace(context, workspaceName: workspaceName);
-  }
 
   @override
   void resetValue() {}
