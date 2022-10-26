@@ -56,29 +56,34 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
 
   Widget _buildBody() {
     return Scaffold(
-      backgroundColor: AppColors.white,
-      extendBody: true,
-      drawerEdgeDragWidth: MediaQuery.of(context).size.width,
-      drawer: const ProfileScreen(),
-      drawerScrimColor: AppColors.transparent,
-      bottomNavigationBar: Observer(builder: (_) {
-        return _bottomNavigationBar();
-      }),
-      body: PageView(
-        scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
-        controller: store.pageController,
-        onPageChanged: (int indexPage) {
-          store.indexTabBar = indexPage;
-        },
-        physics: const ScrollPhysics(),
-        children: store.screens,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => store.onPressedAddTask(context),
-        tooltip: S.current.createTask,
-        child: const Icon(Icons.add),
-        backgroundColor: AppColors.primary,
-      ),
-    );
+        backgroundColor: AppColors.white,
+        extendBody: true,
+        drawerEdgeDragWidth: MediaQuery.of(context).size.width,
+        drawer: const ProfileScreen(),
+        drawerScrimColor: AppColors.transparent,
+        bottomNavigationBar: Observer(builder: (_) {
+          return _bottomNavigationBar();
+        }),
+        body: PageView(
+          scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
+          controller: store.pageController,
+          onPageChanged: (int indexPage) {
+            store.indexTabBar = indexPage;
+          },
+          physics: const ScrollPhysics(),
+          children: store.screens,
+        ),
+        floatingActionButton: Observer(builder: (_) {
+          if (store.workspaceId != null)
+            return FloatingActionButton(
+              onPressed: () => store.onPressedAddTask(context),
+              tooltip: S.current.createTask,
+              child: const Icon(Icons.add),
+              backgroundColor: AppColors.primary,
+            );
+          else {
+            return const SizedBox.shrink();
+          }
+        }));
   }
 }

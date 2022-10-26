@@ -89,6 +89,22 @@ mixin _$TasksScreenStore on _TasksScreenStore, Store {
     });
   }
 
+  late final _$_countTaskDoneAtom =
+      Atom(name: '_TasksScreenStore._countTaskDone', context: context);
+
+  @override
+  int get _countTaskDone {
+    _$_countTaskDoneAtom.reportRead();
+    return super._countTaskDone;
+  }
+
+  @override
+  set _countTaskDone(int value) {
+    _$_countTaskDoneAtom.reportWrite(value, super._countTaskDone, () {
+      super._countTaskDone = value;
+    });
+  }
+
   late final _$getListTaskAsyncAction =
       AsyncAction('_TasksScreenStore.getListTask', context: context);
 

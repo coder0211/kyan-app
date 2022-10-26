@@ -96,6 +96,22 @@ mixin _$ProfileScreenStore on _ProfileScreenStore, Store {
     });
   }
 
+  late final _$_currentWorkspaceIdAtom =
+      Atom(name: '_ProfileScreenStore._currentWorkspaceId', context: context);
+
+  @override
+  int get _currentWorkspaceId {
+    _$_currentWorkspaceIdAtom.reportRead();
+    return super._currentWorkspaceId;
+  }
+
+  @override
+  set _currentWorkspaceId(int value) {
+    _$_currentWorkspaceIdAtom.reportWrite(value, super._currentWorkspaceId, () {
+      super._currentWorkspaceId = value;
+    });
+  }
+
   late final _$setLanguagesAsyncAction =
       AsyncAction('_ProfileScreenStore.setLanguages', context: context);
 
@@ -112,6 +128,15 @@ mixin _$ProfileScreenStore on _ProfileScreenStore, Store {
   @override
   Future<void> logout(BuildContext context) {
     return _$logoutAsyncAction.run(() => super.logout(context));
+  }
+
+  late final _$onPressedWorkspaceAsyncAction =
+      AsyncAction('_ProfileScreenStore.onPressedWorkspace', context: context);
+
+  @override
+  Future<void> onPressedWorkspace(Workspace workspace) {
+    return _$onPressedWorkspaceAsyncAction
+        .run(() => super.onPressedWorkspace(workspace));
   }
 
   @override

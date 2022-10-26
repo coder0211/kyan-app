@@ -7,6 +7,7 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -69,11 +70,22 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
 
   BaseAPI _baseAPI = BaseAPI();
 
+  late MainScreenStore _mainScreenStore;
+
+  @observable
+  int _currentWorkspaceId = -1;
+
+  int get currentWorkspaceId => _currentWorkspaceId;
+
+  set currentWorkspaceId(int currentWorkspaceId) {
+    _currentWorkspaceId = currentWorkspaceId;
+  }
   //? --      Funtions      -->
 
   @override
   void onInit(BuildContext context) {
     _loginScreenStore = context.read<LoginScreenStore>();
+    _mainScreenStore = context.read<MainScreenStore>();
     accountUrlPhoto = _loginScreenStore.currentAccount.accountUrlPhoto ?? '';
     accountMail = _loginScreenStore.currentAccount.accountMail ?? '';
     accountDisplayName =
@@ -82,8 +94,7 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
 
   Future<void> getListWorkspace() async {
     Map<String, dynamic> headers = {
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
+      'Authorization': _mainScreenStore.accessToken
     };
     Map<String, dynamic> params = {
       'id_user': _loginScreenStore.currentAccount.accountId.toString()
@@ -109,7 +120,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
         default:
           {
             printLogError('FAILED');
-            // Handle failed response here
             break;
           }
       }
@@ -122,6 +132,7 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
     await _getLanguage(context);
+    await _getWorkspaceId();
     await getListWorkspace();
   }
 
@@ -153,6 +164,23 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
           ManagerKeyStorage.language);
     } else {
       localeLanguage = 'en';
+    }
+  }
+
+  @action
+  Future<void> onPressedWorkspace(Workspace workspace) async {
+    await BaseSharedPreferences.saveStringValue(
+        ManagerKeyStorage.currentWorkspace, workspace.workspaceId.toString());
+    currentWorkspaceId = workspace.workspaceId ?? -1;
+  }
+
+  Future<void> _getWorkspaceId() async {
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      currentWorkspaceId = int.tryParse(
+              await BaseSharedPreferences.getStringValue(
+                  ManagerKeyStorage.currentWorkspace)) ??
+          -1;
     }
   }
 }
