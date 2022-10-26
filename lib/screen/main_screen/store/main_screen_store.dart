@@ -29,6 +29,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
 
   String accessToken = '';
 
+  @observable
   int? workspaceId = null;
 
   //? --      Funtions      -->

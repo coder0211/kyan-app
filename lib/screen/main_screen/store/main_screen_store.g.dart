@@ -25,6 +25,22 @@ mixin _$MainScreenStore on _MainScreenStore, Store {
     });
   }
 
+  late final _$workspaceIdAtom =
+      Atom(name: '_MainScreenStore.workspaceId', context: context);
+
+  @override
+  int? get workspaceId {
+    _$workspaceIdAtom.reportRead();
+    return super.workspaceId;
+  }
+
+  @override
+  set workspaceId(int? value) {
+    _$workspaceIdAtom.reportWrite(value, super.workspaceId, () {
+      super.workspaceId = value;
+    });
+  }
+
   late final _$_MainScreenStoreActionController =
       ActionController(name: '_MainScreenStore', context: context);
 
@@ -53,7 +69,7 @@ mixin _$MainScreenStore on _MainScreenStore, Store {
   @override
   String toString() {
     return '''
-
+workspaceId: ${workspaceId}
     ''';
   }
 }
