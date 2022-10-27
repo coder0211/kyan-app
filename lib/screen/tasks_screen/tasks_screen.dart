@@ -90,8 +90,19 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                           .taskIsDone ==
                                       0)
                                   ? ItemTask(
-                                      onPressed: () {},
-                                      onPressedComplete: () {},
+                                      onPressed: () {
+                                        BaseNavigation.push(context,
+                                            routeName:
+                                                ManagerRoutes.createTaskScreen,
+                                            arguments: {
+                                              'task': store.tasks[index],
+                                              'title': 'Create task'
+                                            });
+                                      },
+                                      onPressedComplete: () async {
+                                        await store.onPressedComplete(context,
+                                            task: store.tasks[index]);
+                                      },
                                       time: store.convertTimeTask(
                                           store.tasks.elementAt(index)),
                                       title: store.tasks
@@ -131,8 +142,19 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                           .taskIsDone ==
                                       1)
                                   ? ItemTask(
-                                      onPressed: () {},
-                                      onPressedComplete: () {},
+                                      onPressed: () {
+                                        BaseNavigation.push(context,
+                                            routeName:
+                                                ManagerRoutes.createTaskScreen,
+                                            arguments: {
+                                              'task': store.tasks[index],
+                                              'title': 'Create task'
+                                            });
+                                      },
+                                      onPressedComplete: () async {
+                                        await store.onPressedComplete(context,
+                                            task: store.tasks[index]);
+                                      },
                                       time: store.convertTimeTask(
                                           store.tasks.elementAt(index)),
                                       title: store.tasks[index].taskSummary

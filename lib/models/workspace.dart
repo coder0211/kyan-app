@@ -9,14 +9,15 @@ class Workspace {
   final String? workspaceName;
   final String? workspaceUrlPhoto;
   final String? workspaceCodeJoin;
-  final List<Account>? listMember;
+  final List<Account>? members;
 
-  Workspace(
-      {this.workspaceId,
-      this.workspaceName,
-      this.workspaceUrlPhoto,
-      this.listMember,
-      this.workspaceCodeJoin});
+  Workspace({
+    this.workspaceId,
+    this.workspaceName,
+    this.workspaceUrlPhoto,
+    this.workspaceCodeJoin,
+    this.members,
+  });
   factory Workspace.fromJson(Map<String, dynamic> json) {
     return _$WorkspaceFromJson(json);
   }

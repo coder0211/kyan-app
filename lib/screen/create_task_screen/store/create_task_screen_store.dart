@@ -116,7 +116,9 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   void onDispose(BuildContext context) {}
 
   @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {}
+  Future<void> onWidgetBuildDone(BuildContext context) async {
+    setDataTask(task: BaseNavigation.getArgs(context, key: 'task'));
+  }
 
   @action
   String convertDateRMTime(DateTime date) {
