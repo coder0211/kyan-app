@@ -105,12 +105,53 @@ mixin _$TasksScreenStore on _TasksScreenStore, Store {
     });
   }
 
+  late final _$_workspaceIdAtom =
+      Atom(name: '_TasksScreenStore._workspaceId', context: context);
+
+  @override
+  int get _workspaceId {
+    _$_workspaceIdAtom.reportRead();
+    return super._workspaceId;
+  }
+
+  @override
+  set _workspaceId(int value) {
+    _$_workspaceIdAtom.reportWrite(value, super._workspaceId, () {
+      super._workspaceId = value;
+    });
+  }
+
+  late final _$_selectedDateAtom =
+      Atom(name: '_TasksScreenStore._selectedDate', context: context);
+
+  @override
+  DateTime get _selectedDate {
+    _$_selectedDateAtom.reportRead();
+    return super._selectedDate;
+  }
+
+  @override
+  set _selectedDate(DateTime value) {
+    _$_selectedDateAtom.reportWrite(value, super._selectedDate, () {
+      super._selectedDate = value;
+    });
+  }
+
   late final _$getListTaskAsyncAction =
       AsyncAction('_TasksScreenStore.getListTask', context: context);
 
   @override
   Future<void> getListTask() {
     return _$getListTaskAsyncAction.run(() => super.getListTask());
+  }
+
+  late final _$onPressedCompleteAsyncAction =
+      AsyncAction('_TasksScreenStore.onPressedComplete', context: context);
+
+  @override
+  Future<void> onPressedComplete(BuildContext context, {required Task task}) {
+    return _$onPressedCompleteAsyncAction
+        .run(() => super.onPressedComplete(context, task: task));
   }
 
   late final _$_TasksScreenStoreActionController =

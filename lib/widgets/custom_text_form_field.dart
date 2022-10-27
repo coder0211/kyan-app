@@ -22,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final FocusNode? focusNode;
   final List<TextInputFormatter> formatterList;
+  final Color borderColor;
   const CustomTextFormField({
     Key? key,
     this.hintText,
@@ -44,6 +45,7 @@ class CustomTextFormField extends StatelessWidget {
     this.autofocus = false,
     this.formatterList = const [],
     this.maxLength,
+    this.borderColor = AppColors.transparent,
   }) : super(key: key);
 
   @override
@@ -52,7 +54,8 @@ class CustomTextFormField extends StatelessWidget {
       height: height ?? 51,
       decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          border: Border.all(color: borderColor)),
       child: TextFormField(
         cursorColor: AppColors.black,
         keyboardType: keyboardType,

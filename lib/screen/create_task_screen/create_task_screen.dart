@@ -56,10 +56,10 @@ class _CreateTaskScreenState
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                S.current.summary.b1(),
+                                S.current.summary.b1R(),
                                 Row(
                                   children: [
-                                    S.current.done.b1(),
+                                    S.current.done.b1(color: AppColors.primary),
                                     Observer(builder: (_) {
                                       return Checkbox(
                                         activeColor: AppColors.primary,
@@ -80,18 +80,20 @@ class _CreateTaskScreenState
                             ),
                             const SizedBox(height: 10),
                             CustomTextFormField(
-                                hintText: S.current.hintSummary,
-                                hintStyle: GoogleFonts.notoSans(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 12,
-                                    color: AppColors.gray),
-                                textEditingController:
-                                    store.summaryEditController,
-                                onChanged: (value) {
-                                  store.isActiveButton = value.text.isNotEmpty;
-                                }),
+                              hintText: S.current.hintSummary,
+                              hintStyle: GoogleFonts.notoSans(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 12,
+                                  color: AppColors.gray),
+                              textEditingController:
+                                  store.summaryEditController,
+                              onChanged: (value) {
+                                store.isActiveButton = value.text.isNotEmpty;
+                              },
+                              borderColor: AppColors.gray.withOpacity(0.3),
+                            ),
                             const SizedBox(height: 10),
-                            S.current.description.b1(),
+                            S.current.description.b1R(),
                             const SizedBox(height: 0),
                             CustomTextFormField(
                               height: 108,
@@ -103,9 +105,10 @@ class _CreateTaskScreenState
                                   color: AppColors.gray),
                               textEditingController:
                                   store.descriptionEditController,
+                              borderColor: AppColors.gray.withOpacity(0.3),
                             ),
                             const SizedBox(height: 10),
-                            S.current.dueTime.b1(),
+                            S.current.dueTime.b1R(),
                             const SizedBox(height: 10),
                             GestureDetector(
                               onTap: () {
@@ -130,7 +133,8 @@ class _CreateTaskScreenState
                                       builder: (_) => Row(
                                             children: [
                                               '${store.dueTime ?? store.convertYMDTime(store.startDate)}'
-                                                  .b1R(color: AppColors.gray),
+                                                  .b1R(
+                                                      color: AppColors.primary),
                                             ],
                                           ))),
                             ),
@@ -197,7 +201,7 @@ class _CreateTaskScreenState
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  S.current.assignTo.b1(),
+                                  S.current.assignTo.b1R(),
                                   const SizedBox(height: 10),
                                   const Padding(
                                     padding: EdgeInsets.only(left: 10),
@@ -271,12 +275,9 @@ class _CreateTaskScreenState
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Center(
-                child: Text(
-                    BaseNavigation.getArgs<String>(context, key: 'title'),
-                    style: GoogleFonts.notoSans(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                        color: AppColors.primary))),
+              child: BaseNavigation.getArgs<String>(context, key: 'title')
+                  .t2R(color: AppColors.primary),
+            ),
           ),
         ]),
         InkWell(
@@ -289,7 +290,7 @@ class _CreateTaskScreenState
                 alignment: Alignment.centerRight,
                 child: Image.asset(
                   Images.iconClose,
-                  height: 20,
+                  height: 16,
                 )),
           ),
         )

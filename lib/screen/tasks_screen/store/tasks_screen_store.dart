@@ -15,7 +15,7 @@ class TasksScreenStore = _TasksScreenStore with _$TasksScreenStore;
 
 abstract class _TasksScreenStore with Store, BaseStoreMixin {
   //? --      Variables      -->
-  BaseAPI _api = BaseAPI();
+  BaseAPI _baseAPI = BaseAPI();
 
   @observable
   ObservableList<Task> _tasks = ObservableList<Task>();
@@ -73,6 +73,23 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
     _countTaskDone = countTaskDone;
   }
 
+  @observable
+  int _workspaceId = -1;
+
+  int get workspaceId => _workspaceId;
+
+  set workspaceId(int workspaceId) {
+    _workspaceId = workspaceId;
+  }
+
+  @observable
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
+
+  set selectedDate(DateTime selectedDate) {
+    _selectedDate = selectedDate;
+  }
   //? --      Funtions      -->
 
   @override
@@ -98,15 +115,18 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> getListTask() async {
-    countTaskDone == 0;
+    countTaskDone = 0;
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
       accessToken = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.accessToken);
     }
     Map<String, dynamic> headers = {'Authorization': accessToken};
-
-    await _api
-        .fetchData(ManagerAddress.taskGetAll, headers: headers)
+    Map<String, dynamic> params = {
+      'taskAssignTo': _loginScreenStore.currentAccount.accountId,
+      'taskDueTimeGTE': selectedDate.toString()
+    };
+    await _baseAPI
+        .fetchData(ManagerAddress.taskGetAll, headers: headers, params: params)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
@@ -138,6 +158,12 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
   Future<void> onWidgetBuildDone(BuildContext context) async {
     await _getLanguage(context);
     await getListTask();
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.currentWorkspace)) ??
+          0;
+    }
   }
 
   @override
@@ -150,6 +176,33 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
     } else {
       localeKey = 'en';
     }
+  }
+
+  @action
+  Future<void> onPressedComplete(BuildContext context,
+      {required Task task}) async {
+    Map<String, dynamic> headers = {'Authorization': accessToken};
+    task.taskIsDone = task.taskIsDone == 1 ? 0 : 1;
+    await _baseAPI
+        .fetchData(ManagerAddress.taskCreateOrUpdate,
+            headers: headers, body: task.toJson(), method: ApiMethod.POST)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            getListTask();
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
   }
 }
 
