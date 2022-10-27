@@ -64,7 +64,11 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                               );
                             }),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                store.selectedDate = DateTime.now();
+
+                                store.getListTask();
+                              },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),
@@ -90,8 +94,19 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                           .taskIsDone ==
                                       0)
                                   ? ItemTask(
-                                      onPressed: () {},
-                                      onPressedComplete: () {},
+                                      onPressed: () {
+                                        BaseNavigation.push(context,
+                                            routeName:
+                                                ManagerRoutes.createTaskScreen,
+                                            arguments: {
+                                              'task': store.tasks[index],
+                                              'title': 'Edit task'
+                                            });
+                                      },
+                                      onPressedComplete: () async {
+                                        await store.onPressedComplete(context,
+                                            task: store.tasks[index]);
+                                      },
                                       time: store.convertTimeTask(
                                           store.tasks.elementAt(index)),
                                       title: store.tasks
@@ -131,8 +146,19 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                           .taskIsDone ==
                                       1)
                                   ? ItemTask(
-                                      onPressed: () {},
-                                      onPressedComplete: () {},
+                                      onPressed: () {
+                                        BaseNavigation.push(context,
+                                            routeName:
+                                                ManagerRoutes.createTaskScreen,
+                                            arguments: {
+                                              'task': store.tasks[index],
+                                              'title': 'Create task'
+                                            });
+                                      },
+                                      onPressedComplete: () async {
+                                        await store.onPressedComplete(context,
+                                            task: store.tasks[index]);
+                                      },
                                       time: store.convertTimeTask(
                                           store.tasks.elementAt(index)),
                                       title: store.tasks[index].taskSummary
@@ -193,7 +219,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                     imageUrl: store.accountUrlPhoto,
                     width: 50,
                     isShowBordered: true,
-                    borderColor: AppColors.lightPrimary,
+                    borderColor: AppColors.primary,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -213,10 +239,13 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
           const SizedBox(height: 10),
           Observer(builder: (_) {
             return CalendarTimeline(
-              initialDate: DateTime.now(),
+              initialDate: store.selectedDate,
               firstDate: DateTime(2022, 1, 1),
               lastDate: DateTime(2056, 11, 20),
-              onDateSelected: (date) {},
+              onDateSelected: (date) {
+                store.selectedDate = date;
+                store.getListTask();
+              },
               leftMargin: 20,
               monthColor: AppColors.gray,
               dayColor: AppColors.gray,

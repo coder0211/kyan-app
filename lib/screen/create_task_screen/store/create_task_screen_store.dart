@@ -116,7 +116,9 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   void onDispose(BuildContext context) {}
 
   @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {}
+  Future<void> onWidgetBuildDone(BuildContext context) async {
+    setDataTask(task: BaseNavigation.getArgs(context, key: 'task'));
+  }
 
   @action
   String convertDateRMTime(DateTime date) {
@@ -129,7 +131,16 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   }
 
   @action
+  void getStartEndDueTime() {
+    startDate =
+        dateRangePickerController.selectedRange?.startDate ?? DateTime.now();
+    endDate =
+        dateRangePickerController.selectedRange?.endDate ?? DateTime.now();
+  }
+
+  @action
   void getDueTime(BuildContext context) {
+    getStartEndDueTime();
     String _startDate = convertDateRMTime(startDate);
     String _endDate = convertDateRMTime(endDate);
     dueTime = _startDate +
@@ -169,8 +180,8 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
       'taskCreateBy': _loginScreenStore.currentAccount.accountId,
       'taskSummary': summaryEditController.text,
       'taskDescription': descriptionEditController.text,
-      'taskDueTimeGTE': endDate.toString(),
-      'taskDueTimeLTE': startDate.toString(),
+      'taskDueTimeGTE': startDate.toString(),
+      'taskDueTimeLTE': endDate.toString(),
       'taskIsDone': isDone,
       'taskCreateAt': DateTime.now().toString(),
       'taskWorkspaceId': workspaceId,
