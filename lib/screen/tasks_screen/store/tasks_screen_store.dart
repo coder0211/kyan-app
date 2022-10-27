@@ -82,6 +82,14 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
     _workspaceId = workspaceId;
   }
 
+  @observable
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
+
+  set selectedDate(DateTime selectedDate) {
+    _selectedDate = selectedDate;
+  }
   //? --      Funtions      -->
 
   @override
@@ -113,9 +121,12 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
           ManagerKeyStorage.accessToken);
     }
     Map<String, dynamic> headers = {'Authorization': accessToken};
-
+    Map<String, dynamic> params = {
+      'taskAssignTo': _loginScreenStore.currentAccount.accountId,
+      'taskDueTimeGTE': selectedDate.toString()
+    };
     await _baseAPI
-        .fetchData(ManagerAddress.taskGetAll, headers: headers)
+        .fetchData(ManagerAddress.taskGetAll, headers: headers, params: params)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:

@@ -121,6 +121,22 @@ mixin _$TasksScreenStore on _TasksScreenStore, Store {
     });
   }
 
+  late final _$_selectedDateAtom =
+      Atom(name: '_TasksScreenStore._selectedDate', context: context);
+
+  @override
+  DateTime get _selectedDate {
+    _$_selectedDateAtom.reportRead();
+    return super._selectedDate;
+  }
+
+  @override
+  set _selectedDate(DateTime value) {
+    _$_selectedDateAtom.reportWrite(value, super._selectedDate, () {
+      super._selectedDate = value;
+    });
+  }
+
   late final _$getListTaskAsyncAction =
       AsyncAction('_TasksScreenStore.getListTask', context: context);
 
