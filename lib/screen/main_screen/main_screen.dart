@@ -59,6 +59,7 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
         backgroundColor: AppColors.white,
         extendBody: true,
         drawerEdgeDragWidth: MediaQuery.of(context).size.width,
+        drawerEnableOpenDragGesture: false,
         drawer: const ProfileScreen(),
         drawerScrimColor: AppColors.transparent,
         bottomNavigationBar: Observer(builder: (_) {

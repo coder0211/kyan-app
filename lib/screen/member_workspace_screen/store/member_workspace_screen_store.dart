@@ -61,7 +61,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
             printLogSusscess('SUCCEEDED');
             _workspace = Workspace.fromJson(value.object);
             members.clear();
-            members.addAll(_workspace.listMember ?? []);
+            members.addAll(_workspace.members ?? []);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
