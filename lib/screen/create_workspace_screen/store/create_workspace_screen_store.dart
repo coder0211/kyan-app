@@ -1,6 +1,7 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
@@ -24,20 +25,24 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
     _loginScreenStore = context.read<LoginScreenStore>();
   }
 
+  late String accessToken;
   @override
   void onDispose(BuildContext context) {}
 
   Future<void> onPressCreateWorkspace(BuildContext context,
       {required String workspaceName}) async {
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
     Map<String, dynamic>? body = {
       'workspaceName': workspaceName,
       'workspaceUrlPhoto':
           'https://cdn.dribbble.com/users/808936/screenshots/3395283/dribbble.gif',
-      'workspaceCodeJoin': 0,
     };
     Map<String, dynamic>? headers = {
       'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMTU3MjUyMDAxODc2NTUwNTE0NTQiLCJpYXQiOjE2NTgzNjk1NTAsImV4cCI6MTY2NzAwOTU1MH0.-ZXmXZinyRNx6Pi6QbqmuFM-Ftncj1x7w5FKUHa4XCk'
+          accessToken,
     };
     await _baseAPI
         .fetchData(ManagerAddress.worksapceCreateOrUpdate,
