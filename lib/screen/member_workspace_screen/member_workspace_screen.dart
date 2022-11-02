@@ -29,7 +29,7 @@ class _MemberWorkspaceScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: customAppBarBack(context, title: S.current.memberWorkspace),
+      appBar: customAppBar(context, title: S.current.memberWorkspace),
       body: Observer(builder: (_) {
         return ListView.builder(
             physics: const BouncingScrollPhysics(),
