@@ -11,6 +11,8 @@ import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
+import 'package:kyan/widgets/custom_text_form_field.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SelectPeopleScreen extends BaseScreen {
   const SelectPeopleScreen({Key? key}) : super(key: key);
@@ -49,6 +51,20 @@ class _SelectPeopleScreenState
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+                child: CustomTextFormField(
+                  onChanged: (_) {
+                    setState(() {});
+                  },
+                  hintText: S.current.searchHere,
+                  hintStyle: GoogleFonts.notoSans(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 12,
+                      color: AppColors.gray),
+                  isModeBorder: true,
+                ),
+              ),
               GestureDetector(
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: TIME_ANIMATION),
