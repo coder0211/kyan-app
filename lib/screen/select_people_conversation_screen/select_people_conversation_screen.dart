@@ -32,7 +32,7 @@ class _SelectPeopleConversationScreenState extends BaseScreenState<
   Widget _build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: customAppBarBack(context, title: S.current.people),
+      appBar: customAppBar(context, title: S.current.people),
       body: Observer(builder: (_) {
         return Observer(builder: (_) {
           return ListView.builder(
