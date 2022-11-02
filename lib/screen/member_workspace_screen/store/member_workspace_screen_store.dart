@@ -4,7 +4,6 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
-import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 

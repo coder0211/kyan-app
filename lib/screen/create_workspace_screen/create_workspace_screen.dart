@@ -64,7 +64,7 @@ class _CreateWorkspaceScreenState
             child: BaseButton(
               onPressed: () async {
                 await store.onPressCreateWorkspace(context,
-                    workspaceName: _nameController.toString());
+                    workspaceName: _nameController.text.toString());
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -36,13 +36,13 @@ abstract class _CreateWorkspaceScreenStore with Store, BaseStoreMixin {
           ManagerKeyStorage.accessToken);
     }
     Map<String, dynamic>? body = {
-      'workspaceName': workspaceName,
-      'workspaceUrlPhoto':
+      'name': workspaceName,
+      'urlPhoto':
           'https://cdn.dribbble.com/users/808936/screenshots/3395283/dribbble.gif',
+      'idUser': _loginScreenStore.currentAccount.accountId.toString(),
     };
     Map<String, dynamic>? headers = {
-      'Authorization':
-          accessToken,
+      'Authorization': accessToken,
     };
     await _baseAPI
         .fetchData(ManagerAddress.worksapceCreateOrUpdate,
