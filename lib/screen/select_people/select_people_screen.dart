@@ -31,7 +31,7 @@ class _SelectPeopleScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: customAppBarBack(context, title: S.current.people),
+      appBar: customAppBar(context, title: S.current.people),
       bottomSheet: Padding(
         padding: const EdgeInsets.only(
             left: Dimens.SCREEN_PADDING,

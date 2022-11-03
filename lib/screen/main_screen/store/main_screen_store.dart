@@ -6,6 +6,7 @@ import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/bot_screen/bot_screen.dart';
 import 'package:kyan/screen/conversation_screen/conversation_screen.dart';
 import 'package:kyan/screen/tasks_screen/tasks_screen.dart';
+import 'package:kyan/screen/team_tasks_screen/team_tasks_screen.dart';
 import 'package:mobx/mobx.dart';
 
 part 'main_screen_store.g.dart';
@@ -41,7 +42,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
       const TasksScreen(),
       const ConversationScreen(),
       const BotScreen(),
-      'D'.d1()
+      const TeamTasksScreen()
     ];
   }
 
