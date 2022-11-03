@@ -19,7 +19,6 @@ import 'package:kyan/widgets/custom_dialog_about_us.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 import 'package:kyan/widgets/custom_dialog_custom_option.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:kyan/screen/create_workspace_screen/create_workspace_screen.dart';
 
 class ProfileScreen extends BaseScreen {

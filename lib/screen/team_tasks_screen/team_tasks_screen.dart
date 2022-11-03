@@ -28,7 +28,8 @@ class _TeamTasksScreenState
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarBack(context, title: S.current.managerTasks),
+      appBar: customAppBar(context,
+          title: S.current.managerTasks, isShowBack: false),
       body: _buildBody(),
       backgroundColor: AppColors.white,
     );

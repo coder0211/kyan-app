@@ -180,20 +180,6 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                   ),
                 ),
         ),
-        Visibility(
-            visible: true, //store.workspace.id != null,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 108),
-              child: BaseButton(
-                bgColor: AppColors.orange,
-                height: 36,
-                onPressed: () {
-                  BaseNavigation.push(context,
-                      routeName: ManagerRoutes.teamTasksScreen);
-                },
-                child: S.current.teamTasks.b1(color: AppColors.white),
-              ),
-            ))
       ],
     ));
   }

@@ -35,7 +35,7 @@ class _InfoChannelScreenState
 
   Widget _build(BuildContext context) {
     return Scaffold(
-        appBar: customAppBarBack(context, title: S.current.infoChat),
+        appBar: customAppBar(context, title: S.current.infoChat),
         backgroundColor: AppColors.white,
         body: SafeArea(
           child: Padding(

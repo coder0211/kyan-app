@@ -7,8 +7,8 @@ import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/screen/pomodoro_bot_screen/store/pomodoro_bot_screen_store.dart';
 import 'package:kyan/screen/pomodoro_bot_screen/widgets/round_button.dart';
 import 'package:kyan/theme/colors.dart';
-import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:kyan/widgets/custom_appbar_back.dart';
 
 class PomodoroBotScreen extends BaseScreen {
   const PomodoroBotScreen({Key? key}) : super(key: key);
@@ -84,7 +84,7 @@ class _PomodoroBotScreenState
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarBack(context, title: S.current.titileKyanTime),
+      appBar: customAppBar(context, title: S.current.titileKyanTime),
       backgroundColor: AppColors.white,
       body: Column(
         children: [
