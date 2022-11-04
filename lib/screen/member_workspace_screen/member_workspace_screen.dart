@@ -11,7 +11,6 @@ import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_appbar_add_item.dart';
-import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 

@@ -2,6 +2,7 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:mobx/mobx.dart';
 
@@ -45,44 +46,8 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   void onDispose(BuildContext context) {}
 
   @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {}
-  @action
-  Future<void> getPeople({required String email}) async {
-    _isShowLoading = true;
-    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
-      accessToken = await BaseSharedPreferences.getStringValue(
-          ManagerKeyStorage.accessToken);
-    }
-    Map<String, dynamic> headers = {
-      'Authorization': accessToken,
-    };
-    Map<String, dynamic> params = {
-      'accountMail': email,
-    };
-    await _baseAPI
-        .fetchData(ManagerAddress.accountGetOne,
-            headers: headers, params: params, method: ApiMethod.GET)
-        .then((value) {
-      switch (value.apiStatus) {
-        case ApiStatus.SUCCEEDED:
-          {
-            people.clear();
-            value.object.forEach((element) {
-              people.add(Account.fromJson(element));
-            });
-            break;
-          }
-        case ApiStatus.INTERNET_UNAVAILABLE:
-          printLogYellow('INTERNET_UNAVAILABLE');
-          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-          break;
-        default:
-          printLogError('FAILED');
-          // Handle failed response here
-          break;
-      }
-    });
-    _isShowLoading = false;
+  Future<void> onWidgetBuildDone(BuildContext context) async {
+    await getPeople(context, email: emailSearchController.text.toString());
   }
 
   @action
@@ -113,19 +78,19 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  Future<void> onClickAddDone(BuildContext context,
+  Future<void> onClickAddMemberDone(BuildContext context,
       {required String email}) async {
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
       accessToken = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.accessToken);
     }
-    Map<String, dynamic> body = {
-      'workspaceId': 3,
-      'accountId': people,
-      'workspaceMemberIsOwner': 0,
-    };
     Map<String, dynamic> headers = {
       'Authorization': accessToken,
+    };
+    Map<String, dynamic> body = {
+      'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
+      'accountId': people.elementAt(people.length).accountId,
+      'workspaceMemberIsOwner': 0,
     };
     await _baseAPI
         .fetchData(ManagerAddress.addMemberWorkspace,
@@ -149,9 +114,49 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     });
   }
 
+  @action
+  Future<void> getPeople(BuildContext context, {required String email}) async {
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
+    Map<String, dynamic> headers = {
+      'Authorization': accessToken,
+    };
+
+    Map<String, dynamic> params = {
+      'accountMail': emailSearchController.text.toString().toLowerCase(),
+    };
+    await _baseAPI
+        .fetchData(ManagerAddress.accountGetAll,
+            params: params, headers: headers, method: ApiMethod.GET)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            people.clear();
+            value.object.forEach((it) => people.add(Account.fromJson(it)));
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          {
+            printLogYellow('INTERNET_UNAVAILABLE');
+            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+
+            break;
+          }
+
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
   @override
   void resetValue() {
-    isShowLoading = true;
+    isShowLoading = false;
     selectedAll = false;
     people = ObservableList<Account>();
     selectedPeople = ObservableList<Account>();

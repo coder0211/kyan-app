@@ -39,7 +39,7 @@ class _SelectPeopleScreenState
             bottom: Dimens.SCREEN_PADDING),
         child: BaseButton(
           onPressed: () async {
-            store.onClickAddDone(context,
+            store.onClickAddMemberDone(context,
                 email: store.emailSearchController.text.toString());
           },
           bgColor: AppColors.primary,
@@ -58,6 +58,9 @@ class _SelectPeopleScreenState
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
                 child: CustomTextFormField(
                   onChanged: (_) {
+                    store.getPeople(context,
+                        email: store.emailSearchController.text.toString());
+                    if (store.people.length != 0) {}
                     setState(() {});
                   },
                   hintText: S.current.searchHere,
@@ -95,16 +98,12 @@ class _SelectPeopleScreenState
                           store.onTapItem(index: index);
                           setState(() {});
                         },
-                        child: store.people.elementAt(index).accountMail !=
-                                    store.currentAccount.accountMail &&
-                                ((store.emailSearchController.text
-                                        .toString()
-                                        .toLowerCase())
-                                    .contains(store.people
-                                        .elementAt(index)
-                                        .accountMail
-                                        .toString()
-                                        .toLowerCase()))
+                        child: (store.emailSearchController.text
+                                .toString()
+                                .contains(store.people
+                                    .elementAt(index)
+                                    .accountMail
+                                    .toString()))
                             ? _itemPeople(store.people.elementAt(index))
                             : Container()),
                     itemCount: store.people.length),
