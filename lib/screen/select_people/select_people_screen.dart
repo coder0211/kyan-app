@@ -38,7 +38,10 @@ class _SelectPeopleScreenState
             right: Dimens.SCREEN_PADDING,
             bottom: Dimens.SCREEN_PADDING),
         child: BaseButton(
-          onPressed: () async {},
+          onPressed: () async {
+            store.onClickAddDone(context,
+                email: store.emailSearchController.text.toString());
+          },
           bgColor: AppColors.primary,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -63,27 +66,48 @@ class _SelectPeopleScreenState
                       fontSize: 12,
                       color: AppColors.gray),
                   isModeBorder: true,
+                  textEditingController: store.emailSearchController,
                 ),
               ),
               GestureDetector(
+                onTap: store.onTapSelectedAll,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: TIME_ANIMATION),
                   margin: const EdgeInsets.only(
                       left: Dimens.SCREEN_PADDING, top: Dimens.SCREEN_PADDING),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: 'Select all'.labelR(color: AppColors.primary),
+                  child: store.selectedAll
+                      ? 'Unselected all'.labelR(color: AppColors.primary)
+                      : 'Select all'.labelR(color: AppColors.white),
                   decoration: BoxDecoration(
-                      color: AppColors.gray.withOpacity(0.3),
+                      color: store.selectedAll
+                          ? AppColors.gray.withOpacity(0.3)
+                          : AppColors.primary,
                       borderRadius: BorderRadius.circular(5)),
                 ),
               ),
               Expanded(
                 child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) =>
-                        GestureDetector(onTap: () {}, child: Container()),
-                    itemCount: 2),
+                    itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          store.onTapItem(index: index);
+                          setState(() {});
+                        },
+                        child: store.people.elementAt(index).accountMail !=
+                                    store.currentAccount.accountMail &&
+                                ((store.emailSearchController.text
+                                        .toString()
+                                        .toLowerCase())
+                                    .contains(store.people
+                                        .elementAt(index)
+                                        .accountMail
+                                        .toString()
+                                        .toLowerCase()))
+                            ? _itemPeople(store.people.elementAt(index))
+                            : Container()),
+                    itemCount: store.people.length),
               ),
             ],
           );

@@ -36,4 +36,8 @@ class ManagerAddress {
   static const String taskGetOne = '$baseTask/get-one';
   static const String taskGetAll = '$baseTask/get-all';
   static const String taskDelete = '$baseTask/delete';
+
+  //?-- MEMBERS OF WORKSPACE -->
+  static const String baseMemberWorkspace = '/member-work-space';
+  static const String addMemberWorkspace = '$baseMemberWorkspace/create';
 }
