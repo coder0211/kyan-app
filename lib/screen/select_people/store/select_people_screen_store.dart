@@ -29,15 +29,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     _selectedAll = selectedAll;
   }
 
-  @observable
-  bool _isShowLoading = true;
-
-  bool get isShowLoading => _isShowLoading;
-
-  set isShowLoading(bool isShowLoading) {
-    _isShowLoading = isShowLoading;
-  }
-
   late String accessToken;
   @override
   void onInit(BuildContext context) {}
@@ -47,7 +38,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    await getPeople(context, email: emailSearchController.text.toString());
+    //await getPeople(context, email: emailSearchController.text.toString());
   }
 
   @action
@@ -87,30 +78,33 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {
       'Authorization': accessToken,
     };
-    Map<String, dynamic> body = {
-      'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
-      'accountId': people.elementAt(people.length).accountId,
-      'workspaceMemberIsOwner': 0,
-    };
-    await _baseAPI
-        .fetchData(ManagerAddress.addMemberWorkspace,
-            body: body, headers: headers, method: ApiMethod.POST)
-        .then((value) {
-      switch (value.apiStatus) {
-        case ApiStatus.SUCCEEDED:
-          {
-            BaseNavigation.pop(context);
+    selectedPeople.forEach((element) async {
+      Map<String, dynamic> body = {
+        'workspaceId': 3,
+        //BaseNavigation.getArgs(context, key: 'workspaceId'),
+        'accountId': element.accountId,
+        'workspaceMemberIsOwner': 0,
+      };
+      await _baseAPI
+          .fetchData(ManagerAddress.addMemberWorkspace,
+              body: body, headers: headers, method: ApiMethod.POST)
+          .then((value) {
+        switch (value.apiStatus) {
+          case ApiStatus.SUCCEEDED:
+            {
+              BaseNavigation.push(context, routeName: ManagerRoutes.mainScreen);
+              break;
+            }
+          case ApiStatus.INTERNET_UNAVAILABLE:
+            printLogYellow('INTERNET_UNAVAILABLE');
+            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
             break;
-          }
-        case ApiStatus.INTERNET_UNAVAILABLE:
-          printLogYellow('INTERNET_UNAVAILABLE');
-          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-          break;
-        default:
-          printLogError('FAILED');
-          // Handle failed response here
-          break;
-      }
+          default:
+            printLogError('FAILED');
+            // Handle failed response here
+            break;
+        }
+      });
     });
   }
 
@@ -156,7 +150,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
 
   @override
   void resetValue() {
-    isShowLoading = false;
     selectedAll = false;
     people = ObservableList<Account>();
     selectedPeople = ObservableList<Account>();
