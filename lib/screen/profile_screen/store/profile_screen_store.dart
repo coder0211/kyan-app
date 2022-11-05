@@ -2,9 +2,9 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/main.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/manager/manager_provider.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/app/store/app_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
@@ -139,7 +139,9 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void resetValue() {}
+  void resetValue() async {
+    await BaseSharedPreferences.remove(ManagerKeyStorage.currentWorkspace);
+  }
 
   @action
   Future<void> setLanguages(BuildContext context,
@@ -160,6 +162,7 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   @action
   Future<void> logout(BuildContext context) async {
     await _loginScreenStore.handleSignOut(context);
+    ManagerProvider.dispose(context);
   }
 
   Future<void> _getLanguage(BuildContext context) async {
@@ -172,10 +175,12 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  Future<void> onPressedWorkspace(Workspace workspace) async {
+  Future<void> onPressedWorkspace(BuildContext context,
+      {required Workspace workspace}) async {
     await BaseSharedPreferences.saveStringValue(
         ManagerKeyStorage.currentWorkspace, workspace.workspaceId.toString());
     currentWorkspaceId = workspace.workspaceId ?? -1;
+    context.read<MainScreenStore>().workspaceId = currentWorkspaceId;
   }
 
   Future<void> _getWorkspaceId() async {

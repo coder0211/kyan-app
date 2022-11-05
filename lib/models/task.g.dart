@@ -21,7 +21,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task(
       taskCreateAt: json['taskCreateAt'] as String?,
       taskWorkspaceId: json['taskWorkspaceId'] as int?,
       taskAssignTo: json['taskAssignTo'] as String?,
-    );
+    )..attachment = json['attachment'] as String?;
 
 Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
       'taskId': instance.taskId,
@@ -34,4 +34,5 @@ Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
       'taskCreateAt': instance.taskCreateAt,
       'taskWorkspaceId': instance.taskWorkspaceId,
       'taskAssignTo': instance.taskAssignTo,
+      'attachment': instance.attachment,
     };

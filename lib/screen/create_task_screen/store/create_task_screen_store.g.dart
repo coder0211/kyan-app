@@ -158,6 +158,22 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
     });
   }
 
+  late final _$workspaceAtom =
+      Atom(name: '_CreateTaskScreenStore.workspace', context: context);
+
+  @override
+  Workspace get workspace {
+    _$workspaceAtom.reportRead();
+    return super.workspace;
+  }
+
+  @override
+  set workspace(Workspace value) {
+    _$workspaceAtom.reportWrite(value, super.workspace, () {
+      super.workspace = value;
+    });
+  }
+
   late final _$_isShowLoadingAtom =
       Atom(name: '_CreateTaskScreenStore._isShowLoading', context: context);
 
@@ -242,13 +258,13 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
       Atom(name: '_CreateTaskScreenStore._selectedAccount', context: context);
 
   @override
-  Account get _selectedAccount {
+  Account? get _selectedAccount {
     _$_selectedAccountAtom.reportRead();
     return super._selectedAccount;
   }
 
   @override
-  set _selectedAccount(Account value) {
+  set _selectedAccount(Account? value) {
     _$_selectedAccountAtom.reportWrite(value, super._selectedAccount, () {
       super._selectedAccount = value;
     });
@@ -286,6 +302,38 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
     });
   }
 
+  late final _$fileAtom =
+      Atom(name: '_CreateTaskScreenStore.file', context: context);
+
+  @override
+  File? get file {
+    _$fileAtom.reportRead();
+    return super.file;
+  }
+
+  @override
+  set file(File? value) {
+    _$fileAtom.reportWrite(value, super.file, () {
+      super.file = value;
+    });
+  }
+
+  late final _$resultUpFileAtom =
+      Atom(name: '_CreateTaskScreenStore.resultUpFile', context: context);
+
+  @override
+  ResultUpFile get resultUpFile {
+    _$resultUpFileAtom.reportRead();
+    return super.resultUpFile;
+  }
+
+  @override
+  set resultUpFile(ResultUpFile value) {
+    _$resultUpFileAtom.reportWrite(value, super.resultUpFile, () {
+      super.resultUpFile = value;
+    });
+  }
+
   late final _$onPressCreateUpdateTaskAsyncAction = AsyncAction(
       '_CreateTaskScreenStore.onPressCreateUpdateTask',
       context: context);
@@ -294,6 +342,14 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
   Future<void> onPressCreateUpdateTask(BuildContext context, {int? id}) {
     return _$onPressCreateUpdateTaskAsyncAction
         .run(() => super.onPressCreateUpdateTask(context, id: id));
+  }
+
+  late final _$getWorkspaceByIdAsyncAction =
+      AsyncAction('_CreateTaskScreenStore.getWorkspaceById', context: context);
+
+  @override
+  Future<void> getWorkspaceById() {
+    return _$getWorkspaceByIdAsyncAction.run(() => super.getWorkspaceById());
   }
 
   late final _$_CreateTaskScreenStoreActionController =
@@ -366,7 +422,10 @@ dueTime: ${dueTime},
 summaryEditController: ${summaryEditController},
 descriptionEditController: ${descriptionEditController},
 account: ${account},
-workspaceId: ${workspaceId}
+workspace: ${workspace},
+workspaceId: ${workspaceId},
+file: ${file},
+resultUpFile: ${resultUpFile}
     ''';
   }
 }

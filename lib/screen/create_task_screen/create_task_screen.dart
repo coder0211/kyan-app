@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/models/account.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
 import 'package:kyan/screen/create_task_screen/widgets/modal_bottom_sheet_due_time.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
-import 'package:kyan/theme/images.dart';
 import 'package:kyan/utils/utils.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
+import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,13 +44,13 @@ class _CreateTaskScreenState
             },
             child: SafeArea(
               top: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Dimens.SCREEN_PADDING),
-                child: Column(
-                  children: [
-                    _buildHeader(),
-                    Expanded(
+              child: Column(
+                children: [
+                  _buildHeader(),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimens.SCREEN_PADDING),
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: Column(
@@ -98,7 +101,7 @@ class _CreateTaskScreenState
                             ),
                             const SizedBox(height: 10),
                             S.of(context).description.b1R(),
-                            const SizedBox(height: 0),
+                            const SizedBox(height: 10),
                             CustomTextFormField(
                               height: 108,
                               maxLines: MAX_LINE_TEXT_FIELD,
@@ -203,24 +206,14 @@ class _CreateTaskScreenState
                                     )
                                   : Container();
                             }),
-                            Observer(builder: (_) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  S.of(context).assignTo.b1R(),
-                                  const SizedBox(height: 10),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                  ),
-                                ],
-                              );
-                            })
+                            _buildAssignTo(),
+                            _buildAchievement()
                           ],
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -269,5 +262,91 @@ class _CreateTaskScreenState
   Widget _buildHeader() {
     return customAppBar(context,
         title: BaseNavigation.getArgs<String>(context, key: 'title'));
+  }
+
+  Observer _buildAssignTo() {
+    return Observer(builder: (_) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          S.of(context).assignTo.b1R(),
+          const SizedBox(height: 10),
+          PopupMenuButton<Account>(
+            padding: EdgeInsets.zero,
+            icon: CustomCircleAvatar(
+              imageUrl: store.selectedAccount?.accountUrlPhoto,
+              width: 40,
+            ),
+            itemBuilder: (context) => [
+              ...store.workspace.members!.map((e) => PopupMenuItem(
+                    value: e,
+                    child: GestureDetector(
+                      onTap: () {
+                        store.selectedAccount = e;
+                        BaseNavigation.pop(context);
+                      },
+                      child: Row(
+                        children: [
+                          CustomCircleAvatar(
+                            imageUrl: e.accountUrlPhoto,
+                            width: 32,
+                            isShowBordered: true,
+                          ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: S.of(context).attachment.b1R(),
+                          )
+                        ],
+                      ),
+                    ),
+                  ))
+            ],
+            offset: const Offset(0, 45),
+            color: AppColors.white,
+            elevation: 2,
+          ),
+        ],
+      );
+    });
+  }
+
+  Column _buildAchievement() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        S.of(context).attachment.b1R(),
+        const SizedBox(
+          height: 10,
+        ),
+        GestureDetector(
+          onTap: () async {
+            await BaseImagePicker.getImageFromGallery().then((v) {
+              store.file = File(v?.path ?? '');
+            });
+            await store.uploadFile(store.file);
+          },
+          child: Flexible(
+            child: Row(
+              children: [
+                const Icon(Icons.attach_file_rounded, color: AppColors.orange),
+                S.of(context).add.b1R(color: AppColors.orange),
+                Observer(builder: (_) {
+                  return Image.file(
+                    store.file!,
+                    width: 20,
+                  );
+                })
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
   }
 }

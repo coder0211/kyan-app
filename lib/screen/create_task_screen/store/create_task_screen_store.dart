@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/account.dart';
+import 'package:kyan/models/result_up_file.dart';
 import 'package:kyan/models/task.dart';
+import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:mobx/mobx.dart';
@@ -36,6 +40,8 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   TextEditingController descriptionEditController = TextEditingController();
   @observable
   late Account account = Account();
+  @observable
+  Workspace workspace = Workspace();
 
   @observable
   bool _isShowLoading = false;
@@ -75,11 +81,11 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  Account _selectedAccount = Account();
+  Account? _selectedAccount = Account();
 
-  Account get selectedAccount => _selectedAccount;
+  Account? get selectedAccount => _selectedAccount;
 
-  set selectedAccount(Account selectedAccount) {
+  set selectedAccount(Account? selectedAccount) {
     _selectedAccount = selectedAccount;
   }
 
@@ -103,10 +109,19 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
 
   late LoginScreenStore _loginScreenStore;
   late TasksScreenStore _tasksScreenStore;
+
+  @observable
+  File? file;
+
+  @observable
+  late ResultUpFile resultUpFile;
+
   @override
   void onInit(BuildContext context) {
+    file = File('');
     _loginScreenStore = context.read<LoginScreenStore>();
     _tasksScreenStore = context.read<TasksScreenStore>();
+    selectedAccount = _loginScreenStore.currentAccount;
   }
 
   @override
@@ -114,6 +129,13 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.currentWorkspace)) ??
+          0;
+    }
+    await getWorkspaceById();
     setDataTask(task: BaseNavigation.getArgs(context, key: 'task'));
   }
 
@@ -164,12 +186,6 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> onPressCreateUpdateTask(BuildContext context, {int? id}) async {
-    if (await BaseSharedPreferences.containKey(
-        ManagerKeyStorage.currentWorkspace)) {
-      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
-              ManagerKeyStorage.currentWorkspace)) ??
-          0;
-    }
     Map<String, dynamic> headers = {
       'Authorization': _tasksScreenStore.accessToken
     };
@@ -181,8 +197,9 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
       'taskDueTimeLTE': endDate.toString(),
       'taskIsDone': isDone,
       'taskCreateAt': DateTime.now().toString(),
-      'taskWorkspaceId': workspaceId,
-      'taskAssignTo': _loginScreenStore.currentAccount.accountId,
+      'taskWorkspaceId': workspace.workspaceId,
+      'taskAssignTo': selectedAccount?.accountId ??
+          _loginScreenStore.currentAccount.accountId,
     };
 
     if (id != null) {
@@ -224,6 +241,61 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
     isDone = 0;
     isShowLoading = false;
     isActiveButton = false;
+  }
+
+  @action
+  Future<void> getWorkspaceById() async {
+    Map<String, dynamic> headers = {
+      'Authorization': _tasksScreenStore.accessToken
+    };
+    Map<String, dynamic> params = {'id': workspaceId};
+
+    await _baseAPI
+        .fetchData(ManagerAddress.workspacesGetOne,
+            headers: headers, method: ApiMethod.GET, params: params)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            workspace = Workspace.fromJson(value.object);
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  Future<void> uploadFile(File) async {
+    Map<String, dynamic> headers = {
+      'Authorization': _tasksScreenStore.accessToken
+    };
+    await _baseAPI
+        .fileUpload(ManagerAddress.uploadSingleFile,
+            file: file ?? File(), method: ApiMethod.POST, headers: headers)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            resultUpFile = ResultUpFile.fromJson(value.object);
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
   }
 
   //... Some values and actions

@@ -134,9 +134,10 @@ mixin _$ProfileScreenStore on _ProfileScreenStore, Store {
       AsyncAction('_ProfileScreenStore.onPressedWorkspace', context: context);
 
   @override
-  Future<void> onPressedWorkspace(Workspace workspace) {
+  Future<void> onPressedWorkspace(BuildContext context,
+      {required Workspace workspace}) {
     return _$onPressedWorkspaceAsyncAction
-        .run(() => super.onPressedWorkspace(workspace));
+        .run(() => super.onPressedWorkspace(context, workspace: workspace));
   }
 
   @override

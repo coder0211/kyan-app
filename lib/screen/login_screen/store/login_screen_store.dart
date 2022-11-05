@@ -149,6 +149,7 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
 
   Future<void> handleSignIn() async {
     try {
+      print('Login with google');
       googleSignInAccount = await googleSignIn.signIn();
       var googleKey = await googleSignInAccount?.authentication;
       await handleGetData(accessToken: googleKey?.accessToken);

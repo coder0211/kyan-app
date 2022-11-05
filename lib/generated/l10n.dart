@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -19,7 +19,7 @@ class S {
 
   static S get current {
     assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.of(context).');
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
@@ -1065,6 +1065,16 @@ class S {
     return Intl.message(
       'Name',
       name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attachment`
+  String get attachment {
+    return Intl.message(
+      'Attachment',
+      name: 'attachment',
       desc: '',
       args: [],
     );
