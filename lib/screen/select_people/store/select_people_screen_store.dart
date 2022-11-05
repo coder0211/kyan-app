@@ -141,14 +141,19 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
       'accountMail': emailSearchController.text.toString(),
     };
     await _baseAPI
-        .fetchData(ManagerAddress.accountGetAll,
-            params: params, headers: headers, method: ApiMethod.GET)
+        .fetchData(
+            ManagerAddress.accountGetOne +
+                '/' +
+                emailSearchController.text.toString(),
+            // params: params,
+            headers: headers,
+            method: ApiMethod.GET)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             peoples.clear();
-            value.object.forEach((it) => peoples.add(Account.fromJson(it)));
+            peoples.add(Account.fromJson(value.object));
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:

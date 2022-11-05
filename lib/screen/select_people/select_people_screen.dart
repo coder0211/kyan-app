@@ -115,16 +115,9 @@ class _SelectPeopleScreenState
                         onTap: () {
                           store.onTapItem(account: store.peoples[index]);
                         },
-                        child: (store.emailSearchController.text
-                                .toString()
-                                .contains(store.peoples
-                                    .elementAt(index)
-                                    .accountMail
-                                    .toString()))
-                            ? Observer(
-                                builder: (_) =>
-                                    _itemPeople(store.peoples.elementAt(index)))
-                            : const SizedBox.shrink()),
+                        child: Observer(
+                            builder: (_) =>
+                                _itemPeople(store.peoples.elementAt(index)))),
                     itemCount: store.peoples.length);
               }),
             )

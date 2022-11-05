@@ -19,7 +19,7 @@ class ManagerAddress {
   static const String accountCreateOrUpdate = '$baseAccount/create-or-update';
   static const String accountLogin = '$baseAccount/login';
   static const String accountDelete = '$baseAccount/delete';
-  static String accountGetOne = '$baseAccount/get-one';
+  static const String accountGetOne = '$baseAccount';
   static const String accountGetAll = '$baseAccount/get-all';
 
   //?-- WORKSPACE -->
