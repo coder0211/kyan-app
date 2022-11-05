@@ -29,7 +29,7 @@ class _StatisticScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.white,
-        appBar: customAppBar(context, title: S.current.statistic),
+        appBar: customAppBar(context, title: S.of(context).statistic),
         body: Padding(
           padding: const EdgeInsets.only(
               left: Dimens.SCREEN_PADDING, right: Dimens.SCREEN_PADDING),

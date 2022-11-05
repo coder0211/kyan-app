@@ -70,7 +70,7 @@ class _ConversationScreenState
                       Icons.navigate_before,
                       color: AppColors.primary,
                     )),
-                S.current.conversation.b1(color: AppColors.primary),
+                S.of(context).conversation.b1(color: AppColors.primary),
                 _buildWorkSpace(),
               ],
             ),
@@ -111,7 +111,7 @@ class _ConversationScreenState
                     onChanged: (_) {
                       setState(() {});
                     },
-                    hintText: S.current.searchHere,
+                    hintText: S.of(context).searchHere,
                     hintStyle: GoogleFonts.notoSans(
                         fontWeight: FontWeight.w300,
                         fontSize: 12,
@@ -144,7 +144,7 @@ class _ConversationScreenState
                               );
                             }),
                           ),
-                          S.current.channel.b2R(color: AppColors.gray),
+                          S.of(context).channel.b2R(color: AppColors.gray),
                         ],
                       ),
                       GestureDetector(
@@ -195,7 +195,7 @@ class _ConversationScreenState
                                       width: 20),
                                 );
                               })),
-                          S.current.people.b2R(color: AppColors.gray)
+                          S.of(context).people.b2R(color: AppColors.gray)
                         ],
                       ),
                       GestureDetector(

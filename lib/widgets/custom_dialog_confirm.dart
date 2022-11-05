@@ -58,13 +58,13 @@ void showDialogConfirm(BuildContext context,
                   children: [
                     GestureDetector(
                         onTap: () => BaseNavigation.pop(context),
-                        child: S.current.cancel.b1(
+                        child: S.of(context).cancel.b1(
                             color: Colors.black, textAlign: TextAlign.center)),
                     GestureDetector(
                       onTap: () async {
                         await onConfirm.call();
                       },
-                      child: S.current.confirm.b1(
+                      child: S.of(context).confirm.b1(
                           color: AppColors.redPink,
                           textAlign: TextAlign.center),
                     ),

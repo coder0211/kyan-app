@@ -29,7 +29,7 @@ class _SplashScreenState
               Image.asset(Images.iconLogoAppWhite,
                   height: BaseUtils.getScreenWidth(context) * 0.4,
                   width: BaseUtils.getScreenWidth(context) * 0.4),
-              S.current.appName.h1R(color: AppColors.primary)
+              S.of(context).appName.h1R(color: AppColors.primary)
             ],
           ),
         ));

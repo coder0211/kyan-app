@@ -23,18 +23,18 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
                   RichText(
                     textAlign: TextAlign.start,
                     text: TextSpan(
-                      text: S.current.productNameKyan,
+                      text: S.of(context).productNameKyan,
                       children: <TextSpan>[
                         TextSpan(
-                            text: S.current.creator,
+                            text: S.of(context).creator,
                             style: GoogleFonts.notoSans(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 12,
                                 color: AppColors.black)),
                         TextSpan(
-                            text: S.current.textSpanMission +
-                                S.current.textSpanLine1 +
-                                S.current.textSpanLine2,
+                            text: S.of(context).textSpanMission +
+                                S.of(context).textSpanLine1 +
+                                S.of(context).textSpanLine2,
                             style: GoogleFonts.notoSans(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 12,
@@ -47,7 +47,9 @@ void showDialogAboutUs(BuildContext context, {required String mail}) {
                       onTap: () {
                         launch(Uri(scheme: MAIL_TO, path: MAIL_US).toString());
                       },
-                      child: S.current.contactUsTeamtdosf
+                      child: S
+                          .of(context)
+                          .contactUsTeamtdosf
                           .t1M(color: AppColors.black))
                 ]),
           ),

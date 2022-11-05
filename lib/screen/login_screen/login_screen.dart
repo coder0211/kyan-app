@@ -34,8 +34,8 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginScreenStore> {
                   Image.asset(Images.iconLogoAppWhite,
                       width: BaseUtils.getScreenWidth(context) * 0.42),
                   const SizedBox(height: 22),
-                  S.current.welcome.t2R(color: AppColors.black),
-                  S.current.descriptionWelcome.b2R(color: AppColors.black),
+                  S.of(context).welcome.t2R(color: AppColors.black),
+                  S.of(context).descriptionWelcome.b2R(color: AppColors.black),
                   const SizedBox(height: 35),
                   BaseButton(
                     onPressed: () async {
@@ -47,7 +47,9 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginScreenStore> {
                         Center(
                           child: Padding(
                             padding: const EdgeInsets.only(top: 5),
-                            child: S.current.loginWithGoogle
+                            child: S
+                                .of(context)
+                                .loginWithGoogle
                                 .b1(color: AppColors.white),
                           ),
                         ),

@@ -21,19 +21,19 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
       items: <BaseNavigationBarItem>[
         BaseNavigationBarItem(
           icon: Images.iconTask,
-          title: S.current.task,
+          title: S.of(context).task,
         ),
         BaseNavigationBarItem(
           icon: Images.iconChat,
-          title: S.current.chat,
+          title: S.of(context).chat,
         ),
         BaseNavigationBarItem(
           icon: Images.iconBot,
-          title: S.current.bot,
+          title: S.of(context).bot,
         ),
         BaseNavigationBarItem(
           icon: Images.iconWorkspace,
-          title: S.current.profile,
+          title: S.of(context).profile,
         ),
       ],
       indexSlelected: store.indexTabBar,
@@ -78,7 +78,7 @@ class _MainScreenState extends BaseScreenState<MainScreen, MainScreenStore> {
           if (store.workspaceId != null)
             return FloatingActionButton(
               onPressed: () => store.onPressedAddTask(context),
-              tooltip: S.current.createTask,
+              tooltip: S.of(context).createTask,
               child: const Icon(Icons.add),
               backgroundColor: AppColors.primary,
             );

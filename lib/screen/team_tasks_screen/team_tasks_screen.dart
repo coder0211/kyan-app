@@ -29,7 +29,7 @@ class _TeamTasksScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context,
-          title: S.current.managerTasks, isShowBack: false),
+          title: S.of(context).managerTasks, isShowBack: false),
       body: _buildBody(),
       backgroundColor: AppColors.white,
     );
@@ -56,7 +56,7 @@ class _TeamTasksScreenState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              S.current.assignTo.b1R(),
+              S.of(context).assignTo.b1R(),
               const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
@@ -122,7 +122,8 @@ class _TeamTasksScreenState
                 shadowColor: AppColors.transparent,
                 backgroundColor: AppColors.white,
                 title: Observer(builder: (_) {
-                  return (S.current.todo + ': 2').b1(color: AppColors.redPink);
+                  return (S.of(context).todo + ': 2')
+                      .b1(color: AppColors.redPink);
                 }),
                 floating: true,
               ),
@@ -149,7 +150,8 @@ class _TeamTasksScreenState
                 shadowColor: AppColors.transparent,
                 backgroundColor: AppColors.white,
                 title: Observer(builder: (_) {
-                  return (S.current.done + ': 2').b1(color: AppColors.primary);
+                  return (S.of(context).done + ': 2')
+                      .b1(color: AppColors.primary);
                 }),
                 pinned: true,
                 toolbarHeight: 30,

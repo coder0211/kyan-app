@@ -102,7 +102,7 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
                   default:
                     {
                       printLogError('FAILED');
-                      BaseUtils.showToast(S.current.loginFailed,
+                      BaseUtils.showToast(S.of(context).loginFailed,
                           bgColor: AppColors.redPink);
                       if (await BaseSharedPreferences.containKey(
                           ManagerKeyStorage.accessToken)) {
@@ -120,14 +120,14 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
           case ApiStatus.INTERNET_UNAVAILABLE:
             {
               printLogYellow('INTERNET_UNAVAILABLE');
-              BaseUtils.showToast(S.current.internetUnavaiable,
+              BaseUtils.showToast(S.of(context).internetUnavaiable,
                   bgColor: Colors.red);
               break;
             }
           default:
             {
               printLogError('FAILED');
-              BaseUtils.showToast(S.current.loginFailed,
+              BaseUtils.showToast(S.of(context).loginFailed,
                   bgColor: AppColors.redPink);
               if (await BaseSharedPreferences.containKey(
                   ManagerKeyStorage.accessToken)) {
@@ -141,7 +141,8 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
         }
       });
     } else {
-      BaseUtils.showToast(S.current.loginFailed, bgColor: AppColors.redPink);
+      BaseUtils.showToast(S.of(context).loginFailed,
+          bgColor: AppColors.redPink);
     }
     isShowLoading = false;
   }

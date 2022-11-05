@@ -6,6 +6,7 @@ import 'package:kyan/main.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/workspace.dart';
+import 'package:kyan/screen/app/store/app_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
@@ -145,12 +146,14 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
       {required String languageCode}) async {
     if (localeLanguage != languageCode) {
       localeLanguage = languageCode;
-      App.setLocale(context, Locale(languageCode));
-      BaseUtils.showToast(S.current.notiRestartApp, bgColor: AppColors.primary);
+      context
+          .read<AppStore>()
+          .setLanguages(context, languageCode: languageCode);
+      BaseUtils.showToast(S.of(context).notiRestartApp,
+          bgColor: AppColors.primary);
       await Future.delayed(const Duration(milliseconds: TIME_ANIMATION));
       BaseSharedPreferences.saveStringValue(
           ManagerKeyStorage.language, languageCode);
-      App.restartApp(context);
     }
   }
 

@@ -50,7 +50,7 @@ class _MemberWorkspaceScreenState
   }
 
   Widget _buildHeader(BuildContext context) {
-    return customAppBarAddItem(context, title: S.current.memberWorkspace,
+    return customAppBarAddItem(context, title: S.of(context).memberWorkspace,
         function: () {
       BaseNavigation.push(context,
           routeName: ManagerRoutes.selectPeopleScreen,
@@ -113,7 +113,7 @@ class _MemberWorkspaceScreenState
                       accountId: account.accountId.toString());
                   BaseNavigation.pop(context);
                   BaseNavigation.pop(context);
-                }, title: S.current.confirmDeleteThis);
+                }, title: S.of(context).confirmDeleteThis);
               },
               child:
                   const Icon(Icons.delete_forever, color: AppColors.redPink)),
