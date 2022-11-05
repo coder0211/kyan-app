@@ -80,7 +80,8 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                       width: 10,
                     ),
                     Expanded(
-                        child: S.current.titile.t1M(color: AppColors.white)),
+                        child:
+                            S.of(context).titile.t1M(color: AppColors.white)),
                   ],
                 ),
               )),

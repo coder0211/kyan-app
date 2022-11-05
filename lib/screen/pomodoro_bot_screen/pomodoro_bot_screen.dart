@@ -38,8 +38,8 @@ class _PomodoroBotScreenState
       await FlutterRingtonePlayer.playNotification(asAlarm: true, volume: 100);
       await NotificationApi.showNotification(
           id: 0,
-          title: S.current.titileKyanTime,
-          body: S.current.congraOnyourCompletion,
+          title: S.of(context).titileKyanTime,
+          body: S.of(context).congraOnyourCompletion,
           payload: '');
     }
   }
@@ -84,7 +84,7 @@ class _PomodoroBotScreenState
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: S.current.titileKyanTime),
+      appBar: customAppBar(context, title: S.of(context).titileKyanTime),
       backgroundColor: AppColors.white,
       body: Column(
         children: [

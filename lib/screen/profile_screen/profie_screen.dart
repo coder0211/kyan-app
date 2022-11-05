@@ -3,6 +3,7 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
+import 'package:kyan/enums/enum_languages.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
@@ -63,7 +64,7 @@ class _ProfileScreenState
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            S.current.workspace.b2(),
+                            S.of(context).workspace.b2(),
                             Row(children: [
                               GestureDetector(
                                   onTap: () => {
@@ -158,14 +159,15 @@ class _ProfileScreenState
         children: [
           _buildDivider(),
           Align(
-              alignment: Alignment.centerLeft, child: S.current.settings.b2()),
+              alignment: Alignment.centerLeft,
+              child: S.of(context).settings.b2()),
           _buildDivider(),
           GestureDetector(
             onTap: () {
               launch(Uri(scheme: MAIL_TO, path: MAIL_US).toString());
             },
             child: _buildRowIconText(
-                title: S.current.feedBack, iconData: Images.iconFeedback),
+                title: S.of(context).feedBack, iconData: Images.iconFeedback),
           ),
           _buildDivider(),
           GestureDetector(
@@ -174,7 +176,8 @@ class _ProfileScreenState
                   routeName: ManagerRoutes.staticScreen);
             },
             child: _buildRowIconText(
-                title: S.current.statistical, iconData: Images.iconStatistics),
+                title: S.of(context).statistical,
+                iconData: Images.iconStatistics),
           ),
           _buildDivider(),
           GestureDetector(
@@ -183,7 +186,7 @@ class _ProfileScreenState
                     mail: ManagerRoutes.splashScreen); // statical screen
               },
               child: _buildRowIconText(
-                  title: S.current.aboutUs, iconData: Images.iconAbout)),
+                  title: S.of(context).aboutUs, iconData: Images.iconAbout)),
           _buildDivider(),
           _buildActionChangeLanguages(),
           _buildDivider(),
@@ -191,13 +194,13 @@ class _ProfileScreenState
               onTap: () async {
                 showDialogConfirm(context,
                     icon: Icons.logout,
-                    title: S.current.confirmLogout, onConfirm: () async {
+                    title: S.of(context).confirmLogout, onConfirm: () async {
                   await ManagerProvider.dispose(context);
                   await store.logout(context);
                 });
               },
               child: _buildRowIconText(
-                  title: S.current.logout,
+                  title: S.of(context).logout,
                   iconData: Images.iconLogout,
                   colorText: AppColors.redPink)),
         ],
@@ -217,15 +220,17 @@ class _ProfileScreenState
       children: [
         Observer(
             builder: (_) => _buildRowIconText(
-                title: (S.current.language + ' : ${store.localeLanguage}'),
+                title: (S.of(context).language + ' : ${store.localeLanguage}'),
                 iconData: Images.iconLanguage)),
         Observer(
           builder: (_) => SwipeLanguages(
             onTapVi: () async {
-              await store.setLanguages(context, languageCode: 'vi');
+              await store.setLanguages(context,
+                  languageCode: EnumLanguages.vi.name);
             },
             onTapEn: () async {
-              await store.setLanguages(context, languageCode: 'en');
+              await store.setLanguages(context,
+                  languageCode: EnumLanguages.en.name);
             },
             isEn: store.isEn,
           ),

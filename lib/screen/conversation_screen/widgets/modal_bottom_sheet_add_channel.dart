@@ -35,14 +35,14 @@ class __contentMBTSState extends State<_contentMBTS> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          S.current.addChannel.b1(color: AppColors.primary),
+          S.of(context).addChannel.b1(color: AppColors.primary),
           const SizedBox(
             height: 10,
           ),
-          BaseText(S.current.channelName),
+          BaseText(S.of(context).channelName),
           const SizedBox(height: 10),
           CustomTextFormField(
-            hintText: S.current.channelName,
+            hintText: S.of(context).channelName,
             hintStyle: GoogleFonts.notoSans(
                 fontWeight: FontWeight.w300,
                 fontSize: 12,
@@ -53,7 +53,7 @@ class __contentMBTSState extends State<_contentMBTS> {
           ),
           Row(
             children: [
-              BaseText(S.current.isPrivate),
+              BaseText(S.of(context).isPrivate),
               const SizedBox(
                 width: 10,
               ),
@@ -81,7 +81,7 @@ class __contentMBTSState extends State<_contentMBTS> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    S.current.ADD.b1(),
+                    S.of(context).ADD.b1(),
                   ],
                 ),
               );

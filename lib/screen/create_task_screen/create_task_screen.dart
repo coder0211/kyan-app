@@ -10,6 +10,7 @@ import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
 import 'package:kyan/utils/utils.dart';
+import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,10 +57,13 @@ class _CreateTaskScreenState
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                S.current.summary.b1R(),
+                                S.of(context).summary.b1R(),
                                 Row(
                                   children: [
-                                    S.current.done.b1(color: AppColors.primary),
+                                    S
+                                        .of(context)
+                                        .done
+                                        .b1(color: AppColors.primary),
                                     Observer(builder: (_) {
                                       return Checkbox(
                                         activeColor: AppColors.primary,
@@ -80,7 +84,7 @@ class _CreateTaskScreenState
                             ),
                             const SizedBox(height: 10),
                             CustomTextFormField(
-                              hintText: S.current.hintSummary,
+                              hintText: S.of(context).hintSummary,
                               hintStyle: GoogleFonts.notoSans(
                                   fontWeight: FontWeight.w300,
                                   fontSize: 12,
@@ -93,12 +97,12 @@ class _CreateTaskScreenState
                               borderColor: AppColors.gray.withOpacity(0.3),
                             ),
                             const SizedBox(height: 10),
-                            S.current.description.b1R(),
+                            S.of(context).description.b1R(),
                             const SizedBox(height: 0),
                             CustomTextFormField(
                               height: 108,
                               maxLines: MAX_LINE_TEXT_FIELD,
-                              hintText: S.current.descriptionTask,
+                              hintText: S.of(context).descriptionTask,
                               hintStyle: GoogleFonts.notoSans(
                                   fontWeight: FontWeight.w300,
                                   fontSize: 12,
@@ -108,7 +112,7 @@ class _CreateTaskScreenState
                               borderColor: AppColors.gray.withOpacity(0.3),
                             ),
                             const SizedBox(height: 10),
-                            S.current.dueTime.b1R(),
+                            S.of(context).dueTime.b1R(),
                             const SizedBox(height: 10),
                             GestureDetector(
                               onTap: () {
@@ -144,7 +148,7 @@ class _CreateTaskScreenState
                             Visibility(
                               visible: BaseNavigation.getArgs<String>(context,
                                       key: 'title') ==
-                                  S.current.editTask,
+                                  S.of(context).editTask,
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     right: Dimens.SCREEN_PADDING),
@@ -160,7 +164,7 @@ class _CreateTaskScreenState
                                           .getListTaskInCreateUpdateTask();
                                       store.isShowLoading = false;
                                       BaseNavigation.pop(context);
-                                    }, title: S.current.confirmDeleteTask);
+                                    }, title: S.of(context).confirmDeleteTask);
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -169,7 +173,9 @@ class _CreateTaskScreenState
                                         Icons.close,
                                         color: AppColors.redPink,
                                       ),
-                                      S.current.deleteTask
+                                      S
+                                          .of(context)
+                                          .deleteTask
                                           .b1R(color: AppColors.redPink),
                                     ],
                                   ),
@@ -180,7 +186,7 @@ class _CreateTaskScreenState
                               return (store.indexYourAccount != -1)
                                   ? Row(
                                       children: [
-                                        S.current.withWorkspace.b1(),
+                                        S.of(context).withWorkspace.b1(),
                                         Checkbox(
                                           activeColor: AppColors.primary,
                                           value: store.isWithWorkspace,
@@ -201,7 +207,7 @@ class _CreateTaskScreenState
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  S.current.assignTo.b1R(),
+                                  S.of(context).assignTo.b1R(),
                                   const SizedBox(height: 10),
                                   const Padding(
                                     padding: EdgeInsets.only(left: 10),
@@ -249,8 +255,8 @@ class _CreateTaskScreenState
                   ((BaseNavigation.getArgs(context, key: 'task') as Task)
                               .taskId) ==
                           null
-                      ? S.current.create.b1(color: AppColors.white)
-                      : S.current.updateUpper.b1(color: AppColors.white),
+                      ? S.of(context).create.b1(color: AppColors.white)
+                      : S.of(context).updateUpper.b1(color: AppColors.white),
                 ],
               ),
               bgColor:
@@ -261,40 +267,7 @@ class _CreateTaskScreenState
   }
 
   Widget _buildHeader() {
-    return Stack(
-      children: [
-        Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          GestureDetector(
-              onTap: () {
-                BaseNavigation.pop(context);
-              },
-              child: const Icon(
-                Icons.navigate_before,
-                color: AppColors.primary,
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Center(
-              child: BaseNavigation.getArgs<String>(context, key: 'title')
-                  .t2R(color: AppColors.primary),
-            ),
-          ),
-        ]),
-        InkWell(
-          onTap: () {
-            BaseNavigation.pop(context);
-          },
-          child: Container(
-            padding: const EdgeInsets.only(top: Dimens.SCREEN_PADDING),
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: Image.asset(
-                  Images.iconClose,
-                  height: 16,
-                )),
-          ),
-        )
-      ],
-    );
+    return customAppBar(context,
+        title: BaseNavigation.getArgs<String>(context, key: 'title'));
   }
 }

@@ -40,14 +40,14 @@ class _SearchCodeJoinScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          S.current.joinWorkspace.b1(color: AppColors.primary),
+          S.of(context).joinWorkspace.b1(color: AppColors.primary),
           const SizedBox(
             height: 10,
           ),
-          S.current.code.b1R(),
+          S.of(context).code.b1R(),
           const SizedBox(height: 10),
           CustomTextFormField(
-            hintText: S.current.code,
+            hintText: S.of(context).code,
             hintStyle: GoogleFonts.notoSans(
                 fontWeight: FontWeight.w300,
                 fontSize: 12,
@@ -70,7 +70,7 @@ class _SearchCodeJoinScreenState
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  S.current.joinUpper.b1(color: AppColors.white),
+                  S.of(context).joinUpper.b1(color: AppColors.white),
                 ],
               ),
               bgColor: AppColors.primary,

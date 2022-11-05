@@ -31,7 +31,7 @@ class _SelectPeopleScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: customAppBar(context, title: S.current.people),
+      appBar: customAppBar(context, title: S.of(context).people),
       bottomSheet: Padding(
         padding: const EdgeInsets.only(
             left: Dimens.SCREEN_PADDING,
@@ -45,7 +45,7 @@ class _SelectPeopleScreenState
           bgColor: AppColors.primary,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [S.current.doneUpper.b1(color: AppColors.white)],
+            children: [S.of(context).doneUpper.b1(color: AppColors.white)],
           ),
         ),
       ),
@@ -63,7 +63,7 @@ class _SelectPeopleScreenState
                     if (store.people.length != 0) {}
                     setState(() {});
                   },
-                  hintText: S.current.searchHere,
+                  hintText: S.of(context).searchHere,
                   hintStyle: GoogleFonts.notoSans(
                       fontWeight: FontWeight.w300,
                       fontSize: 12,

@@ -59,7 +59,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 5),
                                 child:
-                                    '${S.current.todo} (${store.tasks.length - store.countTaskDone})'
+                                    '${S.of(context).todo} (${store.tasks.length - store.countTaskDone})'
                                         .b1(color: AppColors.redPink),
                               );
                             }),
@@ -76,8 +76,10 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                   borderRadius: BorderRadius.circular(5),
                                   color: AppColors.lightPrimary,
                                 ),
-                                child:
-                                    S.current.today.b1(color: AppColors.orange),
+                                child: S
+                                    .of(context)
+                                    .today
+                                    .b1(color: AppColors.orange),
                               ),
                             ),
                           ],
@@ -132,7 +134,7 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Observer(
                                 builder: (_) =>
-                                    '${S.current.done} (${store.countTaskDone})'
+                                    '${S.of(context).done} (${store.countTaskDone})'
                                         .b1(color: AppColors.primary))),
                         pinned: true,
                         toolbarHeight: 30,
@@ -213,12 +215,12 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      S.current.hi.b2R(color: AppColors.gray),
+                      S.of(context).hi.b2R(color: AppColors.gray),
                       store.accountDisplayName.b1(color: AppColors.primary)
                     ],
                   ),
                 ),
-                S.current.task.h1R(color: AppColors.primary)
+                S.of(context).task.h1R(color: AppColors.primary)
               ],
             ),
           ),

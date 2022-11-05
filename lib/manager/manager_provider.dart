@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kyan/screen/Info_channel_screen/store/info_channel_screen_store.dart';
+import 'package:kyan/screen/app/store/app_store.dart';
 import 'package:kyan/screen/bot_screen/store/bot_screen_store.dart';
 import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
@@ -57,6 +58,9 @@ class ManagerProvider {
     Provider<SelectPeopleScreenStore>(create: (_) => SelectPeopleScreenStore()),
     Provider<SelectPeopleConversationScreenStore>(
         create: (_) => SelectPeopleConversationScreenStore()),
+    Provider<AppStore>(
+      create: (_) => AppStore(),
+    )
   ];
 
   /// ## Dispose

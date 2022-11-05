@@ -26,7 +26,7 @@ class _BotScreenState extends BaseScreenState<BotScreen, BotScreenStore> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         foregroundColor: AppColors.primary,
-        title: S.current.bot.t1M(color: AppColors.primary),
+        title: S.of(context).bot.t1M(color: AppColors.primary),
         centerTitle: true,
         shadowColor: AppColors.transparent,
       ),

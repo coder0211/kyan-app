@@ -27,7 +27,7 @@ Future<void> showModalBottomSheetDueTime(BuildContext context,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            S.current.dueTime.b1(color: AppColors.primary),
+            S.of(context).dueTime.b1(color: AppColors.primary),
             CustomDatePicker(
               blackoutDates: blackoutDates,
               dateRangePickerController: dateRangePickerController,
@@ -41,7 +41,7 @@ Future<void> showModalBottomSheetDueTime(BuildContext context,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  S.current.doneUpper.b1(color: AppColors.white),
+                  S.of(context).doneUpper.b1(color: AppColors.white),
                 ],
               ),
               bgColor: AppColors.primary,
