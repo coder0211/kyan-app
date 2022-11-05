@@ -101,9 +101,6 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
     _tasks = tasks;
   }
 
-  @observable
-  int idWorkspace = 0;
-
   late LoginScreenStore _loginScreenStore;
   late TasksScreenStore _tasksScreenStore;
   @override

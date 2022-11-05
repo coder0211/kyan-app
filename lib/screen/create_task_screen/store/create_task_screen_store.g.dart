@@ -286,22 +286,6 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
     });
   }
 
-  late final _$idWorkspaceAtom =
-      Atom(name: '_CreateTaskScreenStore.idWorkspace', context: context);
-
-  @override
-  int get idWorkspace {
-    _$idWorkspaceAtom.reportRead();
-    return super.idWorkspace;
-  }
-
-  @override
-  set idWorkspace(int value) {
-    _$idWorkspaceAtom.reportWrite(value, super.idWorkspace, () {
-      super.idWorkspace = value;
-    });
-  }
-
   late final _$onPressCreateUpdateTaskAsyncAction = AsyncAction(
       '_CreateTaskScreenStore.onPressCreateUpdateTask',
       context: context);
@@ -332,6 +316,17 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
         name: '_CreateTaskScreenStore.convertYMDTime');
     try {
       return super.convertYMDTime(date);
+    } finally {
+      _$_CreateTaskScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getStartEndDueTime() {
+    final _$actionInfo = _$_CreateTaskScreenStoreActionController.startAction(
+        name: '_CreateTaskScreenStore.getStartEndDueTime');
+    try {
+      return super.getStartEndDueTime();
     } finally {
       _$_CreateTaskScreenStoreActionController.endAction(_$actionInfo);
     }
@@ -371,8 +366,7 @@ dueTime: ${dueTime},
 summaryEditController: ${summaryEditController},
 descriptionEditController: ${descriptionEditController},
 account: ${account},
-workspaceId: ${workspaceId},
-idWorkspace: ${idWorkspace}
+workspaceId: ${workspaceId}
     ''';
   }
 }
