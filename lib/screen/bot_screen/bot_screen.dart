@@ -1,6 +1,5 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/bot_screen/store/bot_screen_store.dart';
@@ -39,19 +38,16 @@ class _BotScreenState extends BaseScreenState<BotScreen, BotScreenStore> {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        BaseNavigation.push(context,
-                            routeName: ManagerRoutes.pomodoroBotScreen);
-                      },
-                      child: Observer(builder: (_) {
-                        return const ItemBot(
+                        onTap: () {
+                          BaseNavigation.push(context,
+                              routeName: ManagerRoutes.pomodoroBotScreen);
+                        },
+                        child: const ItemBot(
                           iconColor: AppColors.primary,
                           iconPath: 'icon path',
                           description: 'description',
                           title: 'title',
-                        );
-                      }),
-                    );
+                        ));
                   },
                   itemCount: 2),
             ),

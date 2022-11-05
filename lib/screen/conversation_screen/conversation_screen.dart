@@ -10,6 +10,7 @@ import 'package:kyan/screen/conversation_screen/widgets/modal_bottom_sheet_add_c
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
+import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 import 'package:kyan/widgets/expanded_selection.dart';
@@ -34,66 +35,14 @@ class _ConversationScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        title: _buildHeader(),
-        shadowColor: AppColors.transparent,
-        backgroundColor: AppColors.white,
-        automaticallyImplyLeading: false,
-        leadingWidth: 0,
-        actions: [Container()],
-      ),
+      appBar: customAppBar(context,
+          title: S.of(context).conversation, isShowBack: false),
       body: GestureDetector(
         onTap: () {
           BaseUtils.hideKeyboard(context);
         },
         child: _buildBody(),
       ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Observer(builder: (_) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: Dimens.SCREEN_PADDING),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      BaseNavigation.push(context,
-                          routeName: ManagerRoutes.mainScreen,
-                          clearStack: true);
-                    },
-                    child: const Icon(
-                      Icons.navigate_before,
-                      color: AppColors.primary,
-                    )),
-                S.of(context).conversation.b1(color: AppColors.primary),
-                _buildWorkSpace(),
-              ],
-            ),
-          ],
-        ),
-      );
-    });
-  }
-
-  Container _buildWorkSpace() {
-    return Container(
-      child: Observer(builder: (_) {
-        return Row(
-          children: [
-            const SizedBox(width: 10),
-            const CustomCircleAvatar(
-              width: 30,
-              imageUrl:
-                  'https://image.archify.com/blog/03-How-to-Create-a-Comfortable-Workspace-at-Home.jpg',
-            )
-          ],
-        );
-      }),
     );
   }
 
@@ -108,9 +57,7 @@ class _ConversationScreenState
                   shadowColor: AppColors.transparent,
                   backgroundColor: AppColors.white,
                   title: CustomTextFormField(
-                    onChanged: (_) {
-                      setState(() {});
-                    },
+                    onChanged: (_) {},
                     hintText: S.of(context).searchHere,
                     hintStyle: GoogleFonts.notoSans(
                         fontWeight: FontWeight.w300,
