@@ -18,7 +18,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   BaseAPI _baseAPI = BaseAPI();
 
   late MainScreenStore _mainScreenStore;
-
+  late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
   @observable
   ObservableList<Account> members = ObservableList<Account>();
 
@@ -30,6 +30,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   @override
   void onInit(BuildContext context) {
     _mainScreenStore = context.read<MainScreenStore>();
+    _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
   }
 
   @override
@@ -88,14 +89,12 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
     await _baseAPI
         .fetchData(ManagerAddress.deleteMemberWorkspace,
             method: ApiMethod.DELETE, headers: headers, body: body)
-        .then((value) {
+        .then((value) async {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-            _workspace = Workspace.fromJson(value.object);
-            members.clear();
-            members.addAll(_workspace.members ?? []);
+            await _memberWorkspaceScreenStore.getMembersWorkspace(context);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
