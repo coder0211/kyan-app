@@ -10,6 +10,7 @@ import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
 import 'package:kyan/utils/utils.dart';
+import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -261,40 +262,7 @@ class _CreateTaskScreenState
   }
 
   Widget _buildHeader() {
-    return Stack(
-      children: [
-        Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          GestureDetector(
-              onTap: () {
-                BaseNavigation.pop(context);
-              },
-              child: const Icon(
-                Icons.navigate_before,
-                color: AppColors.primary,
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Center(
-              child: BaseNavigation.getArgs<String>(context, key: 'title')
-                  .t2R(color: AppColors.primary),
-            ),
-          ),
-        ]),
-        InkWell(
-          onTap: () {
-            BaseNavigation.pop(context);
-          },
-          child: Container(
-            padding: const EdgeInsets.only(top: Dimens.SCREEN_PADDING),
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: Image.asset(
-                  Images.iconClose,
-                  height: 16,
-                )),
-          ),
-        )
-      ],
-    );
+    return customAppBar(context,
+        title: BaseNavigation.getArgs<String>(context, key: 'title'));
   }
 }
