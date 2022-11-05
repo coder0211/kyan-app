@@ -4,7 +4,6 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
-import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -54,6 +53,40 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
     await _baseAPI
         .fetchData(ManagerAddress.workspacesGetOne,
             method: ApiMethod.GET, headers: headers, params: params)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            printLogSusscess('SUCCEEDED');
+            _workspace = Workspace.fromJson(value.object);
+            members.clear();
+            members.addAll(_workspace.members ?? []);
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  @action
+  Future<void> onClickDelete(BuildContext context, {required String accountId}) async {
+    Map<String, dynamic> headers = {
+      'Authorization': _mainScreenStore.accessToken
+    };
+    Map<String, dynamic> body = {
+      'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
+      'accountId': accountId
+    };
+    await _baseAPI
+        .fetchData(ManagerAddress.deleteMemberWorkspace,
+            method: ApiMethod.DELETE, headers: headers, body: body)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:

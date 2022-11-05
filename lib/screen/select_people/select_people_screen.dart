@@ -11,6 +11,8 @@ import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
+import 'package:kyan/widgets/custom_text_form_field.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SelectPeopleScreen extends BaseScreen {
   const SelectPeopleScreen({Key? key}) : super(key: key);
@@ -36,7 +38,10 @@ class _SelectPeopleScreenState
             right: Dimens.SCREEN_PADDING,
             bottom: Dimens.SCREEN_PADDING),
         child: BaseButton(
-          onPressed: () async {},
+          onPressed: () async {
+            store.onClickAddMemberDone(context,
+                email: store.emailSearchController.text.toString());
+          },
           bgColor: AppColors.primary,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -49,25 +54,59 @@ class _SelectPeopleScreenState
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+                child: CustomTextFormField(
+                  onChanged: (_) {
+                    store.getPeople(context,
+                        email: store.emailSearchController.text.toString());
+                    if (store.people.length != 0) {}
+                    setState(() {});
+                  },
+                  hintText: S.current.searchHere,
+                  hintStyle: GoogleFonts.notoSans(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 12,
+                      color: AppColors.gray),
+                  isModeBorder: true,
+                  textEditingController: store.emailSearchController,
+                ),
+              ),
               GestureDetector(
+                onTap: store.onTapSelectedAll,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: TIME_ANIMATION),
                   margin: const EdgeInsets.only(
                       left: Dimens.SCREEN_PADDING, top: Dimens.SCREEN_PADDING),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: 'Select all'.labelR(color: AppColors.primary),
+                  child: store.selectedAll
+                      ? 'Unselected all'.labelR(color: AppColors.primary)
+                      : 'Select all'.labelR(color: AppColors.white),
                   decoration: BoxDecoration(
-                      color: AppColors.gray.withOpacity(0.3),
+                      color: store.selectedAll
+                          ? AppColors.gray.withOpacity(0.3)
+                          : AppColors.primary,
                       borderRadius: BorderRadius.circular(5)),
                 ),
               ),
               Expanded(
                 child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) =>
-                        GestureDetector(onTap: () {}, child: Container()),
-                    itemCount: 2),
+                    itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          store.onTapItem(index: index);
+                          setState(() {});
+                        },
+                        child: (store.emailSearchController.text
+                                .toString()
+                                .contains(store.people
+                                    .elementAt(index)
+                                    .accountMail
+                                    .toString()))
+                            ? _itemPeople(store.people.elementAt(index))
+                            : Container()),
+                    itemCount: store.people.length),
               ),
             ],
           );

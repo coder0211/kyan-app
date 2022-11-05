@@ -86,7 +86,6 @@ class _ConversationScreenState
         return Row(
           children: [
             const SizedBox(width: 10),
-            'workspace name'.b1(),
             const CustomCircleAvatar(
               width: 30,
               imageUrl:

@@ -1,14 +1,42 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/manager/manager_address.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
+import 'package:kyan/models/account.dart';
+import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
+
 part 'select_people_screen_store.g.dart';
 
 class SelectPeopleScreenStore = _SelectPeopleScreenStore
     with _$SelectPeopleScreenStore;
 
 abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
+  BaseAPI _baseAPI = new BaseAPI();
+  @observable
+  Account currentAccount = Account();
+  late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
+  late String accessToken;
+  late TextEditingController emailSearchController = TextEditingController();
+  @observable
+  ObservableList<Account> people = ObservableList<Account>();
+  @observable
+  ObservableList<Account> selectedPeople = ObservableList<Account>();
+  @observable
+  bool _selectedAll = false;
+
+  bool get selectedAll => _selectedAll;
+
+  set selectedAll(bool selectedAll) {
+    _selectedAll = selectedAll;
+  }
+
   @override
-  void onInit(BuildContext context) {}
+  void onInit(BuildContext context) {
+    _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
+  }
 
   @override
   void onDispose(BuildContext context) {}
@@ -17,7 +45,132 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   Future<void> onWidgetBuildDone(BuildContext context) async {}
 
   @override
-  void resetValue() {}
+  void resetValue() {
+    selectedAll = false;
+    emailSearchController.text = '';
+    people = ObservableList<Account>();
+    selectedPeople = ObservableList<Account>();
+  }
+
+  @action
+  void onTapItem({required int index}) {
+    Account account = people.elementAt(index);
+    people[index].isSelected = !people[index].isSelected;
+    if (selectedPeople.contains(account)) {
+      selectedPeople.remove(account);
+    } else {
+      selectedPeople.add(account);
+    }
+  }
+
+  @action
+  void onTapSelectedAll() {
+    selectedAll = !selectedAll;
+    if (selectedAll) {
+      people.forEach((element) {
+        element.isSelected = true;
+        selectedPeople.add(element);
+      });
+    } else {
+      people.forEach((element) {
+        element.isSelected = false;
+        selectedPeople.remove(element);
+      });
+    }
+  }
+
+  @action
+  Future<int> onClickAddMemberDone(BuildContext context,
+      {required String email}) async {
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
+    Map<String, dynamic> headers = {
+      'Authorization': accessToken,
+    };
+    selectedPeople.forEach((element) async {
+      _memberWorkspaceScreenStore.members.forEach((element2) {
+        if (element.accountId == element2.accountId) {
+          selectedPeople = ObservableList<Account>();
+          emailSearchController.text = '';
+          BaseNavigation.pop(context);
+          return null;
+        }
+      });
+
+      Map<String, dynamic> body = {
+        'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
+        'accountId': element.accountId,
+        'workspaceMemberIsOwner': 0,
+      };
+      await _baseAPI
+          .fetchData(ManagerAddress.addMemberWorkspace,
+              body: body, headers: headers, method: ApiMethod.POST)
+          .then((value) {
+        switch (value.apiStatus) {
+          case ApiStatus.SUCCEEDED:
+            {
+              selectedPeople = ObservableList<Account>();
+              emailSearchController.text = '';
+              BaseNavigation.push(context, routeName: ManagerRoutes.mainScreen);
+              break;
+            }
+          case ApiStatus.INTERNET_UNAVAILABLE:
+            printLogYellow('INTERNET_UNAVAILABLE');
+            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+            break;
+          default:
+            printLogError('FAILED');
+            selectedPeople = ObservableList<Account>();
+            emailSearchController.text = '';
+            // Handle failed response here
+            break;
+        }
+      });
+    });
+    return 1;
+  }
+
+  @action
+  Future<void> getPeople(BuildContext context, {required String email}) async {
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
+    Map<String, dynamic> headers = {
+      'Authorization': accessToken,
+    };
+
+    Map<String, dynamic> params = {
+      'accountMail': emailSearchController.text.toString().toLowerCase(),
+    };
+    await _baseAPI
+        .fetchData(ManagerAddress.accountGetAll,
+            params: params, headers: headers, method: ApiMethod.GET)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            people.clear();
+            value.object.forEach((it) => people.add(Account.fromJson(it)));
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          {
+            printLogYellow('INTERNET_UNAVAILABLE');
+            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+
+            break;
+          }
+
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
 
   //... Some values and actions
 }

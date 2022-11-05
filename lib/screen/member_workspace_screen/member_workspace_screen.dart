@@ -2,13 +2,14 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/theme/text_styles.dart';
-import 'package:kyan/widgets/custom_appbar_back.dart';
+import 'package:kyan/widgets/custom_appbar_add_item.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 
@@ -29,18 +30,51 @@ class _MemberWorkspaceScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: customAppBar(context, title: S.current.memberWorkspace),
-      body: Observer(builder: (_) {
-        return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) =>
-                _itemMemberWorkSpace(store.members.elementAt(index)),
-            itemCount: store.members.length);
+      body: Column(
+        children: [
+          _buildHeader(context),
+          Observer(builder: (_) {
+            return Expanded(
+              child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => _itemMemberWorkSpace(
+                      account: store.members.elementAt(index)),
+                  itemCount: store.members.length),
+            );
+          }),
+          _itemAddMember(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return SafeArea(
+      child: customAppBarAddItem(context, title: S.current.memberWorkspace,
+          function: () {
+        BaseNavigation.push(context,
+            routeName: ManagerRoutes.selectPeopleScreen,
+            arguments: {
+              'workspaceId':
+                  BaseNavigation.getArgs(context, key: 'workspaceId'),
+            });
       }),
     );
   }
 
-  Widget _itemMemberWorkSpace(Account account) {
+  Widget _itemAddMember() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(
+          vertical: 5, horizontal: Dimens.SCREEN_PADDING),
+      decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: Shadows.defaultShadow),
+    );
+  }
+
+  Widget _itemMemberWorkSpace({required Account account}) {
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(
@@ -75,12 +109,16 @@ class _MemberWorkspaceScreenState
           ),
           GestureDetector(
               onTap: () {
-                showDialogConfirm(context,
-                    icon: Icons.delete_forever,
-                    onConfirm: () async {},
-                    title: S.current.confirmDeleteThis);
+                showDialogConfirm(context, icon: Icons.delete_forever,
+                    onConfirm: () async {
+                  store.onClickDelete(context,
+                      accountId: account.accountId.toString());
+                  BaseNavigation.pop(context);
+                  BaseNavigation.pop(context);
+                }, title: S.current.confirmDeleteThis);
               },
-              child: const Icon(Icons.delete_forever, color: AppColors.redPink))
+              child:
+                  const Icon(Icons.delete_forever, color: AppColors.redPink)),
         ],
       ),
     );

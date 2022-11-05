@@ -64,7 +64,7 @@ class _SearchCodeJoinScreenState
                   //     mailOwner: _loginScreenStore.currentAccount.mail ?? '',
                   //     nameWokspace: _nameController.text);
                   // await Utils.getCurrentWorkSpace();
-                  // BaseNavigation.pop(context);
+                  BaseNavigation.pop(context);
                 }
               },
               child: Row(

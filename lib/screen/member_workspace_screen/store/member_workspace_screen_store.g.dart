@@ -41,6 +41,17 @@ mixin _$MemberWorkspaceScreenStore on _MemberWorkspaceScreenStore, Store {
     });
   }
 
+  late final _$onClickDeleteAsyncAction = AsyncAction(
+      '_MemberWorkspaceScreenStore.onClickDelete',
+      context: context);
+
+  @override
+  Future<void> onClickDelete(BuildContext context,
+      {required String accountId}) {
+    return _$onClickDeleteAsyncAction
+        .run(() => super.onClickDelete(context, accountId: accountId));
+  }
+
   @override
   String toString() {
     return '''

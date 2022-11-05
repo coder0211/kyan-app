@@ -18,17 +18,18 @@ class ManagerAddress {
   static const String accountCreateOrUpdate = '$baseAccount/create-or-update';
   static const String accountLogin = '$baseAccount/login';
   static const String accountDelete = '$baseAccount/delete';
-  static const String accountGetOne = '$baseAccount/get-one';
+  static String accountGetOne = '$baseAccount/get-one';
   static const String accountGetAll = '$baseAccount/get-all';
 
   //?-- WORKSPACE -->
   static const String baseWorkspace = '/work-space';
-  static const String workspacesGetAllByIdUser =
+  static const String workspacesGetAllById =
       '$baseWorkspace/get-all-by-id-user';
   static const String workspacesGetOne = '$baseWorkspace/get-one';
   static const String workspacesDelete = '$baseWorkspace/delete';
   static const String worksapceCreateOrUpdate =
       '$baseWorkspace/create-or-update';
+  static const String workspacesGetByCodeJoin = '$baseWorkspace/get-by-code-join';
 
   //?-- TASK -->
   static const String baseTask = '/task';
@@ -36,4 +37,9 @@ class ManagerAddress {
   static const String taskGetOne = '$baseTask/get-one';
   static const String taskGetAll = '$baseTask/get-all';
   static const String taskDelete = '$baseTask/delete';
+
+  //?-- MEMBERS OF WORKSPACE -->
+  static const String baseMemberWorkspace = '/member-work-space';
+  static const String addMemberWorkspace = '$baseMemberWorkspace/create';
+  static const String deleteMemberWorkspace = '$baseMemberWorkspace/delete';
 }
