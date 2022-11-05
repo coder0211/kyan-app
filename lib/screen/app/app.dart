@@ -23,8 +23,6 @@ class _AppState extends State<App> {
   @override
   void initState() {
     BaseAPI.domain = ManagerAddress.domain;
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.bottom]);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,

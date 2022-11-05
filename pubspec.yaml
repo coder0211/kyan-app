@@ -62,12 +62,13 @@ dependencies:
   intl_utils: ^2.6.1
 
   #MY PACKGAE
-  coder0211: ^0.0.72
+  coder0211: ^0.0.79
 
   #ANIMATED SEARCH BOX
   anim_search_bar: ^2.0.2
   month_picker_dialog_2: ^0.5.5
   flutter_ringtone_player: ^3.2.0
+  file_picker: ^5.2.2
 
 dev_dependencies:
   flutter_test:

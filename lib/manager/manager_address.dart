@@ -8,6 +8,7 @@
 /// ...
 /// ```
 class ManagerAddress {
+  ManagerAddress._();
   static const String domain = 'https://kyan-api.tdsof.dev';
   // static const String domain = 'http://192.168.1.6:3001';
   // static const String domain = 'http://172.3.0.240:3001';
@@ -29,7 +30,8 @@ class ManagerAddress {
   static const String workspacesDelete = '$baseWorkspace/delete';
   static const String worksapceCreateOrUpdate =
       '$baseWorkspace/create-or-update';
-  static const String workspacesGetByCodeJoin = '$baseWorkspace/get-by-code-join';
+  static const String workspacesGetByCodeJoin =
+      '$baseWorkspace/get-by-code-join';
 
   //?-- TASK -->
   static const String baseTask = '/task';
@@ -42,4 +44,8 @@ class ManagerAddress {
   static const String baseMemberWorkspace = '/member-work-space';
   static const String addMemberWorkspace = '$baseMemberWorkspace/create';
   static const String deleteMemberWorkspace = '$baseMemberWorkspace/delete';
+
+  //? -- FILE --
+  static const String baseFile = '/file';
+  static const String uploadSingleFile = '$baseFile/upload-single-file';
 }

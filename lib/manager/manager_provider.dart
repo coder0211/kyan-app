@@ -54,7 +54,6 @@ class ManagerProvider {
     Provider<InfoChannelScreenStore>(create: (_) => InfoChannelScreenStore()),
     Provider<ConversationScreenStore>(create: (_) => ConversationScreenStore()),
     Provider<ChatScreenStore>(create: (_) => ChatScreenStore()),
-    Provider<ProfileScreenStore>(create: (_) => ProfileScreenStore()),
     Provider<SelectPeopleScreenStore>(create: (_) => SelectPeopleScreenStore()),
     Provider<SelectPeopleConversationScreenStore>(
         create: (_) => SelectPeopleConversationScreenStore()),
@@ -90,7 +89,6 @@ class ManagerProvider {
     context.read<InfoChannelScreenStore>().resetValue();
     context.read<ConversationScreenStore>().resetValue();
     context.read<ChatScreenStore>().resetValue();
-    context.read<ProfileScreenStore>().resetValue();
     context.read<SelectPeopleScreenStore>().resetValue();
     context.read<SelectPeopleConversationScreenStore>().resetValue();
   }

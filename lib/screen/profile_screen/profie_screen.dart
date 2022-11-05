@@ -250,7 +250,8 @@ class _ProfileScreenState
           isSelected:
               store.currentWorkspaceId == store.workspaces[index].workspaceId,
           onPressedWorkspace: () async {
-            await store.onPressedWorkspace(store.workspaces[index]);
+            await store.onPressedWorkspace(context,
+                workspace: store.workspaces[index]);
             BaseNavigation.pop(context);
           }),
     );

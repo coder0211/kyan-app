@@ -100,5 +100,6 @@
     "language": "Language",
     "notiRestartApp": "Swich language now! Please wait a minute",
     "settings": "Settings",
-    "name": "Name"
+    "name": "Name",
+    "attachment": "Attachment"
 }

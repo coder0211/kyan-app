@@ -14,6 +14,7 @@ class Task {
   String? taskCreateAt;
   int? taskWorkspaceId;
   String? taskAssignTo;
+  String? attachment;
 
   Task(
       {this.taskId,
