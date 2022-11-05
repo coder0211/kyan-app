@@ -14,11 +14,14 @@ AppBar customAppBarAddItem(BuildContext context,
           child: const Icon(Icons.navigate_before)),
       centerTitle: true,
       actions: [
-        GestureDetector(
-          onTap: () {
-            function.call();
-          },
-          child: const Icon(Icons.add, size: 27),
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: GestureDetector(
+            onTap: () {
+              function.call();
+            },
+            child: const Icon(Icons.add, size: 27),
+          ),
         )
       ]);
 }

@@ -33,15 +33,16 @@ class _MemberWorkspaceScreenState
       body: Column(
         children: [
           _buildHeader(context),
-          Observer(builder: (_) {
-            return Expanded(
-              child: ListView.builder(
+          Flexible(
+            child: Observer(builder: (_) {
+              return ListView.builder(
+                  padding: EdgeInsets.zero,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => _itemMemberWorkSpace(
                       account: store.members.elementAt(index)),
-                  itemCount: store.members.length),
-            );
-          }),
+                  itemCount: store.members.length);
+            }),
+          ),
           _itemAddMember(),
         ],
       ),
@@ -49,17 +50,14 @@ class _MemberWorkspaceScreenState
   }
 
   Widget _buildHeader(BuildContext context) {
-    return SafeArea(
-      child: customAppBarAddItem(context, title: S.current.memberWorkspace,
-          function: () {
-        BaseNavigation.push(context,
-            routeName: ManagerRoutes.selectPeopleScreen,
-            arguments: {
-              'workspaceId':
-                  BaseNavigation.getArgs(context, key: 'workspaceId'),
-            });
-      }),
-    );
+    return customAppBarAddItem(context, title: S.current.memberWorkspace,
+        function: () {
+      BaseNavigation.push(context,
+          routeName: ManagerRoutes.selectPeopleScreen,
+          arguments: {
+            'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
+          });
+    });
   }
 
   Widget _itemAddMember() {
