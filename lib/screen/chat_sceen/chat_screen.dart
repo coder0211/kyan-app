@@ -40,14 +40,12 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
   }
 
   Widget _buildDrawer() {
-    return Observer(builder: (_) {
-      return InfoChannelScreen(
-          urlAvatar: '',
-          title: 'Public or private',
-          isChannel: true,
-          agrs: store.spaceChat,
-          isPrivate: false);
-    });
+    return InfoChannelScreen(
+        urlAvatar: '',
+        title: 'Public or private',
+        isChannel: true,
+        agrs: store.spaceChat,
+        isPrivate: false);
   }
 
   PreferredSizeWidget _buildAppBar() {

@@ -18,18 +18,19 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   BaseAPI _baseAPI = BaseAPI();
 
   late MainScreenStore _mainScreenStore;
-
+  late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
   @observable
   ObservableList<Account> members = ObservableList<Account>();
 
   @observable
-  Workspace _workspace = Workspace();
+  Workspace workspace = Workspace();
 
   //? --      Funtions      -->
 
   @override
   void onInit(BuildContext context) {
     _mainScreenStore = context.read<MainScreenStore>();
+    _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
   }
 
   @override
@@ -37,13 +38,13 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    await _getMembersWorkspace(context);
+    await getMembersWorkspace(context);
   }
 
   @override
   void resetValue() {}
 
-  Future<void> _getMembersWorkspace(BuildContext context) async {
+  Future<void> getMembersWorkspace(BuildContext context) async {
     Map<String, dynamic> headers = {
       'Authorization': _mainScreenStore.accessToken
     };
@@ -58,9 +59,9 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-            _workspace = Workspace.fromJson(value.object);
+            workspace = Workspace.fromJson(value.object);
             members.clear();
-            members.addAll(_workspace.members ?? []);
+            members.addAll(workspace.members ?? []);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -76,7 +77,8 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  Future<void> onClickDelete(BuildContext context, {required String accountId}) async {
+  Future<void> onClickDelete(BuildContext context,
+      {required String accountId}) async {
     Map<String, dynamic> headers = {
       'Authorization': _mainScreenStore.accessToken
     };
@@ -87,14 +89,11 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
     await _baseAPI
         .fetchData(ManagerAddress.deleteMemberWorkspace,
             method: ApiMethod.DELETE, headers: headers, body: body)
-        .then((value) {
+        .then((value) async {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-            _workspace = Workspace.fromJson(value.object);
-            members.clear();
-            members.addAll(_workspace.members ?? []);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -107,6 +106,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+    await _memberWorkspaceScreenStore.getMembersWorkspace(context);
   }
 }
 /// We are using auto code generation to generate code for MobX store.

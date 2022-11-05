@@ -33,16 +33,15 @@ class _MemberWorkspaceScreenState
       body: Column(
         children: [
           _buildHeader(context),
-          Flexible(
-            child: Observer(builder: (_) {
-              return ListView.builder(
-                  padding: EdgeInsets.zero,
+          Observer(builder: (_) {
+            return Expanded(
+              child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => _itemMemberWorkSpace(
                       account: store.members.elementAt(index)),
-                  itemCount: store.members.length);
-            }),
-          ),
+                  itemCount: store.members.length),
+            );
+          }),
           _itemAddMember(),
         ],
       ),
@@ -50,14 +49,19 @@ class _MemberWorkspaceScreenState
   }
 
   Widget _buildHeader(BuildContext context) {
-    return customAppBarAddItem(context, title: S.of(context).memberWorkspace,
-        function: () {
-      BaseNavigation.push(context,
-          routeName: ManagerRoutes.selectPeopleScreen,
-          arguments: {
-            'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
-          });
-    });
+    return SafeArea(
+      child: customAppBarAddItem(context, title: S.current.memberWorkspace,
+          function: () {
+        BaseNavigation.push(context,
+            routeName: ManagerRoutes.selectPeopleScreen,
+            arguments: {
+              'workspaceId':
+                  BaseNavigation.getArgs(context, key: 'workspaceId'),
+              'listMembers': store.members,
+            });
+        //BaseNavigation.pop(context);
+      }),
+    );
   }
 
   Widget _itemAddMember() {
@@ -113,7 +117,7 @@ class _MemberWorkspaceScreenState
                       accountId: account.accountId.toString());
                   BaseNavigation.pop(context);
                   BaseNavigation.pop(context);
-                }, title: S.of(context).confirmDeleteThis);
+                }, title: S.current.confirmDeleteThis);
               },
               child:
                   const Icon(Icons.delete_forever, color: AppColors.redPink)),

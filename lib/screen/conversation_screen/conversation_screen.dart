@@ -47,135 +47,128 @@ class _ConversationScreenState
   }
 
   Widget _buildBody() {
-    return Observer(
-        builder: ((_) => CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  actions: [Container()],
-                  shadowColor: AppColors.transparent,
-                  backgroundColor: AppColors.white,
-                  title: CustomTextFormField(
-                    onChanged: (_) {},
-                    hintText: S.of(context).searchHere,
-                    hintStyle: GoogleFonts.notoSans(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12,
-                        color: AppColors.gray),
-                    isModeBorder: true,
-                  ),
-                  floating: true,
-                  pinned: true,
-                  primary: true,
-                ),
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  actions: [Container()],
-                  shadowColor: AppColors.transparent,
-                  backgroundColor: AppColors.white,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {},
-                            child: Observer(builder: (_) {
-                              return RotationTransition(
-                                turns: const AlwaysStoppedAnimation(0),
-                                child: Image.asset(
-                                  Images.iconShowMoreGray,
-                                  width: 20,
-                                ),
-                              );
-                            }),
-                          ),
-                          S.of(context).channel.b2R(color: AppColors.gray),
-                        ],
-                      ),
-                      GestureDetector(
-                          onTap: () => showModalBottomSheetAddChannel(context),
-                          child: const Icon(Icons.add, color: AppColors.gray))
-                    ],
-                  ),
-                  floating: true,
-                  toolbarHeight: 30,
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return Observer(builder: (_) {
-                        return ExpandedSection(
-                            expand: true,
-                            child: ItemChannelChat(
-                              onPressed: () {
-                                BaseNavigation.push(
-                                  context,
-                                  routeName: ManagerRoutes.chatScreen,
-                                  clearStack: true,
-                                );
-                              },
-                              titleChannel: '',
-                            ));
-                      });
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        SliverAppBar(
+          automaticallyImplyLeading: false,
+          actions: [Container()],
+          shadowColor: AppColors.transparent,
+          backgroundColor: AppColors.white,
+          title: CustomTextFormField(
+            onChanged: (_) {},
+            hintText: S.of(context).searchHere,
+            hintStyle: GoogleFonts.notoSans(
+                fontWeight: FontWeight.w300,
+                fontSize: 12,
+                color: AppColors.gray),
+            isModeBorder: true,
+          ),
+          floating: true,
+          pinned: true,
+          primary: true,
+        ),
+        SliverAppBar(
+          automaticallyImplyLeading: false,
+          actions: [Container()],
+          shadowColor: AppColors.transparent,
+          backgroundColor: AppColors.white,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                      onTap: () {},
+                      child: RotationTransition(
+                        turns: const AlwaysStoppedAnimation(0),
+                        child: Image.asset(
+                          Images.iconShowMoreGray,
+                          width: 20,
+                        ),
+                      )),
+                  S.of(context).channel.b2R(color: AppColors.gray),
+                ],
+              ),
+              GestureDetector(
+                  onTap: () => showModalBottomSheetAddChannel(context),
+                  child: const Icon(Icons.add, color: AppColors.gray))
+            ],
+          ),
+          floating: true,
+          toolbarHeight: 30,
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return ExpandedSection(
+                  expand: true,
+                  child: ItemChannelChat(
+                    onPressed: () {
+                      BaseNavigation.push(
+                        context,
+                        routeName: ManagerRoutes.chatScreen,
+                        clearStack: true,
+                      );
                     },
-                    childCount: 2,
-                  ),
-                ),
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  actions: [Container()],
-                  shadowColor: AppColors.transparent,
-                  backgroundColor: AppColors.white,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                              onTap: () {},
-                              child: Observer(builder: (_) {
-                                return RotationTransition(
-                                  turns: const AlwaysStoppedAnimation(0),
-                                  child: Image.asset(Images.iconShowMoreGray,
-                                      width: 20),
-                                );
-                              })),
-                          S.of(context).people.b2R(color: AppColors.gray)
-                        ],
-                      ),
-                      GestureDetector(
-                          onTap: () {},
-                          child: const Icon(Icons.add, color: AppColors.gray))
-                    ],
-                  ),
-                  pinned: true,
-                  toolbarHeight: 30,
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return Observer(builder: (_) {
-                        return ExpandedSection(
-                            child: ItemPeopleChat(
-                          avatarUrl:
-                              'https://giorgiopandiani.art/animated-gifs',
-                          onPressed: () {},
-                          titleChannel: 'titleChannel',
-                        ));
-                      });
-                    },
-                    childCount: 2,
-                  ),
-                ),
-                const SliverAppBar(
-                  shadowColor: AppColors.transparent,
-                  backgroundColor: AppColors.white,
-                  title: SizedBox(),
-                  toolbarHeight: 96,
-                ),
-              ],
-            )));
+                    titleChannel: '',
+                  ));
+            },
+            childCount: 2,
+          ),
+        ),
+        SliverAppBar(
+          automaticallyImplyLeading: false,
+          actions: [Container()],
+          shadowColor: AppColors.transparent,
+          backgroundColor: AppColors.white,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                      onTap: () {},
+                      child: Observer(builder: (_) {
+                        return RotationTransition(
+                          turns: const AlwaysStoppedAnimation(0),
+                          child:
+                              Image.asset(Images.iconShowMoreGray, width: 20),
+                        );
+                      })),
+                  S.of(context).people.b2R(color: AppColors.gray)
+                ],
+              ),
+              GestureDetector(
+                  onTap: () {},
+                  child: const Icon(Icons.add, color: AppColors.gray))
+            ],
+          ),
+          pinned: true,
+          toolbarHeight: 30,
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return Observer(builder: (_) {
+                return ExpandedSection(
+                    child: ItemPeopleChat(
+                  avatarUrl: 'https://giorgiopandiani.art/animated-gifs',
+                  onPressed: () {},
+                  titleChannel: 'titleChannel',
+                ));
+              });
+            },
+            childCount: 2,
+          ),
+        ),
+        const SliverAppBar(
+          shadowColor: AppColors.transparent,
+          backgroundColor: AppColors.white,
+          title: SizedBox(),
+          toolbarHeight: 96,
+        ),
+      ],
+    );
   }
 }

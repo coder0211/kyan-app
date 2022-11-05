@@ -2,7 +2,6 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
-import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
@@ -21,9 +20,9 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   late String accessToken;
   late TextEditingController emailSearchController = TextEditingController();
   @observable
-  ObservableList<Account> people = ObservableList<Account>();
+  ObservableList<Account> peoples = ObservableList<Account>();
   @observable
-  ObservableList<Account> selectedPeople = ObservableList<Account>();
+  ObservableList<Account> selectedPeoples = ObservableList<Account>();
   @observable
   bool _selectedAll = false;
 
@@ -39,7 +38,9 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {}
+  void onDispose(BuildContext context) {
+    resetValue();
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
@@ -48,18 +49,22 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   void resetValue() {
     selectedAll = false;
     emailSearchController.text = '';
-    people = ObservableList<Account>();
-    selectedPeople = ObservableList<Account>();
+    peoples = ObservableList<Account>();
+    selectedPeoples = ObservableList<Account>();
   }
 
   @action
-  void onTapItem({required int index}) {
-    Account account = people.elementAt(index);
-    people[index].isSelected = !people[index].isSelected;
-    if (selectedPeople.contains(account)) {
-      selectedPeople.remove(account);
-    } else {
-      selectedPeople.add(account);
+  void onTapItem({required Account account}) {
+    if (selectedPeoples.contains(account)) {
+      peoples.remove(account);
+      account.isSelected = false;
+      peoples.add(account);
+      selectedPeoples.remove(account);
+    } else if (!selectedPeoples.contains(account)) {
+      peoples.remove(account);
+      account.isSelected = true;
+      peoples.add(account);
+      selectedPeoples.add(account);
     }
   }
 
@@ -67,21 +72,21 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   void onTapSelectedAll() {
     selectedAll = !selectedAll;
     if (selectedAll) {
-      people.forEach((element) {
+      peoples.forEach((element) {
         element.isSelected = true;
-        selectedPeople.add(element);
+        selectedPeoples.add(element);
       });
     } else {
-      people.forEach((element) {
+      peoples.forEach((element) {
         element.isSelected = false;
-        selectedPeople.remove(element);
+        selectedPeoples.remove(element);
       });
     }
   }
 
   @action
-  Future<int> onClickAddMemberDone(BuildContext context,
-      {required String email}) async {
+  Future<void> onClickAddMemberDone(BuildContext context,
+      {required String email, required bool isSelected}) async {
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
       accessToken = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.accessToken);
@@ -89,16 +94,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {
       'Authorization': accessToken,
     };
-    selectedPeople.forEach((element) async {
-      _memberWorkspaceScreenStore.members.forEach((element2) {
-        if (element.accountId == element2.accountId) {
-          selectedPeople = ObservableList<Account>();
-          emailSearchController.text = '';
-          BaseNavigation.pop(context);
-          return null;
-        }
-      });
-
+    selectedPeoples.forEach((element) async {
       Map<String, dynamic> body = {
         'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
         'accountId': element.accountId,
@@ -111,9 +107,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
         switch (value.apiStatus) {
           case ApiStatus.SUCCEEDED:
             {
-              selectedPeople = ObservableList<Account>();
-              emailSearchController.text = '';
-              BaseNavigation.push(context, routeName: ManagerRoutes.mainScreen);
               break;
             }
           case ApiStatus.INTERNET_UNAVAILABLE:
@@ -122,14 +115,16 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
             break;
           default:
             printLogError('FAILED');
-            selectedPeople = ObservableList<Account>();
-            emailSearchController.text = '';
             // Handle failed response here
             break;
         }
       });
     });
-    return 1;
+    peoples = ObservableList<Account>();
+    selectedPeoples = ObservableList<Account>();
+    emailSearchController.text = '';
+    await _memberWorkspaceScreenStore.getMembersWorkspace(context);
+    BaseNavigation.pop(context);
   }
 
   @action
@@ -143,17 +138,22 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     };
 
     Map<String, dynamic> params = {
-      'accountMail': emailSearchController.text.toString().toLowerCase(),
+      'accountMail': emailSearchController.text.toString(),
     };
     await _baseAPI
-        .fetchData(ManagerAddress.accountGetAll,
-            params: params, headers: headers, method: ApiMethod.GET)
+        .fetchData(
+            ManagerAddress.accountGetOne +
+                '/' +
+                emailSearchController.text.toString(),
+            // params: params,
+            headers: headers,
+            method: ApiMethod.GET)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
-            people.clear();
-            value.object.forEach((it) => people.add(Account.fromJson(it)));
+            peoples.clear();
+            peoples.add(Account.fromJson(value.object));
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -163,7 +163,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
 
             break;
           }
-
         default:
           printLogError('FAILED');
           // Handle failed response here
@@ -172,6 +171,13 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     });
   }
 
+  void checkSelectedItem() {
+    peoples.forEach((element) {
+      if (emailSearchController.text
+          .toString()
+          .contains(element.accountMail.toString())) {}
+    });
+  }
   //... Some values and actions
 }
 /// We are using auto code generation to generate code for MobX store.

@@ -16,23 +16,23 @@ dependencies:
     sdk: flutter
 
   #FLUTTER LOCAL NOTIFICATIONS
-  flutter_local_notifications: ^9.6.0
+  flutter_local_notifications: ^12.0.3
 
   #TIME ZONE
-  timezone: ^0.8.0
+  timezone: ^0.9.0
 
   #STATE MANAGEMENTS
-  flutter_mobx: ^2.0.6+1
-  mobx: ^2.0.7+2
-  provider: ^6.0.3
+  flutter_mobx: ^2.0.6+4
+  mobx: ^2.1.1
+  provider: ^6.0.4
 
   #JSON
-  retrofit: ^3.0.1+1
-  json_serializable: ^6.2.0
-  json_annotation: ^4.5.0
+  retrofit: ^3.3.1
+  json_serializable: ^6.5.4
+  json_annotation: ^4.7.0
 
   #IMAGE
-  cached_network_image: ^3.2.1
+  cached_network_image: ^3.2.2
 
   #PIN CODE
   pin_code_fields: ^7.4.0
@@ -68,7 +68,6 @@ dependencies:
   anim_search_bar: ^2.0.2
   month_picker_dialog_2: ^0.5.5
   flutter_ringtone_player: ^3.2.0
-  file_picker: ^5.2.2
 
 dev_dependencies:
   flutter_test:
