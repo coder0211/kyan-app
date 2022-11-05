@@ -37,13 +37,13 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    await _getMembersWorkspace(context);
+    await getMembersWorkspace(context);
   }
 
   @override
   void resetValue() {}
 
-  Future<void> _getMembersWorkspace(BuildContext context) async {
+  Future<void> getMembersWorkspace(BuildContext context) async {
     Map<String, dynamic> headers = {
       'Authorization': _mainScreenStore.accessToken
     };
@@ -76,7 +76,8 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  Future<void> onClickDelete(BuildContext context, {required String accountId}) async {
+  Future<void> onClickDelete(BuildContext context,
+      {required String accountId}) async {
     Map<String, dynamic> headers = {
       'Authorization': _mainScreenStore.accessToken
     };

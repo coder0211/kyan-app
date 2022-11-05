@@ -80,7 +80,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  Future<int> onClickAddMemberDone(BuildContext context,
+  Future<void> onClickAddMemberDone(BuildContext context,
       {required String email}) async {
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
       accessToken = await BaseSharedPreferences.getStringValue(
@@ -90,15 +90,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
       'Authorization': accessToken,
     };
     selectedPeople.forEach((element) async {
-      _memberWorkspaceScreenStore.members.forEach((element2) {
-        if (element.accountId == element2.accountId) {
-          selectedPeople = ObservableList<Account>();
-          emailSearchController.text = '';
-          BaseNavigation.pop(context);
-          return null;
-        }
-      });
-
       Map<String, dynamic> body = {
         'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
         'accountId': element.accountId,
@@ -111,9 +102,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
         switch (value.apiStatus) {
           case ApiStatus.SUCCEEDED:
             {
-              selectedPeople = ObservableList<Account>();
-              emailSearchController.text = '';
-              BaseNavigation.push(context, routeName: ManagerRoutes.mainScreen);
               break;
             }
           case ApiStatus.INTERNET_UNAVAILABLE:
@@ -122,14 +110,15 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
             break;
           default:
             printLogError('FAILED');
-            selectedPeople = ObservableList<Account>();
-            emailSearchController.text = '';
             // Handle failed response here
             break;
         }
       });
     });
-    return 1;
+    selectedPeople = ObservableList<Account>();
+    emailSearchController.text = '';
+    await _memberWorkspaceScreenStore.getMembersWorkspace(context);
+    BaseNavigation.pop(context);
   }
 
   @action

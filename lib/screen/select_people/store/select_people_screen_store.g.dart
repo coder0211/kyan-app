@@ -78,7 +78,7 @@ mixin _$SelectPeopleScreenStore on _SelectPeopleScreenStore, Store {
       context: context);
 
   @override
-  Future<int> onClickAddMemberDone(BuildContext context,
+  Future<void> onClickAddMemberDone(BuildContext context,
       {required String email}) {
     return _$onClickAddMemberDoneAsyncAction
         .run(() => super.onClickAddMemberDone(context, email: email));
