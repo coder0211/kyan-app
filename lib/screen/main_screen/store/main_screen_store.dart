@@ -31,7 +31,13 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
   String accessToken = '';
 
   @observable
-  int? workspaceId = null;
+  int? _workspaceId = null;
+
+  int? get workspaceId => _workspaceId;
+
+  set workspaceId(int? workspaceId) {
+    _workspaceId = workspaceId;
+  }
 
   //? --      Funtions      -->
 

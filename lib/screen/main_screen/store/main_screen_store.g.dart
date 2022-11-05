@@ -25,19 +25,19 @@ mixin _$MainScreenStore on _MainScreenStore, Store {
     });
   }
 
-  late final _$workspaceIdAtom =
-      Atom(name: '_MainScreenStore.workspaceId', context: context);
+  late final _$_workspaceIdAtom =
+      Atom(name: '_MainScreenStore._workspaceId', context: context);
 
   @override
-  int? get workspaceId {
-    _$workspaceIdAtom.reportRead();
-    return super.workspaceId;
+  int? get _workspaceId {
+    _$_workspaceIdAtom.reportRead();
+    return super._workspaceId;
   }
 
   @override
-  set workspaceId(int? value) {
-    _$workspaceIdAtom.reportWrite(value, super.workspaceId, () {
-      super.workspaceId = value;
+  set _workspaceId(int? value) {
+    _$_workspaceIdAtom.reportWrite(value, super._workspaceId, () {
+      super._workspaceId = value;
     });
   }
 
@@ -69,7 +69,7 @@ mixin _$MainScreenStore on _MainScreenStore, Store {
   @override
   String toString() {
     return '''
-workspaceId: ${workspaceId}
+
     ''';
   }
 }
