@@ -338,6 +338,17 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
   }
 
   @override
+  void getStartEndDueTime() {
+    final _$actionInfo = _$_CreateTaskScreenStoreActionController.startAction(
+        name: '_CreateTaskScreenStore.getStartEndDueTime');
+    try {
+      return super.getStartEndDueTime();
+    } finally {
+      _$_CreateTaskScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void getDueTime(BuildContext context) {
     final _$actionInfo = _$_CreateTaskScreenStoreActionController.startAction(
         name: '_CreateTaskScreenStore.getDueTime');

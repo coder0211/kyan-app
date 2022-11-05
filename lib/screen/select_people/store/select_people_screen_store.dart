@@ -4,7 +4,9 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
+import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 part 'select_people_screen_store.g.dart';
 
@@ -15,6 +17,8 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   BaseAPI _baseAPI = new BaseAPI();
   @observable
   Account currentAccount = Account();
+  late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
+  late String accessToken;
   late TextEditingController emailSearchController = TextEditingController();
   @observable
   ObservableList<Account> people = ObservableList<Account>();
@@ -29,16 +33,23 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     _selectedAll = selectedAll;
   }
 
-  late String accessToken;
   @override
-  void onInit(BuildContext context) {}
+  void onInit(BuildContext context) {
+    _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
+  }
 
   @override
   void onDispose(BuildContext context) {}
 
   @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {
-    //await getPeople(context, email: emailSearchController.text.toString());
+  Future<void> onWidgetBuildDone(BuildContext context) async {}
+
+  @override
+  void resetValue() {
+    selectedAll = false;
+    emailSearchController.text = '';
+    people = ObservableList<Account>();
+    selectedPeople = ObservableList<Account>();
   }
 
   @action
@@ -69,7 +80,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  Future<void> onClickAddMemberDone(BuildContext context,
+  Future<int> onClickAddMemberDone(BuildContext context,
       {required String email}) async {
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
       accessToken = await BaseSharedPreferences.getStringValue(
@@ -79,9 +90,17 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
       'Authorization': accessToken,
     };
     selectedPeople.forEach((element) async {
+      _memberWorkspaceScreenStore.members.forEach((element2) {
+        if (element.accountId == element2.accountId) {
+          selectedPeople = ObservableList<Account>();
+          emailSearchController.text = '';
+          BaseNavigation.pop(context);
+          return null;
+        }
+      });
+
       Map<String, dynamic> body = {
-        'workspaceId': 3,
-        //BaseNavigation.getArgs(context, key: 'workspaceId'),
+        'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
         'accountId': element.accountId,
         'workspaceMemberIsOwner': 0,
       };
@@ -92,6 +111,8 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
         switch (value.apiStatus) {
           case ApiStatus.SUCCEEDED:
             {
+              selectedPeople = ObservableList<Account>();
+              emailSearchController.text = '';
               BaseNavigation.push(context, routeName: ManagerRoutes.mainScreen);
               break;
             }
@@ -101,11 +122,14 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
             break;
           default:
             printLogError('FAILED');
+            selectedPeople = ObservableList<Account>();
+            emailSearchController.text = '';
             // Handle failed response here
             break;
         }
       });
     });
+    return 1;
   }
 
   @action
@@ -146,13 +170,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
-  }
-
-  @override
-  void resetValue() {
-    selectedAll = false;
-    people = ObservableList<Account>();
-    selectedPeople = ObservableList<Account>();
   }
 
   //... Some values and actions

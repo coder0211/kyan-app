@@ -2,7 +2,6 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
@@ -38,8 +37,8 @@ class _MemberWorkspaceScreenState
             return Expanded(
               child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) =>
-                      _itemMemberWorkSpace(store.members.elementAt(index)),
+                  itemBuilder: (context, index) => _itemMemberWorkSpace(
+                      account: store.members.elementAt(index)),
                   itemCount: store.members.length),
             );
           }),
@@ -54,7 +53,11 @@ class _MemberWorkspaceScreenState
       child: customAppBarAddItem(context, title: S.current.memberWorkspace,
           function: () {
         BaseNavigation.push(context,
-            routeName: ManagerRoutes.selectPeopleScreen);
+            routeName: ManagerRoutes.selectPeopleScreen,
+            arguments: {
+              'workspaceId':
+                  BaseNavigation.getArgs(context, key: 'workspaceId'),
+            });
       }),
     );
   }
@@ -71,7 +74,7 @@ class _MemberWorkspaceScreenState
     );
   }
 
-  Widget _itemMemberWorkSpace(Account account) {
+  Widget _itemMemberWorkSpace({required Account account}) {
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(
@@ -106,10 +109,13 @@ class _MemberWorkspaceScreenState
           ),
           GestureDetector(
               onTap: () {
-                showDialogConfirm(context,
-                    icon: Icons.delete_forever,
-                    onConfirm: () async {},
-                    title: S.current.confirmDeleteThis);
+                showDialogConfirm(context, icon: Icons.delete_forever,
+                    onConfirm: () async {
+                  store.onClickDelete(context,
+                      accountId: account.accountId.toString());
+                  BaseNavigation.pop(context);
+                  BaseNavigation.pop(context);
+                }, title: S.current.confirmDeleteThis);
               },
               child:
                   const Icon(Icons.delete_forever, color: AppColors.redPink)),

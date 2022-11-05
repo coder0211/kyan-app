@@ -29,6 +29,7 @@ class ManagerAddress {
   static const String workspacesDelete = '$baseWorkspace/delete';
   static const String worksapceCreateOrUpdate =
       '$baseWorkspace/create-or-update';
+  static const String workspacesGetByCodeJoin = '$baseWorkspace/get-by-code-join';
 
   //?-- TASK -->
   static const String baseTask = '/task';
@@ -40,4 +41,5 @@ class ManagerAddress {
   //?-- MEMBERS OF WORKSPACE -->
   static const String baseMemberWorkspace = '/member-work-space';
   static const String addMemberWorkspace = '$baseMemberWorkspace/create';
+  static const String deleteMemberWorkspace = '$baseMemberWorkspace/delete';
 }

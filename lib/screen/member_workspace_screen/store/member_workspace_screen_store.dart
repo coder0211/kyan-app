@@ -74,6 +74,40 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
       }
     });
   }
+
+  @action
+  Future<void> onClickDelete(BuildContext context, {required String accountId}) async {
+    Map<String, dynamic> headers = {
+      'Authorization': _mainScreenStore.accessToken
+    };
+    Map<String, dynamic> body = {
+      'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
+      'accountId': accountId
+    };
+    await _baseAPI
+        .fetchData(ManagerAddress.deleteMemberWorkspace,
+            method: ApiMethod.DELETE, headers: headers, body: body)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            printLogSusscess('SUCCEEDED');
+            _workspace = Workspace.fromJson(value.object);
+            members.clear();
+            members.addAll(_workspace.members ?? []);
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
 }
 /// We are using auto code generation to generate code for MobX store.
 /// If we see any error with .g.dart file, try to run below command.
