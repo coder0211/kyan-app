@@ -25,35 +25,35 @@ mixin _$SelectPeopleScreenStore on _SelectPeopleScreenStore, Store {
     });
   }
 
-  late final _$peopleAtom =
-      Atom(name: '_SelectPeopleScreenStore.people', context: context);
+  late final _$peoplesAtom =
+      Atom(name: '_SelectPeopleScreenStore.peoples', context: context);
 
   @override
-  ObservableList<Account> get people {
-    _$peopleAtom.reportRead();
-    return super.people;
+  ObservableList<Account> get peoples {
+    _$peoplesAtom.reportRead();
+    return super.peoples;
   }
 
   @override
-  set people(ObservableList<Account> value) {
-    _$peopleAtom.reportWrite(value, super.people, () {
-      super.people = value;
+  set peoples(ObservableList<Account> value) {
+    _$peoplesAtom.reportWrite(value, super.peoples, () {
+      super.peoples = value;
     });
   }
 
-  late final _$selectedPeopleAtom =
-      Atom(name: '_SelectPeopleScreenStore.selectedPeople', context: context);
+  late final _$selectedPeoplesAtom =
+      Atom(name: '_SelectPeopleScreenStore.selectedPeoples', context: context);
 
   @override
-  ObservableList<Account> get selectedPeople {
-    _$selectedPeopleAtom.reportRead();
-    return super.selectedPeople;
+  ObservableList<Account> get selectedPeoples {
+    _$selectedPeoplesAtom.reportRead();
+    return super.selectedPeoples;
   }
 
   @override
-  set selectedPeople(ObservableList<Account> value) {
-    _$selectedPeopleAtom.reportWrite(value, super.selectedPeople, () {
-      super.selectedPeople = value;
+  set selectedPeoples(ObservableList<Account> value) {
+    _$selectedPeoplesAtom.reportWrite(value, super.selectedPeoples, () {
+      super.selectedPeoples = value;
     });
   }
 
@@ -97,11 +97,11 @@ mixin _$SelectPeopleScreenStore on _SelectPeopleScreenStore, Store {
       ActionController(name: '_SelectPeopleScreenStore', context: context);
 
   @override
-  void onTapItem({required int index}) {
+  void onTapItem({required Account account}) {
     final _$actionInfo = _$_SelectPeopleScreenStoreActionController.startAction(
         name: '_SelectPeopleScreenStore.onTapItem');
     try {
-      return super.onTapItem(index: index);
+      return super.onTapItem(account: account);
     } finally {
       _$_SelectPeopleScreenStoreActionController.endAction(_$actionInfo);
     }
@@ -122,8 +122,8 @@ mixin _$SelectPeopleScreenStore on _SelectPeopleScreenStore, Store {
   String toString() {
     return '''
 currentAccount: ${currentAccount},
-people: ${people},
-selectedPeople: ${selectedPeople}
+peoples: ${peoples},
+selectedPeoples: ${selectedPeoples}
     ''';
   }
 }

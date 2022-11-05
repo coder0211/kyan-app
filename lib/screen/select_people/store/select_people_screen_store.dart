@@ -20,9 +20,9 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   late String accessToken;
   late TextEditingController emailSearchController = TextEditingController();
   @observable
-  ObservableList<Account> people = ObservableList<Account>();
+  ObservableList<Account> peoples = ObservableList<Account>();
   @observable
-  ObservableList<Account> selectedPeople = ObservableList<Account>();
+  ObservableList<Account> selectedPeoples = ObservableList<Account>();
   @observable
   bool _selectedAll = false;
 
@@ -38,7 +38,9 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {}
+  void onDispose(BuildContext context) {
+    resetValue();
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
@@ -47,18 +49,22 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   void resetValue() {
     selectedAll = false;
     emailSearchController.text = '';
-    people = ObservableList<Account>();
-    selectedPeople = ObservableList<Account>();
+    peoples = ObservableList<Account>();
+    selectedPeoples = ObservableList<Account>();
   }
 
   @action
-  void onTapItem({required int index}) {
-    Account account = people.elementAt(index);
-    people[index].isSelected = !people[index].isSelected;
-    if (selectedPeople.contains(account)) {
-      selectedPeople.remove(account);
-    } else {
-      selectedPeople.add(account);
+  void onTapItem({required Account account}) {
+    if (selectedPeoples.contains(account)) {
+      peoples.remove(account);
+      account.isSelected = false;
+      peoples.add(account);
+      selectedPeoples.remove(account);
+    } else if (!selectedPeoples.contains(account)) {
+      peoples.remove(account);
+      account.isSelected = true;
+      peoples.add(account);
+      selectedPeoples.add(account);
     }
   }
 
@@ -66,14 +72,14 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   void onTapSelectedAll() {
     selectedAll = !selectedAll;
     if (selectedAll) {
-      people.forEach((element) {
+      peoples.forEach((element) {
         element.isSelected = true;
-        selectedPeople.add(element);
+        selectedPeoples.add(element);
       });
     } else {
-      people.forEach((element) {
+      peoples.forEach((element) {
         element.isSelected = false;
-        selectedPeople.remove(element);
+        selectedPeoples.remove(element);
       });
     }
   }
@@ -88,7 +94,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {
       'Authorization': accessToken,
     };
-    selectedPeople.forEach((element) async {
+    selectedPeoples.forEach((element) async {
       Map<String, dynamic> body = {
         'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
         'accountId': element.accountId,
@@ -114,8 +120,8 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
         }
       });
     });
-    people = ObservableList<Account>();
-    selectedPeople = ObservableList<Account>();
+    peoples = ObservableList<Account>();
+    selectedPeoples = ObservableList<Account>();
     emailSearchController.text = '';
     await _memberWorkspaceScreenStore.getMembersWorkspace(context);
     BaseNavigation.pop(context);
@@ -141,8 +147,8 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
-            people.clear();
-            value.object.forEach((it) => people.add(Account.fromJson(it)));
+            peoples.clear();
+            value.object.forEach((it) => peoples.add(Account.fromJson(it)));
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -161,7 +167,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
 
   void checkSelectedItem() {
-    people.forEach((element) {
+    peoples.forEach((element) {
       if (emailSearchController.text
           .toString()
           .contains(element.accountMail.toString())) {}

@@ -33,47 +33,47 @@ class _SelectPeopleScreenState
         backgroundColor: AppColors.white,
         appBar: customAppBar(context, title: S.of(context).people),
         bottomSheet: Padding(
-          padding: const EdgeInsets.only(
-              left: Dimens.SCREEN_PADDING,
-              right: Dimens.SCREEN_PADDING,
-              bottom: Dimens.SCREEN_PADDING),
-          child: BaseButton(
-            onPressed: () async {
-              store.onClickAddMemberDone(context,
-                  email: store.emailSearchController.text.toString(),
-                  isSelected: true);
-            },
-            bgColor: AppColors.primary,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [S.of(context).doneUpper.b1(color: AppColors.white)],
-            ),
-          ),
-        ),
-        body: Observer(builder: (_) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
-                child: CustomTextFormField(
-                  onChanged: (_) {
-                    store.getPeople(context,
-                        email: store.emailSearchController.text.toString());
-                    if (store.people.length != 0) {}
-                    setState(() {});
-                  },
-                  hintText: S.of(context).searchHere,
-                  hintStyle: GoogleFonts.notoSans(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 12,
-                      color: AppColors.gray),
-                  isModeBorder: true,
-                  textEditingController: store.emailSearchController,
-                ),
+            padding: const EdgeInsets.only(
+                left: Dimens.SCREEN_PADDING,
+                right: Dimens.SCREEN_PADDING,
+                bottom: Dimens.SCREEN_PADDING),
+            child: BaseButton(
+              onPressed: () async {
+                store.onClickAddMemberDone(context,
+                    email: store.emailSearchController.text.toString(),
+                    isSelected: true);
+              },
+              bgColor: AppColors.primary,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [S.of(context).doneUpper.b1(color: AppColors.white)],
               ),
-              GestureDetector(
-                onTap: store.onTapSelectedAll,
+            )),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+              child: CustomTextFormField(
+                onChanged: (_) {
+                  store.getPeople(context,
+                      email: store.emailSearchController.text.toString());
+                  if (store.peoples.length != 0) {}
+                },
+                hintText: S.of(context).searchHere,
+                hintStyle: GoogleFonts.notoSans(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 12,
+                    color: AppColors.gray),
+                isModeBorder: true,
+                textEditingController: store.emailSearchController,
+              ),
+            ),
+            Observer(builder: (_) {
+              return GestureDetector(
+                onTap: () {
+                  store.onTapSelectedAll.call();
+                },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: TIME_ANIMATION),
                   margin: const EdgeInsets.only(
@@ -89,38 +89,47 @@ class _SelectPeopleScreenState
                           : AppColors.primary,
                       borderRadius: BorderRadius.circular(5)),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
+              );
+            }),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Observer(builder: (_) {
+                return Wrap(
+                  children: [
+                    ...store.selectedPeoples.map((element) => _smallItemPeople(
+                        account: element,
+                        onPressed: () {
+                          store.onTapItem(account: element);
+                        }))
+                  ],
+                );
+              }),
+            ),
+            Expanded(
+              child: Observer(builder: (_) {
+                return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          store.onTapItem(index: index);
-                          setState(() {});
+                          store.onTapItem(account: store.peoples[index]);
                         },
                         child: (store.emailSearchController.text
                                 .toString()
-                                .contains(store.people
+                                .contains(store.peoples
                                     .elementAt(index)
                                     .accountMail
                                     .toString()))
-                            ? _itemPeople(store.people.elementAt(index))
-                            : Container()),
-                    itemCount: store.people.length),
-              ),
-              Expanded(
-                child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => GestureDetector(
-                          child: (store.selectedPeople.length > 0)
-                              ? _smallItemPeople(
-                                  store.selectedPeople.elementAt(index))
-                              : Container(),
-                        )),
-              ),
-            ],
-          );
-        }));
+                            ? Observer(
+                                builder: (_) =>
+                                    _itemPeople(store.peoples.elementAt(index)))
+                            : const SizedBox.shrink()),
+                    itemCount: store.peoples.length);
+              }),
+            )
+          ],
+        ));
   }
 
   Container _itemPeople(Account account) {
@@ -159,25 +168,34 @@ class _SelectPeopleScreenState
     );
   }
 
-  Container _smallItemPeople(Account account) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.symmetric(
-          vertical: 5, horizontal: Dimens.SCREEN_PADDING),
-      decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: Shadows.defaultShadow),
-      child: Row(
-        children: [
-          CustomCircleAvatar(
-            width: 35,
-            imageUrl: account.accountUrlPhoto,
-          ),
-          const SizedBox(width: Dimens.SCREEN_PADDING),
-          if (account.isSelected)
-            const Icon(Icons.check_circle, color: AppColors.primary),
-        ],
+  Widget _smallItemPeople(
+      {required Account account, required VoidCallback onPressed}) {
+    return GestureDetector(
+      onTap: () {
+        onPressed.call();
+      },
+      child: Container(
+        padding: const EdgeInsets.only(right: 10, top: 10),
+        height: 40,
+        width: 40,
+        child: Stack(
+          // alignment: Alignment.bottomRight,
+          children: [
+            CustomCircleAvatar(
+              width: 35,
+              imageUrl: account.accountUrlPhoto,
+            ),
+            Transform.translate(
+                offset: const Offset(20, 20),
+                child: GestureDetector(
+                  onTap: () {
+                    onPressed.call();
+                  },
+                  child: const Icon(Icons.remove_circle,
+                      color: AppColors.redPink, size: 20),
+                )),
+          ],
+        ),
       ),
     );
   }

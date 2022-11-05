@@ -12,18 +12,18 @@ class NotificationApi {
         channelDescription: 'channel description',
         importance: Importance.max,
       ),
-      iOS: IOSNotificationDetails(),
+      iOS: DarwinNotificationDetails(),
     );
   }
 
   static Future init({bool initScheduled = false}) async {
     const android =
         const AndroidInitializationSettings('@mipmap/launcher_icon');
-    const iOS = const IOSInitializationSettings();
+    const iOS = const DarwinInitializationSettings();
     const settings = const InitializationSettings(android: android, iOS: iOS);
     await _notifications.initialize(settings,
-        onSelectNotification: ((payload) async {
-      onNotifications.add(payload);
+        onDidReceiveNotificationResponse: ((payload) async {
+      onNotifications.add('ok');
     }));
   }
 
