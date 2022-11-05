@@ -57,7 +57,9 @@ class _MemberWorkspaceScreenState
             arguments: {
               'workspaceId':
                   BaseNavigation.getArgs(context, key: 'workspaceId'),
+              'listMembers': store.members,
             });
+        //BaseNavigation.pop(context);
       }),
     );
   }

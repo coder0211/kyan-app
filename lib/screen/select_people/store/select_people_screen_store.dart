@@ -2,7 +2,6 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
-import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
@@ -81,7 +80,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> onClickAddMemberDone(BuildContext context,
-      {required String email}) async {
+      {required String email, required bool isSelected}) async {
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
       accessToken = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.accessToken);
@@ -115,6 +114,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
         }
       });
     });
+    people = ObservableList<Account>();
     selectedPeople = ObservableList<Account>();
     emailSearchController.text = '';
     await _memberWorkspaceScreenStore.getMembersWorkspace(context);
@@ -132,7 +132,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     };
 
     Map<String, dynamic> params = {
-      'accountMail': emailSearchController.text.toString().toLowerCase(),
+      'accountMail': emailSearchController.text.toString(),
     };
     await _baseAPI
         .fetchData(ManagerAddress.accountGetAll,
@@ -152,7 +152,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
 
             break;
           }
-
         default:
           printLogError('FAILED');
           // Handle failed response here
@@ -161,6 +160,13 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     });
   }
 
+  void checkSelectedItem() {
+    people.forEach((element) {
+      if (emailSearchController.text
+          .toString()
+          .contains(element.accountMail.toString())) {}
+    });
+  }
   //... Some values and actions
 }
 /// We are using auto code generation to generate code for MobX store.

@@ -30,27 +30,27 @@ class _SelectPeopleScreenState
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: customAppBar(context, title: S.of(context).people),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.only(
-            left: Dimens.SCREEN_PADDING,
-            right: Dimens.SCREEN_PADDING,
-            bottom: Dimens.SCREEN_PADDING),
-        child: BaseButton(
-          onPressed: () async {
-            store.onClickAddMemberDone(context,
-                email: store.emailSearchController.text.toString());
-          },
-          bgColor: AppColors.primary,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [S.of(context).doneUpper.b1(color: AppColors.white)],
+        backgroundColor: AppColors.white,
+        appBar: customAppBar(context, title: S.of(context).people),
+        bottomSheet: Padding(
+          padding: const EdgeInsets.only(
+              left: Dimens.SCREEN_PADDING,
+              right: Dimens.SCREEN_PADDING,
+              bottom: Dimens.SCREEN_PADDING),
+          child: BaseButton(
+            onPressed: () async {
+              store.onClickAddMemberDone(context,
+                  email: store.emailSearchController.text.toString(),
+                  isSelected: true);
+            },
+            bgColor: AppColors.primary,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [S.of(context).doneUpper.b1(color: AppColors.white)],
+            ),
           ),
         ),
-      ),
-      body: Observer(builder: (_) {
-        return Observer(builder: (_) {
+        body: Observer(builder: (_) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -108,11 +108,19 @@ class _SelectPeopleScreenState
                             : Container()),
                     itemCount: store.people.length),
               ),
+              Expanded(
+                child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) => GestureDetector(
+                          child: (store.selectedPeople.length > 0)
+                              ? _smallItemPeople(
+                                  store.selectedPeople.elementAt(index))
+                              : Container(),
+                        )),
+              ),
             ],
           );
-        });
-      }),
-    );
+        }));
   }
 
   Container _itemPeople(Account account) {
@@ -145,7 +153,30 @@ class _SelectPeopleScreenState
             ),
           ),
           if (account.isSelected)
-            const Icon(Icons.check_circle, color: AppColors.primary)
+            const Icon(Icons.check_circle, color: AppColors.primary),
+        ],
+      ),
+    );
+  }
+
+  Container _smallItemPeople(Account account) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(
+          vertical: 5, horizontal: Dimens.SCREEN_PADDING),
+      decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: Shadows.defaultShadow),
+      child: Row(
+        children: [
+          CustomCircleAvatar(
+            width: 35,
+            imageUrl: account.accountUrlPhoto,
+          ),
+          const SizedBox(width: Dimens.SCREEN_PADDING),
+          if (account.isSelected)
+            const Icon(Icons.check_circle, color: AppColors.primary),
         ],
       ),
     );

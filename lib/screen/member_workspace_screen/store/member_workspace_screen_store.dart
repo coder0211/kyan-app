@@ -23,7 +23,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   ObservableList<Account> members = ObservableList<Account>();
 
   @observable
-  Workspace _workspace = Workspace();
+  Workspace workspace = Workspace();
 
   //? --      Funtions      -->
 
@@ -59,9 +59,9 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-            _workspace = Workspace.fromJson(value.object);
+            workspace = Workspace.fromJson(value.object);
             members.clear();
-            members.addAll(_workspace.members ?? []);
+            members.addAll(workspace.members ?? []);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -94,7 +94,6 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-            await _memberWorkspaceScreenStore.getMembersWorkspace(context);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -107,6 +106,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+    await _memberWorkspaceScreenStore.getMembersWorkspace(context);
   }
 }
 /// We are using auto code generation to generate code for MobX store.

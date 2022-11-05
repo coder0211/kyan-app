@@ -25,19 +25,19 @@ mixin _$MemberWorkspaceScreenStore on _MemberWorkspaceScreenStore, Store {
     });
   }
 
-  late final _$_workspaceAtom =
-      Atom(name: '_MemberWorkspaceScreenStore._workspace', context: context);
+  late final _$workspaceAtom =
+      Atom(name: '_MemberWorkspaceScreenStore.workspace', context: context);
 
   @override
-  Workspace get _workspace {
-    _$_workspaceAtom.reportRead();
-    return super._workspace;
+  Workspace get workspace {
+    _$workspaceAtom.reportRead();
+    return super.workspace;
   }
 
   @override
-  set _workspace(Workspace value) {
-    _$_workspaceAtom.reportWrite(value, super._workspace, () {
-      super._workspace = value;
+  set workspace(Workspace value) {
+    _$workspaceAtom.reportWrite(value, super.workspace, () {
+      super.workspace = value;
     });
   }
 
@@ -55,7 +55,8 @@ mixin _$MemberWorkspaceScreenStore on _MemberWorkspaceScreenStore, Store {
   @override
   String toString() {
     return '''
-members: ${members}
+members: ${members},
+workspace: ${workspace}
     ''';
   }
 }
