@@ -16,3 +16,5 @@ const DEFAULT_PHOTO_WORKSPACE =
     'https://cdn.dribbble.com/userupload/2418043/file/original-b23c13f462a2850d23da48b940394e8d.png?compress=1&resize=2048x1536';
 const MAIL_TO = 'mailto';
 const MAIL_US = 'team@tdof.dev';
+const ENV_FILE = '.env';
+const DOMAIN = 'DOMAIN';
