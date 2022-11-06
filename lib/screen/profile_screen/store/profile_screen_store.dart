@@ -107,8 +107,8 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
-            workspaces.clear();
             printLogSusscess('SUCCEEDED');
+            workspaces.clear();
             value.object
                 .forEach((it) => workspaces.add(Workspace.fromJson(it)));
             break;

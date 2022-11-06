@@ -25,3 +25,4 @@ doc/api/
 lib/.DS_Store
 lib/res/.DS_Store
 lib/screen/.DS_Store
+.env

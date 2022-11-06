@@ -9,9 +9,7 @@
 /// ```
 class ManagerAddress {
   ManagerAddress._();
-  static const String domain = 'https://kyan-api.tdsof.dev';
-  // static const String domain = 'http://192.168.1.6:3001';
-  // static const String domain = 'http://172.3.0.240:3001';
+  static String domain = '';
   //!--        BASE URL       -->
   //?-- ACCOUNT -->
   static const String baseAccount = '/account';
