@@ -4,7 +4,7 @@ part 'account.g.dart';
 
 @JsonSerializable()
 class Account {
-  final String? accountId;
+  late final String? accountId;
   final String? accountMail;
   String? accountUrlPhoto;
   final String? accountDisplayName;

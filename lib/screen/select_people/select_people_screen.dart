@@ -56,6 +56,7 @@ class _SelectPeopleScreenState
               padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
               child: CustomTextFormField(
                 onChanged: (_) {
+                  store.getMembersWorkspace(context);
                   store.getPeople(context,
                       email: store.emailSearchController.text.toString());
                   if (store.peoples.length != 0) {}
@@ -156,6 +157,8 @@ class _SelectPeopleScreenState
           ),
           if (account.isSelected)
             const Icon(Icons.check_circle, color: AppColors.primary),
+          if (store.checkExistedMember(account) == 0)
+            const Icon(Icons.check_circle, color: AppColors.gray),
         ],
       ),
     );
