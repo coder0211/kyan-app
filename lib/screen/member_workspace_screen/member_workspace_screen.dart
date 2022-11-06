@@ -116,7 +116,6 @@ class _MemberWorkspaceScreenState
                   store.onClickDelete(context,
                       accountId: account.accountId.toString());
                   BaseNavigation.pop(context);
-                  BaseNavigation.pop(context);
                 }, title: S.current.confirmDeleteThis);
               },
               child:

@@ -34,7 +34,9 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {}
+  Future<void> onDispose(BuildContext context) async {
+    await _memberWorkspaceScreenStore.getMembersWorkspace(context);
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
