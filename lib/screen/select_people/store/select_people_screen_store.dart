@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/account.dart';
+import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +21,14 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   late String accessToken;
   late TextEditingController emailSearchController = TextEditingController();
   @observable
+  ObservableList<Account> members = ObservableList<Account>();
+  @observable
   ObservableList<Account> peoples = ObservableList<Account>();
   @observable
   ObservableList<Account> selectedPeoples = ObservableList<Account>();
+  @observable
+  Workspace workspace = Workspace();
+
   @observable
   bool _selectedAll = false;
 
@@ -38,7 +44,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {
+  Future<void> onDispose(BuildContext context) async {
     resetValue();
   }
 
@@ -51,20 +57,32 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     emailSearchController.text = '';
     peoples = ObservableList<Account>();
     selectedPeoples = ObservableList<Account>();
+    members = ObservableList<Account>();
+  }
+
+  int checkExistedMember(Account account) {
+    for (int i = 0; i < members.length; i++) {
+      if (account.accountId.toString() ==
+          (members.elementAt(i).accountId.toString())) {
+        return 0;
+      }
+    }
+    return 1;
   }
 
   @action
   void onTapItem({required Account account}) {
-    if (selectedPeoples.contains(account)) {
-      peoples.remove(account);
-      account.isSelected = false;
-      peoples.add(account);
-      selectedPeoples.remove(account);
-    } else if (!selectedPeoples.contains(account)) {
+    if (checkExistedMember(account) == 1) if (!selectedPeoples
+        .contains(account)) {
       peoples.remove(account);
       account.isSelected = true;
       peoples.add(account);
       selectedPeoples.add(account);
+    } else if (selectedPeoples.contains(account)) {
+      peoples.remove(account);
+      account.isSelected = false;
+      peoples.add(account);
+      selectedPeoples.remove(account);
     }
   }
 
@@ -85,12 +103,50 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
 
   @action
+  Future<void> getMembersWorkspace(BuildContext context) async {
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
+    Map<String, dynamic> headers = {'Authorization': accessToken};
+    Map<String, dynamic> params = {
+      'id': BaseNavigation.getArgs(context, key: 'workspaceId')
+    };
+
+    await _baseAPI
+        .fetchData(ManagerAddress.workspacesGetOne,
+            method: ApiMethod.GET, headers: headers, params: params)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            printLogSusscess('SUCCEEDED');
+            workspace = Workspace.fromJson(value.object);
+            members.clear();
+            members.addAll(workspace.members ?? []);
+            print(members);
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  @action
   Future<void> onClickAddMemberDone(BuildContext context,
       {required String email, required bool isSelected}) async {
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
       accessToken = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.accessToken);
     }
+
     Map<String, dynamic> headers = {
       'Authorization': accessToken,
     };
@@ -100,6 +156,8 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
         'accountId': element.accountId,
         'workspaceMemberIsOwner': 0,
       };
+      if (element.accountId ==
+          BaseNavigation.getArgs(context, key: 'listMembers')) return;
       await _baseAPI
           .fetchData(ManagerAddress.addMemberWorkspace,
               body: body, headers: headers, method: ApiMethod.POST)
@@ -122,6 +180,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
     });
     peoples = ObservableList<Account>();
     selectedPeoples = ObservableList<Account>();
+    members = ObservableList<Account>();
     emailSearchController.text = '';
     await _memberWorkspaceScreenStore.getMembersWorkspace(context);
     BaseNavigation.pop(context);
@@ -180,6 +239,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
   }
   //... Some values and actions
 }
+
 /// We are using auto code generation to generate code for MobX store.
 /// If we see any error with .g.dart file, try to run below command.
 /// The 3rd command is recommended.

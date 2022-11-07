@@ -41,6 +41,16 @@ mixin _$MemberWorkspaceScreenStore on _MemberWorkspaceScreenStore, Store {
     });
   }
 
+  late final _$getMembersWorkspaceAsyncAction = AsyncAction(
+      '_MemberWorkspaceScreenStore.getMembersWorkspace',
+      context: context);
+
+  @override
+  Future<void> getMembersWorkspace(BuildContext context) {
+    return _$getMembersWorkspaceAsyncAction
+        .run(() => super.getMembersWorkspace(context));
+  }
+
   late final _$onClickDeleteAsyncAction = AsyncAction(
       '_MemberWorkspaceScreenStore.onClickDelete',
       context: context);
