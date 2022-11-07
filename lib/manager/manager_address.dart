@@ -42,6 +42,7 @@ class ManagerAddress {
   static const String baseMemberWorkspace = '/member-work-space';
   static const String addMemberWorkspace = '$baseMemberWorkspace/create';
   static const String deleteMemberWorkspace = '$baseMemberWorkspace/delete';
+  static const String getAllMemberWorkspace = '$baseMemberWorkspace/get-all';
 
   //? -- FILE --
   static const String baseFile = '/file';

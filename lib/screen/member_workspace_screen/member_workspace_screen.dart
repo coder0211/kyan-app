@@ -7,9 +7,11 @@ import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
+import 'package:kyan/theme/images.dart';
 import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_appbar_add_item.dart';
+import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
 
@@ -42,24 +44,32 @@ class _MemberWorkspaceScreenState
                   itemCount: store.members.length),
             );
           }),
-          _itemAddMember(),
         ],
       ),
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    return SafeArea(
-      child: customAppBarAddItem(context, title: S.current.memberWorkspace,
-          function: () {
-        BaseNavigation.push(context,
-            routeName: ManagerRoutes.selectPeopleScreen,
-            arguments: {
-              'workspaceId':
-                  BaseNavigation.getArgs(context, key: 'workspaceId'),
-            });
-        //BaseNavigation.pop(context);
-      }),
+    return Observer(
+      builder: (context) {
+        return SafeArea(
+          child: (store.checkIsOwnerMember() == 1)
+              ? customAppBarAddItem(context,
+                  title: S.of(context).memberWorkspace, function: () {
+                  BaseNavigation.push(context,
+                      routeName: ManagerRoutes.selectPeopleScreen,
+                      arguments: {
+                        'workspaceId':
+                            BaseNavigation.getArgs(context, key: 'workspaceId'),
+                      });
+                  //BaseNavigation.pop(context);
+                })
+              : customAppBar(
+                  context,
+                  title: S.of(context).memberWorkspace,
+                ),
+        );
+      },
     );
   }
 
@@ -115,10 +125,10 @@ class _MemberWorkspaceScreenState
                   store.onClickDelete(context,
                       accountId: account.accountId.toString());
                   BaseNavigation.pop(context);
-                }, title: S.current.confirmDeleteThis);
+                }, title: S.of(context).confirmDeleteThis);
               },
-              child:
-                  const Icon(Icons.delete_forever, color: AppColors.redPink)),
+              child: const BaseSVG(
+                  path: Images.iconRemoveAccount, color: AppColors.redPink)),
         ],
       ),
     );
