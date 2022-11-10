@@ -38,6 +38,7 @@ class Images {
   static const String iconLanguageVi = '$iconPath/icon_language_vi.png';
   static const String iconLanguage = '$iconPath/icon_language.png';
   static const String iconRemoveAccount = '$iconPath/icon_remove_account.svg';
+  static const String iconCopy = '$iconPath/icon_copy.svg';
   //IMAGES
   static const String imageIntro1 = '$imagePath/image_intro_1.png';
   static const String imageIntro2 = '$imagePath/image_intro_2.png';

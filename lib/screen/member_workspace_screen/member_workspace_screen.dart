@@ -1,5 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
@@ -10,6 +11,7 @@ import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
 import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/theme/text_styles.dart';
+import 'package:kyan/utils/utils.dart';
 import 'package:kyan/widgets/custom_appbar_add_item.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
@@ -33,13 +35,19 @@ class _MemberWorkspaceScreenState
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(context),
+          _itemShowCodeJoin(context),
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 28),
+              child: 'Members:'.b1R()),
           Observer(builder: (_) {
             return Expanded(
               child: ListView.builder(
+                  padding: EdgeInsets.zero,
                   physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => _itemMemberWorkSpace(
+                  itemBuilder: (context, index) => _itemMemberWorkSpace(context,
                       account: store.members.elementAt(index)),
                   itemCount: store.members.length),
             );
@@ -62,7 +70,6 @@ class _MemberWorkspaceScreenState
                         'workspaceId':
                             BaseNavigation.getArgs(context, key: 'workspaceId'),
                       });
-                  //BaseNavigation.pop(context);
                 })
               : customAppBar(
                   context,
@@ -73,19 +80,55 @@ class _MemberWorkspaceScreenState
     );
   }
 
-  Widget _itemAddMember() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.symmetric(
-          vertical: 5, horizontal: Dimens.SCREEN_PADDING),
-      decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: Shadows.defaultShadow),
+  Widget _itemShowCodeJoin(BuildContext context) {
+    return Observer(
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.symmetric(
+              vertical: 5, horizontal: Dimens.SCREEN_PADDING),
+          decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: Shadows.defaultShadow),
+          child: Row(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Column(children: ['Worksapce Code Join: '.b1R()])),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                    store.workspace.workspaceCodeJoin.toString().b1R()
+                  ])),
+              const SizedBox(
+                width: 10,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(new ClipboardData(
+                        text: store.workspace.workspaceCodeJoin));
+                    Utils.showToast('Copied Successfully');
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: BaseSVG(
+                      path: Images.iconCopy,
+                      color: AppColors.gray,
+                      width: 25,
+                      height: 25,
+                    ),
+                  )),
+            ],
+          ),
+        );
+      },
     );
   }
 
-  Widget _itemMemberWorkSpace({required Account account}) {
+  Widget _itemMemberWorkSpace(BuildContext context,
+      {required Account account}) {
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(
