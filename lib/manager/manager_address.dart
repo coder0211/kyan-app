@@ -43,6 +43,12 @@ class ManagerAddress {
   static const String addMemberWorkspace = '$baseMemberWorkspace/create';
   static const String deleteMemberWorkspace = '$baseMemberWorkspace/delete';
   static const String getAllMemberWorkspace = '$baseMemberWorkspace/get-all';
+  //? -- CONVERSATION --
+  static const String baseConversation = '/converstion';
+  static const String deleteConversation = '$baseConversation/delete';
+  static const String getAllConversation = '$baseConversation/get-all';
+  static const String createOrUpdateConversation =
+      '$baseConversation/create-or-update';
 
   //? -- FILE --
   static const String baseFile = '/file';
