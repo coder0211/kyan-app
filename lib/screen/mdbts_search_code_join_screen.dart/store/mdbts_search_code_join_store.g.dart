@@ -29,6 +29,16 @@ mixin _$SearchCodeJoinScreenStore on _SearchCodeJoinScreenStore, Store {
         .run(() => super.searchWorkspace(context));
   }
 
+  late final _$onClickJoinWorkspaceAsyncAction = AsyncAction(
+      '_SearchCodeJoinScreenStore.onClickJoinWorkspace',
+      context: context);
+
+  @override
+  Future<void> onClickJoinWorkspace(BuildContext context) {
+    return _$onClickJoinWorkspaceAsyncAction
+        .run(() => super.onClickJoinWorkspace(context));
+  }
+
   @override
   String toString() {
     return '''

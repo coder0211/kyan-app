@@ -64,8 +64,8 @@ class _SearchCodeJoinScreenState
                   await store.searchWorkspace(context);
                   await store.getMemberWorkspace(context);
                   if (store.workspaceIsExist() == 1) {
-                    BaseNavigation.push(context,
-                        routeName: ManagerRoutes.conversationScreen);
+                    await store.onClickJoinWorkspace(context);
+                    BaseNavigation.pop(context);
                   } else {
                     Utils.showToast('You have already been this workspace!');
                     BaseNavigation.pop(context);

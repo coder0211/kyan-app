@@ -156,8 +156,7 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
         'accountId': element.accountId,
         'workspaceMemberIsOwner': 0,
       };
-      if (element.accountId ==
-          BaseNavigation.getArgs(context, key: 'listMembers')) return;
+
       await _baseAPI
           .fetchData(ManagerAddress.addMemberWorkspace,
               body: body, headers: headers, method: ApiMethod.POST)
@@ -196,9 +195,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
       'Authorization': accessToken,
     };
 
-    Map<String, dynamic> params = {
-      'accountMail': emailSearchController.text.toString(),
-    };
     await _baseAPI
         .fetchData(
             ManagerAddress.accountGetOne +

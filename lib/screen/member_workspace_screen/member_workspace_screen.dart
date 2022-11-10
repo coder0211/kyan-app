@@ -40,18 +40,21 @@ class _MemberWorkspaceScreenState
           _buildHeader(context),
           _itemShowCodeJoin(context),
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 28),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
               child: 'Members:'.b1R()),
-          Observer(builder: (_) {
-            return Expanded(
-              child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => _itemMemberWorkSpace(context,
-                      account: store.members.elementAt(index)),
-                  itemCount: store.members.length),
-            );
-          }),
+          Expanded(
+            child: Observer(
+              builder: (_) {
+                return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) => _itemMemberWorkSpace(
+                        context,
+                        account: store.members.elementAt(index)),
+                    itemCount: store.members.length);
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -167,7 +170,8 @@ class _MemberWorkspaceScreenState
                     onConfirm: () async {
                   store.onClickDelete(context,
                       accountId: account.accountId.toString());
-                  BaseNavigation.pop(context);
+                  BaseUtils.showToast('Delete successfully!',
+                      bgColor: AppColors.primary);
                 }, title: S.of(context).confirmDeleteThis);
               },
               child: const BaseSVG(

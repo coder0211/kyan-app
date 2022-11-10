@@ -22,6 +22,7 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
   late TextEditingController codeController = TextEditingController();
 
   late ObservableList<Account> membersWorkspaces = ObservableList<Account>();
+  late ObservableList<Workspace> workspaces = new ObservableList<Workspace>();
   @override
   void onInit(BuildContext context) {
     _mainScreenStore = context.read<MainScreenStore>();
@@ -30,18 +31,14 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  ObservableList<Workspace> workspaces = new ObservableList<Workspace>();
-  @override
-  void onDispose(BuildContext context) {
-    resetValue();
-  }
+  void onDispose(BuildContext context) {}
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
 
   @override
   void resetValue() {
-    codeController.text = '';
+    //codeController.text = '';
   }
 
   int workspaceIsExist() {
@@ -49,15 +46,13 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
       for (int i = 0; i < membersWorkspaces.length; i++) {
         if (membersWorkspaces.elementAt(i).accountId.toString() ==
             _longinScreenStore.currentAccount.accountId.toString()) {
-          codeController.text = '';
+          //codeController.text = '';
           return 0;
         }
       }
-      codeController.text = '';
-      return 1;
     }
-    codeController.text = '';
-    return 0;
+    //codeController.text = '';
+    return 1;
   }
 
   @action
@@ -119,6 +114,38 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
         default:
           printLogError('FAILED');
           // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  @action
+  Future<void> onClickJoinWorkspace(BuildContext context) async {
+    Map<String, dynamic> headers = {
+      'Authorization': _mainScreenStore.accessToken,
+    };
+    Map<String, dynamic> body = {
+      'workspaceId': workspaces.elementAt(0).workspaceId,
+      'accountId': _longinScreenStore.currentAccount.accountId,
+      'workspaceMemberIsOwner': 0,
+    };
+    await _api
+        .fetchData(ManagerAddress.worksapceCreateOrUpdate,
+            headers: headers, body: body, method: ApiMethod.POST)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            BaseNavigation.pop(context);
+            printLogSusscess('SUCCEEDED');
+          }
+          break;
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
           break;
       }
     });

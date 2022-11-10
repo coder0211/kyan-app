@@ -23,7 +23,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   late LoginScreenStore _loginScreenStore;
   late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
   @observable
-  ObservableList<Account> members = ObservableList<Account>();
+  ObservableList<Account> members = new ObservableList<Account>();
 
   @observable
   Workspace workspace = Workspace();
@@ -34,8 +34,8 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   void onInit(BuildContext context) {
     _mainScreenStore = context.read<MainScreenStore>();
     _loginScreenStore = context.read<LoginScreenStore>();
-
     _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
+    members = new ObservableList<Account>();
   }
 
   @override
@@ -45,11 +45,12 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    await getMembersWorkspace(context);
+    await _memberWorkspaceScreenStore.getMembersWorkspace(context);
   }
 
   @override
   void resetValue() {}
+
   int checkIsOwnerMember() {
     for (int i = 0; i < members.length; i++) {
       if (members.elementAt(i).workspaceMemberIsOwner == 1 &&
@@ -114,6 +115,8 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
+            //await memberWorkspaceScreenStore.getMembersWorkspace(context);
+            BaseNavigation.pop(context);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
