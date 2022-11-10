@@ -1,8 +1,10 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/mdbts_search_code_join_screen.dart/store/mdbts_search_code_join_store.dart';
 import 'package:kyan/theme/colors.dart';
+import 'package:kyan/utils/utils.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,7 +29,6 @@ class SearchCodeJoinScreen extends BaseScreen {
 
 class _SearchCodeJoinScreenState
     extends BaseScreenState<SearchCodeJoinScreen, SearchCodeJoinScreenStore> {
-  late TextEditingController _codeController = TextEditingController();
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _buildBody();
@@ -52,19 +53,23 @@ class _SearchCodeJoinScreenState
                 fontWeight: FontWeight.w300,
                 fontSize: 12,
                 color: AppColors.gray),
-            textEditingController: _codeController,
+            textEditingController: store.codeController,
           ),
           Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: BaseButton(
               onPressed: () async {
-                if (_codeController.text != '') {
-                  // await _createWorkspaceScreenStore.createWorkspace(
-                  //     mailOwner: _loginScreenStore.currentAccount.mail ?? '',
-                  //     nameWokspace: _nameController.text);
-                  // await Utils.getCurrentWorkSpace();
-                  BaseNavigation.pop(context);
+                if (store.codeController.text != '') {
+                  await store.searchWorkspace(context);
+                  await store.getMemberWorkspace(context);
+                  if (store.workspaceIsExist() == 1) {
+                    BaseNavigation.push(context,
+                        routeName: ManagerRoutes.conversationScreen);
+                  } else {
+                    Utils.showToast('You have already been this workspace!');
+                    BaseNavigation.pop(context);
+                  }
                 }
               },
               child: Row(
