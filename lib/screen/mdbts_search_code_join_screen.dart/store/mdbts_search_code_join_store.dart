@@ -41,7 +41,7 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
     //codeController.text = '';
   }
 
-  int workspaceIsExist() {
+  int workspaceIsExistInMemberWorksapceh() {
     if (workspaces.length > 0) {
       for (int i = 0; i < membersWorkspaces.length; i++) {
         if (membersWorkspaces.elementAt(i).accountId.toString() ==
@@ -50,8 +50,10 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
           return 0;
         }
       }
+    } else if (workspaces.length == 0) {
+      return -1;
     }
-    //codeController.text = '';
+    codeController.text = '';
     return 1;
   }
 

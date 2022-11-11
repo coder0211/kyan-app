@@ -164,18 +164,27 @@ class _MemberWorkspaceScreenState
               ],
             ),
           ),
-          GestureDetector(
-              onTap: () {
-                showDialogConfirm(context, icon: Icons.delete_forever,
-                    onConfirm: () async {
-                  store.onClickDelete(context,
-                      accountId: account.accountId.toString());
-                  BaseUtils.showToast('Delete successfully!',
-                      bgColor: AppColors.primary);
-                }, title: S.of(context).confirmDeleteThis);
-              },
-              child: const BaseSVG(
-                  path: Images.iconRemoveAccount, color: AppColors.redPink)),
+          (store.checkIsOwnerMember() == 1)
+              ? GestureDetector(
+                  onTap: () {
+                    showDialogConfirm(context, icon: Icons.delete_forever,
+                        onConfirm: () async {
+                      if (store.checkIsOwnerMember() == 0) {
+                        await store.onClickDelete(context,
+                            accountId: account.accountId.toString());
+                        BaseUtils.showToast('Delete successfully!',
+                            bgColor: AppColors.primary);
+                        BaseNavigation.pop(context);
+                      } else {
+                        BaseUtils.showToast('You\'re a host!',
+                            bgColor: AppColors.primary);
+                        BaseNavigation.pop(context);
+                      }
+                    }, title: S.of(context).confirmDeleteThis);
+                  },
+                  child: const BaseSVG(
+                      path: Images.iconRemoveAccount, color: AppColors.redPink))
+              : Container()
         ],
       ),
     );

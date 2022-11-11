@@ -63,11 +63,14 @@ class _SearchCodeJoinScreenState
                 if (store.codeController.text != '') {
                   await store.searchWorkspace(context);
                   await store.getMemberWorkspace(context);
-                  if (store.workspaceIsExist() == 1) {
-                    await store.onClickJoinWorkspace(context);
+                  if (store.searchWorkspace(context) == false) {
+                    Utils.showToast('This workspace doesn\'t exist!');
                     BaseNavigation.pop(context);
-                  } else {
+                  } else if (store.workspaceIsExistInMemberWorksapceh() == 0) {
                     Utils.showToast('You have already been this workspace!');
+                    BaseNavigation.pop(context);
+                  } else if (store.workspaceIsExistInMemberWorksapceh() == 1) {
+                    await store.onClickJoinWorkspace(context);
                     BaseNavigation.pop(context);
                   }
                 }

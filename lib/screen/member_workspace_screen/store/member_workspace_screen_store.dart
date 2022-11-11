@@ -6,6 +6,7 @@ import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
+import 'package:kyan/theme/colors.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -18,9 +19,10 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   //? --      Variables      -->
 
   BaseAPI _baseAPI = BaseAPI();
+
   late String accessToken;
   late MainScreenStore _mainScreenStore;
-  late LoginScreenStore _loginScreenStore;
+  late LoginScreenStore loginScreenStore;
   late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
   @observable
   ObservableList<Account> members = new ObservableList<Account>();
@@ -33,7 +35,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   @override
   void onInit(BuildContext context) {
     _mainScreenStore = context.read<MainScreenStore>();
-    _loginScreenStore = context.read<LoginScreenStore>();
+    loginScreenStore = context.read<LoginScreenStore>();
     _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
     members = new ObservableList<Account>();
   }
@@ -55,17 +57,17 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
     for (int i = 0; i < members.length; i++) {
       if (members.elementAt(i).workspaceMemberIsOwner == 1 &&
           members.elementAt(i).accountId.toString() ==
-              _loginScreenStore.currentAccount.accountId) {
+              loginScreenStore.currentAccount.accountId) {
         return 1;
       }
     }
     return 0;
   }
 
-  int checkIsExistMember({required Account account}) {
+  int checkIsExistMember() {
     for (int i = 0; i < members.length; i++) {
       if (members.elementAt(i).accountId.toString() ==
-          _loginScreenStore.currentAccount.accountId) {
+          loginScreenStore.currentAccount.accountId) {
         return 1;
       }
     }
@@ -80,6 +82,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> params = {
       'id': BaseNavigation.getArgs(context, key: 'workspaceId')
     };
+
     await _baseAPI
         .fetchData(ManagerAddress.workspacesGetOne,
             method: ApiMethod.GET, headers: headers, params: params)
@@ -108,11 +111,9 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   @action
   Future<void> onClickDelete(BuildContext context,
       {required String accountId}) async {
-    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
-      accessToken = await BaseSharedPreferences.getStringValue(
-          ManagerKeyStorage.accessToken);
-    }
-    Map<String, dynamic> headers = {'Authorization': accessToken};
+    Map<String, dynamic> headers = {
+      'Authorization': _mainScreenStore.accessToken
+    };
     Map<String, dynamic> body = {
       'workspaceId': BaseNavigation.getArgs(context, key: 'workspaceId'),
       'accountId': accountId.toString()
@@ -125,8 +126,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-            //await memberWorkspaceScreenStore.getMembersWorkspace(context);
-            BaseNavigation.pop(context);
+
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
