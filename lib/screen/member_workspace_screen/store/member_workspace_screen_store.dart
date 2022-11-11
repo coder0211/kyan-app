@@ -62,6 +62,16 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
     return 0;
   }
 
+  int checkIsExistMember({required Account account}) {
+    for (int i = 0; i < members.length; i++) {
+      if (members.elementAt(i).accountId.toString() ==
+          _loginScreenStore.currentAccount.accountId) {
+        return 1;
+      }
+    }
+    return 0;
+  }
+
   @action
   Future<void> getMembersWorkspace(BuildContext context) async {
     Map<String, dynamic> headers = {
