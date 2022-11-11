@@ -10,7 +10,7 @@
 class ManagerAddress {
   ManagerAddress._();
   static String domain = '';
-  //!--        BASE URL       -->
+  //?--        BASE URL       -->
   //?-- ACCOUNT -->
   static const String baseAccount = '/account';
   static const String account = '$baseAccount';
@@ -49,6 +49,10 @@ class ManagerAddress {
   static const String getAllConversation = '$baseConversation/get-all';
   static const String createOrUpdateConversation =
       '$baseConversation/create-or-update';
+  //? -- Channel chat --
+  static const String baseChannel = '/channel';
+  static const String createOrUpdateChannelChat =
+      '$baseChannel/create-or-update';
 
   //? -- FILE --
   static const String baseFile = '/file';

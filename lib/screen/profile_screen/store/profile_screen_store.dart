@@ -4,6 +4,7 @@ import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/app/store/app_store.dart';
@@ -21,6 +22,8 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   //? --      Variable      -->
 
   late LoginScreenStore _loginScreenStore;
+  late MainScreenStore _mainScreenStore;
+  BaseAPI _baseAPI = BaseAPI();
   @observable
   String _accountUrlPhoto = '';
 
@@ -69,10 +72,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   @computed
   bool get isEn => localeLanguage == 'en';
 
-  BaseAPI _baseAPI = BaseAPI();
-
-  late MainScreenStore _mainScreenStore;
-
   @observable
   int _currentWorkspaceId = -1;
 
@@ -91,41 +90,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
     accountMail = _loginScreenStore.currentAccount.accountMail ?? '';
     accountDisplayName =
         _loginScreenStore.currentAccount.accountDisplayName ?? '';
-  }
-
-  Future<void> getListWorkspace() async {
-    Map<String, dynamic> headers = {
-      'Authorization': _mainScreenStore.accessToken
-    };
-    Map<String, dynamic> params = {
-      'id_user': _loginScreenStore.currentAccount.accountId.toString()
-    };
-    await _baseAPI
-        .fetchData(ManagerAddress.workspacesGetAllById,
-            headers: headers, params: params)
-        .then((value) {
-      switch (value.apiStatus) {
-        case ApiStatus.SUCCEEDED:
-          {
-            printLogSusscess('SUCCEEDED');
-            workspaces.clear();
-            value.object
-                .forEach((it) => workspaces.add(Workspace.fromJson(it)));
-            break;
-          }
-        case ApiStatus.INTERNET_UNAVAILABLE:
-          {
-            printLogYellow('INTERNET_UNAVAILABLE');
-            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-            break;
-          }
-        default:
-          {
-            printLogError('FAILED');
-            break;
-          }
-      }
-    });
   }
 
   @override
@@ -174,6 +138,41 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
     }
   }
 
+  Future<void> getListWorkspace() async {
+    Map<String, dynamic> headers = {
+      'Authorization': _mainScreenStore.accessToken
+    };
+    Map<String, dynamic> params = {
+      'id_user': _loginScreenStore.currentAccount.accountId.toString()
+    };
+    await _baseAPI
+        .fetchData(ManagerAddress.workspacesGetAllById,
+            headers: headers, params: params)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            printLogSusscess('SUCCEEDED');
+            workspaces.clear();
+            value.object
+                .forEach((it) => workspaces.add(Workspace.fromJson(it)));
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          {
+            printLogYellow('INTERNET_UNAVAILABLE');
+            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+            break;
+          }
+        default:
+          {
+            printLogError('FAILED');
+            break;
+          }
+      }
+    });
+  }
+
   @action
   Future<void> onPressedWorkspace(BuildContext context,
       {required Workspace workspace}) async {
@@ -181,6 +180,34 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
         ManagerKeyStorage.currentWorkspace, workspace.workspaceId.toString());
     currentWorkspaceId = workspace.workspaceId ?? -1;
     context.read<MainScreenStore>().workspaceId = currentWorkspaceId;
+    Map<String, dynamic> headers = {
+      'Authorization': _mainScreenStore.accessToken
+    };
+    Map<String, dynamic> body = {'id': workspace.workspaceId};
+    // await _baseAPI
+    //     .fetchData(ManagerAddress.getAllConversation,
+    //         method: ApiMethod.GET, headers: headers, body: body)
+    //     .then((value) {
+    //   switch (value.apiStatus) {
+    //     case ApiStatus.SUCCEEDED:
+    //       {
+    //         printLogSusscess('SUCCEEDED');
+    //         BaseNavigation.push(context,
+    //             routeName: ManagerRoutes.conversationScreen,
+    //             arguments: {'workspaceId': workspace.workspaceId});
+    //         break;
+    //       }
+    //     case ApiStatus.INTERNET_UNAVAILABLE:
+    //       printLogYellow('INTERNET_UNAVAILABLE');
+    //       BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+    //       break;
+    //     default:
+    //       printLogError('FAILED');
+    //       // Handle failed response here
+    //       break;
+    //   }
+    // });
+    
   }
 
   Future<void> _getWorkspaceId() async {

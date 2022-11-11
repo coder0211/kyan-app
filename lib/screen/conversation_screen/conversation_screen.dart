@@ -8,10 +8,8 @@ import 'package:kyan/screen/conversation_screen/widgets/item_channel_chat.dart';
 import 'package:kyan/screen/conversation_screen/widgets/item_people_chat.dart';
 import 'package:kyan/screen/conversation_screen/widgets/modal_bottom_sheet_add_channel.dart';
 import 'package:kyan/theme/colors.dart';
-import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
-import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 import 'package:kyan/widgets/expanded_selection.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -91,7 +89,11 @@ class _ConversationScreenState
                 ],
               ),
               GestureDetector(
-                  onTap: () => showModalBottomSheetAddChannel(context),
+                  onTap: () {
+                    store.currentWorkspaceId =
+                        BaseNavigation.getArgs(context, key: 'workspaceId');
+                    showModalBottomSheetAddChannel(context);
+                  },
                   child: const Icon(Icons.add, color: AppColors.gray))
             ],
           ),

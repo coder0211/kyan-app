@@ -9,6 +9,7 @@ import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/manager/manager_provider.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/mdbts_search_code_join_screen.dart/mdbts_search_code_join.dart';
+import 'package:kyan/screen/member_workspace_screen/member_workspace_screen.dart';
 import 'package:kyan/screen/profile_screen/store/profile_screen_store.dart';
 import 'package:kyan/screen/profile_screen/widgets/swipe_languages.dart';
 import 'package:kyan/theme/colors.dart';
@@ -251,8 +252,12 @@ class _ProfileScreenState
               store.currentWorkspaceId == store.workspaces[index].workspaceId,
           onPressedWorkspace: () async {
             await store.onPressedWorkspace(context,
-                workspace: store.workspaces[index]);
-            BaseNavigation.pop(context);
+                workspace: store.workspaces.elementAt(index));
+            BaseNavigation.push(context,
+                routeName: ManagerRoutes.conversationScreen,
+                arguments: {
+                  'workspaceId': store.workspaces.elementAt(index).workspaceId
+                });
           }),
     );
   }

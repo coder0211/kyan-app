@@ -130,7 +130,7 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
       'workspaceMemberIsOwner': 0,
     };
     await _api
-        .fetchData(ManagerAddress.worksapceCreateOrUpdate,
+        .fetchData(ManagerAddress.addMemberWorkspace,
             headers: headers, body: body, method: ApiMethod.POST)
         .then((value) {
       switch (value.apiStatus) {
