@@ -64,7 +64,9 @@ class _MemberWorkspaceScreenState
     return Observer(
       builder: (context) {
         return SafeArea(
-          child: (store.checkIsOwnerMember() == 1)
+          child: (store.checkIsOwnerMember(
+                      account: store.loginScreenStore.currentAccount) ==
+                  1)
               ? customAppBarAddItem(context,
                   title: S.of(context).memberWorkspace, function: () {
                   BaseNavigation.push(context,
@@ -164,17 +166,26 @@ class _MemberWorkspaceScreenState
               ],
             ),
           ),
-          (store.checkIsOwnerMember() == 1)
+          (store.checkIsOwnerMember(
+                      account: store.loginScreenStore.currentAccount) ==
+                  1)
               ? GestureDetector(
                   onTap: () {
                     showDialogConfirm(context, icon: Icons.delete_forever,
                         onConfirm: () async {
-                      if (store.checkIsOwnerMember() == 0) {
+                      if (store.checkIsOwnerMember(account: account) == 0) {
                         await store.onClickDelete(context,
                             accountId: account.accountId.toString());
-                        BaseUtils.showToast('Delete successfully!',
+                        BaseUtils.showToast('Delete successfully 1 !',
                             bgColor: AppColors.primary);
                         BaseNavigation.pop(context);
+                      } else if (store.checkAmountMember() == 1) {
+                        await store.onClickDelete(context,
+                            accountId: account.accountId.toString());
+                        // BaseNavigation.pop(context);
+                        // BaseNavigation.pop(context);
+                        BaseUtils.showToast('Delete successfully 2 !',
+                            bgColor: AppColors.primary);
                       } else {
                         BaseUtils.showToast('You\'re a host!',
                             bgColor: AppColors.primary);

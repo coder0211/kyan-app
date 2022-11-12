@@ -53,11 +53,10 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   @override
   void resetValue() {}
 
-  int checkIsOwnerMember() {
+  int checkIsOwnerMember({required Account account}) {
     for (int i = 0; i < members.length; i++) {
       if (members.elementAt(i).workspaceMemberIsOwner == 1 &&
-          members.elementAt(i).accountId.toString() ==
-              loginScreenStore.currentAccount.accountId) {
+          members.elementAt(i).accountId.toString() == account.accountId) {
         return 1;
       }
     }
@@ -70,6 +69,13 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
           loginScreenStore.currentAccount.accountId) {
         return 1;
       }
+    }
+    return 0;
+  }
+
+  int checkAmountMember() {
+    if (members.length == 1) {
+      return 1;
     }
     return 0;
   }
