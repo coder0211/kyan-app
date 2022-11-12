@@ -56,6 +56,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
       if (members.elementAt(i).workspaceMemberIsOwner == 1 &&
           members.elementAt(i).accountId.toString() ==
               _loginScreenStore.currentAccount.accountId) {
+        print(_loginScreenStore.currentAccount.accountMail);
         return 1;
       }
     }
@@ -114,9 +115,10 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
+            
             printLogSusscess('SUCCEEDED');
-            //await memberWorkspaceScreenStore.getMembersWorkspace(context);
             BaseNavigation.pop(context);
+            
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:

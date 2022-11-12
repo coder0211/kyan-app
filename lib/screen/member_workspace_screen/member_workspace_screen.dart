@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -164,18 +166,20 @@ class _MemberWorkspaceScreenState
               ],
             ),
           ),
-          GestureDetector(
-              onTap: () {
-                showDialogConfirm(context, icon: Icons.delete_forever,
-                    onConfirm: () async {
-                  store.onClickDelete(context,
-                      accountId: account.accountId.toString());
-                  BaseUtils.showToast('Delete successfully!',
-                      bgColor: AppColors.primary);
-                }, title: S.of(context).confirmDeleteThis);
-              },
-              child: const BaseSVG(
-                  path: Images.iconRemoveAccount, color: AppColors.redPink)),
+          (store.checkIsOwnerMember() == 1)
+              ? GestureDetector(
+                  onTap: () {
+                    showDialogConfirm(context, icon: Icons.delete_forever,
+                        onConfirm: () async {
+                      store.onClickDelete(context,
+                          accountId: account.accountId.toString());
+                      BaseUtils.showToast('Delete successfully!',
+                          bgColor: AppColors.primary);
+                    }, title: S.of(context).confirmDeleteThis);
+                  },
+                  child: const BaseSVG(
+                      path: Images.iconRemoveAccount, color: AppColors.redPink))
+              : const SizedBox.shrink(),
         ],
       ),
     );
