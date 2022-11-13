@@ -25,6 +25,22 @@ mixin _$SelectPeopleScreenStore on _SelectPeopleScreenStore, Store {
     });
   }
 
+  late final _$membersAtom =
+      Atom(name: '_SelectPeopleScreenStore.members', context: context);
+
+  @override
+  ObservableList<Account> get members {
+    _$membersAtom.reportRead();
+    return super.members;
+  }
+
+  @override
+  set members(ObservableList<Account> value) {
+    _$membersAtom.reportWrite(value, super.members, () {
+      super.members = value;
+    });
+  }
+
   late final _$peoplesAtom =
       Atom(name: '_SelectPeopleScreenStore.peoples', context: context);
 
@@ -57,6 +73,22 @@ mixin _$SelectPeopleScreenStore on _SelectPeopleScreenStore, Store {
     });
   }
 
+  late final _$workspaceAtom =
+      Atom(name: '_SelectPeopleScreenStore.workspace', context: context);
+
+  @override
+  Workspace get workspace {
+    _$workspaceAtom.reportRead();
+    return super.workspace;
+  }
+
+  @override
+  set workspace(Workspace value) {
+    _$workspaceAtom.reportWrite(value, super.workspace, () {
+      super.workspace = value;
+    });
+  }
+
   late final _$_selectedAllAtom =
       Atom(name: '_SelectPeopleScreenStore._selectedAll', context: context);
 
@@ -71,6 +103,16 @@ mixin _$SelectPeopleScreenStore on _SelectPeopleScreenStore, Store {
     _$_selectedAllAtom.reportWrite(value, super._selectedAll, () {
       super._selectedAll = value;
     });
+  }
+
+  late final _$getMembersWorkspaceAsyncAction = AsyncAction(
+      '_SelectPeopleScreenStore.getMembersWorkspace',
+      context: context);
+
+  @override
+  Future<void> getMembersWorkspace(BuildContext context) {
+    return _$getMembersWorkspaceAsyncAction
+        .run(() => super.getMembersWorkspace(context));
   }
 
   late final _$onClickAddMemberDoneAsyncAction = AsyncAction(
@@ -122,8 +164,10 @@ mixin _$SelectPeopleScreenStore on _SelectPeopleScreenStore, Store {
   String toString() {
     return '''
 currentAccount: ${currentAccount},
+members: ${members},
 peoples: ${peoples},
-selectedPeoples: ${selectedPeoples}
+selectedPeoples: ${selectedPeoples},
+workspace: ${workspace}
     ''';
   }
 }
