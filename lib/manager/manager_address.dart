@@ -54,8 +54,17 @@ class ManagerAddress {
   static const String createOrUpdateChannelChat =
       '$baseChannel/create-or-update';
   static const String channelGetAllByWorkspace = '$baseChannel/get-all';
+  static const String deleteMemberWorkspace = '$baseMemberWorkspace/delete';
+  static const String getAllMemberWorkspace = '$baseMemberWorkspace/get-all';
 
   //? -- FILE --
   static const String baseFile = '/file';
   static const String uploadSingleFile = '$baseFile/upload-single-file';
+
+  //? -- ATTACHMENT TASK --
+  static const String baseAttachmentTask = '/attachment-task';
+  static const String addFileAttachmentTask = '$baseAttachmentTask/add-file';
+  static const String getAttachmentByTaskId =
+      '$baseAttachmentTask/get-by-task-id';
+  static const String deleteAttachmentTask = '$baseAttachmentTask/delete';
 }

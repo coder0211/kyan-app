@@ -156,7 +156,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
         'accountId': element.accountId,
         'workspaceMemberIsOwner': 0,
       };
-
       await _baseAPI
           .fetchData(ManagerAddress.addMemberWorkspace,
               body: body, headers: headers, method: ApiMethod.POST)

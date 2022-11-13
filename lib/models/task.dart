@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kyan/models/attachment_task.dart';
 
 part 'task.g.dart';
 
@@ -14,7 +15,7 @@ class Task {
   String? taskCreateAt;
   int? taskWorkspaceId;
   String? taskAssignTo;
-  String? attachment;
+  List<AttachmentTask>? attachments;
 
   Task(
       {this.taskId,
@@ -26,7 +27,8 @@ class Task {
       this.taskIsDone,
       this.taskCreateAt,
       this.taskWorkspaceId,
-      this.taskAssignTo});
+      this.taskAssignTo,
+      this.attachments});
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return _$TaskFromJson(json);

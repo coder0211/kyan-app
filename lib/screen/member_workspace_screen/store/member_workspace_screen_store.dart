@@ -50,13 +50,11 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
 
   @override
   void resetValue() {}
-
   int checkIsOwnerMember() {
     for (int i = 0; i < members.length; i++) {
       if (members.elementAt(i).workspaceMemberIsOwner == 1 &&
           members.elementAt(i).accountId.toString() ==
               _loginScreenStore.currentAccount.accountId) {
-        print(_loginScreenStore.currentAccount.accountMail);
         return 1;
       }
     }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/account.dart';
+import 'package:kyan/models/attachment_task.dart';
 import 'package:kyan/models/result_up_file.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/models/workspace.dart';
@@ -99,13 +100,7 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
 
   BaseAPI _baseAPI = BaseAPI();
   @observable
-  ObservableList<Task> _tasks = ObservableList<Task>();
-
-  ObservableList<Task> get tasks => _tasks;
-
-  set tasks(ObservableList<Task> tasks) {
-    _tasks = tasks;
-  }
+  Task task = Task();
 
   late LoginScreenStore _loginScreenStore;
   late TasksScreenStore _tasksScreenStore;
@@ -129,14 +124,16 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
+    task = BaseNavigation.getArgs(context, key: 'task');
+    setDataTask(task: task);
     if (await BaseSharedPreferences.containKey(
         ManagerKeyStorage.currentWorkspace)) {
       workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
               ManagerKeyStorage.currentWorkspace)) ??
           0;
     }
+    await getAttachmentByTaskId();
     await getWorkspaceById();
-    setDataTask(task: BaseNavigation.getArgs(context, key: 'task'));
   }
 
   @action
@@ -172,10 +169,8 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
     summaryEditController.text = task.taskSummary ?? '';
     isActiveButton = summaryEditController.text != '';
     descriptionEditController.text = task.taskDescription ?? '';
-    startDate = DateFormat('yyyy-MM-dd')
-        .parse(task.taskDueTimeGTE.toString().split('T')[0]);
-    endDate = DateFormat('yyyy-MM-dd')
-        .parse(task.taskDueTimeLTE.toString().split('T')[0]);
+    startDate = task.taskDueTimeGTE ?? DateTime.now();
+    endDate = task.taskDueTimeLTE ?? DateTime.now();
     String _startDate = convertDateRMTime(startDate);
     String _endDate = convertDateRMTime(endDate);
     dueTime = _startDate +
@@ -279,11 +274,72 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
     await _baseAPI
         .fileUpload(ManagerAddress.uploadSingleFile,
             file: file ?? File(), method: ApiMethod.POST, headers: headers)
-        .then((value) {
+        .then((value) async {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             resultUpFile = ResultUpFile.fromJson(value.object);
+            await addFile(
+                ManagerAddress.domain + '/' + resultUpFile.toString());
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  Future<void> addFile(String url) async {
+    Map<String, dynamic> headers = {
+      'Authorization': _tasksScreenStore.accessToken
+    };
+    Map<String, dynamic> params = {'taskId': task.taskId, 'attachmentUrl': url};
+    await _baseAPI
+        .fetchData(ManagerAddress.addFileAttachmentTask,
+            method: ApiMethod.POST, params: params, headers: headers)
+        .then((value) async {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            await getAttachmentByTaskId();
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  Future<void> getAttachmentByTaskId() async {
+    Map<String, dynamic> headers = {
+      'Authorization': _tasksScreenStore.accessToken
+    };
+    Map<String, dynamic> params = {'taskId': task.taskId};
+    await _baseAPI
+        .fetchData(ManagerAddress.getAttachmentByTaskId,
+            method: ApiMethod.GET, params: params, headers: headers)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            Task temp = task;
+            temp.attachments = [];
+            value.object.forEach((e) {
+              temp.attachments?.add(AttachmentTask.fromJson(e));
+            });
+            task = temp;
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
