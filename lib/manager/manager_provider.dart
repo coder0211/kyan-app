@@ -7,6 +7,7 @@ import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
 import 'package:kyan/screen/create_workspace_screen/store/create_workspace_screen_store.dart';
 import 'package:kyan/screen/intro_screen/store/intro_screen_store.dart';
+import 'package:kyan/screen/list_message_screen/list_message_screen_store/list_message_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/screen/mdbts_search_code_join_screen.dart/store/mdbts_search_code_join_store.dart';
@@ -59,7 +60,8 @@ class ManagerProvider {
         create: (_) => SelectPeopleConversationScreenStore()),
     Provider<AppStore>(
       create: (_) => AppStore(),
-    )
+    ),
+    Provider<ListMessageScreenStore>(create: (_) => ListMessageScreenStore()),
   ];
 
   /// ## Dispose
@@ -91,5 +93,6 @@ class ManagerProvider {
     context.read<ChatScreenStore>().resetValue();
     context.read<SelectPeopleScreenStore>().resetValue();
     context.read<SelectPeopleConversationScreenStore>().resetValue();
+    context.read<ListMessageScreenStore>().resetValue();
   }
 }

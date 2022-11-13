@@ -1,5 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/models/channel_message.dart';
 import 'package:kyan/screen/list_message_screen/widgets/bubble_painter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kyan/theme/colors.dart';
@@ -10,7 +11,7 @@ class MessageBubble extends StatelessWidget {
   const MessageBubble({
     Key? key,
     required this.child,
-    required String message,
+    required ChannelMessage message,
   }) : super(key: key);
 
   final Widget child;

@@ -21,7 +21,7 @@ class ManagerSocket {
         'query': {'idConversation': idConversation, 'idChannel': idChannel},
       });
       socket.connect();
-      socket.on('connect', (_) {
+      socket.on('connection', (_) {
         print('<-------------Connected socket------------->');
       });
     } catch (e) {

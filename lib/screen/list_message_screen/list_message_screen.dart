@@ -1,6 +1,7 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:kyan/models/channel_message.dart';
 import 'package:kyan/screen/list_message_screen/list_message_screen_store/list_message_screen_store.dart';
 import 'package:kyan/screen/list_message_screen/widgets/message_bubble.dart';
 import 'package:kyan/theme/colors.dart';
@@ -35,6 +36,8 @@ class _ListMessageScreenState
           await Future.delayed(const Duration(seconds: 1));
         },
         child: Observer(builder: (_) {
+          List<ChannelMessage> list = store.chatScreenStore.messages.toList();
+
           return Column(
             children: [
               Padding(
@@ -62,14 +65,15 @@ class _ListMessageScreenState
                     padding: const EdgeInsets.symmetric(
                         vertical: Dimens.SCREEN_PADDING),
                     reverse: true,
-                    itemCount: 2,
+                    itemCount: list.length,
                     itemBuilder: (context, index) {
-                      return const MessageBubble(
-                        message: '',
-                        child: BaseText(
-                          '',
-                        ),
-                      );
+                      return MessageBubble(
+                          message: list.elementAt(index),
+                          child: list
+                                  .elementAt(index)
+                                  .channelMessageContent
+                                  ?.b1R() ??
+                              const SizedBox.shrink());
                     },
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
+import 'package:kyan/manager/manager_socket.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/conversation_screen/widgets/item_channel_chat.dart';
@@ -119,11 +120,17 @@ class _ConversationScreenState
                                   store.searchController.text.toLowerCase()))
                           ? ItemChannelChat(
                               onPressed: () {
-                                BaseNavigation.push(
-                                  context,
-                                  routeName: ManagerRoutes.chatScreen,
-                                  clearStack: true,
-                                );
+                                ManagerSocket.initSocket(
+                                    idChannel: store.channels
+                                        .elementAt(index)
+                                        .channelId);
+                                BaseNavigation.push(context,
+                                    routeName: ManagerRoutes.chatScreen,
+                                    arguments: {
+                                      'channelId': store.channels
+                                          .elementAt(index)
+                                          .channelId
+                                    });
                               },
                               titleChannel:
                                   store.channels.elementAt(index).channelName ??

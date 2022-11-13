@@ -7,6 +7,7 @@ import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/Info_channel_screen/info_channel_screen.dart';
 import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
 import 'package:kyan/screen/chat_sceen/widgets/input_chat_screen.dart';
+import 'package:kyan/screen/list_message_screen/list_message_screen.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/images.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
@@ -30,8 +31,11 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
       appBar: _buildAppBar(),
       body: GestureDetector(
           onTap: () => BaseUtils.hideKeyboard(context),
-          child: const Padding(
-            padding: EdgeInsets.only(bottom: 63),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 63),
+            child: Observer(builder: (_) {
+              return ListMessageScreen(agrs: store.spaceChat);
+            }),
           )),
       bottomSheet: InputChatScreen(
         chatScreenStore: store,
@@ -49,8 +53,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    bool? isPrivate =
-        false; //BaseNavigation.getArgs(context, key: 'isPrivate');
+    bool? isPrivate = false;
     return AppBar(
       title: Builder(
           builder: (context) => GestureDetector(
@@ -87,8 +90,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
       shadowColor: AppColors.primary.withOpacity(0.5),
       leading: GestureDetector(
           onTap: () {
-            BaseNavigation.push(context,
-                routeName: ManagerRoutes.conversationScreen);
+            BaseNavigation.pop(context);
           },
           child: const Icon(Icons.navigate_before)),
       actions: [

@@ -1,14 +1,19 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 part 'list_message_screen_store.g.dart';
 
 class ListMessageScreenStore = _ListMessageScreenStore
     with _$ListMessageScreenStore;
 
 abstract class _ListMessageScreenStore with Store, BaseStoreMixin {
+  late ChatScreenStore chatScreenStore;
   @override
-  void onInit(BuildContext context) {}
+  void onInit(BuildContext context) {
+    chatScreenStore = context.read<ChatScreenStore>();
+  }
 
   @override
   void onDispose(BuildContext context) {}
