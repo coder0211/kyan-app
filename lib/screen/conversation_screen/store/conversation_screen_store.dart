@@ -1,7 +1,11 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/const/consts.dart';
+import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_address.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/channel.dart';
+import 'package:kyan/models/conversation.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
@@ -16,7 +20,12 @@ class ConversationScreenStore = _ConversationScreenStore
 abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   late MainScreenStore mainScreenStore;
   late LoginScreenStore loginScreenStore;
+  late ConversationScreenStore conversationScreenStore;
   BaseAPI _api = BaseAPI();
+  @observable
+  ObservableList<Channel> channels = ObservableList<Channel>();
+  @observable
+  ObservableList<Conversation> conversations = ObservableList<Conversation>();
   @observable
   Channel? createChannel = Channel();
   @observable
@@ -25,7 +34,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   TextEditingController searchController = TextEditingController();
 
   @observable
-  bool _isShowLoading = true;
+  bool _isShowLoading = false;
 
   bool get isShowLoading => _isShowLoading;
 
@@ -43,7 +52,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  bool _isExpandedPeople = true;
+  bool _isExpandedPeople = false;
 
   bool get isExpandedPeople => _isExpandedPeople;
 
@@ -88,22 +97,76 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   void onDispose(BuildContext context) {}
 
   @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {}
+  Future<void> onWidgetBuildDone(BuildContext context) async {
+    await _getWorkspaceId();
+    await getData();
+  }
 
   @override
   void resetValue() async {
     isExpandedChannel = true;
     isExpandedPeople = true;
     isPrivateCreate = false;
-    //channels = ObservableList<Channel>();
+    currentWorkspaceId = null;
+    channels = ObservableList<Channel>();
+    conversations = ObservableList<Conversation>();
     createChannel = Channel();
     createChanelNameController.text = '';
-    //BaseSharedPreferences.remove('currentWorkspace');
+    isPrivateCreate = false;
+    //BaseSharedPreferences.remove(CURRENT_WORKSPACE);
     currentWorkspace = null;
   }
 
   @action
-  Future<void> onCLickAddChannelChat(BuildContext context,
+  Future<void> saveCurrentWorkSpace({required int? workspaceId}) async {
+    await Utils.saveCurrentWorkSpace(workspaceId.toString());
+  }
+
+  @action
+  Future<void> getData() async {
+    print('currentWorkspaceId: ${currentWorkspaceId}');
+    Map<String, dynamic> headers = {
+      'Authorization': mainScreenStore.accessToken,
+    };
+    Map<String, dynamic> params = {
+      'channelWorkspaceId': currentWorkspaceId,
+      'accountId': loginScreenStore.currentAccount.accountId,
+    };
+    if (currentWorkspaceId != null) {
+      await _api
+          .fetchData(ManagerAddress.channelGetAllByWorkspace,
+              headers: headers, params: params, method: ApiMethod.GET)
+          .then((value) {
+        switch (value.apiStatus) {
+          case ApiStatus.SUCCEEDED:
+            {
+              printLogSusscess('SUCCEEDED');
+              channels.clear();
+              value.object.forEach((element) {
+                channels.add(Channel.fromJson(element));
+              });
+              break;
+            }
+          case ApiStatus.INTERNET_UNAVAILABLE:
+            printLogYellow('INTERNET_UNAVAILABLE');
+            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+            break;
+          default:
+            printLogError('FAILED');
+            // Handle failed response here
+            break;
+        }
+      });
+
+      // get conversation
+    } else {
+      channels = ObservableList<Channel>();
+      conversations = ObservableList<Conversation>();
+    }
+  }
+
+  @action
+  Future<void> onClickAddChannelChat(BuildContext context,
       {required Channel channel}) async {
     Map<String, dynamic> headers = {
       'Authorization': mainScreenStore.accessToken,
@@ -118,16 +181,16 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
           {
             printLogSusscess('SUCCEEDED');
             // Handle success response here
-            createChannel = Channel();
+            //createChannel = Channel();
+            break;
           }
-
-          break;
         case ApiStatus.INTERNET_UNAVAILABLE:
           printLogYellow('INTERNET_UNAVAILABLE');
           BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
           break;
         default:
           printLogError('FAILED');
+          Utils.showToast(S.of(context).createChannelFailed);
           // Handle failed response here
           break;
       }
@@ -136,9 +199,14 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
     createChanelNameController.text = '';
   }
 
-  @action
-  Future<void> saveCurrentWorkSpace({required int? workspaceId}) async {
-    await Utils.saveCurrentWorkSpace(workspaceId.toString());
+  Future<void> _getWorkspaceId() async {
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      currentWorkspaceId = int.tryParse(
+              await BaseSharedPreferences.getStringValue(
+                  ManagerKeyStorage.currentWorkspace)) ??
+          -1;
+    }
   }
 }
 /// We are using auto code generation to generate code for MobX store.

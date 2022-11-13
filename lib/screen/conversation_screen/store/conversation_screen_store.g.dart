@@ -9,6 +9,38 @@ part of 'conversation_screen_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
+  late final _$channelsAtom =
+      Atom(name: '_ConversationScreenStore.channels', context: context);
+
+  @override
+  ObservableList<Channel> get channels {
+    _$channelsAtom.reportRead();
+    return super.channels;
+  }
+
+  @override
+  set channels(ObservableList<Channel> value) {
+    _$channelsAtom.reportWrite(value, super.channels, () {
+      super.channels = value;
+    });
+  }
+
+  late final _$conversationsAtom =
+      Atom(name: '_ConversationScreenStore.conversations', context: context);
+
+  @override
+  ObservableList<Conversation> get conversations {
+    _$conversationsAtom.reportRead();
+    return super.conversations;
+  }
+
+  @override
+  set conversations(ObservableList<Conversation> value) {
+    _$conversationsAtom.reportWrite(value, super.conversations, () {
+      super.conversations = value;
+    });
+  }
+
   late final _$createChannelAtom =
       Atom(name: '_ConversationScreenStore.createChannel', context: context);
 
@@ -155,17 +187,6 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
     });
   }
 
-  late final _$onCLickAddChannelChatAsyncAction = AsyncAction(
-      '_ConversationScreenStore.onCLickAddChannelChat',
-      context: context);
-
-  @override
-  Future<void> onCLickAddChannelChat(BuildContext context,
-      {required Channel channel}) {
-    return _$onCLickAddChannelChatAsyncAction
-        .run(() => super.onCLickAddChannelChat(context, channel: channel));
-  }
-
   late final _$saveCurrentWorkSpaceAsyncAction = AsyncAction(
       '_ConversationScreenStore.saveCurrentWorkSpace',
       context: context);
@@ -176,9 +197,30 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
         .run(() => super.saveCurrentWorkSpace(workspaceId: workspaceId));
   }
 
+  late final _$getDataAsyncAction =
+      AsyncAction('_ConversationScreenStore.getData', context: context);
+
+  @override
+  Future<void> getData() {
+    return _$getDataAsyncAction.run(() => super.getData());
+  }
+
+  late final _$onClickAddChannelChatAsyncAction = AsyncAction(
+      '_ConversationScreenStore.onClickAddChannelChat',
+      context: context);
+
+  @override
+  Future<void> onClickAddChannelChat(BuildContext context,
+      {required Channel channel}) {
+    return _$onClickAddChannelChatAsyncAction
+        .run(() => super.onClickAddChannelChat(context, channel: channel));
+  }
+
   @override
   String toString() {
     return '''
+channels: ${channels},
+conversations: ${conversations},
 createChannel: ${createChannel},
 createChanelNameController: ${createChanelNameController},
 searchController: ${searchController}

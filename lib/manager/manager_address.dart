@@ -41,18 +41,19 @@ class ManagerAddress {
   //?-- MEMBERS OF WORKSPACE -->
   static const String baseMemberWorkspace = '/member-work-space';
   static const String addMemberWorkspace = '$baseMemberWorkspace/create';
-  static const String deleteMemberWorkspace = '$baseMemberWorkspace/delete';
-  static const String getAllMemberWorkspace = '$baseMemberWorkspace/get-all';
+  static const String memberWorkspaceDelete = '$baseMemberWorkspace/delete';
+  static const String memberWorkspaceGetAll = '$baseMemberWorkspace/get-all';
   //? -- CONVERSATION --
   static const String baseConversation = '/converstion';
-  static const String deleteConversation = '$baseConversation/delete';
-  static const String getAllConversation = '$baseConversation/get-all';
+  static const String conversationDeletes = '$baseConversation/delete';
+  static const String conversationGetAll = '$baseConversation/get-all';
   static const String createOrUpdateConversation =
       '$baseConversation/create-or-update';
   //? -- Channel chat --
   static const String baseChannel = '/channel';
   static const String createOrUpdateChannelChat =
       '$baseChannel/create-or-update';
+  static const String channelGetAllByWorkspace = '$baseChannel/get-all';
 
   //? -- FILE --
   static const String baseFile = '/file';

@@ -18,3 +18,4 @@ const MAIL_TO = 'mailto';
 const MAIL_US = 'team@tdof.dev';
 const ENV_FILE = '.env';
 const DOMAIN = 'DOMAIN';
+const CURRENT_WORKSPACE = 'currentWorkspace';

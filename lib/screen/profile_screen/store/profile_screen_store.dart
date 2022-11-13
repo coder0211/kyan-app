@@ -180,33 +180,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
         ManagerKeyStorage.currentWorkspace, workspace.workspaceId.toString());
     currentWorkspaceId = workspace.workspaceId ?? -1;
     context.read<MainScreenStore>().workspaceId = currentWorkspaceId;
-    Map<String, dynamic> headers = {
-      'Authorization': _mainScreenStore.accessToken
-    };
-    Map<String, dynamic> body = {'id': workspace.workspaceId};
-    // await _baseAPI
-    //     .fetchData(ManagerAddress.getAllConversation,
-    //         method: ApiMethod.GET, headers: headers, body: body)
-    //     .then((value) {
-    //   switch (value.apiStatus) {
-    //     case ApiStatus.SUCCEEDED:
-    //       {
-    //         printLogSusscess('SUCCEEDED');
-    //         BaseNavigation.push(context,
-    //             routeName: ManagerRoutes.conversationScreen,
-    //             arguments: {'workspaceId': workspace.workspaceId});
-    //         break;
-    //       }
-    //     case ApiStatus.INTERNET_UNAVAILABLE:
-    //       printLogYellow('INTERNET_UNAVAILABLE');
-    //       BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-    //       break;
-    //     default:
-    //       printLogError('FAILED');
-    //       // Handle failed response here
-    //       break;
-    //   }
-    // });
     
   }
 

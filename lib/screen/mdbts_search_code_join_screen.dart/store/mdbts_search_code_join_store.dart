@@ -64,7 +64,7 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
       'workspaceId': workspaces.elementAt(0).workspaceId
     };
     await _api
-        .fetchData(ManagerAddress.getAllMemberWorkspace,
+        .fetchData(ManagerAddress.memberWorkspaceGetAll,
             headers: headers, params: params, method: ApiMethod.GET)
         .then((value) {
       switch (value.apiStatus) {

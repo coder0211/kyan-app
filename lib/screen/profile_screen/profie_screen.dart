@@ -252,12 +252,8 @@ class _ProfileScreenState
               store.currentWorkspaceId == store.workspaces[index].workspaceId,
           onPressedWorkspace: () async {
             await store.onPressedWorkspace(context,
-                workspace: store.workspaces.elementAt(index));
-            BaseNavigation.push(context,
-                routeName: ManagerRoutes.conversationScreen,
-                arguments: {
-                  'workspaceId': store.workspaces.elementAt(index).workspaceId
-                });
+                workspace: store.workspaces[index]);
+            BaseNavigation.pop(context);
           }),
     );
   }

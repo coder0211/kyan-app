@@ -177,6 +177,7 @@ abstract class _LoginScreenStore with Store, BaseStoreMixin {
   @action
   Future<void> handleSignOut(BuildContext context) async {
     googleSignIn.disconnect();
+    BaseSharedPreferences.remove(CURRENT_WORKSPACE);
     BaseNavigation.push(context,
         routeName: ManagerRoutes.loginScreen, clearStack: true);
     if (await BaseSharedPreferences.containKey(

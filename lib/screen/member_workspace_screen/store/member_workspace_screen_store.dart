@@ -109,16 +109,15 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
       'accountId': accountId.toString()
     };
     await _baseAPI
-        .fetchData(ManagerAddress.deleteMemberWorkspace,
+        .fetchData(ManagerAddress.memberWorkspaceDelete,
             method: ApiMethod.DELETE, headers: headers, body: body)
         .then((value) async {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
-            
             printLogSusscess('SUCCEEDED');
             BaseNavigation.pop(context);
-            
+
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
