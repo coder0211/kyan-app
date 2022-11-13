@@ -216,6 +216,25 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
         .run(() => super.onClickAddChannelChat(context, channel: channel));
   }
 
+  late final _$_ConversationScreenStoreActionController =
+      ActionController(name: '_ConversationScreenStore', context: context);
+
+  @override
+  void onPressedItem(BuildContext context,
+      {required String title,
+      required String urlPhoto,
+      bool? isPrivate,
+      required dynamic agrs}) {
+    final _$actionInfo = _$_ConversationScreenStoreActionController.startAction(
+        name: '_ConversationScreenStore.onPressedItem');
+    try {
+      return super.onPressedItem(context,
+          title: title, urlPhoto: urlPhoto, isPrivate: isPrivate, agrs: agrs);
+    } finally {
+      _$_ConversationScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

@@ -1,6 +1,5 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
-import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
@@ -197,6 +196,23 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
     });
     //createChannel = Channel();
     createChanelNameController.text = '';
+  }
+
+  @action
+  void onPressedItem(BuildContext context,
+      {required String title,
+      required String urlPhoto,
+      bool? isPrivate,
+      required dynamic agrs}) {
+    print(agrs.toString());
+    // BaseNavigation.push(context,
+    //     routeName: ManagerRoutes.chatScreen,
+    //     arguments: {
+    //       'titile': title,
+    //       'urlPhoto': urlPhoto,
+    //       'isPrivate': isPrivate,
+    //       'agrs': agrs
+    //     });
   }
 
   Future<void> _getWorkspaceId() async {

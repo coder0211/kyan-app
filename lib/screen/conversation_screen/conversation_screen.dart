@@ -196,17 +196,4 @@ class _ConversationScreenState
       ),
     );
   }
-
-  void getDataLocal() async {
-    var temp = await Utils.getCurrentWorkSpace();
-    if (temp != null) {
-      var value = json.decode(temp);
-      Workspace? _workspace = Workspace.fromJson(value);
-      store.currentWorkspaceId = _workspace.workspaceId;
-      store.currentWorkspace = _workspace;
-    }
-
-    // await store
-    //     .getData(store.loginScreenStore.currentAccount.accountMail ?? '');
-  }
 }
