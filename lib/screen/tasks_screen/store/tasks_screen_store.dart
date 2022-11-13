@@ -105,10 +105,8 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
 
   @action
   String convertTimeTask(Task task) {
-    DateTime g = new DateFormat('yyyy-MM-dd')
-        .parse(task.taskDueTimeGTE.toString().split('T')[0]);
-    DateTime l = DateFormat('yyyy-MM-dd')
-        .parse(task.taskDueTimeLTE.toString().split('T')[0]);
+    DateTime g = DateTime.parse(task.taskDueTimeGTE.toString());
+    DateTime l = DateTime.parse(task.taskDueTimeLTE.toString());
     return DateFormat('dd/MM/yyyy').format(g) +
         (g != l ? (' - ' + DateFormat('dd/MM/yyyy').format(l)) : '');
   }

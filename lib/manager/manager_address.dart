@@ -46,4 +46,11 @@ class ManagerAddress {
   //? -- FILE --
   static const String baseFile = '/file';
   static const String uploadSingleFile = '$baseFile/upload-single-file';
+
+  //? -- ATTACHMENT TASK --
+  static const String baseAttachmentTask = '/attachment-task';
+  static const String addFileAttachmentTask = '$baseAttachmentTask/add-file';
+  static const String getAttachmentByTaskId =
+      '$baseAttachmentTask/get-by-task-id';
+  static const String deleteAttachmentTask = '$baseAttachmentTask/delete';
 }

@@ -286,19 +286,19 @@ mixin _$CreateTaskScreenStore on _CreateTaskScreenStore, Store {
     });
   }
 
-  late final _$_tasksAtom =
-      Atom(name: '_CreateTaskScreenStore._tasks', context: context);
+  late final _$taskAtom =
+      Atom(name: '_CreateTaskScreenStore.task', context: context);
 
   @override
-  ObservableList<Task> get _tasks {
-    _$_tasksAtom.reportRead();
-    return super._tasks;
+  Task get task {
+    _$taskAtom.reportRead();
+    return super.task;
   }
 
   @override
-  set _tasks(ObservableList<Task> value) {
-    _$_tasksAtom.reportWrite(value, super._tasks, () {
-      super._tasks = value;
+  set task(Task value) {
+    _$taskAtom.reportWrite(value, super.task, () {
+      super.task = value;
     });
   }
 
@@ -424,6 +424,7 @@ descriptionEditController: ${descriptionEditController},
 account: ${account},
 workspace: ${workspace},
 workspaceId: ${workspaceId},
+task: ${task},
 file: ${file},
 resultUpFile: ${resultUpFile}
     ''';

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -36,185 +37,179 @@ class _CreateTaskScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.white,
-        body: SafeArea(
-          bottom: false,
-          child: GestureDetector(
-            onTap: () {
-              BaseUtils.hideKeyboard(context);
-            },
-            child: SafeArea(
-              top: false,
-              child: Column(
-                children: [
-                  _buildHeader(),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Dimens.SCREEN_PADDING),
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                S.of(context).summary.b1R(),
-                                Row(
+        body: GestureDetector(
+          onTap: () {
+            BaseUtils.hideKeyboard(context);
+          },
+          child: SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                _buildHeader(),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Dimens.SCREEN_PADDING),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              S.of(context).summary.b1R(),
+                              Row(
+                                children: [
+                                  S
+                                      .of(context)
+                                      .done
+                                      .b1(color: AppColors.primary),
+                                  Observer(builder: (_) {
+                                    return Checkbox(
+                                      activeColor: AppColors.primary,
+                                      value: store.isDone == 1,
+                                      onChanged: (_value) {
+                                        store.isDone =
+                                            (_value ?? false) ? 1 : 0;
+                                      },
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5)),
+                                      ),
+                                    );
+                                  }),
+                                ],
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          CustomTextFormField(
+                            hintText: S.of(context).hintSummary,
+                            hintStyle: GoogleFonts.notoSans(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 12,
+                                color: AppColors.gray),
+                            textEditingController: store.summaryEditController,
+                            onChanged: (value) {
+                              store.isActiveButton = value.text.isNotEmpty;
+                            },
+                            borderColor: AppColors.gray.withOpacity(0.3),
+                          ),
+                          const SizedBox(height: 10),
+                          S.of(context).description.b1R(),
+                          const SizedBox(height: 10),
+                          CustomTextFormField(
+                            height: 108,
+                            maxLines: MAX_LINE_TEXT_FIELD,
+                            hintText: S.of(context).descriptionTask,
+                            hintStyle: GoogleFonts.notoSans(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 12,
+                                color: AppColors.gray),
+                            textEditingController:
+                                store.descriptionEditController,
+                            borderColor: AppColors.gray.withOpacity(0.3),
+                          ),
+                          const SizedBox(height: 10),
+                          S.of(context).dueTime.b1R(),
+                          const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () {
+                              showModalBottomSheetDueTime(context,
+                                  blackoutDates: store.blackoutDates,
+                                  dateRangePickerController:
+                                      store.dateRangePickerController,
+                                  dateRangePickerView:
+                                      store.dateRangePickerView,
+                                  onPressedDone: () =>
+                                      store.getDueTime(context));
+                            },
+                            child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                height: 52,
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Observer(
+                                    builder: (_) => Row(
+                                          children: [
+                                            '${store.dueTime ?? store.convertYMDTime(store.startDate)}'
+                                                .b1R(color: AppColors.primary),
+                                          ],
+                                        ))),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Visibility(
+                            visible: BaseNavigation.getArgs<String>(context,
+                                    key: 'title') ==
+                                S.of(context).editTask,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  right: Dimens.SCREEN_PADDING),
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialogConfirm(context,
+                                      onConfirm: () async {
+                                    BaseNavigation.pop(context);
+                                    store.isShowLoading = true;
+                                    // store.deleteTask(
+                                    //     id: agrs!.taskId ?? 0);
+                                    await store.getListTaskInCreateUpdateTask();
+                                    store.isShowLoading = false;
+                                    BaseNavigation.pop(context);
+                                  }, title: S.of(context).confirmDeleteTask);
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
+                                    const Icon(
+                                      Icons.close,
+                                      color: AppColors.redPink,
+                                    ),
                                     S
                                         .of(context)
-                                        .done
-                                        .b1(color: AppColors.primary),
-                                    Observer(builder: (_) {
-                                      return Checkbox(
+                                        .deleteTask
+                                        .b1R(color: AppColors.redPink),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Observer(builder: (_) {
+                            return (store.indexYourAccount != -1)
+                                ? Row(
+                                    children: [
+                                      S.of(context).withWorkspace.b1(),
+                                      Checkbox(
                                         activeColor: AppColors.primary,
-                                        value: store.isDone == 1,
+                                        value: store.isWithWorkspace,
                                         onChanged: (_value) {
-                                          store.isDone =
-                                              (_value ?? false) ? 1 : 0;
+                                          store.isWithWorkspace =
+                                              _value ?? false;
                                         },
                                         shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(5)),
                                         ),
-                                      );
-                                    }),
-                                  ],
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            CustomTextFormField(
-                              hintText: S.of(context).hintSummary,
-                              hintStyle: GoogleFonts.notoSans(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 12,
-                                  color: AppColors.gray),
-                              textEditingController:
-                                  store.summaryEditController,
-                              onChanged: (value) {
-                                store.isActiveButton = value.text.isNotEmpty;
-                              },
-                              borderColor: AppColors.gray.withOpacity(0.3),
-                            ),
-                            const SizedBox(height: 10),
-                            S.of(context).description.b1R(),
-                            const SizedBox(height: 10),
-                            CustomTextFormField(
-                              height: 108,
-                              maxLines: MAX_LINE_TEXT_FIELD,
-                              hintText: S.of(context).descriptionTask,
-                              hintStyle: GoogleFonts.notoSans(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 12,
-                                  color: AppColors.gray),
-                              textEditingController:
-                                  store.descriptionEditController,
-                              borderColor: AppColors.gray.withOpacity(0.3),
-                            ),
-                            const SizedBox(height: 10),
-                            S.of(context).dueTime.b1R(),
-                            const SizedBox(height: 10),
-                            GestureDetector(
-                              onTap: () {
-                                showModalBottomSheetDueTime(context,
-                                    blackoutDates: store.blackoutDates,
-                                    dateRangePickerController:
-                                        store.dateRangePickerController,
-                                    dateRangePickerView:
-                                        store.dateRangePickerView,
-                                    onPressedDone: () =>
-                                        store.getDueTime(context));
-                              },
-                              child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  height: 52,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Observer(
-                                      builder: (_) => Row(
-                                            children: [
-                                              '${store.dueTime ?? store.convertYMDTime(store.startDate)}'
-                                                  .b1R(
-                                                      color: AppColors.primary),
-                                            ],
-                                          ))),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Visibility(
-                              visible: BaseNavigation.getArgs<String>(context,
-                                      key: 'title') ==
-                                  S.of(context).editTask,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: Dimens.SCREEN_PADDING),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    showDialogConfirm(context,
-                                        onConfirm: () async {
-                                      BaseNavigation.pop(context);
-                                      store.isShowLoading = true;
-                                      // store.deleteTask(
-                                      //     id: agrs!.taskId ?? 0);
-                                      await store
-                                          .getListTaskInCreateUpdateTask();
-                                      store.isShowLoading = false;
-                                      BaseNavigation.pop(context);
-                                    }, title: S.of(context).confirmDeleteTask);
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      const Icon(
-                                        Icons.close,
-                                        color: AppColors.redPink,
-                                      ),
-                                      S
-                                          .of(context)
-                                          .deleteTask
-                                          .b1R(color: AppColors.redPink),
+                                      )
                                     ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Observer(builder: (_) {
-                              return (store.indexYourAccount != -1)
-                                  ? Row(
-                                      children: [
-                                        S.of(context).withWorkspace.b1(),
-                                        Checkbox(
-                                          activeColor: AppColors.primary,
-                                          value: store.isWithWorkspace,
-                                          onChanged: (_value) {
-                                            store.isWithWorkspace =
-                                                _value ?? false;
-                                          },
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  : Container();
-                            }),
-                            _buildAssignTo(),
-                            _buildAchievement()
-                          ],
-                        ),
+                                  )
+                                : Container();
+                          }),
+                          _buildAssignTo(),
+                          _buildAchievement()
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -228,8 +223,7 @@ class _CreateTaskScreenState
                 if (store.isActiveButton) {
                   store.isShowLoading = true;
                   await store.onPressCreateUpdateTask(context,
-                      id: (BaseNavigation.getArgs(context, key: 'task') as Task)
-                          .taskId);
+                      id: store.task.taskId);
 
                   store.isShowLoading = false;
                   BaseNavigation.pop(context);
@@ -294,7 +288,7 @@ class _CreateTaskScreenState
                           ),
                           const SizedBox(width: 5),
                           Expanded(
-                            child: S.of(context).attachment.b1R(),
+                            child: (e.accountDisplayName ?? '').b1R(),
                           )
                         ],
                       ),
@@ -328,19 +322,30 @@ class _CreateTaskScreenState
             });
             await store.uploadFile(store.file);
           },
-          child: Flexible(
-            child: Row(
-              children: [
-                const Icon(Icons.attach_file_rounded, color: AppColors.orange),
-                S.of(context).add.b1R(color: AppColors.orange),
-                Observer(builder: (_) {
-                  return Image.file(
-                    store.file!,
-                    width: 20,
-                  );
-                })
-              ],
-            ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.attach_file_rounded,
+                      color: AppColors.orange),
+                  S.of(context).add.b1R(color: AppColors.orange),
+                ],
+              ),
+              Observer(builder: (_) {
+                return store.task.attachments != null
+                    ? Flexible(
+                        child: Wrap(
+                          children: [
+                            ...store.task.attachments!.map((e) {
+                              return CachedNetworkImage(
+                                  imageUrl: e.attachmentUrl);
+                            })
+                          ],
+                        ),
+                      )
+                    : const SizedBox.shrink();
+              })
+            ],
           ),
         ),
         const SizedBox(
