@@ -2,6 +2,8 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/models/channel.dart';
+import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
@@ -16,19 +18,24 @@ Future<void> showModalBottomSheetAddChannel(BuildContext context) async {
       ),
       context: context,
       isScrollControlled: true,
-      builder: (context) => const _contentMBTS());
+      builder: (context) => const contentMBTS());
 }
 
-class _contentMBTS extends StatefulWidget {
-  const _contentMBTS({Key? key}) : super(key: key);
+class contentMBTS extends BaseScreen {
+  const contentMBTS({Key? key}) : super(key: key);
 
   @override
-  State<_contentMBTS> createState() => __contentMBTSState();
+  State<contentMBTS> createState() => __contentMBTSState();
 }
 
-class __contentMBTSState extends State<_contentMBTS> {
+class __contentMBTSState
+    extends BaseScreenState<contentMBTS, ConversationScreenStore> {
   @override
-  Widget build(BuildContext context) {
+  Widget buildSmallScreen(BuildContext context) {
+    return _build(context);
+  }
+
+  Widget _build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(Dimens.SCREEN_PADDING),
       child: Column(
@@ -47,6 +54,7 @@ class __contentMBTSState extends State<_contentMBTS> {
                 fontWeight: FontWeight.w300,
                 fontSize: 12,
                 color: AppColors.gray),
+            textEditingController: store.createChanelNameController,
             onChanged: (_) {
               setState(() {});
             },
@@ -60,9 +68,9 @@ class __contentMBTSState extends State<_contentMBTS> {
               Observer(builder: (_) {
                 return Checkbox(
                   activeColor: AppColors.primary,
-                  value: false,
+                  value: store.isPrivateCreate,
                   onChanged: (_value) {
-                    true;
+                    store.isPrivateCreate = _value ?? false;
                     setState(() {});
                   },
                   shape: const RoundedRectangleBorder(
@@ -77,13 +85,38 @@ class __contentMBTSState extends State<_contentMBTS> {
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Observer(builder: (_) {
               return BaseButton(
-                onPressed: () async {},
+                onPressed: () async {
+                  store.createChannel?.channelIsPrivate =
+                      store.isPrivateCreate == true ? 1 : 0;
+                  store.createChannel?.channelName =
+                      store.createChanelNameController.text;
+                  store.createChannel?.accountMailOwner =
+                      store.loginScreenStore.currentAccount.accountMail;
+                  store.createChannel?.channelWorkspaceId =
+                      //51;
+                      store.currentWorkspaceId;
+                  print('currentWorkspaceId:' +
+                      store.currentWorkspaceId.toString());
+                  print(store.createChannel?.accountMailOwner);
+                  print('workspace');
+                  print(store.createChannel?.channelWorkspaceId);
+                  if (store.createChanelNameController.text != '') {
+                    store.onClickAddChannelChat(context,
+                        channel: store.createChannel ?? Channel());
+                    BaseNavigation.pop(context);
+                    BaseUtils.showToast('Create successfully',
+                        bgColor: AppColors.primary);
+                  }
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     S.of(context).ADD.b1(),
                   ],
                 ),
+                bgColor: store.createChanelNameController.text == ''
+                    ? AppColors.gray
+                    : AppColors.primary,
               );
             }),
           ),

@@ -23,7 +23,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   late LoginScreenStore _loginScreenStore;
   late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
   @observable
-  ObservableList<Account> members = ObservableList<Account>();
+  ObservableList<Account> members = new ObservableList<Account>();
 
   @observable
   Workspace workspace = Workspace();
@@ -34,8 +34,8 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
   void onInit(BuildContext context) {
     _mainScreenStore = context.read<MainScreenStore>();
     _loginScreenStore = context.read<LoginScreenStore>();
-
     _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
+    members = new ObservableList<Account>();
   }
 
   @override
@@ -45,7 +45,7 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    await getMembersWorkspace(context);
+    await _memberWorkspaceScreenStore.getMembersWorkspace(context);
   }
 
   @override
@@ -107,13 +107,15 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
       'accountId': accountId.toString()
     };
     await _baseAPI
-        .fetchData(ManagerAddress.deleteMemberWorkspace,
+        .fetchData(ManagerAddress.memberWorkspaceDelete,
             method: ApiMethod.DELETE, headers: headers, body: body)
         .then((value) async {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
+            BaseNavigation.pop(context);
+
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
