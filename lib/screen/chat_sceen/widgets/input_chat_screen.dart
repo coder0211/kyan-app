@@ -14,30 +14,38 @@ class InputChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: AppColors.gray)),
-      ),
-      padding: const EdgeInsets.only(left: 5, top: 5, bottom: 5),
-      child: Row(
-        children: [
-          Expanded(
-              child: CustomTextFormField(
-            hintText: 'Enter message ...',
-            hintStyle: GoogleFonts.notoSans(
-                fontWeight: FontWeight.w300,
-                fontSize: 12,
-                color: AppColors.gray),
-            textEditingController: _textEditingController,
-          )),
-          IconButton(
-            icon: const Icon(
-              Icons.send,
-              color: AppColors.primary,
-            ),
-            onPressed: () async {},
-          )
-        ],
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: AppColors.gray)),
+        ),
+        padding: const EdgeInsets.only(left: 5, top: 5, bottom: 5),
+        child: SafeArea(
+          child: Row(
+            children: [
+              Expanded(
+                  child: CustomTextFormField(
+                hintText: 'Enter message ...',
+                hintStyle: GoogleFonts.notoSans(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 12,
+                    color: AppColors.gray),
+                textEditingController: _textEditingController,
+              )),
+              IconButton(
+                icon: const Icon(
+                  Icons.send,
+                  color: AppColors.primary,
+                ),
+                onPressed: () async {
+                  await chatScreenStore
+                      .sendMessageChannelSocket(_textEditingController.text);
+                  _textEditingController.clear();
+                },
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

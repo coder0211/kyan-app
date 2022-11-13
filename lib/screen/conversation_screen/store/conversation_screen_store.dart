@@ -1,6 +1,5 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
-import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';

@@ -67,4 +67,15 @@ class ManagerAddress {
   static const String getAttachmentByTaskId =
       '$baseAttachmentTask/get-by-task-id';
   static const String deleteAttachmentTask = '$baseAttachmentTask/delete';
+
+  //? -- CHANNEL MESSGAE --
+  static const String baseChannelMessgae = '/channel-message';
+  static const String getAllChannelMessage = '$baseChannelMessgae/get-all';
+
+  //? -- SOCKET --
+  static String sendMessageConversationSocket() => 'message:conversation:send';
+  static String receiveMessageConversationSocket() =>
+      'message:conversation:receive';
+  static String sendMessageChannelSocket() => 'message:channel:send';
+  static String receiveMessageChannelSocket() => 'message:channel:receive';
 }
