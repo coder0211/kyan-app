@@ -81,8 +81,9 @@ class _ConversationScreenState
                     children: [
                       Row(
                         children: [
-                          GestureDetector(onTap: () {
+                          GestureDetector(onTap: () async {
                             store.isExpandedChannel = !store.isExpandedChannel;
+                            await store.getData();
                           }, child: Observer(builder: (_) {
                             return RotationTransition(
                               turns: AlwaysStoppedAnimation(

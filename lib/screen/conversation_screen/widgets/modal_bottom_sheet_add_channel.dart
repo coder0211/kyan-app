@@ -104,20 +104,18 @@ class __contentMBTSState
                       store.isPrivateCreate) {
                     await store.onClickAddChannelChat(context,
                         channel: store.createChannel ?? Channel());
-                    //BaseNavigation.pop(context);
                     BaseNavigation.push(context,
                         routeName: ManagerRoutes.selectPeopleChannelScreen,
                         arguments: {'idWorkSpace': store.currentWorkspaceId});
+                    await store.getData();
                   } else if (store.createChanelNameController.text != '' &&
                       store.isPrivateCreate == false) {
                     store.onClickAddChannelChat(context,
                         channel: store.createChannel ?? Channel());
-
+                    await store.getData();
                     BaseNavigation.pop(context);
                   } else {
-                    // store.onClickAddChannelChat(context,
-                    //     channel: store.createChannel ?? Channel());
-                    // BaseNavigation.pop(context);
+                    BaseNavigation.pop(context);
                     BaseUtils.showToast('Failed', bgColor: AppColors.primary);
                   }
                 },
