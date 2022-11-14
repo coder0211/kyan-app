@@ -5,7 +5,6 @@ import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
-import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +16,6 @@ class SearchCodeJoinScreenStore = _SearchCodeJoinScreenStore
 abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
   BaseAPI _api = BaseAPI();
   late MainScreenStore _mainScreenStore;
-  late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
   late LoginScreenStore _longinScreenStore;
   late TextEditingController codeController = TextEditingController();
 
@@ -26,7 +24,6 @@ abstract class _SearchCodeJoinScreenStore with Store, BaseStoreMixin {
   @override
   void onInit(BuildContext context) {
     _mainScreenStore = context.read<MainScreenStore>();
-    _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
     _longinScreenStore = context.read<LoginScreenStore>();
   }
 

@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/models/account.dart';
-import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/select_people_channel_screen/store/select_people_channel_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
