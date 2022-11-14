@@ -5,6 +5,7 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/channel.dart';
 import 'package:kyan/models/conversation.dart';
+import 'package:kyan/models/result_post.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
@@ -33,7 +34,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   TextEditingController searchController = TextEditingController();
 
   @observable
-  bool _isShowLoading = false;
+  bool _isShowLoading = true;
 
   bool get isShowLoading => _isShowLoading;
 
@@ -78,6 +79,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
+  int idChannelCreate = -1;
   Workspace? _currentWorkspace;
 
   Workspace? get currentWorkspace => _currentWorkspace;
@@ -105,6 +107,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   void resetValue() async {
     isExpandedChannel = true;
     isExpandedPeople = true;
+    isShowLoading = true;
     isPrivateCreate = false;
     currentWorkspaceId = null;
     channels = ObservableList<Channel>();
@@ -128,10 +131,11 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
       'Authorization': mainScreenStore.accessToken,
     };
     Map<String, dynamic> params = {
-      'channelWorkspaceId': currentWorkspaceId,
+      'channelWorkspaceId': currentWorkspaceId ?? -1,
       'accountId': loginScreenStore.currentAccount.accountId,
     };
     if (currentWorkspaceId != null) {
+      isShowLoading = true;
       await _api
           .fetchData(ManagerAddress.channelGetAllByWorkspace,
               headers: headers, params: params, method: ApiMethod.GET)
@@ -162,6 +166,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
       channels = ObservableList<Channel>();
       conversations = ObservableList<Conversation>();
     }
+    isShowLoading = false;
   }
 
   @action
@@ -179,8 +184,12 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
+            ResultPost resultPost = ResultPost();
+            resultPost = ResultPost.fromJson(
+                (value.object ?? {}) as Map<String, dynamic>);
+            idChannelCreate = resultPost.insertId ?? -1;
             // Handle success response here
-            //createChannel = Channel();
+            createChannel = Channel();
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -205,6 +214,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
       bool? isPrivate,
       required dynamic agrs}) {
     print(agrs.toString());
+
     // BaseNavigation.push(context,
     //     routeName: ManagerRoutes.chatScreen,
     //     arguments: {

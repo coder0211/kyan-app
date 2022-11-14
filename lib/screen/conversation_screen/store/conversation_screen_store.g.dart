@@ -171,19 +171,19 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
     });
   }
 
-  late final _$_currentWorkspaceAtom = Atom(
-      name: '_ConversationScreenStore._currentWorkspace', context: context);
+  late final _$idChannelCreateAtom =
+      Atom(name: '_ConversationScreenStore.idChannelCreate', context: context);
 
   @override
-  Workspace? get _currentWorkspace {
-    _$_currentWorkspaceAtom.reportRead();
-    return super._currentWorkspace;
+  int get idChannelCreate {
+    _$idChannelCreateAtom.reportRead();
+    return super.idChannelCreate;
   }
 
   @override
-  set _currentWorkspace(Workspace? value) {
-    _$_currentWorkspaceAtom.reportWrite(value, super._currentWorkspace, () {
-      super._currentWorkspace = value;
+  set idChannelCreate(int value) {
+    _$idChannelCreateAtom.reportWrite(value, super.idChannelCreate, () {
+      super.idChannelCreate = value;
     });
   }
 
@@ -242,7 +242,8 @@ channels: ${channels},
 conversations: ${conversations},
 createChannel: ${createChannel},
 createChanelNameController: ${createChanelNameController},
-searchController: ${searchController}
+searchController: ${searchController},
+idChannelCreate: ${idChannelCreate}
     ''';
   }
 }

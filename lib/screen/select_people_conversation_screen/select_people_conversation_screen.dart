@@ -38,8 +38,23 @@ class _SelectPeopleConversationScreenState extends BaseScreenState<
           return ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemBuilder: (_, index) => GestureDetector(
-                  key: UniqueKey(), onTap: () async {}, child: Container()),
-              itemCount: 2);
+                  key: UniqueKey(),
+                  onTap: () async {
+                    await store.onTapItem(context,
+                        conversationScreenStore: store.conversationScreenStore,
+                        idWorkSpace:
+                            BaseNavigation.getArgs(context, key: 'idWorkSpace'),
+                        mailAccount:
+                            store.peoples.elementAt(index).accountMail ?? '',
+                        mailOwner:
+                            store.loginScreenStore.currentAccount.accountMail ??
+                                '');
+                  },
+                  child: store.peoples.elementAt(index).accountId !=
+                          store.loginScreenStore.currentAccount.accountId
+                      ? _itemPeople(store.peoples.elementAt(index))
+                      : Container()),
+              itemCount: store.peoples.length);
         });
       }),
     );

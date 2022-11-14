@@ -4,7 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/models/account.dart';
-import 'package:kyan/screen/select_people/store/select_people_screen_store.dart';
+import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/screen/select_people_channel_screen/store/select_people_channel_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
@@ -14,15 +15,16 @@ import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_text_form_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SelectPeopleScreen extends BaseScreen {
-  const SelectPeopleScreen({Key? key}) : super(key: key);
+class SelectPeopleChannelScreen extends BaseScreen {
+  const SelectPeopleChannelScreen({Key? key}) : super(key: key);
 
   @override
-  State<SelectPeopleScreen> createState() => _SelectPeopleScreenState();
+  State<SelectPeopleChannelScreen> createState() =>
+      _SelectPeopleChannelScreenState();
 }
 
-class _SelectPeopleScreenState
-    extends BaseScreenState<SelectPeopleScreen, SelectPeopleScreenStore> {
+class _SelectPeopleChannelScreenState extends BaseScreenState<
+    SelectPeopleChannelScreen, SelectPeopleChannelScreenStore> {
   @override
   Widget buildSmallScreen(BuildContext context) {
     return _build(context);
@@ -39,8 +41,10 @@ class _SelectPeopleScreenState
                 bottom: Dimens.SCREEN_PADDING),
             child: BaseButton(
               onPressed: () async {
-                store.onClickAddMemberDone(context,
-                    email: store.emailSearchController.text.toString(),
+                store.onClickAddMemberChatDone(context,
+                    id: BaseNavigation.getArgs(context,
+                            key: S.current.idChannel) ??
+                        store.conversationScreenStore.idChannelCreate,
                     isSelected: true);
               },
               bgColor: AppColors.primary,
@@ -57,8 +61,6 @@ class _SelectPeopleScreenState
               child: CustomTextFormField(
                 onChanged: (_) {
                   store.getMembersWorkspace(context);
-                  store.getPeople(context,
-                      email: store.emailSearchController.text.toString());
                 },
                 hintText: S.of(context).searchHere,
                 hintStyle: GoogleFonts.notoSans(
@@ -113,12 +115,12 @@ class _SelectPeopleScreenState
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          store.onTapItem(account: store.peoples[index]);
+                          store.onTapItem(account: store.members[index]);
                         },
                         child: Observer(
                             builder: (_) =>
-                                _itemPeople(store.peoples.elementAt(index)))),
-                    itemCount: store.peoples.length);
+                                _itemPeople(store.members.elementAt(index)))),
+                    itemCount: store.members.length);
               }),
             )
           ],
@@ -156,8 +158,6 @@ class _SelectPeopleScreenState
           ),
           if (account.isSelected)
             const Icon(Icons.check_circle, color: AppColors.primary),
-          if (store.checkExistedMember(account) == 0)
-            const Icon(Icons.check_circle, color: AppColors.gray),
         ],
       ),
     );
@@ -186,8 +186,11 @@ class _SelectPeopleScreenState
                   onTap: () {
                     onPressed.call();
                   },
-                  child: const Icon(Icons.remove_circle,
-                      color: AppColors.redPink, size: 20),
+                  child: (store.checkExist(account) == 0)
+                      ? const Icon(Icons.remove_circle,
+                          color: AppColors.redPink, size: 20)
+                      : const Icon(Icons.remove_circle,
+                          color: AppColors.gray, size: 20),
                 )),
           ],
         ),

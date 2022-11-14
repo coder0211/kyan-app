@@ -2,6 +2,7 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/channel.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
@@ -93,19 +94,31 @@ class __contentMBTSState
                   store.createChannel?.accountMailOwner =
                       store.loginScreenStore.currentAccount.accountMail;
                   store.createChannel?.channelWorkspaceId =
-                      //51;
                       store.currentWorkspaceId;
                   print('currentWorkspaceId:' +
                       store.currentWorkspaceId.toString());
                   print(store.createChannel?.accountMailOwner);
                   print('workspace');
                   print(store.createChannel?.channelWorkspaceId);
-                  if (store.createChanelNameController.text != '') {
+                  if (store.createChanelNameController.text != '' &&
+                      store.isPrivateCreate) {
+                    await store.onClickAddChannelChat(context,
+                        channel: store.createChannel ?? Channel());
+                    //BaseNavigation.pop(context);
+                    BaseNavigation.push(context,
+                        routeName: ManagerRoutes.selectPeopleChannelScreen,
+                        arguments: {'idWorkSpace': store.currentWorkspaceId});
+                  } else if (store.createChanelNameController.text != '' &&
+                      store.isPrivateCreate == false) {
                     store.onClickAddChannelChat(context,
                         channel: store.createChannel ?? Channel());
+
                     BaseNavigation.pop(context);
-                    BaseUtils.showToast('Create successfully',
-                        bgColor: AppColors.primary);
+                  } else {
+                    // store.onClickAddChannelChat(context,
+                    //     channel: store.createChannel ?? Channel());
+                    // BaseNavigation.pop(context);
+                    BaseUtils.showToast('Failed', bgColor: AppColors.primary);
                   }
                 },
                 child: Row(
