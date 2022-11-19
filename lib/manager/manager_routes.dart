@@ -54,13 +54,6 @@ class ManagerRoutes {
     conversationScreen: (context) => const ConversationScreen(),
     chatScreen: (context) => const ChatScreen(),
     profileScreen: (context) => const ProfileScreen(),
-    infoChannelScreen: (context) => const InfoChannelScreen(
-          agrs: null,
-          isChannel: true,
-          isPrivate: false,
-          title: '',
-          urlAvatar: '',
-        ),
     listMessageScreen: (context) => const ListMessageScreen(
           agrs: null,
         ),

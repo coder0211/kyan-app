@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/channel.dart';
 import 'package:kyan/models/conversation.dart';
 import 'package:kyan/models/result_post.dart';
@@ -162,6 +163,30 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
       });
 
       // get conversation
+      // await _api
+      //     .fetchData(ManagerAddress.conversationGetAll,
+      //         headers: headers, params: params, method: ApiMethod.GET)
+      //     .then((value) {
+      //   switch (value.apiStatus) {
+      //     case ApiStatus.SUCCEEDED:
+      //       {
+      //         printLogSusscess('SUCCEEDED');
+      //         conversations.clear();
+      //         value.object.forEach((element) {
+      //           conversations.add(Conversation.fromJson(element));
+      //         });
+      //         break;
+      //       }
+      //     case ApiStatus.INTERNET_UNAVAILABLE:
+      //       printLogYellow('INTERNET_UNAVAILABLE');
+      //       BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+      //       break;
+      //     default:
+      //       printLogError('FAILED');
+      //       // Handle failed response here
+      //       break;
+      //   }
+      // });
     } else {
       channels = ObservableList<Channel>();
       conversations = ObservableList<Conversation>();
@@ -215,14 +240,14 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
       required dynamic agrs}) {
     print(agrs.toString());
 
-    // BaseNavigation.push(context,
-    //     routeName: ManagerRoutes.chatScreen,
-    //     arguments: {
-    //       'titile': title,
-    //       'urlPhoto': urlPhoto,
-    //       'isPrivate': isPrivate,
-    //       'agrs': agrs
-    //     });
+    BaseNavigation.push(context,
+        routeName: ManagerRoutes.chatScreen,
+        arguments: {
+          'title': title,
+          'urlPhoto': urlPhoto,
+          'isPrivate': isPrivate,
+          'agrs': agrs
+        });
   }
 
   Future<void> _getWorkspaceId() async {

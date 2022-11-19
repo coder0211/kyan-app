@@ -137,14 +137,6 @@ class _ConversationScreenState
                                               1,
                                           agrs:
                                               store.channels.elementAt(index));
-
-                                      BaseNavigation.push(context,
-                                          routeName: ManagerRoutes.chatScreen,
-                                          arguments: {
-                                            'channelId': store.channels
-                                                .elementAt(index)
-                                                .channelId
-                                          });
                                     },
                                     titleChannel: store.channels
                                             .elementAt(index)

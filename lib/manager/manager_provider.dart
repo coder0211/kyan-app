@@ -90,8 +90,8 @@ class ManagerProvider {
     context.read<CreateWorkspaceScreenStore>().resetValue();
     context.read<MemberWorkspaceScreenStore>().resetValue();
     context.read<TeamTasksScreenStore>().resetValue();
-    context.read<CreateTaskScreenStore>().resetValue();
     context.read<InfoChannelScreenStore>().resetValue();
+    context.read<CreateTaskScreenStore>().resetValue();
     context.read<ConversationScreenStore>().resetValue();
     context.read<ChatScreenStore>().resetValue();
     context.read<SelectPeopleScreenStore>().resetValue();
