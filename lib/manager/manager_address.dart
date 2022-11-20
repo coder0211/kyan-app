@@ -54,10 +54,14 @@ class ManagerAddress {
   static const String createOrUpdateChannelChat =
       '$baseChannel/create-or-update';
   static const String channelGetAllByWorkspace = '$baseChannel/get-all';
+
   //? -- MEMBERS OF CHANNEL CHAT --
   static const String baseMembersChannel = '/channel-member';
   static const String createOrUpdateMembersChannel =
       '$baseMembersChannel/create-or-update';
+  static const String channelMemberGetAll =
+      '$baseMembersChannel/get-member-by-channel-id';
+  static const String channelMemberDelete = '$baseMembersChannel/delete';
   //? -- FILE --
   static const String baseFile = '/file';
   static const String uploadSingleFile = '$baseFile/upload-single-file';

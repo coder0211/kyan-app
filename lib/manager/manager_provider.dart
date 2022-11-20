@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kyan/screen/Info_channel_screen/store/info_channel_screen_store.dart';
 import 'package:kyan/screen/app/store/app_store.dart';
 import 'package:kyan/screen/bot_screen/store/bot_screen_store.dart';
 import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
@@ -53,7 +52,6 @@ class ManagerProvider {
         create: (_) => MemberWorkspaceScreenStore()),
     Provider<CreateTaskScreenStore>(create: (_) => CreateTaskScreenStore()),
     Provider<TeamTasksScreenStore>(create: (_) => TeamTasksScreenStore()),
-    Provider<InfoChannelScreenStore>(create: (_) => InfoChannelScreenStore()),
     Provider<ConversationScreenStore>(create: (_) => ConversationScreenStore()),
     Provider<ChatScreenStore>(create: (_) => ChatScreenStore()),
     Provider<SelectPeopleScreenStore>(create: (_) => SelectPeopleScreenStore()),
@@ -90,7 +88,6 @@ class ManagerProvider {
     context.read<CreateWorkspaceScreenStore>().resetValue();
     context.read<MemberWorkspaceScreenStore>().resetValue();
     context.read<TeamTasksScreenStore>().resetValue();
-    context.read<InfoChannelScreenStore>().resetValue();
     context.read<CreateTaskScreenStore>().resetValue();
     context.read<ConversationScreenStore>().resetValue();
     context.read<ChatScreenStore>().resetValue();

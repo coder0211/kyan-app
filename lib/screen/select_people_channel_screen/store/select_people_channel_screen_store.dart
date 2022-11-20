@@ -6,6 +6,8 @@ import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/screen/main_screen/main_screen.dart';
+import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +21,12 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
   BaseAPI _baseAPI = new BaseAPI();
   @observable
   Account currentAccount = Account();
-  late MemberWorkspaceScreenStore _memberWorkspaceScreenStore;
+  late SelectPeopleChannelScreenStore _selectPeopleChannelScreenStore;
   late LoginScreenStore loginScreenStore;
   late ConversationScreenStore conversationScreenStore;
   late String accessToken;
   late TextEditingController emailSearchController = TextEditingController();
+  late MainScreenStore _mainScreenStore = MainScreenStore();
   @observable
   ObservableList<Account> members = ObservableList<Account>();
   @observable
@@ -50,10 +53,10 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onInit(BuildContext context) {
-    _memberWorkspaceScreenStore = context.read<MemberWorkspaceScreenStore>();
+  Future<void> onInit(BuildContext context) async {
     loginScreenStore = context.read<LoginScreenStore>();
     conversationScreenStore = context.read<ConversationScreenStore>();
+    await _selectPeopleChannelScreenStore.getMembersWorkspace(context);
   }
 
   @override
@@ -65,7 +68,6 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
   Future<void> onWidgetBuildDone(BuildContext context) async {
     await _getWorkspaceId();
     await getMembersWorkspace(context);
-    //await autoTapItem();
   }
 
   @override
@@ -131,38 +133,36 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> getMembersWorkspace(BuildContext context) async {
-    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
-      accessToken = await BaseSharedPreferences.getStringValue(
-          ManagerKeyStorage.accessToken);
-    }
-    Map<String, dynamic> headers = {'Authorization': accessToken};
+    Map<String, dynamic> headers = {
+      'Authorization': _mainScreenStore.accessToken
+    };
     Map<String, dynamic> params = {'id': currentWorkspaceId};
-    if (currentWorkspaceId != null)
-      await _baseAPI
-          .fetchData(ManagerAddress.workspacesGetOne,
-              method: ApiMethod.GET, headers: headers, params: params)
-          .then((value) {
-        switch (value.apiStatus) {
-          case ApiStatus.SUCCEEDED:
-            {
-              printLogSusscess('SUCCEEDED');
-              workspace = Workspace.fromJson(value.object);
-              members.clear();
-              members.addAll(workspace.members ?? []);
-
-              print(members);
-              break;
-            }
-          case ApiStatus.INTERNET_UNAVAILABLE:
-            printLogYellow('INTERNET_UNAVAILABLE');
-            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+    await _baseAPI
+        .fetchData(ManagerAddress.memberWorkspaceGetAll,
+            method: ApiMethod.GET, headers: headers, params: params)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            printLogSusscess('SUCCEEDED');
+            // workspace = Workspace.fromJson(value.object);
+            members.clear();
+            // members.addAll(workspace.members ?? []);
+            value.object.foreach((element) {
+              members.addAll(element);
+            });
             break;
-          default:
-            printLogError('FAILED');
-            // Handle failed response here
-            break;
-        }
-      });
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
   }
 
   @action
@@ -178,87 +178,10 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     };
 
     selectedPeoples.forEach((element) async {
-      if (element.accountId == loginScreenStore.currentAccount.accountId) {
-        Map<String, dynamic> body = {
-          'channelId': id,
-          'accountId': loginScreenStore.currentAccount.accountId,
-          'channelMemberOwner': 1,
-        };
-        await _baseAPI
-            .fetchData(ManagerAddress.createOrUpdateMembersChannel,
-                headers: headers, body: body, method: ApiMethod.POST)
-            .then((value) {
-          switch (value.apiStatus) {
-            case ApiStatus.SUCCEEDED:
-              {
-                break;
-              }
-            case ApiStatus.INTERNET_UNAVAILABLE:
-              printLogYellow('INTERNET_UNAVAILABLE');
-              BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-              break;
-            default:
-              printLogError('FAILED');
-              // Handle failed response here
-              break;
-          }
-        });
-      } else {
-        Map<String, dynamic> body1 = {
-          'channelId': id,
-          'accountId': loginScreenStore.currentAccount.accountId,
-          'channelMemberOwner': 1,
-        };
-        await _baseAPI
-            .fetchData(ManagerAddress.createOrUpdateMembersChannel,
-                headers: headers, body: body1, method: ApiMethod.POST)
-            .then((value) {
-          switch (value.apiStatus) {
-            case ApiStatus.SUCCEEDED:
-              {
-                break;
-              }
-            case ApiStatus.INTERNET_UNAVAILABLE:
-              printLogYellow('INTERNET_UNAVAILABLE');
-              BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-              break;
-            default:
-              printLogError('FAILED');
-              // Handle failed response here
-              break;
-          }
-        });
-        Map<String, dynamic> body2 = {
-          'channelId': id,
-          'accountId': element.accountId,
-          'channelMemberOwner': 0,
-        };
-        await _baseAPI
-            .fetchData(ManagerAddress.createOrUpdateMembersChannel,
-                headers: headers, body: body2, method: ApiMethod.POST)
-            .then((value) {
-          switch (value.apiStatus) {
-            case ApiStatus.SUCCEEDED:
-              {
-                break;
-              }
-            case ApiStatus.INTERNET_UNAVAILABLE:
-              printLogYellow('INTERNET_UNAVAILABLE');
-              BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-              break;
-            default:
-              printLogError('FAILED');
-              // Handle failed response here
-              break;
-          }
-        });
-      }
-    });
-    if (selectedPeoples.length == 0) {
       Map<String, dynamic> body = {
         'channelId': id,
-        'accountId': loginScreenStore.currentAccount.accountId,
-        'channelMemberOwner': 1,
+        'accountId': element.accountId,
+        'channelMemberOwner': 0,
       };
       await _baseAPI
           .fetchData(ManagerAddress.createOrUpdateMembersChannel,
@@ -279,7 +202,8 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
             break;
         }
       });
-    }
+    });
+
     selectedPeoples = ObservableList<Account>();
     members = ObservableList<Account>();
     emailSearchController.text = '';

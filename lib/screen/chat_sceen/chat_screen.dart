@@ -31,7 +31,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      endDrawer: _buildDrawer(),
+      endDrawer: _buildInfoChannel(),
       appBar: _buildAppBar(),
       body: GestureDetector(
           onTap: () => BaseUtils.hideKeyboard(context),
@@ -47,7 +47,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
     );
   }
 
-  Widget _buildDrawer() {
+  Widget _buildInfoChannel() {
     return Observer(builder: (_) {
       return Scaffold(
           appBar: customAppBar(context, title: S.of(context).infoChat),
@@ -61,7 +61,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                   const SizedBox(
                     height: 10,
                   ),
-                  if (true) _buildImage(),
+                  if (!store.isChannel) _buildImage(),
                   _buildBody(context),
                 ],
               ),
@@ -71,14 +71,13 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    bool? isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
     return AppBar(
       title: Builder(
           builder: (context) => GestureDetector(
                 onTap: () => Scaffold.of(context).openEndDrawer(),
                 child: Row(
                   children: [
-                    if (isPrivate == null)
+                    if (store.isPrivate == -1)
                       const CustomCircleAvatar(
                         width: 35,
                         imageUrl: DEFAULT_AVATAR,
@@ -90,7 +89,9 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                             shape: BoxShape.circle, color: AppColors.white),
                         child: Center(
                           child: Image.asset(
-                            isPrivate ? Images.iconPrivate : Images.iconPublic,
+                            store.isPrivate == 1
+                                ? Images.iconPrivate
+                                : Images.iconPublic,
                             width: 20,
                           ),
                         ),
@@ -98,9 +99,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                     const SizedBox(
                       width: 10,
                     ),
-                    Expanded(
-                        child:
-                            S.of(context).titile.t1M(color: AppColors.white)),
+                    Expanded(child: store.title.t1M(color: AppColors.white)),
                   ],
                 ),
               )),
@@ -135,7 +134,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (true)
+          if (!store.isChannel)
             Column(
               children: [
                 const SizedBox(
@@ -144,7 +143,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                 Align(
                   alignment:
                       store.isChannel ? Alignment.topLeft : Alignment.center,
-                  child: store.title.b1(color: AppColors.black),
+                  child: store.title.b1R(color: AppColors.black),
                 ),
                 const SizedBox(
                   height: 35,
@@ -174,123 +173,96 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                     ],
                   ),
               const SizedBox(height: 5),
-              if (store.isPrivate != -1 && store.isChannel)
+              if (store.isChannel && store.isPrivate == 1)
                 _buildRowTextIcon(
-                    title: S.of(context).members,
-                    iconData: Icons.add,
-                    colorIcon: AppColors.gray,
-                    onPressIcon: () {
-                      BaseNavigation.push(
-                        context,
+                  title: S.of(context).members,
+                  iconData: Icons.add,
+                  colorIcon: AppColors.gray,
+                  onPressIcon: () {
+                    BaseNavigation.push(context,
                         routeName: ManagerRoutes.selectPeopleChannelScreen,
-                        arguments: {
-                          'idWorkSpace':
-                              store.conversationScreenStore.currentWorkspaceId,
-                          'ListSeleted': (store.args as Channel)
-                              .listMember
-                              ?.map((e) => e.accountMail)
-                              .toList(),
-                          'idChannel': (store.args as Channel).channelId
-                        },
-                      );
-                    },
-                    isShowIcon: ((store.args is Channel) &&
-                        store.loginScreenStore.currentAccount.accountMail ==
-                            (store.args as Channel).accountMailOwner)),
-              if (store.isPrivate != -1 && store.isChannel)
+                        arguments: {'channelId': store.channel.channelId});
+                  },
+                ),
+              // list members
+              if (store.isPrivate == 1 && store.isChannel)
                 ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: store.isChannel
-                        ? (store.args as Channel).listMember?.length
-                        : (store.args as Conversation).listMember?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return (store.loginScreenStore.currentAccount
-                                  .accountMail !=
-                              (store.args as Channel)
-                                  .listMember
-                                  ?.elementAt(index)
-                                  .accountMail)
-                          ? ListTile(
-                              leading: CustomCircleAvatar(
-                                  imageUrl: (store.args as Channel)
-                                      .listMember
-                                      ?.elementAt(index)
-                                      .accountUrlPhoto,
-                                  width: 24),
-                              trailing: ((store.args is Channel) &&
-                                      store.loginScreenStore.currentAccount
-                                              .accountMail ==
-                                          (store.args as Channel)
-                                              .accountMailOwner)
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        showDialogConfirm(context,
-                                            onConfirm: () async {
-                                          BaseNavigation.pop(context);
-                                          BaseNavigation.pop(context);
-                                          BaseNavigation.pop(context);
-                                        },
-                                            title:
-                                                S.current.confirmLeaveWorkspace,
-                                            hightLight:
-                                                ' ${(store.args as Channel).listMember?.elementAt(index).accountDisplayName}?');
-                                      },
-                                      child: S
-                                          .of(context)
-                                          .remove
-                                          .labelR(color: AppColors.redPink))
-                                  : Container(
-                                      height: 1,
-                                      width: 1,
-                                    ),
-                              title: BaseText((store.args as Channel)
-                                  .listMember
-                                  ?.elementAt(index)
-                                  .accountDisplayName))
-                          : Container();
-                    }),
-              if (store.isPrivate != -1 && store.isChannel) const Divider(),
-              if (store.isPrivate != -1 && store.isChannel)
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: store.memberChannel.length,
+                  itemBuilder: ((context, index) {
+                    return Observer(
+                      builder: (_) => ListTile(
+                        leading: const CustomCircleAvatar(
+                          imageUrl: '',
+                          width: 24,
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () async {
+                            showDialogConfirm(
+                              context,
+                              title: S.of(context).confirmLeaveChannel,
+                              hightLight: '',
+                              onConfirm: () async {
+                                store.onClickDeleteChannelMember(context,
+                                    channelId: BaseNavigation.getArgs(context,
+                                        key: 'channelId'),
+                                    accountId: store.memberChannel
+                                        .elementAt(index)
+                                        .accountId
+                                        .toString());
+                                BaseNavigation.pop(context);
+                                await store.getAllChannelMember(context);
+                              },
+                            );
+                          },
+                          child: S
+                              .of(context)
+                              .remove
+                              .labelR(color: AppColors.redPink),
+                        ),
+                        title: (store.memberChannel.length > 0)
+                            ? BaseText(store.memberChannel
+                                .elementAt(index)
+                                .accountDisplayName)
+                            : Container(),
+                      ),
+                    );
+                  }),
+                ),
+              if (store.isPrivate == 1 && store.isChannel) const Divider(),
+              if (store.isPrivate == 1 && store.isChannel)
                 GestureDetector(
-                    onTap: () async {
-                      showDialogConfirm(context, icon: Icons.logout_outlined,
-                          onConfirm: () async {
-                        BaseNavigation.pop(context);
+                  onTap: () async {
+                    showDialogConfirm(context,
+                        icon: Icons.logout_outlined,
+                        onConfirm: () async {},
+                        title: S.of(context).confirmLeaveChannel);
+                  },
+                  child: _buildRowTextIcon(
+                      colorIcon: AppColors.redPink,
+                      colorText: AppColors.redPink,
+                      title: S.of(context).leaveChannel,
+                      iconData: Icons.logout_outlined),
+                ),
 
-                        BaseNavigation.pop(context);
-                        BaseNavigation.pop(context);
-                      }, title: S.of(context).confirmLeaveChannel);
-                    },
-                    child: _buildRowTextIcon(
-                        colorIcon: AppColors.redPink,
-                        colorText: AppColors.redPink,
-                        title: S.of(context).leaveChannel,
-                        iconData: Icons.logout_outlined)),
-              if ((store.args is Channel) &&
+              if (store.spaceChat is Channel &&
                       store.loginScreenStore.currentAccount.accountMail ==
-                          (store.args as Channel).accountMailOwner ||
-                  store.args is Conversation)
+                          (store.spaceChat as Channel).accountMailOwner ||
+                  store.spaceChat is Conversation)
                 const Divider(),
-              if ((store.args is Channel) &&
+              if (store.spaceChat is Channel &&
                       store.loginScreenStore.currentAccount.accountMail ==
-                          (store.args as Channel).accountMailOwner ||
-                  store.args is Conversation)
+                          (store.spaceChat as Channel).accountMailOwner ||
+                  store.spaceChat is Conversation)
                 GestureDetector(
                   onTap: () {
-                    showDialogConfirm(context, icon: Icons.delete_forever,
+                    showDialogConfirm(context,
+                        icon: Icons.delete_forever,
+                        title: S.of(context).confirmDeleteThis,
                         onConfirm: () async {
                       BaseNavigation.pop(context);
-
-                      if (store.args is Channel) {
-                        // delete channel
-                      } else {
-                        //delete conversation
-                      }
-                      // get Data of conversation
-                      BaseNavigation.pop(context);
-                      BaseNavigation.pop(context);
-                    }, title: S.current.confirmDeleteThis);
+                    });
                   },
                   child: _buildRowTextIcon(
                       colorIcon: AppColors.redPink,
@@ -308,7 +280,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
     );
   }
 
-  _buildRowTextIcon(
+  Container _buildRowTextIcon(
       {required String title,
       required IconData iconData,
       Color colorIcon = AppColors.black,

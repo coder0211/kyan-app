@@ -45,6 +45,7 @@ class _SelectPeopleChannelScreenState extends BaseScreenState<
                             key: S.current.idChannel) ??
                         store.conversationScreenStore.idChannelCreate,
                     isSelected: true);
+                BaseNavigation.pop(context);
               },
               bgColor: AppColors.primary,
               child: Row(
@@ -114,7 +115,8 @@ class _SelectPeopleChannelScreenState extends BaseScreenState<
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          store.onTapItem(account: store.members[index]);
+                          store.onTapItem(
+                              account: store.members.elementAt(index));
                         },
                         child: Observer(
                             builder: (_) =>

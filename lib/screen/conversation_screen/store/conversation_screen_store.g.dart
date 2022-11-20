@@ -223,13 +223,18 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
   void onPressedItem(BuildContext context,
       {required String title,
       required String urlPhoto,
-      bool? isPrivate,
-      required dynamic agrs}) {
+      int? isPrivate,
+      required dynamic agrs,
+      int? channelId}) {
     final _$actionInfo = _$_ConversationScreenStoreActionController.startAction(
         name: '_ConversationScreenStore.onPressedItem');
     try {
       return super.onPressedItem(context,
-          title: title, urlPhoto: urlPhoto, isPrivate: isPrivate, agrs: agrs);
+          title: title,
+          urlPhoto: urlPhoto,
+          isPrivate: isPrivate,
+          agrs: agrs,
+          channelId: channelId);
     } finally {
       _$_ConversationScreenStoreActionController.endAction(_$actionInfo);
     }

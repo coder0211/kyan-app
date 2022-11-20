@@ -162,7 +162,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
         }
       });
 
-      // get conversation
+      // get conversation peer to peer
       // await _api
       //     .fetchData(ManagerAddress.conversationGetAll,
       //         headers: headers, params: params, method: ApiMethod.GET)
@@ -236,8 +236,9 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   void onPressedItem(BuildContext context,
       {required String title,
       required String urlPhoto,
-      bool? isPrivate,
-      required dynamic agrs}) {
+      int? isPrivate,
+      required dynamic agrs,
+      int? channelId}) {
     print(agrs.toString());
 
     BaseNavigation.push(context,
@@ -246,7 +247,8 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
           'title': title,
           'urlPhoto': urlPhoto,
           'isPrivate': isPrivate,
-          'agrs': agrs
+          'agrs': agrs,
+          'channelId': channelId
         });
   }
 

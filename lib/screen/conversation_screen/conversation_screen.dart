@@ -125,18 +125,24 @@ class _ConversationScreenState
                                           idChannel: store.channels
                                               .elementAt(index)
                                               .channelId);
-                                      store.onPressedItem(context,
-                                          title: store.channels
-                                                  .elementAt(index)
-                                                  .channelName ??
-                                              '',
-                                          urlPhoto: '',
-                                          isPrivate: store.channels
-                                                  .elementAt(index)
-                                                  .channelIsPrivate ==
-                                              1,
-                                          agrs:
-                                              store.channels.elementAt(index));
+                                      store.onPressedItem(
+                                        context,
+                                        title: store.channels
+                                                .elementAt(index)
+                                                .channelName ??
+                                            '',
+                                        urlPhoto: '',
+                                        isPrivate: store.channels
+                                                    .elementAt(index)
+                                                    .channelIsPrivate ==
+                                                1
+                                            ? 1
+                                            : 0,
+                                        agrs: store.channels.elementAt(index),
+                                        channelId: store.channels
+                                            .elementAt(index)
+                                            .channelId,
+                                      );
                                     },
                                     titleChannel: store.channels
                                             .elementAt(index)
