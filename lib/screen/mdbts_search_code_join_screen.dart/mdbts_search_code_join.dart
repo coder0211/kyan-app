@@ -1,7 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/screen/mdbts_search_code_join_screen.dart/store/mdbts_search_code_join_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/utils/utils.dart';

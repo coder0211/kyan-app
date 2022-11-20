@@ -171,19 +171,19 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
     });
   }
 
-  late final _$_currentWorkspaceAtom = Atom(
-      name: '_ConversationScreenStore._currentWorkspace', context: context);
+  late final _$idChannelCreateAtom =
+      Atom(name: '_ConversationScreenStore.idChannelCreate', context: context);
 
   @override
-  Workspace? get _currentWorkspace {
-    _$_currentWorkspaceAtom.reportRead();
-    return super._currentWorkspace;
+  int get idChannelCreate {
+    _$idChannelCreateAtom.reportRead();
+    return super.idChannelCreate;
   }
 
   @override
-  set _currentWorkspace(Workspace? value) {
-    _$_currentWorkspaceAtom.reportWrite(value, super._currentWorkspace, () {
-      super._currentWorkspace = value;
+  set idChannelCreate(int value) {
+    _$idChannelCreateAtom.reportWrite(value, super.idChannelCreate, () {
+      super.idChannelCreate = value;
     });
   }
 
@@ -216,6 +216,25 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
         .run(() => super.onClickAddChannelChat(context, channel: channel));
   }
 
+  late final _$_ConversationScreenStoreActionController =
+      ActionController(name: '_ConversationScreenStore', context: context);
+
+  @override
+  void onPressedItem(BuildContext context,
+      {required String title,
+      required String urlPhoto,
+      bool? isPrivate,
+      required dynamic agrs}) {
+    final _$actionInfo = _$_ConversationScreenStoreActionController.startAction(
+        name: '_ConversationScreenStore.onPressedItem');
+    try {
+      return super.onPressedItem(context,
+          title: title, urlPhoto: urlPhoto, isPrivate: isPrivate, agrs: agrs);
+    } finally {
+      _$_ConversationScreenStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
@@ -223,7 +242,8 @@ channels: ${channels},
 conversations: ${conversations},
 createChannel: ${createChannel},
 createChanelNameController: ${createChanelNameController},
-searchController: ${searchController}
+searchController: ${searchController},
+idChannelCreate: ${idChannelCreate}
     ''';
   }
 }
