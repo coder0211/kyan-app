@@ -114,6 +114,7 @@ class __contentMBTSState
                         channel: store.createChannel ?? Channel());
                     await store.getData();
                     BaseNavigation.pop(context);
+                    store.idChannelCreate = -1;
                   } else {
                     BaseNavigation.pop(context);
                     BaseUtils.showToast('Failed', bgColor: AppColors.primary);

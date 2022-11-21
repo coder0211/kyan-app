@@ -1,7 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
-import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_socket.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/channel.dart';
@@ -23,7 +22,6 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   ObservableList<Account> memberChannel = ObservableList<Account>();
   BaseAPI _api = new BaseAPI();
   MainScreenStore _mainScreenStore = new MainScreenStore();
-  BaseAPI _baseAPI = BaseAPI();
   int page = 0;
   int limit = 50;
   bool isLastMessager = false;
@@ -79,6 +77,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     loginScreenStore = context.read<LoginScreenStore>();
     conversationScreenStore = context.read<ConversationScreenStore>();
     _mainScreenStore = context.read<MainScreenStore>();
+    
     //await getAllChannelMember(context);
   }
 
@@ -94,15 +93,16 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    urlPhoto = BaseNavigation.getArgs(context, key: 'urlPhoto');
-    title = BaseNavigation.getArgs(context, key: 'title');
-    isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
-    args = BaseNavigation.getArgs(context, key: 'args');
     await getAllChannelMember(context);
   }
 
   @override
-  void resetValue() {}
+  void resetValue() {
+    urlPhoto = '';
+    title = '';
+    args = null;
+    channel = new Channel();
+  }
 
   @action
   void setMessage(dynamic message, {required String accountId}) {
@@ -223,6 +223,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     });
   }
 }
+
 /// We are using auto code generation to generate code for MobX store.
 /// If we see any error with .g.dart file, try to run below command.
 /// The 3rd command is recommended.

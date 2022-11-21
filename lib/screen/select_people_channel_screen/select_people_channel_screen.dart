@@ -41,8 +41,7 @@ class _SelectPeopleChannelScreenState extends BaseScreenState<
             child: BaseButton(
               onPressed: () async {
                 store.onClickAddMemberChatDone(context,
-                    id: BaseNavigation.getArgs(context,
-                            key: S.current.idChannel) ??
+                    id: BaseNavigation.getArgs(context, key: 'channelId') ??
                         store.conversationScreenStore.idChannelCreate,
                     isSelected: true);
                 BaseNavigation.pop(context);

@@ -133,24 +133,24 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> getMembersWorkspace(BuildContext context) async {
-    Map<String, dynamic> headers = {
-      'Authorization': _mainScreenStore.accessToken
-    };
-    Map<String, dynamic> params = {'id': currentWorkspaceId};
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
+    Map<String, dynamic> headers = {'Authorization': accessToken};
+    Map<String, dynamic> params = {'id': currentWorkspaceId ?? -1};
+
     await _baseAPI
-        .fetchData(ManagerAddress.memberWorkspaceGetAll,
+        .fetchData(ManagerAddress.workspacesGetOne,
             method: ApiMethod.GET, headers: headers, params: params)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-            // workspace = Workspace.fromJson(value.object);
+            workspace = Workspace.fromJson(value.object);
             members.clear();
-            // members.addAll(workspace.members ?? []);
-            value.object.foreach((element) {
-              members.addAll(element);
-            });
+            members.addAll(workspace.members ?? []);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -176,7 +176,30 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {
       'Authorization': accessToken,
     };
-
+    // Map<String, dynamic> body = {
+    //   'channelId': id,
+    //   'accountId': loginScreenStore.currentAccount.accountId,
+    //   'channelMemberOwner': 1,
+    // };
+    // await _baseAPI
+    //     .fetchData(ManagerAddress.createOrUpdateMembersChannel,
+    //         headers: headers, body: body, method: ApiMethod.POST)
+    //     .then((value) {
+    //   switch (value.apiStatus) {
+    //     case ApiStatus.SUCCEEDED:
+    //       {
+    //         break;
+    //       }
+    //     case ApiStatus.INTERNET_UNAVAILABLE:
+    //       printLogYellow('INTERNET_UNAVAILABLE');
+    //       BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+    //       break;
+    //     default:
+    //       printLogError('FAILED');
+    //       // Handle failed response here
+    //       break;
+    //   }
+    // });
     selectedPeoples.forEach((element) async {
       Map<String, dynamic> body = {
         'channelId': id,
@@ -207,8 +230,6 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     selectedPeoples = ObservableList<Account>();
     members = ObservableList<Account>();
     emailSearchController.text = '';
-    BaseNavigation.pop(context);
-    BaseNavigation.pop(context);
   }
 
   void checkSelectedItem() {

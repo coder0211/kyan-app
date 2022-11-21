@@ -250,6 +250,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
           'agrs': agrs,
           'channelId': channelId
         });
+    
   }
 
   Future<void> _getWorkspaceId() async {

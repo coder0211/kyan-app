@@ -71,35 +71,37 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
   }
 
   PreferredSizeWidget _buildAppBar() {
+    int? isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
+    String title = BaseNavigation.getArgs(context, key: 'title');
     return AppBar(
       title: Builder(
           builder: (context) => GestureDetector(
                 onTap: () => Scaffold.of(context).openEndDrawer(),
                 child: Row(
                   children: [
-                    if (store.isPrivate == -1)
-                      const CustomCircleAvatar(
-                        width: 35,
-                        imageUrl: DEFAULT_AVATAR,
-                      )
-                    else
+                    if (isPrivate == 1)
                       Container(
                         padding: const EdgeInsets.all(5),
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle, color: AppColors.white),
                         child: Center(
                           child: Image.asset(
-                            store.isPrivate == 1
+                            isPrivate == 1
                                 ? Images.iconPrivate
                                 : Images.iconPublic,
                             width: 20,
                           ),
                         ),
+                      )
+                    else
+                      const CustomCircleAvatar(
+                        width: 35,
+                        imageUrl: DEFAULT_AVATAR,
                       ),
                     const SizedBox(
                       width: 10,
                     ),
-                    Expanded(child: store.title.t1M(color: AppColors.white)),
+                    Expanded(child: title.t1M(color: AppColors.white)),
                   ],
                 ),
               )),
@@ -130,6 +132,8 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
   }
 
   Widget _buildBody(BuildContext context) {
+    int? isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
+    String title = BaseNavigation.getArgs(context, key: 'title');
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +147,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                 Align(
                   alignment:
                       store.isChannel ? Alignment.topLeft : Alignment.center,
-                  child: store.title.b1R(color: AppColors.black),
+                  child: title.b1R(color: AppColors.black),
                 ),
                 const SizedBox(
                   height: 35,
@@ -165,7 +169,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                         alignment: store.isChannel
                             ? Alignment.topLeft
                             : Alignment.center,
-                        child: store.title.b1(color: AppColors.black),
+                        child: title.b1(color: AppColors.black),
                       ),
                       const SizedBox(
                         height: 35,
@@ -173,7 +177,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                     ],
                   ),
               const SizedBox(height: 5),
-              if (store.isChannel && store.isPrivate == 1)
+              if (store.isChannel && isPrivate == 1)
                 _buildRowTextIcon(
                   title: S.of(context).members,
                   iconData: Icons.add,
@@ -185,7 +189,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                   },
                 ),
               // list members
-              if (store.isPrivate == 1 && store.isChannel)
+              if (isPrivate == 1 && store.isChannel)
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -194,7 +198,8 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                     return Observer(
                       builder: (_) => ListTile(
                         leading: const CustomCircleAvatar(
-                          imageUrl: '',
+                          imageUrl:
+                              '', //store.memberChannel.elementAt(index).accountUrlPhoto.toString(),
                           width: 24,
                         ),
                         trailing: GestureDetector(
@@ -230,8 +235,8 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                     );
                   }),
                 ),
-              if (store.isPrivate == 1 && store.isChannel) const Divider(),
-              if (store.isPrivate == 1 && store.isChannel)
+              if (isPrivate == 1 && store.isChannel) const Divider(),
+              if (isPrivate == 1 && store.isChannel)
                 GestureDetector(
                   onTap: () async {
                     showDialogConfirm(context,
