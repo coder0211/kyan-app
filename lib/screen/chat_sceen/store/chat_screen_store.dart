@@ -30,9 +30,18 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   String title = '';
   int isPrivate = -1;
   dynamic args = null;
+  @observable
+  int? _currentChannelId;
+
+  int? get currentChannelId => _currentChannelId;
+
+  set currentChannelId(int? currentChannelId) {
+    _currentChannelId = currentChannelId;
+  }
+
   Channel channel = new Channel();
   @observable
-  bool _isShowLoading = false;
+  bool _isShowLoading = true;
 
   bool get isShowLoading => _isShowLoading;
 
@@ -77,7 +86,8 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     loginScreenStore = context.read<LoginScreenStore>();
     conversationScreenStore = context.read<ConversationScreenStore>();
     _mainScreenStore = context.read<MainScreenStore>();
-    
+    currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
+
     //await getAllChannelMember(context);
   }
 
@@ -93,6 +103,8 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
+    isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
+    currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
     await getAllChannelMember(context);
   }
 
@@ -100,6 +112,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   void resetValue() {
     urlPhoto = '';
     title = '';
+    isPrivate = -1;
     args = null;
     channel = new Channel();
   }
@@ -163,13 +176,17 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> params = {};
   }
 
-  Future<void> getAllChannelMember(BuildContext context) async {
+  Future<void> getAllChannelMember(
+    BuildContext context,
+  ) async {
     Map<String, dynamic> headers = {
       'Authorization': _mainScreenStore.accessToken
     };
+
     Map<String, dynamic> params = {
-      'channelId': BaseNavigation.getArgs(context, key: 'channelId'),
+      'channelId': currentChannelId,
     };
+    isShowLoading = true;
     await _api
         .fetchData(ManagerAddress.channelMemberGetAll,
             headers: headers, params: params, method: ApiMethod.GET)
@@ -192,6 +209,8 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+
+    isShowLoading = false;
   }
 
   Future<void> onClickDeleteChannelMember(BuildContext context,
@@ -203,6 +222,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
       'channelId': channelId,
       'accountId': accountId,
     };
+    isShowLoading = true;
     await _api
         .fetchData(ManagerAddress.channelMemberDelete,
             headers: headers, body: body, method: ApiMethod.DELETE)
@@ -221,6 +241,8 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+    await getAllChannelMember(context);
+    isShowLoading = false;
   }
 }
 

@@ -80,6 +80,15 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
+  int? _currentChannelId;
+
+  int? get currentChannelId => _currentChannelId;
+
+  set currentChannelId(int? currentChannelId) {
+    _currentChannelId = currentChannelId;
+  }
+
+  @observable
   int idChannelCreate = -1;
   Workspace? _currentWorkspace;
 
@@ -238,7 +247,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
       required String urlPhoto,
       int? isPrivate,
       required dynamic agrs,
-      int? channelId}) {
+      int? channelId}) async {
     print(agrs.toString());
 
     BaseNavigation.push(context,
@@ -250,7 +259,6 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
           'agrs': agrs,
           'channelId': channelId
         });
-    
   }
 
   Future<void> _getWorkspaceId() async {

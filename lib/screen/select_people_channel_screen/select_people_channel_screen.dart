@@ -30,6 +30,7 @@ class _SelectPeopleChannelScreenState extends BaseScreenState<
   }
 
   Widget _build(BuildContext context) {
+    int? currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
     return Scaffold(
         backgroundColor: AppColors.white,
         appBar: customAppBar(context, title: S.of(context).people),
@@ -41,10 +42,9 @@ class _SelectPeopleChannelScreenState extends BaseScreenState<
             child: BaseButton(
               onPressed: () async {
                 store.onClickAddMemberChatDone(context,
-                    id: BaseNavigation.getArgs(context, key: 'channelId') ??
+                    id: currentChannelId ??
                         store.conversationScreenStore.idChannelCreate,
                     isSelected: true);
-                BaseNavigation.pop(context);
               },
               bgColor: AppColors.primary,
               child: Row(

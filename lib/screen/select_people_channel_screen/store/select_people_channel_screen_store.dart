@@ -4,6 +4,7 @@ import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/workspace.dart';
+import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/main_screen.dart';
@@ -27,6 +28,8 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
   late String accessToken;
   late TextEditingController emailSearchController = TextEditingController();
   late MainScreenStore _mainScreenStore = MainScreenStore();
+  late ChatScreenStore chatScreenStore = ChatScreenStore();
+
   @observable
   ObservableList<Account> members = ObservableList<Account>();
   @observable
@@ -50,6 +53,24 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
 
   set selectedAll(bool selectedAll) {
     _selectedAll = selectedAll;
+  }
+
+  @observable
+  int? _currentChannelId;
+
+  int? get currentChannelId => _currentChannelId;
+
+  set currentChannelId(int? currentChannelId) {
+    _currentChannelId = currentChannelId;
+  }
+
+  @observable
+  bool _isShowLoading = true;
+
+  bool get isShowLoading => _isShowLoading;
+
+  set isShowLoading(bool isShowLoading) {
+    _isShowLoading = isShowLoading;
   }
 
   @override
@@ -76,6 +97,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     emailSearchController.text = '';
     selectedPeoples = ObservableList<Account>();
     members = ObservableList<Account>();
+    currentChannelId = -1;
   }
 
   @action
@@ -139,7 +161,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     }
     Map<String, dynamic> headers = {'Authorization': accessToken};
     Map<String, dynamic> params = {'id': currentWorkspaceId ?? -1};
-
+    isShowLoading = true;
     await _baseAPI
         .fetchData(ManagerAddress.workspacesGetOne,
             method: ApiMethod.GET, headers: headers, params: params)
@@ -163,6 +185,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+    isShowLoading = false;
   }
 
   @action
@@ -176,30 +199,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {
       'Authorization': accessToken,
     };
-    // Map<String, dynamic> body = {
-    //   'channelId': id,
-    //   'accountId': loginScreenStore.currentAccount.accountId,
-    //   'channelMemberOwner': 1,
-    // };
-    // await _baseAPI
-    //     .fetchData(ManagerAddress.createOrUpdateMembersChannel,
-    //         headers: headers, body: body, method: ApiMethod.POST)
-    //     .then((value) {
-    //   switch (value.apiStatus) {
-    //     case ApiStatus.SUCCEEDED:
-    //       {
-    //         break;
-    //       }
-    //     case ApiStatus.INTERNET_UNAVAILABLE:
-    //       printLogYellow('INTERNET_UNAVAILABLE');
-    //       BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-    //       break;
-    //     default:
-    //       printLogError('FAILED');
-    //       // Handle failed response here
-    //       break;
-    //   }
-    // });
+
     selectedPeoples.forEach((element) async {
       Map<String, dynamic> body = {
         'channelId': id,
@@ -230,6 +230,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     selectedPeoples = ObservableList<Account>();
     members = ObservableList<Account>();
     emailSearchController.text = '';
+    BaseNavigation.pop(context);
   }
 
   void checkSelectedItem() {
@@ -239,6 +240,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
           .contains(element.accountMail.toString())) {}
     });
   }
+
   //... Some values and actions
 }
 
