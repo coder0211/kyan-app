@@ -115,7 +115,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
   @action
   void onTapItem({required Account account}) {
     if (!selectedPeoples.contains(account)) {
-      members.remove(account);
+      if (!selectedPeoples.contains(account)) members.remove(account);
       account.isSelected = true;
       members.add(account);
       selectedPeoples.add(account);
@@ -151,6 +151,18 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
                   ManagerKeyStorage.currentWorkspace)) ??
           -1;
     }
+  }
+
+  int checkIsOwnerMember() {
+    for (int i = 0; i < chatScreenStore.memberChannel.length; i++) {
+      if (chatScreenStore.memberChannel.elementAt(i).workspaceMemberIsOwner ==
+              1 &&
+          chatScreenStore.memberChannel.elementAt(i).accountId.toString() ==
+              loginScreenStore.currentAccount.accountId) {
+        return 1;
+      }
+    }
+    return 0;
   }
 
   @action
@@ -199,7 +211,11 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {
       'Authorization': accessToken,
     };
-
+    if (conversationScreenStore.idChannelCreate != -1) {
+      // add host we use currentAccount(1) and add member(0)
+    } else {
+      // add members(0)
+    }
     selectedPeoples.forEach((element) async {
       Map<String, dynamic> body = {
         'channelId': id,

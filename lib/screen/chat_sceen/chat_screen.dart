@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_path_routes.dart';
+import 'package:kyan/models/account.dart';
 import 'package:kyan/models/channel.dart';
 import 'package:kyan/models/conversation.dart';
 import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
@@ -12,6 +13,8 @@ import 'package:kyan/screen/list_message_screen/list_message_screen.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/images.dart';
+import 'package:kyan/theme/shadows.dart';
+import 'package:kyan/theme/text_styles.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
 import 'package:kyan/widgets/custom_dialog_confirm.dart';
@@ -31,9 +34,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      endDrawer: Observer(
-        builder: (_) => _buildInfoChannel(),
-      ),
+      endDrawer: _buildInfoChannel(),
       appBar: _buildAppBar(),
       body: GestureDetector(
           onTap: () => BaseUtils.hideKeyboard(context),
@@ -198,10 +199,15 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                         iconData: Icons.add,
                         colorIcon: AppColors.gray,
                         onPressIcon: () async {
-                          BaseNavigation.push(context,
-                              routeName:
-                                  ManagerRoutes.selectPeopleChannelScreen,
-                              arguments: {'channelId': store.currentChannelId});
+                          (store.checkIsOwnerMember() == 1)
+                              ? BaseNavigation.push(context,
+                                  routeName:
+                                      ManagerRoutes.selectPeopleChannelScreen,
+                                  arguments: {
+                                      'channelId': store.currentChannelId
+                                    })
+                              : BaseUtils.showToast('You are not a host',
+                                  bgColor: AppColors.primary);
                         },
                       ),
                     // list members
@@ -219,39 +225,42 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                                       '', //store.memberChannel.elementAt(index).accountUrlPhoto.toString(),
                                   width: 24,
                                 ),
-                                trailing: GestureDetector(
-                                  onTap: () async {
-                                    showDialogConfirm(
-                                      context,
-                                      title: S.of(context).confirmLeaveChannel,
-                                      hightLight: '',
-                                      onConfirm: () async {
-                                        store.onClickDeleteChannelMember(
+                                trailing: store.checkIsOwnerMember() == 1
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          showDialogConfirm(
                                             context,
-                                            channelId: BaseNavigation.getArgs(
-                                                context,
-                                                key: 'channelId'),
-                                            accountId: store.memberChannel
-                                                .elementAt(index)
-                                                .accountId
-                                                .toString());
-                                        BaseNavigation.pop(context);
+                                            title: S
+                                                .of(context)
+                                                .confirmLeaveChannel,
+                                            hightLight: '',
+                                            onConfirm: () async {
+                                              store.onClickDeleteChannelMember(
+                                                  context,
+                                                  channelId:
+                                                      BaseNavigation.getArgs(
+                                                          context,
+                                                          key: 'channelId'),
+                                                  accountId: store.memberChannel
+                                                      .elementAt(index)
+                                                      .accountId
+                                                      .toString());
+                                              BaseNavigation.pop(context);
 
-                                        await store
-                                            .getAllChannelMember(context);
-                                      },
-                                    );
-                                  },
-                                  child: S
-                                      .of(context)
-                                      .remove
-                                      .labelR(color: AppColors.redPink),
-                                ),
-                                title: (store.memberChannel.length > 0)
-                                    ? BaseText(store.memberChannel
-                                        .elementAt(index)
-                                        .accountDisplayName)
-                                    : Container(),
+                                              await store
+                                                  .getAllChannelMember(context);
+                                            },
+                                          );
+                                        },
+                                        child: S
+                                            .of(context)
+                                            .remove
+                                            .labelR(color: AppColors.redPink),
+                                      )
+                                    : const SizedBox.shrink(),
+                                title: BaseText(store.memberChannel
+                                    .elementAt(index)
+                                    .accountDisplayName),
                               );
                             });
                           }),
@@ -262,9 +271,17 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                       GestureDetector(
                         onTap: () async {
                           showDialogConfirm(context,
-                              icon: Icons.logout_outlined,
-                              onConfirm: () async {},
-                              title: S.of(context).confirmLeaveChannel);
+                              icon: Icons.logout_outlined, onConfirm: () async {
+                            store.onClickDeleteChannelMember(context,
+                                channelId: BaseNavigation.getArgs(context,
+                                    key: 'channelId'),
+                                accountId: store
+                                    .loginScreenStore.currentAccount.accountId
+                                    .toString());
+                            BaseNavigation.pop(context);
+                            BaseNavigation.pop(context);
+                            BaseNavigation.pop(context);
+                          }, title: S.of(context).confirmLeaveChannel);
                         },
                         child: _buildRowTextIcon(
                             colorIcon: AppColors.redPink,

@@ -19,9 +19,12 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   @observable
   ObservableList<ChannelMessage> messages = ObservableList<ChannelMessage>();
   @observable
-  ObservableList<Account> memberChannel = ObservableList<Account>();
-  BaseAPI _api = new BaseAPI();
-  MainScreenStore _mainScreenStore = new MainScreenStore();
+  late ObservableList<Account> memberChannel = ObservableList<Account>();
+  @observable
+  Channel channel = Channel();
+  BaseAPI _api = BaseAPI();
+  late MainScreenStore _mainScreenStore;
+  late ChatScreenStore _chatScreenStore;
   int page = 0;
   int limit = 50;
   bool isLastMessager = false;
@@ -39,7 +42,6 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     _currentChannelId = currentChannelId;
   }
 
-  Channel channel = new Channel();
   @observable
   bool _isShowLoading = true;
 
@@ -86,9 +88,8 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     loginScreenStore = context.read<LoginScreenStore>();
     conversationScreenStore = context.read<ConversationScreenStore>();
     _mainScreenStore = context.read<MainScreenStore>();
+    _chatScreenStore = context.read<ChatScreenStore>();
     currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
-
-    //await getAllChannelMember(context);
   }
 
   Future<void> getAccountMail({String? accessToken}) async {
@@ -96,16 +97,17 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {
+  void onDispose(BuildContext context) async {
     messages.clear();
     ManagerSocket.socket.clearListeners();
+    //await _chatScreenStore.getAllChannelMember(context);
   }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
     isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
     currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
-    await getAllChannelMember(context);
+    await _chatScreenStore.getAllChannelMember(context);
   }
 
   @override
@@ -176,9 +178,18 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> params = {};
   }
 
-  Future<void> getAllChannelMember(
-    BuildContext context,
-  ) async {
+  int checkIsOwnerMember() {
+    for (int i = 0; i < memberChannel.length; i++) {
+      if (memberChannel.elementAt(i).workspaceMemberIsOwner == 1 &&
+          memberChannel.elementAt(i).accountId.toString() ==
+              loginScreenStore.currentAccount.accountId) {
+        return 1;
+      }
+    }
+    return 0;
+  }
+
+  Future<void> getAllChannelMember(BuildContext context) async {
     Map<String, dynamic> headers = {
       'Authorization': _mainScreenStore.accessToken
     };
@@ -193,12 +204,19 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
-          printLogSusscess('SUCCEEDED');
-          memberChannel.clear();
-          value.object.forEach((element) {
-            memberChannel.add(Account.fromJson(element));
-          });
-          break;
+          {
+            printLogSusscess('SUCCEEDED');
+            memberChannel.clear();
+            value.object.forEach((element) {
+              memberChannel.add(Account.fromJson(element));
+            });
+
+            // channel = Channel.fromJson(value.object);
+            // memberChannel.clear();
+            // memberChannel.addAll(channel.listMember ?? []);
+            break;
+          }
+
         case ApiStatus.INTERNET_UNAVAILABLE:
           printLogYellow('INTERNET_UNAVAILABLE');
           BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
@@ -209,12 +227,11 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
-
     isShowLoading = false;
   }
 
   Future<void> onClickDeleteChannelMember(BuildContext context,
-      {required int channelId, required String accountId}) async {
+      {required int? channelId, required String accountId}) async {
     Map<String, dynamic> headers = {
       'Authorization': _mainScreenStore.accessToken
     };
@@ -241,8 +258,9 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
-    await getAllChannelMember(context);
+
     isShowLoading = false;
+    await _chatScreenStore.getAllChannelMember(context);
   }
 }
 
