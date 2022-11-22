@@ -7,7 +7,6 @@ import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
-import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +24,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
   late ConversationScreenStore conversationScreenStore;
   late String accessToken;
   late TextEditingController emailSearchController = TextEditingController();
-  late MainScreenStore _mainScreenStore = MainScreenStore();
+  ObservableList memberChannel = ObservableList<Account>();
   late ChatScreenStore chatScreenStore = ChatScreenStore();
 
   @observable
@@ -112,13 +111,12 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
 
   @action
   void onTapItem({required Account account}) {
-    if (checkExistedMember(account) == 1) {
-      if (!selectedPeoples.contains(account)) {
-        members.remove(account);
-        account.isSelected = true;
-        members.add(account);
-        selectedPeoples.add(account);
-      }
+    if (checkExistedMember(account) == 1) if (!selectedPeoples
+        .contains(account)) {
+      members.remove(account);
+      account.isSelected = true;
+      members.add(account);
+      selectedPeoples.add(account);
     } else if (selectedPeoples.contains(account)) {
       members.remove(account);
       account.isSelected = false;

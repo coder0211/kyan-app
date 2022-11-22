@@ -117,19 +117,6 @@ abstract class _SelectPeopleConversationScreenStore with Store, BaseStoreMixin {
     }
   }
 
-  String _getAvatarUrl(List<Account> listMember, String mailOwner) {
-    return (listMember[0].accountMail!.contains(mailOwner)
-            ? listMember[1].accountUrlPhoto
-            : listMember[0].accountUrlPhoto) ??
-        '';
-  }
-
-  String _getName(List<Account> listMember, String mailOwner) {
-    return (listMember[0].accountMail!.contains(mailOwner)
-            ? listMember[1].accountDisplayName
-            : listMember[0].accountDisplayName) ??
-        '';
-  }
   //... Some values and actions
 }
 /// We are using auto code generation to generate code for MobX store.

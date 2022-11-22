@@ -201,7 +201,8 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                                   routeName:
                                       ManagerRoutes.selectPeopleChannelScreen,
                                   arguments: {
-                                      'channelId': store.currentChannelId
+                                      'channelId': store.currentChannelId,
+                                      'members': store.memberChannel
                                     })
                               : BaseUtils.showToast('You are not a host',
                                   bgColor: AppColors.primary);
