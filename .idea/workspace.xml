@@ -5,9 +5,124 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab421b8a-5b49-495f-848a-65cc044b2658" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle___Users_nguyenhoa_Data_Github_Coder0211_kyan_app_build_app_intermediates_flutter_debug_libs_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__androidx_annotation_annotation_1_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__androidx_multidex_multidex_2_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__androidx_multidex_multidex_instrumentation_2_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__androidx_test_core_1_2_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_arm64_v8a_debug_1_0_0_857bd6b74c5eb56151bfafe91e7fa6a82b6fee25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_armeabi_v7a_debug_1_0_0_857bd6b74c5eb56151bfafe91e7fa6a82b6fee25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_flutter_embedding_debug_1_0_0_857bd6b74c5eb56151bfafe91e7fa6a82b6fee25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_x86_64_debug_1_0_0_857bd6b74c5eb56151bfafe91e7fa6a82b6fee25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_x86_debug_1_0_0_857bd6b74c5eb56151bfafe91e7fa6a82b6fee25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_1_12_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_1_12_14.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_agent_1_12_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_agent_1_12_14.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_7_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_7_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_mockito_mockito_core_4_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_mockito_mockito_core_4_8_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_mockito_mockito_inline_4_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_annotations_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_junit_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_nativeruntime_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_pluginapi_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_plugins_maven_dependency_resolver_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_resources_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_robolectric_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_sandbox_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_shadowapi_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_shadows_framework_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_utils_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_robolectric_utils_reflector_4_7_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1218711812/io.flutter.plugins.connectivity.android.connectivity.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1218711812/io.flutter.plugins.connectivity.android.connectivity.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1218711812/io.flutter.plugins.connectivity.android.connectivity.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1218711812/io.flutter.plugins.connectivity.android.connectivity.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-131206187/io.flutter.plugins.googlesignin.android.google_sign_in_android.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-131206187/io.flutter.plugins.googlesignin.android.google_sign_in_android.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-131206187/io.flutter.plugins.googlesignin.android.google_sign_in_android.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-131206187/io.flutter.plugins.googlesignin.android.google_sign_in_android.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1325781421/io.flutter.plugins.imagepicker.android.image_picker_android.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1325781421/io.flutter.plugins.imagepicker.android.image_picker_android.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1325781421/io.flutter.plugins.imagepicker.android.image_picker_android.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1325781421/io.flutter.plugins.imagepicker.android.image_picker_android.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1550288367/com.example.FlutterToast.android.fluttertoast.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1550288367/com.example.FlutterToast.android.fluttertoast.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1550288367/com.example.FlutterToast.android.fluttertoast.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-1550288367/com.example.FlutterToast.android.fluttertoast.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-2080930382/android.flutter_ringtone_player.androidTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-2080930382/android.flutter_ringtone_player.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-2080930382/android.flutter_ringtone_player.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-2080930382/android.flutter_ringtone_player.unitTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-45129593/io.flutter.plugins.sharedpreferences.android.shared_preferences_android.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-45129593/io.flutter.plugins.sharedpreferences.android.shared_preferences_android.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-45129593/io.flutter.plugins.sharedpreferences.android.shared_preferences_android.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-45129593/io.flutter.plugins.sharedpreferences.android.shared_preferences_android.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-809260522/io.flutter.plugins.flutter_plugin_android_lifecycle.android.flutter_plugin_android_lifecycle.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-809260522/io.flutter.plugins.flutter_plugin_android_lifecycle.android.flutter_plugin_android_lifecycle.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-809260522/io.flutter.plugins.flutter_plugin_android_lifecycle.android.flutter_plugin_android_lifecycle.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-809260522/io.flutter.plugins.flutter_plugin_android_lifecycle.android.flutter_plugin_android_lifecycle.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-882623840/io.flutter.plugins.pathprovider.android.path_provider_android.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-882623840/io.flutter.plugins.pathprovider.android.path_provider_android.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-882623840/io.flutter.plugins.pathprovider.android.path_provider_android.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/-882623840/io.flutter.plugins.pathprovider.android.path_provider_android.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/1677348045/io.flutter.plugins.urllauncher.android.url_launcher_android.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/1677348045/io.flutter.plugins.urllauncher.android.url_launcher_android.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/1677348045/io.flutter.plugins.urllauncher.android.url_launcher_android.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/1677348045/io.flutter.plugins.urllauncher.android.url_launcher_android.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/2065981140/com.tekartik.sqflite.android.sqflite.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/2065981140/com.tekartik.sqflite.android.sqflite.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/2065981140/com.tekartik.sqflite.android.sqflite.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/2065981140/com.tekartik.sqflite.android.sqflite.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/939682137/com.dexterous.flutterlocalnotifications.android.flutter_local_notifications.androidTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/939682137/com.dexterous.flutterlocalnotifications.android.flutter_local_notifications.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/939682137/com.dexterous.flutterlocalnotifications.android.flutter_local_notifications.main~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/939682137/com.dexterous.flutterlocalnotifications.android.flutter_local_notifications.unitTest~1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/app/android.app.androidTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/app/android.app.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/.idea/modules/app/android.app.unitTest.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__C__Github_kyan_app_build_app_intermediates_flutter_debug_libs_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__com_jakewharton_threetenabp_threetenabp_1_2_3_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_arm64_v8a_debug_1_0_0_ffe7b86a1e5b5cb63c8385ae1adc759e372ee8f4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_armeabi_v7a_debug_1_0_0_ffe7b86a1e5b5cb63c8385ae1adc759e372ee8f4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_flutter_embedding_debug_1_0_0_ffe7b86a1e5b5cb63c8385ae1adc759e372ee8f4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_x86_64_debug_1_0_0_ffe7b86a1e5b5cb63c8385ae1adc759e372ee8f4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__io_flutter_x86_debug_1_0_0_ffe7b86a1e5b5cb63c8385ae1adc759e372ee8f4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__junit_junit_4_12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__junit_junit_4_12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__junit_junit_4_13_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__junit_junit_4_13_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__junit_junit_4_13_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__junit_junit_4_13_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_1_10_20.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_agent_1_10_20.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_apache_ant_ant_1_8_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_apache_ant_ant_1_8_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_mockito_mockito_core_3_9_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_mockito_mockito_inline_3_9_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/libraries/Gradle__org_threeten_threetenbp_1_4_2_no_tzdb.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/-1250676420/android.shared_preferences_android.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/-352781315/android.google_sign_in_android.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/-628282332/android.sqflite.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/1067682085/android.connectivity.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/1142992751/android.path_provider_android.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/1297939370/android.flutter_local_notifications.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/1991873983/android.flutter_plugin_android_lifecycle.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/246692267/android.url_launcher_android.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/270601018/android.image_picker_android.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/958323073/android.fluttertoast.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/android.iml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/modules/android.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/modules/app/android.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/modules/app/android.app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kyan.iml" beforeDir="false" afterPath="$PROJECT_DIR$/kyan.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +131,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2CAGrC2U7vjPBkS6xY5Hyrm9lUx" />
   <component name="ProjectView">
