@@ -19,7 +19,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   @observable
   ObservableList<ChannelMessage> messages = ObservableList<ChannelMessage>();
   @observable
-  late ObservableList<Account> memberChannel = ObservableList<Account>();
+  late ObservableList<Account> memberChannel = new ObservableList<Account>();
   @observable
   Channel channel = Channel();
   BaseAPI _api = BaseAPI();
@@ -90,6 +90,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     _mainScreenStore = context.read<MainScreenStore>();
     _chatScreenStore = context.read<ChatScreenStore>();
     currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
+    memberChannel = new ObservableList<Account>();
   }
 
   Future<void> getAccountMail({String? accessToken}) async {
@@ -100,14 +101,14 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   void onDispose(BuildContext context) async {
     messages.clear();
     ManagerSocket.socket.clearListeners();
-    //await _chatScreenStore.getAllChannelMember(context);
+    await getAllChannelMember(context);
   }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
     isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
     currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
-    await _chatScreenStore.getAllChannelMember(context);
+    await getAllChannelMember(context);
   }
 
   @override
@@ -199,10 +200,8 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     };
     isShowLoading = true;
     await _api
-        .fetchData(
-            ManagerAddress.
-                //channelGetOne,
-                channelMemberGetAll,
+        .fetchData(ManagerAddress.channelGetOne,
+            //channelMemberGetAll,
             headers: headers,
             params: params,
             method: ApiMethod.GET)
@@ -212,14 +211,14 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
           {
             printLogSusscess('SUCCEEDED');
 
-            memberChannel.clear();
-            value.object.forEach((element) {
-              memberChannel.add(Account.fromJson(element));
-            });
-
-            // channel = Channel.fromJson(value.object);
             // memberChannel.clear();
-            // memberChannel.addAll(channel.listMember ?? []);
+            // value.object.forEach((element) {
+            //   memberChannel.add(Account.fromJson(element));
+            // });
+
+            channel = Channel.fromJson(value.object);
+            memberChannel.clear();
+            memberChannel.addAll(channel.listMember ?? []);
             break;
           }
 
@@ -266,7 +265,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     });
 
     isShowLoading = false;
-    await _chatScreenStore.getAllChannelMember(context);
+    await getAllChannelMember(context);
   }
 }
 

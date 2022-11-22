@@ -10,7 +10,7 @@ class Channel {
   int? channelIsPrivate;
   int? channelWorkspaceId;
   String? accountMailOwner;
-  List<Account>? listMember;
+  final List<Account>? listMember;
 
   Channel({
     this.channelId,
