@@ -112,7 +112,7 @@ class __contentMBTSState
                       store.isPrivateCreate == false) {
                     store.onClickAddChannelChat(context,
                         channel: store.createChannel ?? Channel());
-                    await store.getData();
+                    
                     BaseNavigation.pop(context);
                     store.idChannelCreate = -1;
                   } else {

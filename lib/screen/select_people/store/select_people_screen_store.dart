@@ -124,7 +124,6 @@ abstract class _SelectPeopleScreenStore with Store, BaseStoreMixin {
             workspace = Workspace.fromJson(value.object);
             members.clear();
             members.addAll(workspace.members ?? []);
-            print(members);
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:

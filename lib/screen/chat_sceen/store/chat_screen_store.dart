@@ -180,7 +180,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
   int checkIsOwnerMember() {
     for (int i = 0; i < memberChannel.length; i++) {
-      if (memberChannel.elementAt(i).workspaceMemberIsOwner == 1 &&
+      if (memberChannel.elementAt(i) == 1 &&
           memberChannel.elementAt(i).accountId.toString() ==
               loginScreenStore.currentAccount.accountId) {
         return 1;
@@ -199,13 +199,19 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     };
     isShowLoading = true;
     await _api
-        .fetchData(ManagerAddress.channelMemberGetAll,
-            headers: headers, params: params, method: ApiMethod.GET)
+        .fetchData(
+            ManagerAddress.
+                //channelGetOne,
+                channelMemberGetAll,
+            headers: headers,
+            params: params,
+            method: ApiMethod.GET)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
+
             memberChannel.clear();
             value.object.forEach((element) {
               memberChannel.add(Account.fromJson(element));

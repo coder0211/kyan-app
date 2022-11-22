@@ -44,7 +44,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  bool _isExpandedChannel = true;
+  bool _isExpandedChannel = false;
 
   bool get isExpandedChannel => _isExpandedChannel;
 

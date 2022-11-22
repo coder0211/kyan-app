@@ -115,10 +115,12 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
   @action
   void onTapItem({required Account account}) {
     if (!selectedPeoples.contains(account)) {
-      if (!selectedPeoples.contains(account)) members.remove(account);
-      account.isSelected = true;
-      members.add(account);
-      selectedPeoples.add(account);
+      if (!selectedPeoples.contains(account)) {
+        members.remove(account);
+        account.isSelected = true;
+        members.add(account);
+        selectedPeoples.add(account);
+      }
     } else if (selectedPeoples.contains(account)) {
       members.remove(account);
       account.isSelected = false;
@@ -151,6 +153,16 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
                   ManagerKeyStorage.currentWorkspace)) ??
           -1;
     }
+  }
+
+  int checkExistedMember(Account account) {
+    for (int i = 0; i < chatScreenStore.memberChannel.length; i++) {
+      if (account.accountId.toString() ==
+          (chatScreenStore.memberChannel.elementAt(i).accountId.toString())) {
+        return 0;
+      }
+    }
+    return 1;
   }
 
   int checkIsOwnerMember() {
@@ -213,14 +225,10 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
     };
     if (conversationScreenStore.idChannelCreate != -1) {
       // add host we use currentAccount(1) and add member(0)
-    } else {
-      // add members(0)
-    }
-    selectedPeoples.forEach((element) async {
       Map<String, dynamic> body = {
         'channelId': id,
-        'accountId': element.accountId,
-        'channelMemberOwner': 0,
+        'accountId': loginScreenStore.currentAccount.accountId,
+        'channelMemberOwner': 1,
       };
       await _baseAPI
           .fetchData(ManagerAddress.createOrUpdateMembersChannel,
@@ -241,8 +249,61 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
             break;
         }
       });
-    });
-
+      selectedPeoples.forEach((element) async {
+        Map<String, dynamic> body = {
+          'channelId': id,
+          'accountId': element.accountId,
+          'channelMemberOwner': 0,
+        };
+        await _baseAPI
+            .fetchData(ManagerAddress.createOrUpdateMembersChannel,
+                headers: headers, body: body, method: ApiMethod.POST)
+            .then((value) {
+          switch (value.apiStatus) {
+            case ApiStatus.SUCCEEDED:
+              {
+                break;
+              }
+            case ApiStatus.INTERNET_UNAVAILABLE:
+              printLogYellow('INTERNET_UNAVAILABLE');
+              BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+              break;
+            default:
+              printLogError('FAILED');
+              // Handle failed response here
+              break;
+          }
+        });
+      });
+    } else {
+      // add members(0)
+      selectedPeoples.forEach((element) async {
+        Map<String, dynamic> body = {
+          'channelId': id,
+          'accountId': element.accountId,
+          'channelMemberOwner': 0,
+        };
+        await _baseAPI
+            .fetchData(ManagerAddress.createOrUpdateMembersChannel,
+                headers: headers, body: body, method: ApiMethod.POST)
+            .then((value) {
+          switch (value.apiStatus) {
+            case ApiStatus.SUCCEEDED:
+              {
+                break;
+              }
+            case ApiStatus.INTERNET_UNAVAILABLE:
+              printLogYellow('INTERNET_UNAVAILABLE');
+              BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+              break;
+            default:
+              printLogError('FAILED');
+              // Handle failed response here
+              break;
+          }
+        });
+      });
+    }
     selectedPeoples = ObservableList<Account>();
     members = ObservableList<Account>();
     emailSearchController.text = '';

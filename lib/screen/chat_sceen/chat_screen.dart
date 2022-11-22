@@ -225,39 +225,36 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                                       '', //store.memberChannel.elementAt(index).accountUrlPhoto.toString(),
                                   width: 24,
                                 ),
-                                trailing: store.checkIsOwnerMember() == 1
-                                    ? GestureDetector(
-                                        onTap: () async {
-                                          showDialogConfirm(
+                                trailing: GestureDetector(
+                                  onTap: () async {
+                                    showDialogConfirm(
+                                      context,
+                                      title: S.of(context).confirmLeaveChannel,
+                                      hightLight: '',
+                                      onConfirm: () async {
+                                        store.onClickDeleteChannelMember(
                                             context,
-                                            title: S
-                                                .of(context)
-                                                .confirmLeaveChannel,
-                                            hightLight: '',
-                                            onConfirm: () async {
-                                              store.onClickDeleteChannelMember(
-                                                  context,
-                                                  channelId:
-                                                      BaseNavigation.getArgs(
-                                                          context,
-                                                          key: 'channelId'),
-                                                  accountId: store.memberChannel
-                                                      .elementAt(index)
-                                                      .accountId
-                                                      .toString());
-                                              BaseNavigation.pop(context);
+                                            channelId: BaseNavigation.getArgs(
+                                                context,
+                                                key: 'channelId'),
+                                            accountId: store.memberChannel
+                                                .elementAt(index)
+                                                .accountId
+                                                .toString());
+                                        BaseNavigation.pop(context);
 
-                                              await store
-                                                  .getAllChannelMember(context);
-                                            },
-                                          );
-                                        },
-                                        child: S
-                                            .of(context)
-                                            .remove
-                                            .labelR(color: AppColors.redPink),
-                                      )
-                                    : const SizedBox.shrink(),
+                                        await store
+                                            .getAllChannelMember(context);
+                                      },
+                                    );
+                                  },
+                                  child: store.checkIsOwnerMember() == 1
+                                      ? S
+                                          .of(context)
+                                          .remove
+                                          .labelR(color: AppColors.redPink)
+                                      : const SizedBox.shrink(),
+                                ),
                                 title: BaseText(store.memberChannel
                                     .elementAt(index)
                                     .accountDisplayName),
