@@ -196,17 +196,15 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                         iconData: Icons.add,
                         colorIcon: AppColors.gray,
                         onPressIcon: () async {
-                          // (store.checkIsOwnerMember() == 1)
-                          //     ?
-                          BaseNavigation.push(context,
+                          (store.checkIsOwnerMember() == 1)
+                              ? BaseNavigation.push(context,
                                   routeName:
                                       ManagerRoutes.selectPeopleChannelScreen,
                                   arguments: {
-                                'channelId': store.currentChannelId
-                              })
-                              // : BaseUtils.showToast('You are not a host',
-                              //     bgColor: AppColors.primary)
-                              ;
+                                      'channelId': store.currentChannelId
+                                    })
+                              : BaseUtils.showToast('You are not a host',
+                                  bgColor: AppColors.primary);
                         },
                       ),
                     // list members
@@ -219,16 +217,18 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                           itemBuilder: ((context, index) {
                             return Observer(builder: (_) {
                               return ListTile(
-                                leading: const CustomCircleAvatar(
-                                  imageUrl:
-                                      '', //store.memberChannel.elementAt(index).accountUrlPhoto.toString(),
+                                leading: CustomCircleAvatar(
+                                  imageUrl: store.memberChannel
+                                      .elementAt(index)
+                                      .accountUrlPhoto
+                                      .toString(),
                                   width: 24,
                                 ),
                                 trailing: GestureDetector(
                                   onTap: () async {
                                     showDialogConfirm(
                                       context,
-                                      title: S.of(context).confirmLeaveChannel,
+                                      title: S.of(context).confirmDeleteThis,
                                       hightLight: '',
                                       onConfirm: () async {
                                         store.onClickDeleteChannelMember(
@@ -247,15 +247,11 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                                       },
                                     );
                                   },
-                                  child:
-                                      //store.checkIsOwnerMember() == 1
-                                      //     ?
-                                      S
-                                          .of(context)
-                                          .remove
-                                          .labelR(color: AppColors.redPink)
-                                  //: const SizedBox.shrink()
-                                  ,
+                                  child: store.checkIsOwnerMember() == 1
+                                      ? const BaseSVG(
+                                          path: Images.iconRemoveAccount,
+                                          color: AppColors.redPink)
+                                      : const SizedBox.shrink(),
                                 ),
                                 title: BaseText(store.memberChannel
                                     .elementAt(index)

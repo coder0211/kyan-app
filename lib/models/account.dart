@@ -15,6 +15,7 @@ class Account {
   String? accountAccessToken;
   bool isSelected;
   int? workspaceMemberIsOwner;
+  int? channelMemberOwner;
 
   Account(
       {this.accountId,

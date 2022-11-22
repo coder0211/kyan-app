@@ -10,7 +10,7 @@ class Channel {
   int? channelIsPrivate;
   int? channelWorkspaceId;
   String? accountMailOwner;
-  final List<Account>? listMember;
+  final List<Account>? members;
 
   Channel({
     this.channelId,
@@ -18,7 +18,7 @@ class Channel {
     this.channelIsPrivate,
     this.channelWorkspaceId,
     this.accountMailOwner,
-    this.listMember,
+    this.members,
   });
 
   factory Channel.fromJson(Map<String, dynamic> json) {

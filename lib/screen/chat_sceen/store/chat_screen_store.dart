@@ -24,7 +24,6 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   Channel channel = Channel();
   BaseAPI _api = BaseAPI();
   late MainScreenStore _mainScreenStore;
-  late ChatScreenStore _chatScreenStore;
   int page = 0;
   int limit = 50;
   bool isLastMessager = false;
@@ -88,7 +87,6 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     loginScreenStore = context.read<LoginScreenStore>();
     conversationScreenStore = context.read<ConversationScreenStore>();
     _mainScreenStore = context.read<MainScreenStore>();
-    _chatScreenStore = context.read<ChatScreenStore>();
     currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
     memberChannel = new ObservableList<Account>();
   }
@@ -181,7 +179,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
   int checkIsOwnerMember() {
     for (int i = 0; i < memberChannel.length; i++) {
-      if (memberChannel.elementAt(i) == 1 &&
+      if (memberChannel[i].channelMemberOwner == 1 &&
           memberChannel.elementAt(i).accountId.toString() ==
               loginScreenStore.currentAccount.accountId) {
         return 1;
@@ -201,24 +199,15 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     isShowLoading = true;
     await _api
         .fetchData(ManagerAddress.channelGetOne,
-            //channelMemberGetAll,
-            headers: headers,
-            params: params,
-            method: ApiMethod.GET)
+            headers: headers, params: params, method: ApiMethod.GET)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-
-            // memberChannel.clear();
-            // value.object.forEach((element) {
-            //   memberChannel.add(Account.fromJson(element));
-            // });
-
             channel = Channel.fromJson(value.object);
             memberChannel.clear();
-            memberChannel.addAll(channel.listMember ?? []);
+            memberChannel.addAll(channel.members ?? []);
             break;
           }
 

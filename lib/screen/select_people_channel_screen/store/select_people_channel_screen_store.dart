@@ -7,9 +7,7 @@ import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
-import 'package:kyan/screen/main_screen/main_screen.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
-import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 

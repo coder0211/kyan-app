@@ -15,7 +15,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       accountAccessToken: json['token'] as String?,
       isSelected: json['isSelected'] as bool? ?? false,
       workspaceMemberIsOwner: json['workspaceMemberIsOwner'] as int?,
-    );
+    )..channelMemberOwner = json['channelMemberOwner'] as int?;
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'accountId': instance.accountId,
@@ -26,4 +26,5 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'token': instance.accountAccessToken,
       'isSelected': instance.isSelected,
       'workspaceMemberIsOwner': instance.workspaceMemberIsOwner,
+      'channelMemberOwner': instance.channelMemberOwner,
     };

@@ -41,6 +41,38 @@ mixin _$ChatScreenStore on _ChatScreenStore, Store {
     });
   }
 
+  late final _$channelAtom =
+      Atom(name: '_ChatScreenStore.channel', context: context);
+
+  @override
+  Channel get channel {
+    _$channelAtom.reportRead();
+    return super.channel;
+  }
+
+  @override
+  set channel(Channel value) {
+    _$channelAtom.reportWrite(value, super.channel, () {
+      super.channel = value;
+    });
+  }
+
+  late final _$_currentChannelIdAtom =
+      Atom(name: '_ChatScreenStore._currentChannelId', context: context);
+
+  @override
+  int? get _currentChannelId {
+    _$_currentChannelIdAtom.reportRead();
+    return super._currentChannelId;
+  }
+
+  @override
+  set _currentChannelId(int? value) {
+    _$_currentChannelIdAtom.reportWrite(value, super._currentChannelId, () {
+      super._currentChannelId = value;
+    });
+  }
+
   late final _$_isShowLoadingAtom =
       Atom(name: '_ChatScreenStore._isShowLoading', context: context);
 
@@ -213,6 +245,7 @@ mixin _$ChatScreenStore on _ChatScreenStore, Store {
     return '''
 messages: ${messages},
 memberChannel: ${memberChannel},
+channel: ${channel},
 scrollController: ${scrollController}
     ''';
   }

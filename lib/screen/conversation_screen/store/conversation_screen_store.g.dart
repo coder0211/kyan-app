@@ -171,6 +171,22 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
     });
   }
 
+  late final _$_currentChannelIdAtom = Atom(
+      name: '_ConversationScreenStore._currentChannelId', context: context);
+
+  @override
+  int? get _currentChannelId {
+    _$_currentChannelIdAtom.reportRead();
+    return super._currentChannelId;
+  }
+
+  @override
+  set _currentChannelId(int? value) {
+    _$_currentChannelIdAtom.reportWrite(value, super._currentChannelId, () {
+      super._currentChannelId = value;
+    });
+  }
+
   late final _$idChannelCreateAtom =
       Atom(name: '_ConversationScreenStore.idChannelCreate', context: context);
 
@@ -216,28 +232,22 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
         .run(() => super.onClickAddChannelChat(context, channel: channel));
   }
 
-  late final _$_ConversationScreenStoreActionController =
-      ActionController(name: '_ConversationScreenStore', context: context);
+  late final _$onPressedItemAsyncAction =
+      AsyncAction('_ConversationScreenStore.onPressedItem', context: context);
 
   @override
-  void onPressedItem(BuildContext context,
+  Future<void> onPressedItem(BuildContext context,
       {required String title,
       required String urlPhoto,
       int? isPrivate,
       required dynamic agrs,
       int? channelId}) {
-    final _$actionInfo = _$_ConversationScreenStoreActionController.startAction(
-        name: '_ConversationScreenStore.onPressedItem');
-    try {
-      return super.onPressedItem(context,
-          title: title,
-          urlPhoto: urlPhoto,
-          isPrivate: isPrivate,
-          agrs: agrs,
-          channelId: channelId);
-    } finally {
-      _$_ConversationScreenStoreActionController.endAction(_$actionInfo);
-    }
+    return _$onPressedItemAsyncAction.run(() => super.onPressedItem(context,
+        title: title,
+        urlPhoto: urlPhoto,
+        isPrivate: isPrivate,
+        agrs: agrs,
+        channelId: channelId));
   }
 
   @override

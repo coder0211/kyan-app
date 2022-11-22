@@ -242,7 +242,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  void onPressedItem(BuildContext context,
+  Future<void> onPressedItem(BuildContext context,
       {required String title,
       required String urlPhoto,
       int? isPrivate,
