@@ -112,7 +112,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
 
   @action
   void onTapItem({required Account account}) {
-    if (!selectedPeoples.contains(account)) {
+    if (checkExistedMember(account) == 1) {
       if (!selectedPeoples.contains(account)) {
         members.remove(account);
         account.isSelected = true;

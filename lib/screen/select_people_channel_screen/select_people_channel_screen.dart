@@ -158,6 +158,8 @@ class _SelectPeopleChannelScreenState extends BaseScreenState<
           ),
           if (account.isSelected)
             const Icon(Icons.check_circle, color: AppColors.primary),
+          if (store.checkExistedMember(account) == 0)
+            const Icon(Icons.check_circle, color: AppColors.gray),
         ],
       ),
     );
@@ -186,11 +188,8 @@ class _SelectPeopleChannelScreenState extends BaseScreenState<
                   onTap: () {
                     onPressed.call();
                   },
-                  child: (store.checkExist(account) == 0)
-                      ? const Icon(Icons.remove_circle,
-                          color: AppColors.redPink, size: 20)
-                      : const Icon(Icons.remove_circle,
-                          color: AppColors.gray, size: 20),
+                  child: const Icon(Icons.remove_circle,
+                      color: AppColors.redPink, size: 20),
                 )),
           ],
         ),

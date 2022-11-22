@@ -100,7 +100,6 @@ class _ConversationScreenState
                       GestureDetector(
                           onTap: () {
                             showModalBottomSheetAddChannel(context);
-                            
                           },
                           child: const Icon(Icons.add, color: AppColors.gray))
                     ],
