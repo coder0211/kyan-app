@@ -78,7 +78,8 @@ class _StatisticScreenState
                         Observer(builder: (_) {
                           return Align(
                               alignment: Alignment.centerLeft,
-                              child: BaseText('Done : 123'));
+                              child: BaseText(
+                                  'Done : ${store.totalTaskCount}'));
                         }),
                         Observer(builder: (_) {
                           return Align(

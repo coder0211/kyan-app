@@ -14,7 +14,7 @@ class StatisticScreenStore = _StatisticScreenStore with _$StatisticScreenStore;
 abstract class _StatisticScreenStore with Store, BaseStoreMixin {
   late MainScreenStore mainScreenStore;
   late LoginScreenStore loginScreenStore;
-  late String totalTaskCount;
+  late int? totalTaskCount;
   BaseAPI _baseAPI = new BaseAPI();
   @observable
   int _currentWorkspaceId = -1;
@@ -66,7 +66,7 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           printLogSusscess('SUCCEEDED');
-          totalTaskCount = value.toString();
+          totalTaskCount = int.parse(value.object.toString());
           // Handle success response here
           break;
         case ApiStatus.INTERNET_UNAVAILABLE:
