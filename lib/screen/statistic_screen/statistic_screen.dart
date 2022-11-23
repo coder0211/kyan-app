@@ -76,9 +76,9 @@ class _StatisticScreenState
                         ),
                         const SizedBox(height: 10),
                         Observer(builder: (_) {
-                          return const Align(
+                          return Align(
                               alignment: Alignment.centerLeft,
-                              child: BaseText('Done: 123'));
+                              child: BaseText('Done : 123'));
                         }),
                         Observer(builder: (_) {
                           return Align(
