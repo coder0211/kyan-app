@@ -108,6 +108,39 @@ mixin _$SelectPeopleChannelScreenStore
     });
   }
 
+  late final _$_currentChannelIdAtom = Atom(
+      name: '_SelectPeopleChannelScreenStore._currentChannelId',
+      context: context);
+
+  @override
+  int? get _currentChannelId {
+    _$_currentChannelIdAtom.reportRead();
+    return super._currentChannelId;
+  }
+
+  @override
+  set _currentChannelId(int? value) {
+    _$_currentChannelIdAtom.reportWrite(value, super._currentChannelId, () {
+      super._currentChannelId = value;
+    });
+  }
+
+  late final _$_isShowLoadingAtom = Atom(
+      name: '_SelectPeopleChannelScreenStore._isShowLoading', context: context);
+
+  @override
+  bool get _isShowLoading {
+    _$_isShowLoadingAtom.reportRead();
+    return super._isShowLoading;
+  }
+
+  @override
+  set _isShowLoading(bool value) {
+    _$_isShowLoadingAtom.reportWrite(value, super._isShowLoading, () {
+      super._isShowLoading = value;
+    });
+  }
+
   late final _$getMembersWorkspaceAsyncAction = AsyncAction(
       '_SelectPeopleChannelScreenStore.getMembersWorkspace',
       context: context);

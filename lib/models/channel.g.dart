@@ -12,7 +12,7 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) => Channel(
       channelIsPrivate: json['channelIsPrivate'] as int?,
       channelWorkspaceId: json['channelWorkspaceId'] as int?,
       accountMailOwner: json['accountMailOwner'] as String?,
-      listMember: (json['listMember'] as List<dynamic>?)
+      members: (json['members'] as List<dynamic>?)
           ?.map((e) => Account.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -23,5 +23,5 @@ Map<String, dynamic> _$ChannelToJson(Channel instance) => <String, dynamic>{
       'channelIsPrivate': instance.channelIsPrivate,
       'channelWorkspaceId': instance.channelWorkspaceId,
       'accountMailOwner': instance.accountMailOwner,
-      'listMember': instance.listMember,
+      'members': instance.members,
     };

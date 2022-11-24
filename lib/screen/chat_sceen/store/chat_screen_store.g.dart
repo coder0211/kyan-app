@@ -9,22 +9,6 @@ part of 'chat_screen_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$ChatScreenStore on _ChatScreenStore, Store {
-  late final _$_isShowLoadingAtom =
-      Atom(name: '_ChatScreenStore._isShowLoading', context: context);
-
-  @override
-  bool get _isShowLoading {
-    _$_isShowLoadingAtom.reportRead();
-    return super._isShowLoading;
-  }
-
-  @override
-  set _isShowLoading(bool value) {
-    _$_isShowLoadingAtom.reportWrite(value, super._isShowLoading, () {
-      super._isShowLoading = value;
-    });
-  }
-
   late final _$messagesAtom =
       Atom(name: '_ChatScreenStore.messages', context: context);
 
@@ -38,6 +22,70 @@ mixin _$ChatScreenStore on _ChatScreenStore, Store {
   set messages(ObservableList<ChannelMessage> value) {
     _$messagesAtom.reportWrite(value, super.messages, () {
       super.messages = value;
+    });
+  }
+
+  late final _$memberChannelAtom =
+      Atom(name: '_ChatScreenStore.memberChannel', context: context);
+
+  @override
+  ObservableList<Account> get memberChannel {
+    _$memberChannelAtom.reportRead();
+    return super.memberChannel;
+  }
+
+  @override
+  set memberChannel(ObservableList<Account> value) {
+    _$memberChannelAtom.reportWrite(value, super.memberChannel, () {
+      super.memberChannel = value;
+    });
+  }
+
+  late final _$channelAtom =
+      Atom(name: '_ChatScreenStore.channel', context: context);
+
+  @override
+  Channel get channel {
+    _$channelAtom.reportRead();
+    return super.channel;
+  }
+
+  @override
+  set channel(Channel value) {
+    _$channelAtom.reportWrite(value, super.channel, () {
+      super.channel = value;
+    });
+  }
+
+  late final _$_currentChannelIdAtom =
+      Atom(name: '_ChatScreenStore._currentChannelId', context: context);
+
+  @override
+  int? get _currentChannelId {
+    _$_currentChannelIdAtom.reportRead();
+    return super._currentChannelId;
+  }
+
+  @override
+  set _currentChannelId(int? value) {
+    _$_currentChannelIdAtom.reportWrite(value, super._currentChannelId, () {
+      super._currentChannelId = value;
+    });
+  }
+
+  late final _$_isShowLoadingAtom =
+      Atom(name: '_ChatScreenStore._isShowLoading', context: context);
+
+  @override
+  bool get _isShowLoading {
+    _$_isShowLoadingAtom.reportRead();
+    return super._isShowLoading;
+  }
+
+  @override
+  set _isShowLoading(bool value) {
+    _$_isShowLoadingAtom.reportWrite(value, super._isShowLoading, () {
+      super._isShowLoading = value;
     });
   }
 
@@ -196,6 +244,8 @@ mixin _$ChatScreenStore on _ChatScreenStore, Store {
   String toString() {
     return '''
 messages: ${messages},
+memberChannel: ${memberChannel},
+channel: ${channel},
 scrollController: ${scrollController}
     ''';
   }

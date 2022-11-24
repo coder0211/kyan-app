@@ -44,7 +44,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  bool _isExpandedChannel = true;
+  bool _isExpandedChannel = false;
 
   bool get isExpandedChannel => _isExpandedChannel;
 
@@ -233,11 +233,12 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  void onPressedItem(BuildContext context,
+  Future<void> onPressedItem(BuildContext context,
       {required String title,
       required String urlPhoto,
-      bool? isPrivate,
-      required dynamic agrs}) {
+      int? isPrivate,
+      required dynamic agrs,
+      int? channelId}) async {
     print(agrs.toString());
 
     BaseNavigation.push(context,
@@ -246,7 +247,8 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
           'title': title,
           'urlPhoto': urlPhoto,
           'isPrivate': isPrivate,
-          'agrs': agrs
+          'agrs': agrs,
+          'channelId': channelId
         });
   }
 
