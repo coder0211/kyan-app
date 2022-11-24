@@ -25,19 +25,35 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
-  late final _$tasksDoingAtom =
-      Atom(name: '_TeamTasksScreenStore.tasksDoing', context: context);
+  late final _$tasksAtom =
+      Atom(name: '_TeamTasksScreenStore.tasks', context: context);
 
   @override
-  ObservableList<Task> get tasksDoing {
-    _$tasksDoingAtom.reportRead();
-    return super.tasksDoing;
+  ObservableList<Task> get tasks {
+    _$tasksAtom.reportRead();
+    return super.tasks;
   }
 
   @override
-  set tasksDoing(ObservableList<Task> value) {
-    _$tasksDoingAtom.reportWrite(value, super.tasksDoing, () {
-      super.tasksDoing = value;
+  set tasks(ObservableList<Task> value) {
+    _$tasksAtom.reportWrite(value, super.tasks, () {
+      super.tasks = value;
+    });
+  }
+
+  late final _$tasksPendingAtom =
+      Atom(name: '_TeamTasksScreenStore.tasksPending', context: context);
+
+  @override
+  ObservableList<Task> get tasksPending {
+    _$tasksPendingAtom.reportRead();
+    return super.tasksPending;
+  }
+
+  @override
+  set tasksPending(ObservableList<Task> value) {
+    _$tasksPendingAtom.reportWrite(value, super.tasksPending, () {
+      super.tasksPending = value;
     });
   }
 
@@ -57,6 +73,38 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
+  late final _$membersAtom =
+      Atom(name: '_TeamTasksScreenStore.members', context: context);
+
+  @override
+  ObservableList<Account> get members {
+    _$membersAtom.reportRead();
+    return super.members;
+  }
+
+  @override
+  set members(ObservableList<Account> value) {
+    _$membersAtom.reportWrite(value, super.members, () {
+      super.members = value;
+    });
+  }
+
+  late final _$workspaceAtom =
+      Atom(name: '_TeamTasksScreenStore.workspace', context: context);
+
+  @override
+  Workspace get workspace {
+    _$workspaceAtom.reportRead();
+    return super.workspace;
+  }
+
+  @override
+  set workspace(Workspace value) {
+    _$workspaceAtom.reportWrite(value, super.workspace, () {
+      super.workspace = value;
+    });
+  }
+
   late final _$_selectedAccountAtom =
       Atom(name: '_TeamTasksScreenStore._selectedAccount', context: context);
 
@@ -73,20 +121,64 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
+  late final _$_currentWorkspaceIdAtom =
+      Atom(name: '_TeamTasksScreenStore._currentWorkspaceId', context: context);
+
+  @override
+  int get _currentWorkspaceId {
+    _$_currentWorkspaceIdAtom.reportRead();
+    return super._currentWorkspaceId;
+  }
+
+  @override
+  set _currentWorkspaceId(int value) {
+    _$_currentWorkspaceIdAtom.reportWrite(value, super._currentWorkspaceId, () {
+      super._currentWorkspaceId = value;
+    });
+  }
+
   late final _$getTasksAsyncAction =
       AsyncAction('_TeamTasksScreenStore.getTasks', context: context);
 
   @override
-  Future<void> getTasks(BuildContext context) {
-    return _$getTasksAsyncAction.run(() => super.getTasks(context));
+  Future<void> getTasks(BuildContext context, {required Account account}) {
+    return _$getTasksAsyncAction
+        .run(() => super.getTasks(context, account: account));
+  }
+
+  late final _$getMembersWorkspaceAsyncAction = AsyncAction(
+      '_TeamTasksScreenStore.getMembersWorkspace',
+      context: context);
+
+  @override
+  Future<void> getMembersWorkspace(BuildContext context) {
+    return _$getMembersWorkspaceAsyncAction
+        .run(() => super.getMembersWorkspace(context));
+  }
+
+  late final _$_TeamTasksScreenStoreActionController =
+      ActionController(name: '_TeamTasksScreenStore', context: context);
+
+  @override
+  String convertTimeTask(Task task) {
+    final _$actionInfo = _$_TeamTasksScreenStoreActionController.startAction(
+        name: '_TeamTasksScreenStore.convertTimeTask');
+    try {
+      return super.convertTimeTask(task);
+    } finally {
+      _$_TeamTasksScreenStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
     return '''
 isShowLoading: ${isShowLoading},
-tasksDoing: ${tasksDoing},
-tasksDone: ${tasksDone}
+tasks: ${tasks},
+tasksPending: ${tasksPending},
+tasksDone: ${tasksDone},
+members: ${members},
+workspace: ${workspace}
     ''';
   }
 }
