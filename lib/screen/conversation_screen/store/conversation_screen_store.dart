@@ -80,15 +80,6 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  int? _currentChannelId;
-
-  int? get currentChannelId => _currentChannelId;
-
-  set currentChannelId(int? currentChannelId) {
-    _currentChannelId = currentChannelId;
-  }
-
-  @observable
   int idChannelCreate = -1;
   Workspace? _currentWorkspace;
 
@@ -171,7 +162,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
         }
       });
 
-      // get conversation peer to peer
+      // get conversation
       // await _api
       //     .fetchData(ManagerAddress.conversationGetAll,
       //         headers: headers, params: params, method: ApiMethod.GET)

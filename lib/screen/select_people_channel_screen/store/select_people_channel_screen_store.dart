@@ -7,6 +7,7 @@ import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/chat_sceen/store/chat_screen_store.dart';
 import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -86,6 +87,7 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
   Future<void> onWidgetBuildDone(BuildContext context) async {
     await _getWorkspaceId();
     await getMembersWorkspace(context);
+    //await autoTapItem();
   }
 
   @override
@@ -313,7 +315,6 @@ abstract class _SelectPeopleChannelScreenStore with Store, BaseStoreMixin {
           .contains(element.accountMail.toString())) {}
     });
   }
-
   //... Some values and actions
 }
 

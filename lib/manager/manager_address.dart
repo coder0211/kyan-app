@@ -55,7 +55,6 @@ class ManagerAddress {
   static const String createOrUpdateChannelChat =
       '$baseChannel/create-or-update';
   static const String channelGetAllByWorkspace = '$baseChannel/get-all';
-
   //? -- MEMBERS OF CHANNEL CHAT --
   static const String baseMembersChannel = '/channel-member';
   static const String createOrUpdateMembersChannel =

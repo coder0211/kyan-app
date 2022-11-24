@@ -1,6 +1,7 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_socket.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/channel.dart';
@@ -22,7 +23,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   late ObservableList<Account> memberChannel = new ObservableList<Account>();
   @observable
   Channel channel = Channel();
-  BaseAPI _api = BaseAPI();
+  BaseAPI _baseAPI = BaseAPI();
   late MainScreenStore _mainScreenStore;
   int page = 0;
   int limit = 50;
@@ -104,9 +105,15 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
     currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
-    await getAllChannelMember(context);
+    urlPhoto = BaseNavigation.getArgs(context, key: 'urlPhoto');
+    title = BaseNavigation.getArgs(context, key: 'title');
+    isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
+    args = BaseNavigation.getArgs(context, key: 'args');
+    await receiveMessageChannelSocket(
+        function: getData(
+            accountId: loginScreenStore.currentAccount.accountId ?? '',
+            value: ''));
   }
 
   @override
@@ -155,7 +162,14 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> sendMessageConversationSocket(String content,
-      {required String mailSend, required Conversation conversation}) async {}
+      {required String mailSend, required Conversation conversation}) async {
+    ManagerSocket.socket.emit(ManagerAddress.sendMessageConversationSocket(), {
+      'content': content,
+      'idConversation': conversation.conversationId,
+      'mailSend': mailSend,
+      'timeSend': DateTime.now().toString()
+    });
+  }
 
   @action
   Future<void> receiveMessageConversationSocket(
@@ -164,17 +178,67 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   @action
   Future<void> sendMessageChannelSocket(
     String content,
-  ) async {}
+  ) async {
+    ManagerSocket.socket.emit(ManagerAddress.sendMessageChannelSocket(), {
+      'channelMessageChannelId': currentChannelId,
+      'channelMessageContent': content,
+      'channelMessageSenderId': loginScreenStore.currentAccount.accountId,
+      'channelMessageTimeSend': DateTime.now().toString()
+    });
+
+    page = 0;
+  }
 
   @action
   Future<void> receiveMessageChannelSocket(
-      {required Future<void> function}) async {}
+      {required Future<void> function}) async {
+    ManagerSocket.socket.on(ManagerAddress.receiveMessageConversationSocket(),
+        (data) async {
+      data['displayName'] = '';
+      data['urlPhoto'] = '';
+      addMessage(data,
+          accountId: loginScreenStore.currentAccount.accountId ?? '');
+      await function;
+    });
+  }
 
   Future<void> _getAllChannelMessage() async {
-    Map<String, dynamic> headers = {
-      'Authorization': _mainScreenStore.accessToken
+    String accessToken = '';
+    if (await BaseSharedPreferences.containKey(ManagerKeyStorage.accessToken)) {
+      accessToken = await BaseSharedPreferences.getStringValue(
+          ManagerKeyStorage.accessToken);
+    }
+    Map<String, dynamic> headers = {'Authorization': accessToken};
+    Map<String, dynamic> params = {
+      'channelMessageChannelId': currentChannelId,
+      'offset': 0,
+      'limit': 10
     };
-    Map<String, dynamic> params = {};
+    await _baseAPI
+        .fetchData(ManagerAddress.getAllChannelMessage,
+            headers: headers, params: params)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            printLogSusscess('SUCCEEDED');
+            channel = Channel.fromJson(value.object);
+            memberChannel.clear();
+            memberChannel.addAll(channel.members ?? []);
+            break;
+          }
+
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+    isShowLoading = false;
   }
 
   int checkIsOwnerMember() {
@@ -197,7 +261,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
       'channelId': currentChannelId,
     };
     isShowLoading = true;
-    await _api
+    await _baseAPI
         .fetchData(ManagerAddress.channelGetOne,
             headers: headers, params: params, method: ApiMethod.GET)
         .then((value) {
@@ -234,7 +298,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
       'accountId': accountId,
     };
     isShowLoading = true;
-    await _api
+    await _baseAPI
         .fetchData(ManagerAddress.channelMemberDelete,
             headers: headers, body: body, method: ApiMethod.DELETE)
         .then((value) {

@@ -171,22 +171,6 @@ mixin _$ConversationScreenStore on _ConversationScreenStore, Store {
     });
   }
 
-  late final _$_currentChannelIdAtom = Atom(
-      name: '_ConversationScreenStore._currentChannelId', context: context);
-
-  @override
-  int? get _currentChannelId {
-    _$_currentChannelIdAtom.reportRead();
-    return super._currentChannelId;
-  }
-
-  @override
-  set _currentChannelId(int? value) {
-    _$_currentChannelIdAtom.reportWrite(value, super._currentChannelId, () {
-      super._currentChannelId = value;
-    });
-  }
-
   late final _$idChannelCreateAtom =
       Atom(name: '_ConversationScreenStore.idChannelCreate', context: context);
 

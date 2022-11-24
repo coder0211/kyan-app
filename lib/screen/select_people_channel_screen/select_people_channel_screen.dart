@@ -114,8 +114,7 @@ class _SelectPeopleChannelScreenState extends BaseScreenState<
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          store.onTapItem(
-                              account: store.members.elementAt(index));
+                          store.onTapItem(account: store.members[index]);
                         },
                         child: Observer(
                             builder: (_) =>
