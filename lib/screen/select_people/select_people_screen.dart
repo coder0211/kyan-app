@@ -59,7 +59,6 @@ class _SelectPeopleScreenState
                   store.getMembersWorkspace(context);
                   store.getPeople(context,
                       email: store.emailSearchController.text.toString());
-                  if (store.peoples.length != 0) {}
                 },
                 hintText: S.of(context).searchHere,
                 hintStyle: GoogleFonts.notoSans(

@@ -9,7 +9,8 @@ class ResultUpFile {
   final String? encoding;
   final String? mimetype;
   final String? destination;
-  final String fileName;
+  @JsonKey(name: 'filename')
+  final String? fileName;
   final String? path;
   ResultUpFile(
       {this.fieldname,
@@ -17,7 +18,7 @@ class ResultUpFile {
       this.encoding,
       this.mimetype,
       this.destination,
-      required this.fileName,
+      this.fileName,
       this.path});
 
   factory ResultUpFile.fromJson(Map<String, dynamic> json) =>

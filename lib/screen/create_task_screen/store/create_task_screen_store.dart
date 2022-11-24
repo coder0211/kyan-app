@@ -109,7 +109,7 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   File? file;
 
   @observable
-  late ResultUpFile resultUpFile;
+  ResultUpFile resultUpFile = ResultUpFile();
 
   @override
   void onInit(BuildContext context) {
@@ -280,7 +280,7 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
           {
             resultUpFile = ResultUpFile.fromJson(value.object);
             await addFile(
-                ManagerAddress.domain + '/' + resultUpFile.toString());
+                ManagerAddress.domain + '/' + resultUpFile.fileName.toString());
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -299,10 +299,10 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {
       'Authorization': _tasksScreenStore.accessToken
     };
-    Map<String, dynamic> params = {'taskId': task.taskId, 'attachmentUrl': url};
+    Map<String, dynamic> body = {'taskId': task.taskId, 'attachmentUrl': url};
     await _baseAPI
         .fetchData(ManagerAddress.addFileAttachmentTask,
-            method: ApiMethod.POST, params: params, headers: headers)
+            method: ApiMethod.POST, body: body, headers: headers)
         .then((value) async {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
@@ -340,6 +340,35 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
               temp.attachments?.add(AttachmentTask.fromJson(e));
             });
             task = temp;
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  Future<void> deleteItemAttachment(int id) async {
+    Map<String, dynamic> headers = {
+      'Authorization': _tasksScreenStore.accessToken
+    };
+    Map<String, dynamic> body = {
+      'attachmentId': id,
+    };
+    await _baseAPI
+        .fetchData(ManagerAddress.deleteAttachmentTask,
+            method: ApiMethod.DELETE, body: body, headers: headers)
+        .then((value) async {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            await getAttachmentByTaskId();
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:

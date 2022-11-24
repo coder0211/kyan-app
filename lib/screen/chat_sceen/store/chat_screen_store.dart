@@ -5,6 +5,7 @@ import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/manager/manager_socket.dart';
 import 'package:kyan/models/channel_message.dart';
 import 'package:kyan/models/conversation.dart';
+import 'package:kyan/screen/conversation_screen/store/conversation_screen_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
   @observable
   ScrollController scrollController = ScrollController();
+
   @observable
   bool _isChannel = true;
 
@@ -60,16 +62,21 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   bool isLastMessager = false;
 
   int channelId = -1;
+  String urlPhoto = '';
+  String title = '';
+  int isPrivate = -1;
+  dynamic args = null;
 
-  late LoginScreenStore _loginScreenStore;
+  late LoginScreenStore loginScreenStore;
+  late ConversationScreenStore conversationScreenStore;
   @override
   void onInit(BuildContext context) {
-    _loginScreenStore = context.read<LoginScreenStore>();
-    _loginScreenStore.currentAccount.accountMail;
+    loginScreenStore = context.read<LoginScreenStore>();
+    conversationScreenStore = context.read<ConversationScreenStore>();
   }
 
   Future<void> getAccountMail({String? accessToken}) async {
-    _loginScreenStore.handleGetData();
+    loginScreenStore.handleGetData();
   }
 
   @override
@@ -81,9 +88,13 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
     channelId = BaseNavigation.getArgs(context, key: 'channelId');
+    urlPhoto = BaseNavigation.getArgs(context, key: 'urlPhoto');
+    title = BaseNavigation.getArgs(context, key: 'title');
+    isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
+    args = BaseNavigation.getArgs(context, key: 'args');
     await receiveMessageChannelSocket(
         function: getData(
-            accountId: _loginScreenStore.currentAccount.accountId ?? '',
+            accountId: loginScreenStore.currentAccount.accountId ?? '',
             value: ''));
   }
 
@@ -128,8 +139,6 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   @action
   Future<void> sendMessageConversationSocket(String content,
       {required String mailSend, required Conversation conversation}) async {
-    print(
-        '$content - ${conversation.conversationId} - ${mailSend} - ${DateTime.now().toString()}');
     ManagerSocket.socket.emit(ManagerAddress.sendMessageConversationSocket(), {
       'content': content,
       'idConversation': conversation.conversationId,
@@ -140,26 +149,16 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> receiveMessageConversationSocket(
-      {required Future<void> function}) async {
-    ManagerSocket.socket.on(ManagerAddress.receiveMessageConversationSocket(),
-        (data) async {
-      data['displayName'] = '';
-      data['urlPhoto'] = '';
-      addMessage(data,
-          accountId: _loginScreenStore.currentAccount.accountId ?? '');
-      await function;
-    });
-  }
+      {required Future<void> function}) async {}
 
   @action
   Future<void> sendMessageChannelSocket(
     String content,
   ) async {
-    print('ok la');
     ManagerSocket.socket.emit(ManagerAddress.sendMessageChannelSocket(), {
       'channelMessageChannelId': channelId,
       'channelMessageContent': content,
-      'channelMessageSenderId': _loginScreenStore.currentAccount.accountId,
+      'channelMessageSenderId': loginScreenStore.currentAccount.accountId,
       'channelMessageTimeSend': DateTime.now().toString()
     });
 
@@ -169,10 +168,12 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
   @action
   Future<void> receiveMessageChannelSocket(
       {required Future<void> function}) async {
-    ManagerSocket.socket.on(ManagerAddress.receiveMessageChannelSocket(),
+    ManagerSocket.socket.on(ManagerAddress.receiveMessageConversationSocket(),
         (data) async {
+      data['displayName'] = '';
+      data['urlPhoto'] = '';
       addMessage(data,
-          accountId: _loginScreenStore.currentAccount.accountId ?? '');
+          accountId: loginScreenStore.currentAccount.accountId ?? '');
       await function;
     });
   }
@@ -184,7 +185,11 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
           ManagerKeyStorage.accessToken);
     }
     Map<String, dynamic> headers = {'Authorization': accessToken};
-    Map<String, dynamic> params = {};
+    Map<String, dynamic> params = {
+      'channelMessageChannelId': channelId,
+      'offset': 0,
+      'limit': 10
+    };
     await _baseAPI
         .fetchData(ManagerAddress.getAllChannelMessage,
             headers: headers, params: params)
@@ -194,7 +199,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
           {
             printLogSusscess('SUCCEEDED');
             value.object.forEach((e) => setMessage(e,
-                accountId: _loginScreenStore.currentAccount.accountId ?? ''));
+                accountId: loginScreenStore.currentAccount.accountId ?? ''));
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:

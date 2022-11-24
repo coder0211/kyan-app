@@ -115,7 +115,6 @@ abstract class _MemberWorkspaceScreenStore with Store, BaseStoreMixin {
           {
             printLogSusscess('SUCCEEDED');
             BaseNavigation.pop(context);
-
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:

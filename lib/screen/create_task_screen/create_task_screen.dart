@@ -7,6 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/models/account.dart';
+import 'package:kyan/models/attachment_task.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/create_task_screen/store/create_task_screen_store.dart';
 import 'package:kyan/screen/create_task_screen/widgets/modal_bottom_sheet_due_time.dart';
@@ -203,7 +204,7 @@ class _CreateTaskScreenState
                                 : Container();
                           }),
                           _buildAssignTo(),
-                          _buildAchievement()
+                          if (store.task.taskId != null) _buildAchievement()
                         ],
                       ),
                     ),
@@ -315,38 +316,54 @@ class _CreateTaskScreenState
         const SizedBox(
           height: 10,
         ),
-        GestureDetector(
-          onTap: () async {
-            await BaseImagePicker.getImageFromGallery().then((v) {
-              store.file = File(v?.path ?? '');
-            });
-            await store.uploadFile(store.file);
-          },
-          child: Column(
-            children: [
-              Row(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Observer(builder: (_) {
+              return store.task.attachments != null
+                  ? Wrap(
+                      children: [
+                        ...store.task.attachments!.map((e) {
+                          return Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              SizedBox(
+                                height: 0.3.w(context),
+                                width: 0.25.w(context),
+                                child: CachedNetworkImage(
+                                    imageUrl: e.attachmentUrl),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  store.deleteItemAttachment(e.attachmentId);
+                                },
+                                child: const Icon(Icons.remove_circle_rounded,
+                                    color: AppColors.redPink),
+                              )
+                            ],
+                          );
+                        })
+                      ],
+                    )
+                  : const SizedBox.shrink();
+            }),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: () async {
+                await BaseImagePicker.getImageFromGallery().then((v) {
+                  store.file = File(v?.path ?? '');
+                });
+                await store.uploadFile(store.file);
+              },
+              child: Row(
                 children: [
                   const Icon(Icons.attach_file_rounded,
                       color: AppColors.orange),
                   S.of(context).add.b1R(color: AppColors.orange),
                 ],
               ),
-              Observer(builder: (_) {
-                return store.task.attachments != null
-                    ? Flexible(
-                        child: Wrap(
-                          children: [
-                            ...store.task.attachments!.map((e) {
-                              return CachedNetworkImage(
-                                  imageUrl: e.attachmentUrl);
-                            })
-                          ],
-                        ),
-                      )
-                    : const SizedBox.shrink();
-              })
-            ],
-          ),
+            ),
+          ],
         ),
         const SizedBox(
           height: 10,

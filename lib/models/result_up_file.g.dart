@@ -12,7 +12,7 @@ ResultUpFile _$ResultUpFileFromJson(Map<String, dynamic> json) => ResultUpFile(
       encoding: json['encoding'] as String?,
       mimetype: json['mimetype'] as String?,
       destination: json['destination'] as String?,
-      fileName: json['fileName'] as String,
+      fileName: json['filename'] as String?,
       path: json['path'] as String?,
     );
 
@@ -23,6 +23,6 @@ Map<String, dynamic> _$ResultUpFileToJson(ResultUpFile instance) =>
       'encoding': instance.encoding,
       'mimetype': instance.mimetype,
       'destination': instance.destination,
-      'fileName': instance.fileName,
+      'filename': instance.fileName,
       'path': instance.path,
     };

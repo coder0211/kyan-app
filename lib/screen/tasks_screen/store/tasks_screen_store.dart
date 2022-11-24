@@ -5,7 +5,6 @@ import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
-import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';

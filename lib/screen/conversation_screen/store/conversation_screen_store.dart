@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/channel.dart';
 import 'package:kyan/models/conversation.dart';
+import 'package:kyan/models/result_post.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
@@ -33,7 +35,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   TextEditingController searchController = TextEditingController();
 
   @observable
-  bool _isShowLoading = false;
+  bool _isShowLoading = true;
 
   bool get isShowLoading => _isShowLoading;
 
@@ -78,6 +80,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
+  int idChannelCreate = -1;
   Workspace? _currentWorkspace;
 
   Workspace? get currentWorkspace => _currentWorkspace;
@@ -105,6 +108,7 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
   void resetValue() async {
     isExpandedChannel = true;
     isExpandedPeople = true;
+    isShowLoading = true;
     isPrivateCreate = false;
     currentWorkspaceId = null;
     channels = ObservableList<Channel>();
@@ -128,10 +132,11 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
       'Authorization': mainScreenStore.accessToken,
     };
     Map<String, dynamic> params = {
-      'channelWorkspaceId': currentWorkspaceId,
+      'channelWorkspaceId': currentWorkspaceId ?? -1,
       'accountId': loginScreenStore.currentAccount.accountId,
     };
     if (currentWorkspaceId != null) {
+      isShowLoading = true;
       await _api
           .fetchData(ManagerAddress.channelGetAllByWorkspace,
               headers: headers, params: params, method: ApiMethod.GET)
@@ -158,10 +163,35 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
       });
 
       // get conversation
+      // await _api
+      //     .fetchData(ManagerAddress.conversationGetAll,
+      //         headers: headers, params: params, method: ApiMethod.GET)
+      //     .then((value) {
+      //   switch (value.apiStatus) {
+      //     case ApiStatus.SUCCEEDED:
+      //       {
+      //         printLogSusscess('SUCCEEDED');
+      //         conversations.clear();
+      //         value.object.forEach((element) {
+      //           conversations.add(Conversation.fromJson(element));
+      //         });
+      //         break;
+      //       }
+      //     case ApiStatus.INTERNET_UNAVAILABLE:
+      //       printLogYellow('INTERNET_UNAVAILABLE');
+      //       BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+      //       break;
+      //     default:
+      //       printLogError('FAILED');
+      //       // Handle failed response here
+      //       break;
+      //   }
+      // });
     } else {
       channels = ObservableList<Channel>();
       conversations = ObservableList<Conversation>();
     }
+    isShowLoading = false;
   }
 
   @action
@@ -179,8 +209,12 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
+            ResultPost resultPost = ResultPost();
+            resultPost = ResultPost.fromJson(
+                (value.object ?? {}) as Map<String, dynamic>);
+            idChannelCreate = resultPost.insertId ?? -1;
             // Handle success response here
-            //createChannel = Channel();
+            createChannel = Channel();
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -196,6 +230,24 @@ abstract class _ConversationScreenStore with Store, BaseStoreMixin {
     });
     //createChannel = Channel();
     createChanelNameController.text = '';
+  }
+
+  @action
+  void onPressedItem(BuildContext context,
+      {required String title,
+      required String urlPhoto,
+      bool? isPrivate,
+      required dynamic agrs}) {
+    print(agrs.toString());
+
+    BaseNavigation.push(context,
+        routeName: ManagerRoutes.chatScreen,
+        arguments: {
+          'title': title,
+          'urlPhoto': urlPhoto,
+          'isPrivate': isPrivate,
+          'agrs': agrs
+        });
   }
 
   Future<void> _getWorkspaceId() async {
