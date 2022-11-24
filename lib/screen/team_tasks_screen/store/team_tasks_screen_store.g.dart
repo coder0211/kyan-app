@@ -25,6 +25,38 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
+  late final _$tasksDoingAtom =
+      Atom(name: '_TeamTasksScreenStore.tasksDoing', context: context);
+
+  @override
+  ObservableList<Task> get tasksDoing {
+    _$tasksDoingAtom.reportRead();
+    return super.tasksDoing;
+  }
+
+  @override
+  set tasksDoing(ObservableList<Task> value) {
+    _$tasksDoingAtom.reportWrite(value, super.tasksDoing, () {
+      super.tasksDoing = value;
+    });
+  }
+
+  late final _$tasksDoneAtom =
+      Atom(name: '_TeamTasksScreenStore.tasksDone', context: context);
+
+  @override
+  ObservableList<Task> get tasksDone {
+    _$tasksDoneAtom.reportRead();
+    return super.tasksDone;
+  }
+
+  @override
+  set tasksDone(ObservableList<Task> value) {
+    _$tasksDoneAtom.reportWrite(value, super.tasksDone, () {
+      super.tasksDone = value;
+    });
+  }
+
   late final _$_selectedAccountAtom =
       Atom(name: '_TeamTasksScreenStore._selectedAccount', context: context);
 
@@ -41,10 +73,20 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
+  late final _$getTasksAsyncAction =
+      AsyncAction('_TeamTasksScreenStore.getTasks', context: context);
+
+  @override
+  Future<void> getTasks(BuildContext context) {
+    return _$getTasksAsyncAction.run(() => super.getTasks(context));
+  }
+
   @override
   String toString() {
     return '''
-isShowLoading: ${isShowLoading}
+isShowLoading: ${isShowLoading},
+tasksDoing: ${tasksDoing},
+tasksDone: ${tasksDone}
     ''';
   }
 }
