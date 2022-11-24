@@ -2,9 +2,11 @@ import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 part 'statistic_screen_store.g.dart';
@@ -16,6 +18,21 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
   late LoginScreenStore loginScreenStore;
   late int? totalTaskCount;
   BaseAPI _baseAPI = new BaseAPI();
+  @observable
+  ObservableList<Task> tasks = new ObservableList<Task>();
+  @observable
+  ObservableList<Task> tasksDone = new ObservableList<Task>();
+  @observable
+  ObservableList<Task> tasksPending = new ObservableList<Task>();
+  @observable
+  bool _taskIsDone = true;
+
+  bool get taskIsDone => _taskIsDone;
+
+  set taskIsDone(bool taskIsDone) {
+    _taskIsDone = taskIsDone;
+  }
+
   @observable
   int _currentWorkspaceId = -1;
 
@@ -51,6 +68,16 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
   }
 
   @action
+  String convertTimeTask(Task task) {
+    DateTime g = DateFormat('yyyy-MM-dd')
+        .parse(task.taskDueTimeGTE.toString().split('T')[0]);
+    DateTime l = DateFormat('yyyy-MM-dd')
+        .parse(task.taskDueTimeLTE.toString().split('T')[0]);
+    return DateFormat('dd/MM/yyyy').format(g) +
+        (g != l ? (' - ' + DateFormat('dd/MM/yyyy').format(l)) : '');
+  }
+
+  @action
   Future<void> getPersonalStatistic(BuildContext context) async {
     Map<String, dynamic> headers = {
       'Authorization': mainScreenStore.accessToken,
@@ -66,8 +93,14 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           printLogSusscess('SUCCEEDED');
-          totalTaskCount = int.parse(value.object.toString());
+          //totalTaskCount = int.parse(value.object.toString());
           // Handle success response here
+          tasks.clear();
+          tasks.forEach((element) {
+            element.taskIsDone == 1
+                ? tasksDone.add(element)
+                : tasksPending.add(element);
+          });
           break;
         case ApiStatus.INTERNET_UNAVAILABLE:
           printLogYellow('INTERNET_UNAVAILABLE');
