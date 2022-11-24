@@ -76,14 +76,16 @@ class _StatisticScreenState
                         ),
                         const SizedBox(height: 10),
                         Observer(builder: (_) {
-                          return const Align(
+                          return Align(
                               alignment: Alignment.centerLeft,
-                              child: BaseText('Done: 123'));
+                              child:
+                                  BaseText('Done : ${store.tasksDone.length}'));
                         }),
                         Observer(builder: (_) {
                           return Align(
                               alignment: Alignment.centerLeft,
-                              child: BaseText('Pending: 123',
+                              child: BaseText(
+                                  'Pending: ${store.tasksPending.length}',
                                   style: AppTextStyle.defaultStyle
                                       .copyWith(color: AppColors.redPink)));
                         })
@@ -91,7 +93,8 @@ class _StatisticScreenState
                     ),
                     Center(
                       child: Observer(builder: (_) {
-                        double value = (16 / (16 == 0 ? 1 : 20));
+                        double value = (store.tasksDone.length /
+                            (store.tasks.length == 0 ? 1 : store.tasks.length));
                         return BaseCircleChart(
                           duration: TIME_ANIMATION,
                           key: UniqueKey(),
@@ -112,15 +115,19 @@ class _StatisticScreenState
                   children: [
                     _buildItemTapBar(
                       'Done',
-                      () {},
+                      () {
+                        store.taskIsDone = true;
+                      },
                       isDone: true,
-                      isSelected: true,
+                      isSelected: store.taskIsDone,
                     ),
                     _buildItemTapBar(
                       'Pending',
-                      () {},
+                      () {
+                        store.taskIsDone = false;
+                      },
                       isDone: false,
-                      isSelected: true, //_statisticScreenStore.isDone,
+                      isSelected: store.taskIsDone,
                     )
                   ],
                 );
@@ -128,14 +135,20 @@ class _StatisticScreenState
               Expanded(
                 child: Observer(builder: (_) {
                   return ListView.builder(
-                      itemCount: 2,
+                      itemCount: store.taskIsDone
+                          ? store.tasksDone.length
+                          : store.tasksPending.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ItemTask(
-                          title: 'Tong ket',
+                          title: store.taskIsDone
+                              ? store.tasksDone[index].taskSummary ?? ''
+                              : store.tasksPending[index].taskSummary ?? '',
                           onPressedComplete: () {},
                           onPressed: () {},
                           isCompleted: false,
-                          time: '',
+                          time: store.convertTimeTask(store.taskIsDone
+                              ? store.tasksDone[index]
+                              : store.tasksPending[index]),
                           isModeStatistic: true,
                         );
                       });
@@ -176,6 +189,4 @@ class _StatisticScreenState
       ),
     );
   }
-
-  // _getData() {
 }

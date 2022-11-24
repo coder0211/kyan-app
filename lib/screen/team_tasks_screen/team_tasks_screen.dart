@@ -44,6 +44,7 @@ class _TeamTasksScreenState
   Padding _buildAssignTo() {
     List<Account> accounts = [];
     accounts.add(Account());
+    accounts.addAll(store.members);
     store.selectedAccount = accounts[0];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
@@ -111,7 +112,8 @@ class _TeamTasksScreenState
       child: Observer(
         builder: (_) => RefreshIndicator(
           onRefresh: () async {
-            //await _getData();
+            await store.getMembersWorkspace(context);
+            await store.currentWorkspaceId;
           },
           child: CustomScrollView(
             physics: const BouncingScrollPhysics(),
@@ -122,7 +124,7 @@ class _TeamTasksScreenState
                 shadowColor: AppColors.transparent,
                 backgroundColor: AppColors.white,
                 title: Observer(builder: (_) {
-                  return (S.of(context).todo + ': 2')
+                  return (S.of(context).todo + ': ${store.tasksPending.length}')
                       .b1(color: AppColors.redPink);
                 }),
                 floating: true,
@@ -134,13 +136,14 @@ class _TeamTasksScreenState
                       return ItemTeamTask(
                         onPressed: () => {},
                         onPressedComplete: () async {},
-                        time: 'TimeRange',
-                        title: 'summary',
+                        time: store.convertTimeTask(store.tasksPending[index]),
+                        title: store.tasksPending[index].taskSummary.toString(),
                         isCompleted: false,
-                        avatarUrl: 'avatarURL',
+                        avatarUrl: store.getAvatarUrl(
+                            store.tasksPending[index].taskAssignTo ?? ''),
                       );
                     },
-                    childCount: 2,
+                    childCount: store.tasksPending.length,
                   ),
                 );
               }),
@@ -150,7 +153,7 @@ class _TeamTasksScreenState
                 shadowColor: AppColors.transparent,
                 backgroundColor: AppColors.white,
                 title: Observer(builder: (_) {
-                  return (S.of(context).done + ': 2')
+                  return (S.of(context).done + ': ${store.tasksDone.length}')
                       .b1(color: AppColors.primary);
                 }),
                 pinned: true,
@@ -163,13 +166,14 @@ class _TeamTasksScreenState
                       return ItemTeamTask(
                         onPressed: () {},
                         onPressedComplete: () async {},
-                        time: 'time',
-                        title: 'sumary',
+                        time: store.convertTimeTask(store.tasksDone[index]),
+                        title: store.tasksDone[index].taskSummary.toString(),
                         isCompleted: true,
-                        avatarUrl: 'urlAvatar',
+                        avatarUrl: store.getAvatarUrl(
+                            store.tasksDone[index].taskAssignTo ?? ''),
                       );
                     },
-                    childCount: 2, //store.tasksDone.length,
+                    childCount: store.tasksDone.length,
                   ),
                 );
               }),
@@ -206,20 +210,25 @@ class _TeamTasksScreenState
               Observer(builder: (_) {
                 return Align(
                   alignment: Alignment.centerLeft,
-                  child: 'Done : 2'.b1(),
+                  child: (S.of(context).todo + ': ${store.tasksPending.length}')
+                      .b1(),
                 );
               }),
               Observer(builder: (_) {
                 return Align(
                   alignment: Alignment.centerLeft,
-                  child: 'Doing : 2'.b1(color: AppColors.redPink),
+                  child: (S.of(context).done + ': ${store.tasksDone.length}')
+                      .b1(color: AppColors.redPink),
                 );
               })
             ],
           ),
           Center(
             child: Observer(builder: (_) {
-              double value = 20;
+              double value = (store.tasksDone.length /
+                  ((store.tasksPending.length + store.tasksDone.length) == 0
+                      ? 1
+                      : (store.tasksPending.length + store.tasksDone.length)));
               return BaseCircleChart(
                 duration: TIME_ANIMATION,
                 key: UniqueKey(),

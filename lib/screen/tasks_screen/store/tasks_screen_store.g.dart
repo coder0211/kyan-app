@@ -121,6 +121,22 @@ mixin _$TasksScreenStore on _TasksScreenStore, Store {
     });
   }
 
+  late final _$_workspaceAtom =
+      Atom(name: '_TasksScreenStore._workspace', context: context);
+
+  @override
+  Workspace get _workspace {
+    _$_workspaceAtom.reportRead();
+    return super._workspace;
+  }
+
+  @override
+  set _workspace(Workspace value) {
+    _$_workspaceAtom.reportWrite(value, super._workspace, () {
+      super._workspace = value;
+    });
+  }
+
   late final _$_selectedDateAtom =
       Atom(name: '_TasksScreenStore._selectedDate', context: context);
 

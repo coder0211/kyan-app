@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/task.dart';
+import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -79,6 +80,15 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
 
   set workspaceId(int workspaceId) {
     _workspaceId = workspaceId;
+  }
+
+  @observable
+  Workspace _workspace = Workspace();
+
+  Workspace get workspace => _workspace;
+
+  set workspace(Workspace workspace) {
+    _workspace = workspace;
   }
 
   @observable
