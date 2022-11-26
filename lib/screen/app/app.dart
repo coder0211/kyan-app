@@ -27,6 +27,9 @@ class _AppState extends State<App> {
     ManagerAddress.domain =
         //dotenv.env[DOMAIN] ??
         'http://192.168.1.168:3001';
+    //'http:///10.18.25.11:3001';
+    // 'http://10.15.15.24:3001';
+    //'http://10.60.4.40:3001';
     BaseAPI.domain = ManagerAddress.domain;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,

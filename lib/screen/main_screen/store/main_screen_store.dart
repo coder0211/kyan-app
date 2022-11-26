@@ -67,8 +67,9 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
         ManagerKeyStorage.currentWorkspace)) {
       workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
               ManagerKeyStorage.currentWorkspace)) ??
-          null;
+          -1;
     }
+    
   }
 
   @override

@@ -89,6 +89,22 @@ mixin _$StatisticScreenStore on _StatisticScreenStore, Store {
     });
   }
 
+  late final _$_selectedDateAtom =
+      Atom(name: '_StatisticScreenStore._selectedDate', context: context);
+
+  @override
+  DateTime get _selectedDate {
+    _$_selectedDateAtom.reportRead();
+    return super._selectedDate;
+  }
+
+  @override
+  set _selectedDate(DateTime value) {
+    _$_selectedDateAtom.reportWrite(value, super._selectedDate, () {
+      super._selectedDate = value;
+    });
+  }
+
   late final _$getPersonalStatisticAsyncAction = AsyncAction(
       '_StatisticScreenStore.getPersonalStatistic',
       context: context);

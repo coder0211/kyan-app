@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/task.dart';
-import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
+import 'package:kyan/theme/colors.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -83,15 +83,6 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  Workspace _workspace = Workspace();
-
-  Workspace get workspace => _workspace;
-
-  set workspace(Workspace workspace) {
-    _workspace = workspace;
-  }
-
-  @observable
   DateTime _selectedDate = DateTime.now();
 
   DateTime get selectedDate => _selectedDate;
@@ -110,6 +101,20 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
   }
 
   @override
+  Future<void> onWidgetBuildDone(BuildContext context) async {
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.currentWorkspace)) ??
+          -1;
+    }
+    await _getLanguage(context);
+    await getListTask();
+  }
+
+  @override
+  void resetValue() {}
+  @override
   void onDispose(BuildContext context) {}
 
   @action
@@ -127,13 +132,23 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
       accessToken = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.accessToken);
     }
+    if (workspaceId == -1) {
+      BaseUtils.showToast('Please choose your workspace',
+          bgColor: AppColors.primary);
+      isShowLoading = false;
+      return;
+    }
     Map<String, dynamic> headers = {'Authorization': accessToken};
     Map<String, dynamic> params = {
       'taskAssignTo': _loginScreenStore.currentAccount.accountId,
-      'taskDueTimeGTE': selectedDate.toString()
+      //'taskDueTimeGTE': selectedDate.toString(),
+      'workSpaceId': workspaceId,
     };
+
+    isShowLoading = true;
     await _baseAPI
-        .fetchData(ManagerAddress.taskGetAll, headers: headers, params: params)
+        .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
+            headers: headers, params: params)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
@@ -159,22 +174,8 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+    isShowLoading = false;
   }
-
-  @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {
-    await _getLanguage(context);
-    await getListTask();
-    if (await BaseSharedPreferences.containKey(
-        ManagerKeyStorage.currentWorkspace)) {
-      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
-              ManagerKeyStorage.currentWorkspace)) ??
-          0;
-    }
-  }
-
-  @override
-  void resetValue() {}
 
   Future<void> _getLanguage(BuildContext context) async {
     if (await BaseSharedPreferences.containKey(ManagerKeyStorage.language)) {

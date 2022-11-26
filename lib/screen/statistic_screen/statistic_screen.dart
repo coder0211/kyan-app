@@ -60,7 +60,14 @@ class _StatisticScreenState
                               firstDate: DateTime(DateTime.now().year - 1, 5),
                               lastDate: DateTime(DateTime.now().year + 1, 9),
                               initialDate: DateTime.now(),
-                            ).then((date) {});
+                            ).then((date) {
+                              if (date != null) {
+                                // store.selectedDate.month = date.month;
+                                // store.selectedDate.year = date.year;
+                                store.getPersonalStatistic(context);
+                                setState(() {});
+                              }
+                            });
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -70,7 +77,8 @@ class _StatisticScreenState
                                 borderRadius: BorderRadius.circular(5),
                                 boxShadow: Shadows.defaultShadow),
                             child: Observer(builder: (_) {
-                              return 'Month - Year'.b1R(color: AppColors.white);
+                              return ('${store.selectedDate.month} - ${store.selectedDate.year}')
+                                  .b1R(color: AppColors.white);
                             }),
                           ),
                         ),
@@ -78,16 +86,15 @@ class _StatisticScreenState
                         Observer(builder: (_) {
                           return Align(
                               alignment: Alignment.centerLeft,
-                              child:
-                                  BaseText('Done : ${store.tasksDone.length}'));
+                              child: (S.of(context).done +
+                                      ': ${store.tasksDone.length}')
+                                  .b1R());
                         }),
                         Observer(builder: (_) {
                           return Align(
                               alignment: Alignment.centerLeft,
-                              child: BaseText(
-                                  'Pending: ${store.tasksPending.length}',
-                                  style: AppTextStyle.defaultStyle
-                                      .copyWith(color: AppColors.redPink)));
+                              child: ('Pending: ${store.tasksPending.length}')
+                                  .b1R(color: AppColors.redPink));
                         })
                       ],
                     ),

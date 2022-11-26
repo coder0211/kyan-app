@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
-import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:intl/intl.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/utils/utils.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 part 'team_tasks_screen_store.g.dart';
@@ -17,7 +20,6 @@ class TeamTasksScreenStore = _TeamTasksScreenStore with _$TeamTasksScreenStore;
 abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   late MainScreenStore mainScreenStore;
   late TasksScreenStore tasksScreenStore;
-  late MainScreenStore _mainScreenStore;
 
   late BaseAPI _baseAPI = BaseAPI();
   @observable
@@ -32,7 +34,14 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   ObservableList<Account> members = ObservableList<Account>();
 
   @observable
-  Workspace workspace = Workspace();
+  Workspace _workspace = Workspace();
+
+  Workspace get workspace => _workspace;
+
+  set workspace(Workspace workspace) {
+    _workspace = workspace;
+  }
+
   @observable
   Account _selectedAccount = Account();
 
@@ -58,29 +67,45 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {}
+  void onDispose(BuildContext context) {
+    resetValue();
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    await _getWorkspaceId();
-    await getMembersWorkspace(context);
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      currentWorkspaceId = int.tryParse(
+              await BaseSharedPreferences.getStringValue(
+                  ManagerKeyStorage.currentWorkspace)) ??
+          -1;
+    }
+    var temp = await Utils.getCurrentWorkSpace();
+    if (temp != null) {
+      var value = json.decode(temp);
+      workspace = Workspace.fromJson(value);
+    }
+    await getMembersWorkspace();
+    await getTasks();
   }
 
   @override
   void resetValue() {
-    selectedAccount = Account();
+    tasksDone.clear();
+    tasksPending.clear();
+    members.clear();
   }
 
   @action
-  Future<void> getTasks(BuildContext context,
-      {required Account account}) async {
+  Future<void> getTasks({Account? account}) async {
     Map<String, dynamic> headers = {
       'Authorization': mainScreenStore.accessToken,
     };
     Map<String, dynamic> params = {
       'workSpaceId': currentWorkspaceId,
-      'accountId': account.accountId,
+      'taskAssignTo': account?.accountId,
     };
+    isShowLoading = true;
     await _baseAPI
         .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
             method: ApiMethod.GET, headers: headers, params: params)
@@ -90,6 +115,9 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
           {
             printLogSusscess('SUCCEEDED');
             tasks.clear();
+            value.object.forEach((element) {
+              tasks.add(Task.fromJson(element));
+            });
             tasks.forEach((element) {
               element.taskIsDone == 1
                   ? tasksDone.add(element)
@@ -107,26 +135,47 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
-  }
-
-  Future<void> _getWorkspaceId() async {
-    if (await BaseSharedPreferences.containKey(
-        ManagerKeyStorage.currentWorkspace)) {
-      currentWorkspaceId = int.tryParse(
-              await BaseSharedPreferences.getStringValue(
-                  ManagerKeyStorage.currentWorkspace)) ??
-          -1;
-    }
+    isShowLoading = false;
   }
 
   @action
-  Future<void> getMembersWorkspace(BuildContext context) async {
+  Future<void> onPressedComplete(BuildContext context,
+      {required Task task}) async {
     Map<String, dynamic> headers = {
-      'Authorization': _mainScreenStore.accessToken
+      'Authorization': mainScreenStore.accessToken
+    };
+    task.taskIsDone = task.taskIsDone == 1 ? 0 : 1;
+    await _baseAPI
+        .fetchData(ManagerAddress.taskCreateOrUpdate,
+            headers: headers, body: task.toJson(), method: ApiMethod.POST)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            getTasks();
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  @action
+  Future<void> getMembersWorkspace() async {
+    Map<String, dynamic> headers = {
+      'Authorization': mainScreenStore.accessToken
     };
     Map<String, dynamic> params = {
       'id': currentWorkspaceId,
     };
+    isShowLoading = true;
     await _baseAPI
         .fetchData(ManagerAddress.workspacesGetOne,
             method: ApiMethod.GET, headers: headers, params: params)
@@ -150,6 +199,7 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+    isShowLoading = false;
   }
 
   @action

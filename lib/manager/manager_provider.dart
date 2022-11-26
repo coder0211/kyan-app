@@ -20,6 +20,7 @@ import 'package:kyan/screen/splash_screen/store/splash_screen_store.dart';
 import 'package:kyan/screen/statistic_screen/store/statistic_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:kyan/screen/team_tasks_screen/store/team_tasks_screen_store.dart';
+import 'package:kyan/screen/work_schedule_calendar/store/work_schedule_calendar_screen_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -63,6 +64,7 @@ class ManagerProvider {
     Provider<ListMessageScreenStore>(create: (_) => ListMessageScreenStore()),
     Provider<SelectPeopleChannelScreenStore>(
         create: (_) => SelectPeopleChannelScreenStore()),
+    Provider<WorkScheduleScreenStore>(create: (_) => WorkScheduleScreenStore()),
   ];
 
   /// ## Dispose
@@ -95,5 +97,6 @@ class ManagerProvider {
     context.read<SelectPeopleConversationScreenStore>().resetValue();
     context.read<ListMessageScreenStore>().resetValue();
     context.read<SelectPeopleChannelScreenStore>().resetValue();
+    context.read<WorkScheduleScreenStore>().resetValue();
   }
 }

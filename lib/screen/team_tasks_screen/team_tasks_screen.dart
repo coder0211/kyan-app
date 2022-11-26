@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/team_tasks_screen/store/team_tasks_screen_store.dart';
 import 'package:kyan/screen/team_tasks_screen/widgets/item_team_task.dart';
@@ -11,6 +14,7 @@ import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
+import 'package:mobx/mobx.dart';
 
 class TeamTasksScreen extends BaseScreen {
   const TeamTasksScreen({Key? key}) : super(key: key);
@@ -35,16 +39,43 @@ class _TeamTasksScreenState
     );
   }
 
-  Widget _buildBody() {
+  Column _buildBody() {
     return Column(
-      children: [_buildAssignTo(), _buildStatisic(), _buildContentTasks()],
+      children: [
+        const SizedBox(
+          height: Dimens.SCREEN_PADDING,
+        ),
+        _jobSchedule(),
+        Observer(builder: (_) => _buildAssignTo()),
+        _buildStatisic(),
+        _buildContentTasks(),
+      ],
     );
+  }
+
+  Padding _jobSchedule() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                BaseNavigation.push(context,
+                    routeName: ManagerRoutes.workScheduleScreen);
+              },
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: 'Check Your Work Schedule'.b1R(color: AppColors.black),
+              ),
+            )
+          ],
+        ));
   }
 
   Padding _buildAssignTo() {
     List<Account> accounts = [];
     accounts.add(Account());
-    accounts.addAll(store.members);
+    accounts.addAll(store.workspace.members ?? []);
     store.selectedAccount = accounts[0];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
@@ -60,46 +91,50 @@ class _TeamTasksScreenState
               S.of(context).assignTo.b1R(),
               const SizedBox(height: 10),
               Align(
-                alignment: Alignment.centerRight,
-                child: Observer(builder: (_) {
-                  return DropdownButton(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    underline: const SizedBox(),
-                    value: store.selectedAccount,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    items: accounts.map((Account items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Row(
-                          children: [
-                            if (items.accountUrlPhoto != null)
-                              CustomCircleAvatar(
-                                imageUrl: items.accountUrlPhoto,
-                                width: 40,
-                              )
-                            else
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.gray,
-                                  shape: BoxShape.circle,
+                  alignment: Alignment.centerRight,
+                  child: Observer(builder: (_) {
+                    return DropdownButton(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        underline: const SizedBox(),
+                        value: store.selectedAccount,
+                        //icon: const Icon(Icons.keyboard_arrow_down),
+                        items: accounts.map((Account items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Row(
+                              children: [
+                                if (items.accountUrlPhoto != null)
+                                  CustomCircleAvatar(
+                                    imageUrl: items.accountUrlPhoto,
+                                    width: 40,
+                                  )
+                                else
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: const BoxDecoration(
+                                      color: AppColors.gray,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child:
+                                        const Icon(Icons.child_care_outlined),
+                                  ),
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                                child: const Icon(Icons.child_care_outlined),
-                              ),
-                            const SizedBox(
-                              width: 10,
+                                (items.accountDisplayName ?? 'All').b1R()
+                                //BaseText(items.accountDisplayName ?? 'All')
+                              ],
                             ),
-                            (items.accountDisplayName ?? 'All').b1R()
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (Account? account) async {
-                      store.selectedAccount = account ?? accounts[0];
-                    },
-                  );
-                }),
-              ),
+                          );
+                        }).toList(),
+                        onChanged: (Account? account) async {
+                          store.selectedAccount = account ?? accounts[0];
+                          store.tasksDone.clear();
+                          store.tasksPending.clear();
+                          await store.getTasks(account: store.selectedAccount);
+                        });
+                  })),
             ],
           ),
         ],
@@ -110,82 +145,92 @@ class _TeamTasksScreenState
   Expanded _buildContentTasks() {
     return Expanded(
       child: Observer(
-        builder: (_) => RefreshIndicator(
-          onRefresh: () async {
-            await store.getMembersWorkspace(context);
-            await store.currentWorkspaceId;
-          },
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                actions: [Container()],
-                shadowColor: AppColors.transparent,
-                backgroundColor: AppColors.white,
-                title: Observer(builder: (_) {
-                  return (S.of(context).todo + ': ${store.tasksPending.length}')
-                      .b1(color: AppColors.redPink);
-                }),
-                floating: true,
-              ),
-              Observer(builder: (_) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return ItemTeamTask(
-                        onPressed: () => {},
-                        onPressedComplete: () async {},
-                        time: store.convertTimeTask(store.tasksPending[index]),
-                        title: store.tasksPending[index].taskSummary.toString(),
-                        isCompleted: false,
-                        avatarUrl: store.getAvatarUrl(
-                            store.tasksPending[index].taskAssignTo ?? ''),
+        builder: (_) => (store.isShowLoading)
+            ? const BaseIndicator()
+            : RefreshIndicator(
+                onRefresh: () async {
+                  //await store.getMembersWorkspace();
+                  await store.getTasks(account: store.selectedAccount);
+                },
+                child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      actions: [Container()],
+                      shadowColor: AppColors.transparent,
+                      backgroundColor: AppColors.white,
+                      title: Observer(builder: (_) {
+                        return (S.of(context).todo +
+                                ': ${store.tasksPending.length}')
+                            .b1(color: AppColors.redPink);
+                      }),
+                      floating: true,
+                    ),
+                    Observer(builder: (_) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return ItemTeamTask(
+                              onPressed: () => {},
+                              onPressedComplete: () async {},
+                              time: store.convertTimeTask(
+                                  store.tasksPending.elementAt(index)),
+                              title: store.tasksPending[index].taskSummary
+                                  .toString(),
+                              isCompleted: false,
+                              avatarUrl: store.getAvatarUrl(store.tasksPending
+                                      .elementAt(index)
+                                      .taskAssignTo ??
+                                  ''),
+                            );
+                          },
+                          childCount: store.tasksPending.length,
+                        ),
                       );
-                    },
-                    childCount: store.tasksPending.length,
-                  ),
-                );
-              }),
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                actions: [Container()],
-                shadowColor: AppColors.transparent,
-                backgroundColor: AppColors.white,
-                title: Observer(builder: (_) {
-                  return (S.of(context).done + ': ${store.tasksDone.length}')
-                      .b1(color: AppColors.primary);
-                }),
-                pinned: true,
-                toolbarHeight: 30,
-              ),
-              Observer(builder: (_) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return ItemTeamTask(
-                        onPressed: () {},
-                        onPressedComplete: () async {},
-                        time: store.convertTimeTask(store.tasksDone[index]),
-                        title: store.tasksDone[index].taskSummary.toString(),
-                        isCompleted: true,
-                        avatarUrl: store.getAvatarUrl(
-                            store.tasksDone[index].taskAssignTo ?? ''),
+                    }),
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      actions: [Container()],
+                      shadowColor: AppColors.transparent,
+                      backgroundColor: AppColors.white,
+                      title: Observer(builder: (_) {
+                        return (S.of(context).done +
+                                ': ${store.tasksDone.length}')
+                            .b1(color: AppColors.primary);
+                      }),
+                      pinned: true,
+                      toolbarHeight: 30,
+                    ),
+                    Observer(builder: (_) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return ItemTeamTask(
+                              onPressed: () {},
+                              onPressedComplete: () async {},
+                              time:
+                                  store.convertTimeTask(store.tasksDone[index]),
+                              title:
+                                  store.tasksDone[index].taskSummary.toString(),
+                              isCompleted: true,
+                              avatarUrl: store.getAvatarUrl(
+                                  store.tasksDone[index].taskAssignTo ?? ''),
+                            );
+                          },
+                          childCount: store.tasksDone.length,
+                        ),
                       );
-                    },
-                    childCount: store.tasksDone.length,
-                  ),
-                );
-              }),
-              const SliverAppBar(
-                shadowColor: AppColors.transparent,
-                backgroundColor: AppColors.white,
-                title: SizedBox(),
-                toolbarHeight: 96,
+                    }),
+                    const SliverAppBar(
+                      shadowColor: AppColors.transparent,
+                      backgroundColor: AppColors.white,
+                      title: SizedBox(),
+                      toolbarHeight: 96,
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -226,14 +271,14 @@ class _TeamTasksScreenState
           Center(
             child: Observer(builder: (_) {
               double value = (store.tasksDone.length /
-                  ((store.tasksPending.length + store.tasksDone.length) == 0
+                  (store.tasksDone.length + store.tasksPending.length == 0
                       ? 1
-                      : (store.tasksPending.length + store.tasksDone.length)));
+                      : (store.tasksDone.length + store.tasksPending.length)));
               return BaseCircleChart(
                 duration: TIME_ANIMATION,
                 key: UniqueKey(),
                 maxProgress: value * 100,
-                title: ((value).ceil().toString() + '%').t1M(),
+                title: ((value * 100).ceil().toString() + '%').t1M(),
               );
             }),
           ),

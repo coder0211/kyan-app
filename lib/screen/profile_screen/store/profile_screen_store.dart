@@ -9,6 +9,10 @@ import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/app/store/app_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
+import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
+import 'package:kyan/screen/statistic_screen/store/statistic_screen_store.dart';
+import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
+import 'package:kyan/screen/team_tasks_screen/store/team_tasks_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +26,9 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
 
   late LoginScreenStore _loginScreenStore;
   late MainScreenStore _mainScreenStore;
+  late TasksScreenStore tasksScreenStore;
+  late TeamTasksScreenStore teamTasksScreenStore;
+  late MemberWorkspaceScreenStore memberWorkspaceScreenStore;
   BaseAPI _baseAPI = BaseAPI();
   @observable
   String _accountUrlPhoto = '';
@@ -85,6 +92,7 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   void onInit(BuildContext context) {
     _loginScreenStore = context.read<LoginScreenStore>();
     _mainScreenStore = context.read<MainScreenStore>();
+    tasksScreenStore = context.read<TasksScreenStore>();
     accountUrlPhoto = _loginScreenStore.currentAccount.accountUrlPhoto ?? '';
     accountMail = _loginScreenStore.currentAccount.accountMail ?? '';
     accountDisplayName =
@@ -92,12 +100,26 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {}
+  void onDispose(BuildContext context) async {
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      currentWorkspaceId = int.tryParse(
+              await BaseSharedPreferences.getStringValue(
+                  ManagerKeyStorage.currentWorkspace)) ??
+          -1;
+    }
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      currentWorkspaceId = int.tryParse(
+              await BaseSharedPreferences.getStringValue(
+                  ManagerKeyStorage.currentWorkspace)) ??
+          -1;
+    }
     await _getLanguage(context);
-    await _getWorkspaceId();
     await getListWorkspace();
   }
 
@@ -179,17 +201,9 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
         ManagerKeyStorage.currentWorkspace, workspace.workspaceId.toString());
     currentWorkspaceId = workspace.workspaceId ?? -1;
     context.read<MainScreenStore>().workspaceId = currentWorkspaceId;
-    
-  }
-
-  Future<void> _getWorkspaceId() async {
-    if (await BaseSharedPreferences.containKey(
-        ManagerKeyStorage.currentWorkspace)) {
-      currentWorkspaceId = int.tryParse(
-              await BaseSharedPreferences.getStringValue(
-                  ManagerKeyStorage.currentWorkspace)) ??
-          -1;
-    }
+    context.read<TasksScreenStore>().workspaceId = currentWorkspaceId;
+    context.read<TeamTasksScreenStore>().currentWorkspaceId =
+        currentWorkspaceId;
   }
 }
 

@@ -42,9 +42,21 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
     _currentWorkspaceId = currentWorkspaceId;
   }
 
+  @observable
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
+
+  set selectedDate(DateTime selectedDate) {
+    _selectedDate = selectedDate;
+  }
+
   @override
   void onInit(BuildContext context) {
     mainScreenStore = context.read<MainScreenStore>();
+    loginScreenStore = context.read<LoginScreenStore>();
+    tasksDone = new ObservableList<Task>();
+    tasksPending = new ObservableList<Task>();
   }
 
   @override
@@ -52,7 +64,9 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
+    selectedDate = DateTime.now();
     await _getWorkspaceId();
+    await getPersonalStatistic(context);
   }
 
   @override
@@ -83,8 +97,9 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
       'Authorization': mainScreenStore.accessToken,
     };
     Map<String, dynamic> params = {
+      //'taskDueTimeGTE': selectedDate.toString(),
       'workSpaceId': currentWorkspaceId,
-      'accountId': loginScreenStore.currentAccount.accountId,
+      'taskAssignTo': loginScreenStore.currentAccount.accountId,
     };
     await _baseAPI
         .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
@@ -93,9 +108,11 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           printLogSusscess('SUCCEEDED');
-          //totalTaskCount = int.parse(value.object.toString());
           // Handle success response here
           tasks.clear();
+          value.object.forEach((element) {
+            tasks.add(Task.fromJson(element));
+          });
           tasks.forEach((element) {
             element.taskIsDone == 1
                 ? tasksDone.add(element)
