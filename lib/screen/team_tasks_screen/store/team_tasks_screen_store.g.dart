@@ -121,28 +121,29 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
-  late final _$_currentWorkspaceIdAtom =
-      Atom(name: '_TeamTasksScreenStore._currentWorkspaceId', context: context);
+  late final _$_workspaceIdAtom =
+      Atom(name: '_TeamTasksScreenStore._workspaceId', context: context);
 
   @override
-  int get _currentWorkspaceId {
-    _$_currentWorkspaceIdAtom.reportRead();
-    return super._currentWorkspaceId;
+  int get _workspaceId {
+    _$_workspaceIdAtom.reportRead();
+    return super._workspaceId;
   }
 
   @override
-  set _currentWorkspaceId(int value) {
-    _$_currentWorkspaceIdAtom.reportWrite(value, super._currentWorkspaceId, () {
-      super._currentWorkspaceId = value;
+  set _workspaceId(int value) {
+    _$_workspaceIdAtom.reportWrite(value, super._workspaceId, () {
+      super._workspaceId = value;
     });
   }
 
-  late final _$getTasksAsyncAction =
-      AsyncAction('_TeamTasksScreenStore.getTasks', context: context);
+  late final _$getListTaskAsyncAction =
+      AsyncAction('_TeamTasksScreenStore.getListTask', context: context);
 
   @override
-  Future<void> getTasks({Account? account}) {
-    return _$getTasksAsyncAction.run(() => super.getTasks(account: account));
+  Future<void> getListTask({Account? account}) {
+    return _$getListTaskAsyncAction
+        .run(() => super.getListTask(account: account));
   }
 
   late final _$onPressedCompleteAsyncAction =

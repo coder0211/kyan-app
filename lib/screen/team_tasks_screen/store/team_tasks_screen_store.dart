@@ -52,12 +52,12 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  int _currentWorkspaceId = -1;
+  int _workspaceId = -1;
 
-  int get currentWorkspaceId => _currentWorkspaceId;
+  int get workspaceId => _workspaceId;
 
-  set currentWorkspaceId(int currentWorkspaceId) {
-    _currentWorkspaceId = currentWorkspaceId;
+  set workspaceId(int workspaceId) {
+    _workspaceId = workspaceId;
   }
 
   @override
@@ -75,34 +75,30 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   Future<void> onWidgetBuildDone(BuildContext context) async {
     if (await BaseSharedPreferences.containKey(
         ManagerKeyStorage.currentWorkspace)) {
-      currentWorkspaceId = int.tryParse(
-              await BaseSharedPreferences.getStringValue(
-                  ManagerKeyStorage.currentWorkspace)) ??
+      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.currentWorkspace)) ??
           -1;
     }
-    var temp = await Utils.getCurrentWorkSpace();
-    if (temp != null) {
-      var value = json.decode(temp);
-      workspace = Workspace.fromJson(value);
-    }
+    //context.read<TeamTasksScreenStore>().workspaceId = workspaceId;
     await getMembersWorkspace();
-    await getTasks();
+    await getListTask();
   }
 
   @override
   void resetValue() {
+    tasks.clear();
     tasksDone.clear();
     tasksPending.clear();
     members.clear();
   }
 
   @action
-  Future<void> getTasks({Account? account}) async {
+  Future<void> getListTask({Account? account}) async {
     Map<String, dynamic> headers = {
       'Authorization': mainScreenStore.accessToken,
     };
     Map<String, dynamic> params = {
-      'workSpaceId': currentWorkspaceId,
+      'workSpaceId': workspaceId,
       'taskAssignTo': account?.accountId,
     };
     isShowLoading = true;
@@ -152,7 +148,7 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           {
-            getTasks();
+            getListTask();
             break;
           }
         case ApiStatus.INTERNET_UNAVAILABLE:
@@ -173,7 +169,7 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
       'Authorization': mainScreenStore.accessToken
     };
     Map<String, dynamic> params = {
-      'id': currentWorkspaceId,
+      'id': workspaceId,
     };
     isShowLoading = true;
     await _baseAPI
@@ -200,6 +196,7 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
       }
     });
     isShowLoading = false;
+    members.clear();
   }
 
   @action

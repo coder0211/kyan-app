@@ -74,9 +74,11 @@ class _TeamTasksScreenState
 
   Padding _buildAssignTo() {
     List<Account> accounts = [];
+    accounts.clear();
     accounts.add(Account());
     accounts.addAll(store.workspace.members ?? []);
     store.selectedAccount = accounts[0];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
       child: Column(
@@ -122,8 +124,7 @@ class _TeamTasksScreenState
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                (items.accountDisplayName ?? 'All').b1R()
-                                //BaseText(items.accountDisplayName ?? 'All')
+                                (items.accountDisplayName ?? 'All').b1R(),
                               ],
                             ),
                           );
@@ -132,7 +133,8 @@ class _TeamTasksScreenState
                           store.selectedAccount = account ?? accounts[0];
                           store.tasksDone.clear();
                           store.tasksPending.clear();
-                          await store.getTasks(account: store.selectedAccount);
+                          await store.getListTask(
+                              account: store.selectedAccount);
                         });
                   })),
             ],
@@ -149,8 +151,7 @@ class _TeamTasksScreenState
             ? const BaseIndicator()
             : RefreshIndicator(
                 onRefresh: () async {
-                  //await store.getMembersWorkspace();
-                  await store.getTasks(account: store.selectedAccount);
+                  await store.getListTask(account: store.selectedAccount);
                 },
                 child: CustomScrollView(
                   physics: const BouncingScrollPhysics(),

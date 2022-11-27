@@ -202,8 +202,9 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
     currentWorkspaceId = workspace.workspaceId ?? -1;
     context.read<MainScreenStore>().workspaceId = currentWorkspaceId;
     context.read<TasksScreenStore>().workspaceId = currentWorkspaceId;
-    context.read<TeamTasksScreenStore>().currentWorkspaceId =
-        currentWorkspaceId;
+    context.read<TeamTasksScreenStore>().workspaceId = currentWorkspaceId;
+    await BaseSharedPreferences.saveStringValue(
+        ManagerKeyStorage.currentWorkspace, workspace.workspaceId.toString());
   }
 }
 
