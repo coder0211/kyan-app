@@ -10,7 +10,6 @@ import 'package:kyan/screen/app/store/app_store.dart';
 import 'package:kyan/screen/login_screen/store/login_screen_store.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/screen/member_workspace_screen/store/member_workspace_screen_store.dart';
-import 'package:kyan/screen/statistic_screen/store/statistic_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:kyan/screen/team_tasks_screen/store/team_tasks_screen_store.dart';
 import 'package:kyan/theme/colors.dart';
@@ -203,8 +202,6 @@ abstract class _ProfileScreenStore with Store, BaseStoreMixin {
     context.read<MainScreenStore>().workspaceId = currentWorkspaceId;
     context.read<TasksScreenStore>().workspaceId = currentWorkspaceId;
     context.read<TeamTasksScreenStore>().workspaceId = currentWorkspaceId;
-    await BaseSharedPreferences.saveStringValue(
-        ManagerKeyStorage.currentWorkspace, workspace.workspaceId.toString());
   }
 }
 

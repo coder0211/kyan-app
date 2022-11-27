@@ -10,7 +10,6 @@ import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:intl/intl.dart';
 import 'package:kyan/manager/manager_key_storage.dart';
-import 'package:kyan/utils/utils.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 part 'team_tasks_screen_store.g.dart';
@@ -79,7 +78,7 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
               ManagerKeyStorage.currentWorkspace)) ??
           -1;
     }
-    //context.read<TeamTasksScreenStore>().workspaceId = workspaceId;
+    context.read<TeamTasksScreenStore>().workspaceId = workspaceId;
     await getMembersWorkspace();
     await getListTask();
   }
@@ -131,6 +130,7 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+
     isShowLoading = false;
   }
 
@@ -196,7 +196,6 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
       }
     });
     isShowLoading = false;
-    members.clear();
   }
 
   @action

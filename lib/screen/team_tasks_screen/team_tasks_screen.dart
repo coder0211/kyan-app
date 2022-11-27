@@ -14,7 +14,6 @@ import 'package:kyan/theme/dimens.dart';
 import 'package:kyan/theme/shadows.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 import 'package:kyan/widgets/custom_circle_avatar.dart';
-import 'package:mobx/mobx.dart';
 
 class TeamTasksScreen extends BaseScreen {
   const TeamTasksScreen({Key? key}) : super(key: key);
@@ -39,14 +38,16 @@ class _TeamTasksScreenState
     );
   }
 
-  Column _buildBody() {
+  Widget _buildBody() {
     return Column(
       children: [
         const SizedBox(
           height: Dimens.SCREEN_PADDING,
         ),
         _jobSchedule(),
-        Observer(builder: (_) => _buildAssignTo()),
+        Observer(builder: (context) {
+          return _buildAssignTo();
+        }),
         _buildStatisic(),
         _buildContentTasks(),
       ],
@@ -72,13 +73,12 @@ class _TeamTasksScreenState
         ));
   }
 
-  Padding _buildAssignTo() {
+  Widget _buildAssignTo() {
     List<Account> accounts = [];
     accounts.clear();
     accounts.add(Account());
     accounts.addAll(store.workspace.members ?? []);
     store.selectedAccount = accounts[0];
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
       child: Column(
@@ -124,17 +124,23 @@ class _TeamTasksScreenState
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                (items.accountDisplayName ?? 'All').b1R(),
+                                (items.accountDisplayName ?? 'Select person')
+                                    .b1R(),
                               ],
                             ),
                           );
                         }).toList(),
                         onChanged: (Account? account) async {
-                          store.selectedAccount = account ?? accounts[0];
+                          if (account != null)
+                            store.selectedAccount = account;
+                          else
+                            store.selectedAccount = accounts[0];
                           store.tasksDone.clear();
                           store.tasksPending.clear();
                           await store.getListTask(
                               account: store.selectedAccount);
+                          store.getMembersWorkspace();
+                          //accounts.clear();
                         });
                   })),
             ],

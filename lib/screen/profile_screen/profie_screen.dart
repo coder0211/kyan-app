@@ -254,6 +254,7 @@ class _ProfileScreenState
                 workspace: store.workspaces.elementAt(index));
             BaseNavigation.pop(context);
             await store.tasksScreenStore.getListTask();
+            await store.teamTasksScreenStore.getMembersWorkspace();
           }),
     );
   }
