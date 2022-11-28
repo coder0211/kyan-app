@@ -282,7 +282,33 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
                       title: S.of(context).leaveChannel,
                       iconData: Icons.logout_outlined),
                 ),
-
+              if (isPrivate == 1 && store.isChannel) const Divider(),
+              if (isPrivate == 1 &&
+                  store.isChannel &&
+                  store.memberChannel.length == 1)
+                GestureDetector(
+                  onTap: () async {
+                    showDialogConfirm(context, icon: Icons.logout_outlined,
+                        onConfirm: () async {
+                      store.onClickDeleteChannel(context,
+                          channelId:
+                              BaseNavigation.getArgs(context, key: 'channelId'),
+                          accountId: store
+                              .loginScreenStore.currentAccount.accountId
+                              .toString());
+                      BaseNavigation.pop(context);
+                      BaseNavigation.pop(context);
+                      BaseNavigation.pop(context);
+                    }, title: S.of(context).delete);
+                  },
+                  child: store.checkIsOwnerMember() == 1
+                      ? _buildRowTextIcon(
+                          colorIcon: AppColors.redPink,
+                          colorText: AppColors.redPink,
+                          title: 'Delete this channel',
+                          iconData: Icons.delete_forever)
+                      : const SizedBox.shrink(),
+                ),
               if (store.spaceChat is Channel &&
                       store.loginScreenStore.currentAccount.accountMail ==
                           (store.spaceChat as Channel).accountMailOwner ||
