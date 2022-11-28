@@ -260,7 +260,6 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> params = {
       'channelId': currentChannelId,
     };
-    isShowLoading = true;
     await _baseAPI
         .fetchData(ManagerAddress.channelGetOne,
             headers: headers, params: params, method: ApiMethod.GET)
@@ -285,7 +284,6 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
-    isShowLoading = false;
   }
 
   Future<void> onClickDeleteChannelMember(BuildContext context,
@@ -319,6 +317,40 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
 
     isShowLoading = false;
     await getAllChannelMember(context);
+  }
+
+  Future<void> onClickDeleteChannel(BuildContext context,
+      {required int? channelId, required String accountId}) async {
+    Map<String, dynamic> headers = {
+      'Authorization': _mainScreenStore.accessToken
+    };
+    Map<String, dynamic> body = {
+      'channelId': channelId,
+      'accountId': accountId,
+    };
+    await onClickDeleteChannelMember(context,
+        channelId: channelId, accountId: accountId);
+    isShowLoading = true;
+    await _baseAPI
+        .fetchData(ManagerAddress.channelDelete,
+            headers: headers, body: body, method: ApiMethod.DELETE)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          printLogSusscess('SUCCEEDED');
+          break;
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+
+    isShowLoading = false;
   }
 }
 

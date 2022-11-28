@@ -37,6 +37,7 @@ class ManagerAddress {
   static const String taskGetOne = '$baseTask/get-one';
   static const String taskGetAll = '$baseTask/get-all';
   static const String taskDelete = '$baseTask/delete';
+  static const String taskGetAllByTime = '$baseTask/get-all-by-time';
 
   //?-- MEMBERS OF WORKSPACE -->
   static const String baseMemberWorkspace = '/member-work-space';
@@ -55,6 +56,8 @@ class ManagerAddress {
   static const String createOrUpdateChannelChat =
       '$baseChannel/create-or-update';
   static const String channelGetAllByWorkspace = '$baseChannel/get-all';
+  static const String channelDelete = '$baseChannel/delete';
+
   //? -- MEMBERS OF CHANNEL CHAT --
   static const String baseMembersChannel = '/channel-member';
   static const String createOrUpdateMembersChannel =
