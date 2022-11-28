@@ -6,6 +6,7 @@ import 'package:kyan/screen/bot_screen/store/bot_screen_store.dart';
 import 'package:kyan/screen/bot_screen/widget/item_bot.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
+import 'package:kyan/widgets/custom_appbar_back.dart';
 
 class BotScreen extends BaseScreen {
   const BotScreen({Key? key}) : super(key: key);
@@ -22,13 +23,8 @@ class _BotScreenState extends BaseScreenState<BotScreen, BotScreenStore> {
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        foregroundColor: AppColors.primary,
-        title: S.of(context).bot.t1M(color: AppColors.primary),
-        centerTitle: true,
-        shadowColor: AppColors.transparent,
-      ),
+      appBar:
+          customAppBar(context, title: S.of(context).bot, isShowBack: false),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
         child: Column(

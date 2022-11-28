@@ -32,7 +32,7 @@ class _TeamTasksScreenState
   Widget _build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context,
-          title: S.of(context).managerTasks, isShowBack: false),
+          title: S.of(context).managerTasks, isShowBack: true),
       body: _buildBody(),
       backgroundColor: AppColors.white,
     );
@@ -44,38 +44,15 @@ class _TeamTasksScreenState
         const SizedBox(
           height: Dimens.SCREEN_PADDING,
         ),
-        _jobSchedule(),
-        Observer(builder: (context) {
-          return _buildAssignTo();
-        }),
+        _buildAssignTo(),
         _buildStatisic(),
         _buildContentTasks(),
       ],
     );
   }
 
-  Padding _jobSchedule() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Dimens.SCREEN_PADDING),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                BaseNavigation.push(context,
-                    routeName: ManagerRoutes.workScheduleScreen);
-              },
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: 'Check Your Work Schedule'.b1R(color: AppColors.black),
-              ),
-            )
-          ],
-        ));
-  }
-
   Widget _buildAssignTo() {
     List<Account> accounts = [];
-    accounts.clear();
     accounts.add(Account());
     accounts.addAll(store.workspace.members ?? []);
     store.selectedAccount = accounts[0];
@@ -124,17 +101,13 @@ class _TeamTasksScreenState
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                (items.accountDisplayName ?? 'Select person')
-                                    .b1R(),
+                                (items.accountDisplayName ?? 'All').b1R(),
                               ],
                             ),
                           );
                         }).toList(),
                         onChanged: (Account? account) async {
-                          if (account != null)
-                            store.selectedAccount = account;
-                          else
-                            store.selectedAccount = accounts[0];
+                          store.selectedAccount = account ?? accounts[0];
                           store.tasksDone.clear();
                           store.tasksPending.clear();
                           await store.getListTask(

@@ -42,13 +42,15 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  Account _selectedAccount = Account();
+  Account selectedAccount = Account();
+  // @observable
+  // Account _selectedAccount = Account();
 
-  Account get selectedAccount => _selectedAccount;
+  // Account get selectedAccount => _selectedAccount;
 
-  set selectedAccount(Account selectedAccount) {
-    _selectedAccount = selectedAccount;
-  }
+  // set selectedAccount(Account selectedAccount) {
+  //   _selectedAccount = selectedAccount;
+  // }
 
   @observable
   int _workspaceId = -1;
@@ -96,42 +98,82 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {
       'Authorization': mainScreenStore.accessToken,
     };
-    Map<String, dynamic> params = {
-      'workSpaceId': workspaceId,
-      'taskAssignTo': account?.accountId,
-    };
-    isShowLoading = true;
-    await _baseAPI
-        .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
-            method: ApiMethod.GET, headers: headers, params: params)
-        .then((value) {
-      switch (value.apiStatus) {
-        case ApiStatus.SUCCEEDED:
-          {
-            printLogSusscess('SUCCEEDED');
-            tasks.clear();
-            value.object.forEach((element) {
-              tasks.add(Task.fromJson(element));
-            });
-            tasks.forEach((element) {
-              element.taskIsDone == 1
-                  ? tasksDone.add(element)
-                  : tasksPending.add(element);
-            });
+    if (account != null) {
+      Map<String, dynamic> params = {
+        'workSpaceId': workspaceId,
+        'taskAssignTo': account.accountId,
+      };
+      isShowLoading = true;
+      await _baseAPI
+          .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
+              method: ApiMethod.GET, headers: headers, params: params)
+          .then((value) {
+        switch (value.apiStatus) {
+          case ApiStatus.SUCCEEDED:
+            {
+              printLogSusscess('SUCCEEDED');
+              tasks.clear();
+              value.object.forEach((element) {
+                tasks.add(Task.fromJson(element));
+              });
+              tasks.forEach((element) {
+                element.taskIsDone == 1
+                    ? tasksDone.add(element)
+                    : tasksPending.add(element);
+              });
+              break;
+            }
+          case ApiStatus.INTERNET_UNAVAILABLE:
+            printLogYellow('INTERNET_UNAVAILABLE');
+            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
             break;
+          default:
+            printLogError('FAILED');
+            // Handle failed response here
+            break;
+        }
+      });
+      isShowLoading = false;
+    } else {
+      workspace.members?.forEach((element) async {
+        Map<String, dynamic> params = {
+          'workSpaceId': workspaceId,
+          'taskAssignTo': element.accountId,
+        };
+        isShowLoading = true;
+        await _baseAPI
+            .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
+                method: ApiMethod.GET, headers: headers, params: params)
+            .then((value) {
+          switch (value.apiStatus) {
+            case ApiStatus.SUCCEEDED:
+              {
+                printLogSusscess('SUCCEEDED');
+                tasks.clear();
+                value.object.forEach((element) {
+                  tasks.add(Task.fromJson(element));
+                });
+                tasks.forEach((element) {
+                  element.taskIsDone == 1
+                      ? tasksDone.add(element)
+                      : tasksPending.add(element);
+                });
+                break;
+              }
+            case ApiStatus.INTERNET_UNAVAILABLE:
+              printLogYellow('INTERNET_UNAVAILABLE');
+              BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+              break;
+            default:
+              printLogError('FAILED');
+              // Handle failed response here
+              break;
           }
-        case ApiStatus.INTERNET_UNAVAILABLE:
-          printLogYellow('INTERNET_UNAVAILABLE');
-          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-          break;
-        default:
-          printLogError('FAILED');
-          // Handle failed response here
-          break;
-      }
-    });
+        });
 
-    isShowLoading = false;
+        isShowLoading = false;
+      });
+    }
   }
 
   @action
