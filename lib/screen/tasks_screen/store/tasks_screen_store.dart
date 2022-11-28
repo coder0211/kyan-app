@@ -133,7 +133,8 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
       'taskDueTimeGTE': selectedDate.toString()
     };
     await _baseAPI
-        .fetchData(ManagerAddress.taskGetAll, headers: headers, params: params)
+        .fetchData(ManagerAddress.taskGetAllByDay,
+            headers: headers, params: params)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
