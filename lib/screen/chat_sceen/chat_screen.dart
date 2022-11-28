@@ -144,7 +144,7 @@ class _ChatScreenState extends BaseScreenState<ChatScreen, ChatScreenStore> {
   Widget _buildBody(BuildContext context) {
     int? isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
     String title = BaseNavigation.getArgs(context, key: 'title');
-    return (store.isShowLoading == true)
+    return (store.isShowLoading)
         ? const BaseIndicator()
         : Expanded(
             child: Column(
