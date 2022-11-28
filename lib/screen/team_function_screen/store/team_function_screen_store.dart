@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:mobx/mobx.dart';
 part 'team_function_screen_store.g.dart';
 
@@ -9,6 +10,15 @@ class TeamFunctionScreenStore = _TeamFunctionScreenStore
     with _$TeamFunctionScreenStore;
 
 abstract class _TeamFunctionScreenStore with Store, BaseStoreMixin {
+  @observable
+  int _workspaceId = -1;
+
+  int get workspaceId => _workspaceId;
+
+  set workspaceId(int workspaceId) {
+    _workspaceId = workspaceId;
+  }
+
   @override
   void onInit(BuildContext context) {}
 
@@ -18,7 +28,14 @@ abstract class _TeamFunctionScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  Future<void> onWidgetBuildDone(BuildContext context) async {}
+  Future<void> onWidgetBuildDone(BuildContext context) async {
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.currentWorkspace)) ??
+          -1;
+    }
+  }
 
   @override
   void resetValue() {}

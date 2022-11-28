@@ -44,7 +44,9 @@ class _TeamTasksScreenState
         const SizedBox(
           height: Dimens.SCREEN_PADDING,
         ),
-        _buildAssignTo(),
+        Observer(builder: (context) {
+          return _buildAssignTo();
+        }),
         _buildStatisic(),
         _buildContentTasks(),
       ],
@@ -112,7 +114,6 @@ class _TeamTasksScreenState
                           store.tasksPending.clear();
                           await store.getListTask(
                               account: store.selectedAccount);
-                          store.getMembersWorkspace();
                           //accounts.clear();
                         });
                   })),
@@ -159,10 +160,8 @@ class _TeamTasksScreenState
                               title: store.tasksPending[index].taskSummary
                                   .toString(),
                               isCompleted: false,
-                              avatarUrl: store.getAvatarUrl(store.tasksPending
-                                      .elementAt(index)
-                                      .taskAssignTo ??
-                                  ''),
+                              avatarUrl: store.getAvatarUrl(
+                                  store.tasksPending[index].taskAssignTo ?? ''),
                             );
                           },
                           childCount: store.tasksPending.length,

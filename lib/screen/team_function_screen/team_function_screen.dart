@@ -13,6 +13,8 @@ import 'package:kyan/widgets/custom_appbar_back.dart';
 class TeamFunctionScreen extends BaseScreen {
   const TeamFunctionScreen({Key? key}) : super(key: key);
 
+  set workspaceId(int workspaceId) {}
+
   @override
   State<TeamFunctionScreen> createState() => _TeamFunctionScreenState();
 }
@@ -40,7 +42,7 @@ class _TeamFunctionScreenState
         ),
         _jobSchedule(),
         _buildDivider(),
-        Observer(builder: (context) => _teamTask()),
+        _teamTask(),
       ],
     );
   }

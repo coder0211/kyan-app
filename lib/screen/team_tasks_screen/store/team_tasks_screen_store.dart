@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
 import 'package:kyan/manager/manager_address.dart';
@@ -42,15 +40,13 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  Account selectedAccount = Account();
-  // @observable
-  // Account _selectedAccount = Account();
+  Account _selectedAccount = Account();
 
-  // Account get selectedAccount => _selectedAccount;
+  Account get selectedAccount => _selectedAccount;
 
-  // set selectedAccount(Account selectedAccount) {
-  //   _selectedAccount = selectedAccount;
-  // }
+  set selectedAccount(Account selectedAccount) {
+    _selectedAccount = selectedAccount;
+  }
 
   @observable
   int _workspaceId = -1;
@@ -68,8 +64,10 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {
-    resetValue();
+  void onDispose(BuildContext context) async {
+    tasks.clear();
+    tasksDone.clear();
+    tasksPending.clear();
   }
 
   @override
@@ -80,7 +78,6 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
               ManagerKeyStorage.currentWorkspace)) ??
           -1;
     }
-    context.read<TeamTasksScreenStore>().workspaceId = workspaceId;
     await getMembersWorkspace();
     await getListTask();
   }
@@ -90,7 +87,6 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
     tasks.clear();
     tasksDone.clear();
     tasksPending.clear();
-    members.clear();
   }
 
   @action
@@ -134,8 +130,8 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
         }
       });
       isShowLoading = false;
-    } else {
-      workspace.members?.forEach((element) async {
+    } else if (account?.accountId == null) {
+      members.forEach((element) async {
         Map<String, dynamic> params = {
           'workSpaceId': workspaceId,
           'taskAssignTo': element.accountId,
@@ -248,10 +244,10 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
         (g != l ? (' - ' + DateFormat('dd/MM/yyyy').format(l)) : '');
   }
 
-  String getAvatarUrl(String mail) {
+  String getAvatarUrl(String id) {
     String url = '';
     workspace.members!.forEach((e) {
-      if (e.accountMail == mail) {
+      if (e.accountId == id) {
         url = e.accountUrlPhoto ?? '';
       }
     });

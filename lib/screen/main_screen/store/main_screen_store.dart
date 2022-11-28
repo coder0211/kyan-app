@@ -7,7 +7,6 @@ import 'package:kyan/screen/bot_screen/bot_screen.dart';
 import 'package:kyan/screen/conversation_screen/conversation_screen.dart';
 import 'package:kyan/screen/tasks_screen/tasks_screen.dart';
 import 'package:kyan/screen/team_function_screen/team_function_screen.dart';
-import 'package:kyan/screen/team_tasks_screen/team_tasks_screen.dart';
 import 'package:mobx/mobx.dart';
 
 part 'main_screen_store.g.dart';

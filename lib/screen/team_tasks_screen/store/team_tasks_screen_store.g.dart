@@ -105,19 +105,19 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
-  late final _$selectedAccountAtom =
-      Atom(name: '_TeamTasksScreenStore.selectedAccount', context: context);
+  late final _$_selectedAccountAtom =
+      Atom(name: '_TeamTasksScreenStore._selectedAccount', context: context);
 
   @override
-  Account get selectedAccount {
-    _$selectedAccountAtom.reportRead();
-    return super.selectedAccount;
+  Account get _selectedAccount {
+    _$_selectedAccountAtom.reportRead();
+    return super._selectedAccount;
   }
 
   @override
-  set selectedAccount(Account value) {
-    _$selectedAccountAtom.reportWrite(value, super.selectedAccount, () {
-      super.selectedAccount = value;
+  set _selectedAccount(Account value) {
+    _$_selectedAccountAtom.reportWrite(value, super._selectedAccount, () {
+      super._selectedAccount = value;
     });
   }
 
@@ -186,8 +186,7 @@ isShowLoading: ${isShowLoading},
 tasks: ${tasks},
 tasksPending: ${tasksPending},
 tasksDone: ${tasksDone},
-members: ${members},
-selectedAccount: ${selectedAccount}
+members: ${members}
     ''';
   }
 }
