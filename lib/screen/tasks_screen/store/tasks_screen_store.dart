@@ -108,6 +108,7 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
               ManagerKeyStorage.currentWorkspace)) ??
           -1;
     }
+    selectedDate = DateTime.now();
     await _getLanguage(context);
     await getListTask();
   }
@@ -141,13 +142,13 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {'Authorization': accessToken};
     Map<String, dynamic> params = {
       'taskAssignTo': _loginScreenStore.currentAccount.accountId,
-      //'taskDueTimeGTE': selectedDate.toString(),
-      'workSpaceId': workspaceId,
+      'day': selectedDate.toString(),
+      //'workSpaceId': workspaceId,
     };
 
     isShowLoading = true;
     await _baseAPI
-        .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
+        .fetchData(ManagerAddress.taskGetAllByDay,
             headers: headers, params: params)
         .then((value) {
       switch (value.apiStatus) {

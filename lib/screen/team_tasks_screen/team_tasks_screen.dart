@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kyan/const/consts.dart';
 import 'package:kyan/generated/l10n.dart';
-import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/screen/team_tasks_screen/store/team_tasks_screen_store.dart';
 import 'package:kyan/screen/team_tasks_screen/widgets/item_team_task.dart';
@@ -153,8 +152,15 @@ class _TeamTasksScreenState
                         delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
                             return ItemTeamTask(
-                              onPressed: () => {},
-                              onPressedComplete: () async {},
+                              onPressed: () => {
+                                store.onPressedTask(context,
+                                    task: store.tasksPending[index]),
+                                store.getListTask(),
+                              },
+                              onPressedComplete: () async {
+                                store.onPressedComplete(context,
+                                    task: store.tasks[index]);
+                              },
                               time: store.convertTimeTask(
                                   store.tasksPending.elementAt(index)),
                               title: store.tasksPending[index].taskSummary
@@ -186,8 +192,15 @@ class _TeamTasksScreenState
                         delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
                             return ItemTeamTask(
-                              onPressed: () {},
-                              onPressedComplete: () async {},
+                              onPressed: () => {
+                                store.onPressedTask(context,
+                                    task: store.tasksDone[index]),
+                                store.getListTask(),
+                              },
+                              onPressedComplete: () async {
+                                store.onPressedComplete(context,
+                                    task: store.tasks[index]);
+                              },
                               time:
                                   store.convertTimeTask(store.tasksDone[index]),
                               title:

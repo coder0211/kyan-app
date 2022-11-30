@@ -66,7 +66,6 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                             GestureDetector(
                               onTap: () {
                                 store.selectedDate = DateTime.now();
-
                                 store.getListTask();
                               },
                               child: Container(

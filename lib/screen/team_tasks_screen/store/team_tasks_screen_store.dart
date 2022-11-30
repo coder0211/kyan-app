@@ -1,6 +1,8 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_address.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/models/workspace.dart';
@@ -87,6 +89,12 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
     tasks.clear();
     tasksDone.clear();
     tasksPending.clear();
+  }
+
+  void onPressedTask(BuildContext context, {required Task task}) {
+    BaseNavigation.push(context,
+        routeName: ManagerRoutes.createTaskScreen,
+        arguments: {'title': S.current.editTask, 'task': task});
   }
 
   @action
