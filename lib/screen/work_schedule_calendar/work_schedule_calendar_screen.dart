@@ -89,10 +89,4 @@ class _WorkScheduleScreenState
       ),
     );
   }
-
-  Widget _buildDivider() {
-    return const Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: const Divider(color: AppColors.gray));
-  }
 }

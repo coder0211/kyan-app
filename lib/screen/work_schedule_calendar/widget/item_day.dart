@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:kyan/theme/colors.dart';
 
 class ItemDay extends StatelessWidget {
-  String? title;
-  String? description;
-  ItemDay({
+  final String? title;
+  final String? description;
+  const ItemDay({
     Key? key,
-    this.title,
+    required this.title,
     this.description,
   }) : super(key: key);
 
