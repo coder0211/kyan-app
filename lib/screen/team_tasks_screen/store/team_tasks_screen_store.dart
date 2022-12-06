@@ -81,7 +81,7 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
           -1;
     }
     await getMembersWorkspace();
-    await getListTask();
+    await getAllMembersTasks();
   }
 
   @override
@@ -99,13 +99,61 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
 
   @action
   Future<void> getListTask({Account? account}) async {
+    tasks.clear();
+    tasksDone.clear();
+    tasksPending.clear();
     Map<String, dynamic> headers = {
       'Authorization': mainScreenStore.accessToken,
     };
-    if (account != null) {
+    Map<String, dynamic> params = {
+      'workSpaceId': workspaceId,
+      'taskAssignTo': account?.accountId,
+    };
+    isShowLoading = true;
+    await _baseAPI
+        .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
+            method: ApiMethod.GET, headers: headers, params: params)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            printLogSusscess('SUCCEEDED');
+            tasks.clear();
+            value.object.forEach((element) {
+              tasks.add(Task.fromJson(element));
+            });
+            tasks.forEach((element) {
+              element.taskIsDone == 1
+                  ? tasksDone.add(element)
+                  : tasksPending.add(element);
+            });
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+    isShowLoading = false;
+  }
+
+  Future<void> getAllMembersTasks() async {
+    tasks.clear();
+    tasksDone.clear();
+    tasksPending.clear();
+    Map<String, dynamic> headers = {
+      'Authorization': mainScreenStore.accessToken,
+    };
+    await getMembersWorkspace();
+    for (int i = 0; i < members.length; i++) {
       Map<String, dynamic> params = {
         'workSpaceId': workspaceId,
-        'taskAssignTo': account.accountId,
+        'taskAssignTo': members[i].accountId,
       };
       isShowLoading = true;
       await _baseAPI
@@ -138,45 +186,6 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
         }
       });
       isShowLoading = false;
-    } else if (account?.accountId == null) {
-      members.forEach((element) async {
-        Map<String, dynamic> params = {
-          'workSpaceId': workspaceId,
-          'taskAssignTo': element.accountId,
-        };
-        isShowLoading = true;
-        await _baseAPI
-            .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
-                method: ApiMethod.GET, headers: headers, params: params)
-            .then((value) {
-          switch (value.apiStatus) {
-            case ApiStatus.SUCCEEDED:
-              {
-                printLogSusscess('SUCCEEDED');
-                tasks.clear();
-                value.object.forEach((element) {
-                  tasks.add(Task.fromJson(element));
-                });
-                tasks.forEach((element) {
-                  element.taskIsDone == 1
-                      ? tasksDone.add(element)
-                      : tasksPending.add(element);
-                });
-                break;
-              }
-            case ApiStatus.INTERNET_UNAVAILABLE:
-              printLogYellow('INTERNET_UNAVAILABLE');
-              BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
-              break;
-            default:
-              printLogError('FAILED');
-              // Handle failed response here
-              break;
-          }
-        });
-
-        isShowLoading = false;
-      });
     }
   }
 

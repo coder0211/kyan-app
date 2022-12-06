@@ -133,15 +133,9 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
       accessToken = await BaseSharedPreferences.getStringValue(
           ManagerKeyStorage.accessToken);
     }
-    if (workspaceId == -1) {
-      BaseUtils.showToast('Please choose your workspace',
-          bgColor: AppColors.primary);
-      isShowLoading = false;
-      return;
-    }
     Map<String, dynamic> headers = {'Authorization': accessToken};
     Map<String, dynamic> params = {
-      'taskAssignTo': _loginScreenStore.currentAccount.accountId,
+      'accountId': _loginScreenStore.currentAccount.accountId,
       'day': selectedDate.toString(),
       //'workSpaceId': workspaceId,
     };

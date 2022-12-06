@@ -111,9 +111,10 @@ class _TeamTasksScreenState
                           store.selectedAccount = account ?? accounts[0];
                           store.tasksDone.clear();
                           store.tasksPending.clear();
-                          await store.getListTask(
-                              account: store.selectedAccount);
-                          //accounts.clear();
+                          if (store.selectedAccount == accounts[0])
+                            store.getAllMembersTasks();
+                          else
+                            store.getListTask(account: account);
                         });
                   })),
             ],

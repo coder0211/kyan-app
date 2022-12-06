@@ -40,6 +40,7 @@ class ManagerAddress {
   static const String totalTaskInWorkspaceByAccountId =
       '$baseTask/get-all-by-account-workspace';
   static const String taskGetAllByDay = '$baseTask/get-all-by-day';
+  static const String taskGetAllByMonthYear = '$baseTask/get-all-by-month-year';
 
   //?-- MEMBERS OF WORKSPACE -->
   static const String baseMemberWorkspace = '/member-work-space';
