@@ -109,6 +109,7 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     title = BaseNavigation.getArgs(context, key: 'title');
     isPrivate = BaseNavigation.getArgs(context, key: 'isPrivate');
     args = BaseNavigation.getArgs(context, key: 'args');
+    await getAllChannelMember(context);
     await receiveMessageChannelSocket(
         function: getData(
             accountId: loginScreenStore.currentAccount.accountId ?? '',
