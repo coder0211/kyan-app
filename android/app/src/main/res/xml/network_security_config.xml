@@ -5,8 +5,8 @@
         </trust-anchors>
     </base-config>
     <domain-config cleartextTrafficPermiited="true">
-        <domain includeSubdomains="true">http://192.168.1.107:8080</domain> 
-        <domain includeSubdomains="true">http://192.168.1.107:3001</domain> 
         <domain includeSubdomains="true">https://kyan-work-together-api.tdsof.dev</domain>
+        <domain includeSubdomains="true">http://192.168.1.107:3001</domain>
+
     </domain-config>
 </network_security_config>

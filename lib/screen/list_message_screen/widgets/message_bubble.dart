@@ -8,10 +8,11 @@ import 'package:kyan/widgets/custom_circle_avatar.dart';
 
 @immutable
 class MessageBubble extends StatelessWidget {
+  final ChannelMessage message;
   const MessageBubble({
     Key? key,
     required this.child,
-    required ChannelMessage message,
+    required this.message,
   }) : super(key: key);
 
   final Widget child;
@@ -30,13 +31,13 @@ class MessageBubble extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Visibility(
+              Visibility(
                 visible: true,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: CustomCircleAvatar(
                     width: 30,
-                    imageUrl: 'urlPhoto',
+                    imageUrl: message.accountUrlPhoto,
                   ),
                 ),
               ),

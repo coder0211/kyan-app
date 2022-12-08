@@ -120,7 +120,7 @@ class _ConversationScreenState
                                     .contains(store.searchController.text
                                         .toLowerCase()))
                                 ? ItemChannelChat(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       ManagerSocket.initSocket(
                                           idChannel: store.channels
                                               .elementAt(index)

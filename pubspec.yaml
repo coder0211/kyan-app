@@ -47,7 +47,7 @@ dependencies:
   calendar_timeline: ^1.0.4
 
   #SOCKET IO
-  socket_io_client: ^2.0.0-beta.4-nullsafety.0
+  socket_io_client: ^2.0.0
 
   #SNIPPET CODER
   snippet_coder_utils: ^1.0.12
