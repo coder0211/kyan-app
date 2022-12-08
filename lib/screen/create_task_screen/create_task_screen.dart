@@ -161,9 +161,10 @@ class _CreateTaskScreenState
                                     store.isShowLoading = true;
                                     // store.deleteTask(
                                     //     id: agrs!.taskId ?? 0);
-                                    await store.getListTaskInCreateUpdateTask();
+                                    //await store.getListTaskInCreateUpdateTask();
                                     store.isShowLoading = false;
                                     BaseNavigation.pop(context);
+                                    await store.getListTaskInCreateUpdateTask();
                                   }, title: S.of(context).confirmDeleteTask);
                                 },
                                 child: Row(

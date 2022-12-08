@@ -89,19 +89,19 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
-  late final _$workspaceAtom =
-      Atom(name: '_TeamTasksScreenStore.workspace', context: context);
+  late final _$_workspaceAtom =
+      Atom(name: '_TeamTasksScreenStore._workspace', context: context);
 
   @override
-  Workspace get workspace {
-    _$workspaceAtom.reportRead();
-    return super.workspace;
+  Workspace get _workspace {
+    _$_workspaceAtom.reportRead();
+    return super._workspace;
   }
 
   @override
-  set workspace(Workspace value) {
-    _$workspaceAtom.reportWrite(value, super.workspace, () {
-      super.workspace = value;
+  set _workspace(Workspace value) {
+    _$_workspaceAtom.reportWrite(value, super._workspace, () {
+      super._workspace = value;
     });
   }
 
@@ -121,29 +121,38 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
     });
   }
 
-  late final _$_currentWorkspaceIdAtom =
-      Atom(name: '_TeamTasksScreenStore._currentWorkspaceId', context: context);
+  late final _$_workspaceIdAtom =
+      Atom(name: '_TeamTasksScreenStore._workspaceId', context: context);
 
   @override
-  int get _currentWorkspaceId {
-    _$_currentWorkspaceIdAtom.reportRead();
-    return super._currentWorkspaceId;
+  int get _workspaceId {
+    _$_workspaceIdAtom.reportRead();
+    return super._workspaceId;
   }
 
   @override
-  set _currentWorkspaceId(int value) {
-    _$_currentWorkspaceIdAtom.reportWrite(value, super._currentWorkspaceId, () {
-      super._currentWorkspaceId = value;
+  set _workspaceId(int value) {
+    _$_workspaceIdAtom.reportWrite(value, super._workspaceId, () {
+      super._workspaceId = value;
     });
   }
 
-  late final _$getTasksAsyncAction =
-      AsyncAction('_TeamTasksScreenStore.getTasks', context: context);
+  late final _$getListTaskAsyncAction =
+      AsyncAction('_TeamTasksScreenStore.getListTask', context: context);
 
   @override
-  Future<void> getTasks(BuildContext context, {required Account account}) {
-    return _$getTasksAsyncAction
-        .run(() => super.getTasks(context, account: account));
+  Future<void> getListTask({Account? account}) {
+    return _$getListTaskAsyncAction
+        .run(() => super.getListTask(account: account));
+  }
+
+  late final _$onPressedCompleteAsyncAction =
+      AsyncAction('_TeamTasksScreenStore.onPressedComplete', context: context);
+
+  @override
+  Future<void> onPressedComplete(BuildContext context, {required Task task}) {
+    return _$onPressedCompleteAsyncAction
+        .run(() => super.onPressedComplete(context, task: task));
   }
 
   late final _$getMembersWorkspaceAsyncAction = AsyncAction(
@@ -151,9 +160,9 @@ mixin _$TeamTasksScreenStore on _TeamTasksScreenStore, Store {
       context: context);
 
   @override
-  Future<void> getMembersWorkspace(BuildContext context) {
+  Future<void> getMembersWorkspace() {
     return _$getMembersWorkspaceAsyncAction
-        .run(() => super.getMembersWorkspace(context));
+        .run(() => super.getMembersWorkspace());
   }
 
   late final _$_TeamTasksScreenStoreActionController =
@@ -177,8 +186,7 @@ isShowLoading: ${isShowLoading},
 tasks: ${tasks},
 tasksPending: ${tasksPending},
 tasksDone: ${tasksDone},
-members: ${members},
-workspace: ${workspace}
+members: ${members}
     ''';
   }
 }

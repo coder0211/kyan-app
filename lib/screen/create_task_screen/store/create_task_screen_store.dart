@@ -120,7 +120,10 @@ abstract class _CreateTaskScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {}
+  void onDispose(BuildContext context) {
+    isShowLoading = true;
+    _tasksScreenStore.getListTask();
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {

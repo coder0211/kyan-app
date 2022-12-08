@@ -251,8 +251,9 @@ class _ProfileScreenState
               store.currentWorkspaceId == store.workspaces[index].workspaceId,
           onPressedWorkspace: () async {
             await store.onPressedWorkspace(context,
-                workspace: store.workspaces[index]);
+                workspace: store.workspaces.elementAt(index));
             BaseNavigation.pop(context);
+            await store.tasksScreenStore.getListTask();
           }),
     );
   }

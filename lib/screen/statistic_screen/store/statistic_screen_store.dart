@@ -24,6 +24,7 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
   ObservableList<Task> tasksDone = new ObservableList<Task>();
   @observable
   ObservableList<Task> tasksPending = new ObservableList<Task>();
+
   @observable
   bool _taskIsDone = true;
 
@@ -42,9 +43,30 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
     _currentWorkspaceId = currentWorkspaceId;
   }
 
+  @observable
+  DateTime _selectedStartDate = DateTime.now();
+
+  DateTime get selectedStartDate => _selectedStartDate;
+
+  set selectedStartDate(DateTime selectedStartDate) {
+    _selectedStartDate = selectedStartDate;
+  }
+
+  @observable
+  DateTime _selectedDueDate = DateTime.now();
+
+  DateTime get selectedDueDate => _selectedDueDate;
+
+  set selectedDueDate(DateTime selectedDueDate) {
+    _selectedDueDate = selectedDueDate;
+  }
+
   @override
   void onInit(BuildContext context) {
     mainScreenStore = context.read<MainScreenStore>();
+    loginScreenStore = context.read<LoginScreenStore>();
+    tasksDone = new ObservableList<Task>();
+    tasksPending = new ObservableList<Task>();
   }
 
   @override
@@ -52,7 +74,10 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
+    selectedStartDate = DateTime.now();
+    selectedDueDate = DateTime.now();
     await _getWorkspaceId();
+    await getPersonalStatistic();
   }
 
   @override
@@ -78,24 +103,33 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
   }
 
   @action
-  Future<void> getPersonalStatistic(BuildContext context) async {
+  Future<void> getPersonalStatistic() async {
+    tasks.clear();
+    tasksDone.clear();
+    tasksPending.clear();
     Map<String, dynamic> headers = {
       'Authorization': mainScreenStore.accessToken,
     };
     Map<String, dynamic> params = {
-      'workSpaceId': currentWorkspaceId,
       'accountId': loginScreenStore.currentAccount.accountId,
+      'startMonth': selectedStartDate.month,
+      'startYear': selectedStartDate.year,
+      'dueMonth': selectedDueDate.month,
+      'dueYear': selectedDueDate.year,
     };
+
     await _baseAPI
-        .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
+        .fetchData(ManagerAddress.taskGetAllByMonthYear,
             method: ApiMethod.GET, headers: headers, params: params)
         .then((value) {
       switch (value.apiStatus) {
         case ApiStatus.SUCCEEDED:
           printLogSusscess('SUCCEEDED');
-          //totalTaskCount = int.parse(value.object.toString());
           // Handle success response here
           tasks.clear();
+          value.object.forEach((element) {
+            tasks.add(Task.fromJson(element));
+          });
           tasks.forEach((element) {
             element.taskIsDone == 1
                 ? tasksDone.add(element)
@@ -113,5 +147,44 @@ abstract class _StatisticScreenStore with Store, BaseStoreMixin {
       }
     });
   }
+
+  @action
+  Future<void> onPressedComplete(BuildContext context,
+      {required Task task}) async {
+    Map<String, dynamic> headers = {
+      'Authorization': mainScreenStore.accessToken
+    };
+    task.taskIsDone = task.taskIsDone == 1 ? 0 : 1;
+    await _baseAPI
+        .fetchData(ManagerAddress.taskCreateOrUpdate,
+            headers: headers, body: task.toJson(), method: ApiMethod.POST)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            getPersonalStatistic();
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
   //... Some values and actions
 }
+/// We are using auto code generation to generate code for MobX store.
+/// If we see any error with .g.dart file, try to run below command.
+/// The 3rd command is recommended.
+///
+/// 1. Build (generate .g.dart):
+///    flutter packages pub run build_runner build
+/// 2. Build and Watch (update .g.dart automatically):
+///    flutter packages pub run build_runner watch
+/// 3. Clean before updating:
+///    flutter packages pub run build_runner watch --delete-conflicting-outputs

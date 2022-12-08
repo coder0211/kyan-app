@@ -89,14 +89,55 @@ mixin _$StatisticScreenStore on _StatisticScreenStore, Store {
     });
   }
 
+  late final _$_selectedStartDateAtom =
+      Atom(name: '_StatisticScreenStore._selectedStartDate', context: context);
+
+  @override
+  DateTime get _selectedStartDate {
+    _$_selectedStartDateAtom.reportRead();
+    return super._selectedStartDate;
+  }
+
+  @override
+  set _selectedStartDate(DateTime value) {
+    _$_selectedStartDateAtom.reportWrite(value, super._selectedStartDate, () {
+      super._selectedStartDate = value;
+    });
+  }
+
+  late final _$_selectedDueDateAtom =
+      Atom(name: '_StatisticScreenStore._selectedDueDate', context: context);
+
+  @override
+  DateTime get _selectedDueDate {
+    _$_selectedDueDateAtom.reportRead();
+    return super._selectedDueDate;
+  }
+
+  @override
+  set _selectedDueDate(DateTime value) {
+    _$_selectedDueDateAtom.reportWrite(value, super._selectedDueDate, () {
+      super._selectedDueDate = value;
+    });
+  }
+
   late final _$getPersonalStatisticAsyncAction = AsyncAction(
       '_StatisticScreenStore.getPersonalStatistic',
       context: context);
 
   @override
-  Future<void> getPersonalStatistic(BuildContext context) {
+  Future<void> getPersonalStatistic() {
     return _$getPersonalStatisticAsyncAction
-        .run(() => super.getPersonalStatistic(context));
+        .run(() => super.getPersonalStatistic());
+  }
+
+  late final _$onPressedCompleteAsyncAction =
+      AsyncAction('_StatisticScreenStore.onPressedComplete', context: context);
+
+  @override
+  Future<void> onPressedComplete(BuildContext context, {required Task task}) {
+    return _$onPressedCompleteAsyncAction
+        .run(() => super.onPressedComplete(context, task: task));
   }
 
   late final _$_StatisticScreenStoreActionController =

@@ -37,7 +37,10 @@ class ManagerAddress {
   static const String taskGetOne = '$baseTask/get-one';
   static const String taskGetAll = '$baseTask/get-all';
   static const String taskDelete = '$baseTask/delete';
-  static const String totalTaskInWorkspaceByAccountId = '$baseTask/get-all';
+  static const String totalTaskInWorkspaceByAccountId =
+      '$baseTask/get-all-by-account-workspace';
+  static const String taskGetAllByDay = '$baseTask/get-all-by-day';
+  static const String taskGetAllByMonthYear = '$baseTask/get-all-by-month-year';
 
   //?-- MEMBERS OF WORKSPACE -->
   static const String baseMemberWorkspace = '/member-work-space';

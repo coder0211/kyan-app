@@ -51,7 +51,7 @@ class ItemTeamTask extends StatelessWidget {
               ),
               CustomCircleAvatar(
                 imageUrl: avatarUrl,
-                width: 20,
+                width: 40,
               ),
               if (!isModeStatistic)
                 Checkbox(

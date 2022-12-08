@@ -53,41 +53,83 @@ class _StatisticScreenState
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            showMonthPicker(
-                              context: context,
-                              firstDate: DateTime(DateTime.now().year - 1, 5),
-                              lastDate: DateTime(DateTime.now().year + 1, 9),
-                              initialDate: DateTime.now(),
-                            ).then((date) {});
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 10),
-                            decoration: BoxDecoration(
-                                color: AppColors.primary,
-                                borderRadius: BorderRadius.circular(5),
-                                boxShadow: Shadows.defaultShadow),
-                            child: Observer(builder: (_) {
-                              return 'Month - Year'.b1R(color: AppColors.white);
-                            }),
+                        Row(children: [
+                          'From: '.b1R(),
+                          GestureDetector(
+                            onTap: () {
+                              showMonthPicker(
+                                context: context,
+                                firstDate: DateTime(DateTime.now().year - 1, 5),
+                                lastDate: DateTime(DateTime.now().year + 1, 9),
+                                initialDate: DateTime.now(),
+                              ).then((date) {
+                                if (date != null) {
+                                  store.selectedStartDate = date;
+                                  store.getPersonalStatistic();
+                                  setState(() {});
+                                }
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: Shadows.defaultShadow),
+                              child: Observer(builder: (_) {
+                                return ('${store.selectedStartDate.month} - ${store.selectedStartDate.year}')
+                                    .b1R(color: AppColors.white);
+                              }),
+                            ),
                           ),
-                        ),
+                        ]),
+                        const SizedBox(height: 10),
+                        Row(children: [
+                          'To: '.b1R(),
+                          const SizedBox(width: 22),
+                          GestureDetector(
+                            onTap: () {
+                              showMonthPicker(
+                                context: context,
+                                firstDate: DateTime(DateTime.now().year - 1, 5),
+                                lastDate: DateTime(DateTime.now().year + 1, 9),
+                                initialDate: DateTime.now(),
+                              ).then((date) {
+                                if (date != null) {
+                                  store.selectedDueDate = date;
+                                  store.getPersonalStatistic();
+                                  setState(() {});
+                                }
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: Shadows.defaultShadow),
+                              child: Observer(builder: (_) {
+                                return ('${store.selectedDueDate.month} - ${store.selectedDueDate.year}')
+                                    .b1R(color: AppColors.white);
+                              }),
+                            ),
+                          ),
+                        ]),
                         const SizedBox(height: 10),
                         Observer(builder: (_) {
                           return Align(
                               alignment: Alignment.centerLeft,
-                              child:
-                                  BaseText('Done : ${store.tasksDone.length}'));
+                              child: (S.of(context).done +
+                                      ': ${store.tasksDone.length}')
+                                  .b1R());
                         }),
                         Observer(builder: (_) {
                           return Align(
                               alignment: Alignment.centerLeft,
-                              child: BaseText(
-                                  'Pending: ${store.tasksPending.length}',
-                                  style: AppTextStyle.defaultStyle
-                                      .copyWith(color: AppColors.redPink)));
+                              child: ('Pending: ${store.tasksPending.length}')
+                                  .b1R(color: AppColors.redPink));
                         })
                       ],
                     ),

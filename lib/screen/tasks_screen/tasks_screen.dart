@@ -66,7 +66,6 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                             GestureDetector(
                               onTap: () {
                                 store.selectedDate = DateTime.now();
-
                                 store.getListTask();
                               },
                               child: Container(
@@ -109,8 +108,8 @@ class _TasksScreenState extends BaseScreenState<TasksScreen, TasksScreenStore> {
                                         await store.onPressedComplete(context,
                                             task: store.tasks[index]);
                                       },
-                                      time: store.convertTimeTask(
-                                          store.tasks.elementAt(index)),
+                                      time: store
+                                          .convertTimeTask(store.tasks[index]),
                                       title: store.tasks
                                               .elementAt(index)
                                               .taskSummary ??

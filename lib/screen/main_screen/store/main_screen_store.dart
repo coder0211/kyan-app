@@ -6,7 +6,7 @@ import 'package:kyan/models/task.dart';
 import 'package:kyan/screen/bot_screen/bot_screen.dart';
 import 'package:kyan/screen/conversation_screen/conversation_screen.dart';
 import 'package:kyan/screen/tasks_screen/tasks_screen.dart';
-import 'package:kyan/screen/team_tasks_screen/team_tasks_screen.dart';
+import 'package:kyan/screen/team_function_screen/team_function_screen.dart';
 import 'package:mobx/mobx.dart';
 
 part 'main_screen_store.g.dart';
@@ -48,7 +48,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
       const TasksScreen(),
       const ConversationScreen(),
       const BotScreen(),
-      const TeamTasksScreen()
+      const TeamFunctionScreen()
     ];
   }
 
@@ -67,7 +67,7 @@ abstract class _MainScreenStore with Store, BaseStoreMixin {
         ManagerKeyStorage.currentWorkspace)) {
       workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
               ManagerKeyStorage.currentWorkspace)) ??
-          null;
+          -1;
     }
   }
 

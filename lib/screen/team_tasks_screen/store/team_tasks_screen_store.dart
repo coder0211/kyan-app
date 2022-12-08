@@ -1,13 +1,15 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/generated/l10n.dart';
 import 'package:kyan/manager/manager_address.dart';
-import 'package:kyan/manager/manager_key_storage.dart';
+import 'package:kyan/manager/manager_path_routes.dart';
 import 'package:kyan/models/account.dart';
 import 'package:kyan/models/task.dart';
 import 'package:kyan/models/workspace.dart';
 import 'package:kyan/screen/main_screen/store/main_screen_store.dart';
 import 'package:kyan/screen/tasks_screen/store/tasks_screen_store.dart';
 import 'package:intl/intl.dart';
+import 'package:kyan/manager/manager_key_storage.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 part 'team_tasks_screen_store.g.dart';
@@ -17,7 +19,6 @@ class TeamTasksScreenStore = _TeamTasksScreenStore with _$TeamTasksScreenStore;
 abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   late MainScreenStore mainScreenStore;
   late TasksScreenStore tasksScreenStore;
-  late MainScreenStore _mainScreenStore;
 
   late BaseAPI _baseAPI = BaseAPI();
   @observable
@@ -32,7 +33,14 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   ObservableList<Account> members = ObservableList<Account>();
 
   @observable
-  Workspace workspace = Workspace();
+  Workspace _workspace = Workspace();
+
+  Workspace get workspace => _workspace;
+
+  set workspace(Workspace workspace) {
+    _workspace = workspace;
+  }
+
   @observable
   Account _selectedAccount = Account();
 
@@ -43,12 +51,12 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   }
 
   @observable
-  int _currentWorkspaceId = -1;
+  int _workspaceId = -1;
 
-  int get currentWorkspaceId => _currentWorkspaceId;
+  int get workspaceId => _workspaceId;
 
-  set currentWorkspaceId(int currentWorkspaceId) {
-    _currentWorkspaceId = currentWorkspaceId;
+  set workspaceId(int workspaceId) {
+    _workspaceId = workspaceId;
   }
 
   @override
@@ -58,29 +66,50 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
   }
 
   @override
-  void onDispose(BuildContext context) {}
+  void onDispose(BuildContext context) async {
+    tasks.clear();
+    tasksDone.clear();
+    tasksPending.clear();
+  }
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {
-    await _getWorkspaceId();
-    await getMembersWorkspace(context);
+    if (await BaseSharedPreferences.containKey(
+        ManagerKeyStorage.currentWorkspace)) {
+      workspaceId = int.tryParse(await BaseSharedPreferences.getStringValue(
+              ManagerKeyStorage.currentWorkspace)) ??
+          -1;
+    }
+    await getMembersWorkspace();
+    await getAllMembersTasks();
   }
 
   @override
   void resetValue() {
-    selectedAccount = Account();
+    tasks.clear();
+    tasksDone.clear();
+    tasksPending.clear();
+  }
+
+  void onPressedTask(BuildContext context, {required Task task}) {
+    BaseNavigation.push(context,
+        routeName: ManagerRoutes.createTaskScreen,
+        arguments: {'title': S.current.editTask, 'task': task});
   }
 
   @action
-  Future<void> getTasks(BuildContext context,
-      {required Account account}) async {
+  Future<void> getListTask({Account? account}) async {
+    tasks.clear();
+    tasksDone.clear();
+    tasksPending.clear();
     Map<String, dynamic> headers = {
       'Authorization': mainScreenStore.accessToken,
     };
     Map<String, dynamic> params = {
-      'workSpaceId': currentWorkspaceId,
-      'accountId': account.accountId,
+      'workSpaceId': workspaceId,
+      'taskAssignTo': account?.accountId,
     };
+    isShowLoading = true;
     await _baseAPI
         .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
             method: ApiMethod.GET, headers: headers, params: params)
@@ -90,6 +119,9 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
           {
             printLogSusscess('SUCCEEDED');
             tasks.clear();
+            value.object.forEach((element) {
+              tasks.add(Task.fromJson(element));
+            });
             tasks.forEach((element) {
               element.taskIsDone == 1
                   ? tasksDone.add(element)
@@ -107,26 +139,94 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+    isShowLoading = false;
   }
 
-  Future<void> _getWorkspaceId() async {
-    if (await BaseSharedPreferences.containKey(
-        ManagerKeyStorage.currentWorkspace)) {
-      currentWorkspaceId = int.tryParse(
-              await BaseSharedPreferences.getStringValue(
-                  ManagerKeyStorage.currentWorkspace)) ??
-          -1;
+  Future<void> getAllMembersTasks() async {
+    tasks.clear();
+    tasksDone.clear();
+    tasksPending.clear();
+    Map<String, dynamic> headers = {
+      'Authorization': mainScreenStore.accessToken,
+    };
+    await getMembersWorkspace();
+    for (int i = 0; i < members.length; i++) {
+      Map<String, dynamic> params = {
+        'workSpaceId': workspaceId,
+        'taskAssignTo': members[i].accountId,
+      };
+      isShowLoading = true;
+      await _baseAPI
+          .fetchData(ManagerAddress.totalTaskInWorkspaceByAccountId,
+              method: ApiMethod.GET, headers: headers, params: params)
+          .then((value) {
+        switch (value.apiStatus) {
+          case ApiStatus.SUCCEEDED:
+            {
+              printLogSusscess('SUCCEEDED');
+              tasks.clear();
+              value.object.forEach((element) {
+                tasks.add(Task.fromJson(element));
+              });
+              tasks.forEach((element) {
+                element.taskIsDone == 1
+                    ? tasksDone.add(element)
+                    : tasksPending.add(element);
+              });
+              break;
+            }
+          case ApiStatus.INTERNET_UNAVAILABLE:
+            printLogYellow('INTERNET_UNAVAILABLE');
+            BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+            break;
+          default:
+            printLogError('FAILED');
+            // Handle failed response here
+            break;
+        }
+      });
+      isShowLoading = false;
     }
   }
 
   @action
-  Future<void> getMembersWorkspace(BuildContext context) async {
+  Future<void> onPressedComplete(BuildContext context,
+      {required Task task}) async {
     Map<String, dynamic> headers = {
-      'Authorization': _mainScreenStore.accessToken
+      'Authorization': mainScreenStore.accessToken
+    };
+    task.taskIsDone = task.taskIsDone == 1 ? 0 : 1;
+    await _baseAPI
+        .fetchData(ManagerAddress.taskCreateOrUpdate,
+            headers: headers, body: task.toJson(), method: ApiMethod.POST)
+        .then((value) {
+      switch (value.apiStatus) {
+        case ApiStatus.SUCCEEDED:
+          {
+            getListTask();
+            break;
+          }
+        case ApiStatus.INTERNET_UNAVAILABLE:
+          printLogYellow('INTERNET_UNAVAILABLE');
+          BaseUtils.showToast('INTERNET UNAVAILABLE', bgColor: Colors.red);
+          break;
+        default:
+          printLogError('FAILED');
+          // Handle failed response here
+          break;
+      }
+    });
+  }
+
+  @action
+  Future<void> getMembersWorkspace() async {
+    Map<String, dynamic> headers = {
+      'Authorization': mainScreenStore.accessToken
     };
     Map<String, dynamic> params = {
-      'id': currentWorkspaceId,
+      'id': workspaceId,
     };
+    isShowLoading = true;
     await _baseAPI
         .fetchData(ManagerAddress.workspacesGetOne,
             method: ApiMethod.GET, headers: headers, params: params)
@@ -150,6 +250,7 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
           break;
       }
     });
+    isShowLoading = false;
   }
 
   @action
@@ -160,10 +261,10 @@ abstract class _TeamTasksScreenStore with Store, BaseStoreMixin {
         (g != l ? (' - ' + DateFormat('dd/MM/yyyy').format(l)) : '');
   }
 
-  String getAvatarUrl(String mail) {
+  String getAvatarUrl(String id) {
     String url = '';
     workspace.members!.forEach((e) {
-      if (e.accountMail == mail) {
+      if (e.accountId == id) {
         url = e.accountUrlPhoto ?? '';
       }
     });
