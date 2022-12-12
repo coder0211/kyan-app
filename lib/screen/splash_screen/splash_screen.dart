@@ -27,8 +27,7 @@ class _SplashScreenState
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(Images.iconLogoAppWhite,
-                  height: BaseUtils.getScreenWidth(context) * 0.4,
-                  width: BaseUtils.getScreenWidth(context) * 0.4),
+                  height: 0.4.w(context), width: 0.4.w(context)),
               S.of(context).appName.h1R(color: AppColors.primary)
             ],
           ),

@@ -137,7 +137,7 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
       'accountId': _loginScreenStore.currentAccount.accountId,
       'day': DateFormat('yyyy/MM/dd').parse(
           '${selectedDate.year}/${selectedDate.month}/${selectedDate.day}'),
-      //'workSpaceId': workspaceId,
+      'workSpaceId': workspaceId,
     };
 
     isShowLoading = true;

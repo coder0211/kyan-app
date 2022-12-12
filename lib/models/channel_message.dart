@@ -11,6 +11,7 @@ class ChannelMessage {
   final String? channelMessageTimeSend;
   final int? channelMessageChannelId;
   final String? channelMessageSenderId;
+  final String? accountUrlPhoto;
   MessageOwner? owner;
 
   ChannelMessage(
@@ -19,6 +20,7 @@ class ChannelMessage {
       this.channelMessageChannelId,
       this.channelMessageSenderId,
       this.channelMessageTimeSend,
+      this.accountUrlPhoto,
       this.owner});
 
   factory ChannelMessage.fromJson(Map<String, dynamic> json) =>

@@ -88,7 +88,6 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
     loginScreenStore = context.read<LoginScreenStore>();
     conversationScreenStore = context.read<ConversationScreenStore>();
     _mainScreenStore = context.read<MainScreenStore>();
-    currentChannelId = BaseNavigation.getArgs(context, key: 'channelId');
     memberChannel = new ObservableList<Account>();
   }
 
@@ -176,23 +175,21 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
       {required Future<void> function}) async {}
 
   @action
-  Future<void> sendMessageChannelSocket(
-    String content,
-  ) async {
+  Future<void> sendMessageChannelSocket(String content) async {
     ManagerSocket.socket.emit(ManagerAddress.sendMessageChannelSocket(), {
       'channelMessageChannelId': currentChannelId,
       'channelMessageContent': content,
       'channelMessageSenderId': loginScreenStore.currentAccount.accountId,
-      'channelMessageTimeSend': DateTime.now().toString()
+      'channelMessageTimeSend': DateTime.now().toString(),
+      'attachmentUrl': 'https://www.google.com'
     });
-
     page = 0;
   }
 
   @action
   Future<void> receiveMessageChannelSocket(
       {required Future<void> function}) async {
-    ManagerSocket.socket.on(ManagerAddress.receiveMessageConversationSocket(),
+    ManagerSocket.socket.on(ManagerAddress.receiveMessageChannelSocket(),
         (data) async {
       data['displayName'] = '';
       data['urlPhoto'] = '';
@@ -222,7 +219,10 @@ abstract class _ChatScreenStore with Store, BaseStoreMixin {
         case ApiStatus.SUCCEEDED:
           {
             printLogSusscess('SUCCEEDED');
-            channel = Channel.fromJson(value.object);
+            value.object.forEach((e) {
+              setMessage(e,
+                  accountId: loginScreenStore.currentAccount.accountId ?? '');
+            });
             memberChannel.clear();
             memberChannel.addAll(channel.members ?? []);
             break;
