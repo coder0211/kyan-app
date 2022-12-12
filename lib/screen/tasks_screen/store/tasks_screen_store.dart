@@ -135,7 +135,8 @@ abstract class _TasksScreenStore with Store, BaseStoreMixin {
     Map<String, dynamic> headers = {'Authorization': accessToken};
     Map<String, dynamic> params = {
       'accountId': _loginScreenStore.currentAccount.accountId,
-      'day': selectedDate.toString(),
+      'day': DateFormat('yyyy/MM/dd').parse(
+          '${selectedDate.year}/${selectedDate.month}/${selectedDate.day}'),
       //'workSpaceId': workspaceId,
     };
 
