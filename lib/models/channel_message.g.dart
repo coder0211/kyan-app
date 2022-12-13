@@ -13,6 +13,7 @@ ChannelMessage _$ChannelMessageFromJson(Map<String, dynamic> json) =>
       channelMessageChannelId: json['channelMessageChannelId'] as int?,
       channelMessageSenderId: json['channelMessageSenderId'] as String?,
       channelMessageTimeSend: json['channelMessageTimeSend'] as String?,
+      accountUrlPhoto: json['accountUrlPhoto'] as String?,
       owner: $enumDecodeNullable(_$MessageOwnerEnumMap, json['owner']),
     );
 
@@ -23,6 +24,7 @@ Map<String, dynamic> _$ChannelMessageToJson(ChannelMessage instance) =>
       'channelMessageTimeSend': instance.channelMessageTimeSend,
       'channelMessageChannelId': instance.channelMessageChannelId,
       'channelMessageSenderId': instance.channelMessageSenderId,
+      'accountUrlPhoto': instance.accountUrlPhoto,
       'owner': _$MessageOwnerEnumMap[instance.owner],
     };
 

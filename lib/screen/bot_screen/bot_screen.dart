@@ -6,6 +6,7 @@ import 'package:kyan/screen/bot_screen/store/bot_screen_store.dart';
 import 'package:kyan/screen/bot_screen/widget/item_bot.dart';
 import 'package:kyan/theme/colors.dart';
 import 'package:kyan/theme/dimens.dart';
+import 'package:kyan/theme/images.dart';
 import 'package:kyan/widgets/custom_appbar_back.dart';
 
 class BotScreen extends BaseScreen {
@@ -40,12 +41,12 @@ class _BotScreenState extends BaseScreenState<BotScreen, BotScreenStore> {
                         },
                         child: const ItemBot(
                           iconColor: AppColors.primary,
-                          iconPath: 'icon path',
-                          description: 'description',
-                          title: 'title',
+                          iconPath: Images.iconTime,
+                          description: 'time countdown',
+                          title: 'Kyan Reminder',
                         ));
                   },
-                  itemCount: 2),
+                  itemCount: 1),
             ),
           ],
         ),
