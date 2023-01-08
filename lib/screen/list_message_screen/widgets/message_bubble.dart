@@ -1,5 +1,6 @@
 import 'package:coder0211/coder0211.dart';
 import 'package:flutter/material.dart';
+import 'package:kyan/const/consts.dart';
 import 'package:kyan/models/channel_message.dart';
 import 'package:kyan/screen/list_message_screen/widgets/bubble_painter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,13 +32,13 @@ class MessageBubble extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Visibility(
+              const Visibility(
                 visible: true,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(left: 10),
                   child: CustomCircleAvatar(
                     width: 30,
-                    imageUrl: message.accountUrlPhoto,
+                    imageUrl: DEFAULT_AVATAR,
                   ),
                 ),
               ),
@@ -62,8 +63,8 @@ class MessageBubble extends StatelessWidget {
                           Padding(
                               padding: const EdgeInsets.only(
                                   top: 10, bottom: 2, left: 10, right: 10),
-                              child:
-                                  'displayName'.b1(color: AppColors.primary)),
+                              child: 'Nguyễn Đức Hòa'
+                                  .b1(color: AppColors.primary)),
                           DefaultTextStyle.merge(
                             style: GoogleFonts.notoSans(
                                 fontWeight: FontWeight.w500,
@@ -79,11 +80,11 @@ class MessageBubble extends StatelessWidget {
                             padding:
                                 const EdgeInsets.only(left: 10, bottom: 10),
                             child: BaseText(
-                              'yyyy-MM-dd HH:mm',
+                              message.channelMessageTimeSend,
                               style: GoogleFonts.notoSans(
                                   fontWeight: FontWeight.w300,
                                   fontSize: 12,
-                                  color: AppColors.white),
+                                  color: AppColors.black),
                             ),
                           ),
                         ],
